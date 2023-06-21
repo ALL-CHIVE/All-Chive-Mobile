@@ -7,6 +7,9 @@
 
 module.exports = {
   transformer: {
+    /**
+     *
+     */
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
@@ -14,4 +17,4 @@ module.exports = {
       },
     }),
   },
-};
+}
