@@ -25,7 +25,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'prettier', 'react', 'import'],
+  plugins: ['@typescript-eslint', 'prettier', 'react', 'import', 'jsdoc'],
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     semi: ['error', 'never'],
@@ -49,6 +49,18 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['react', 'react-dom'],
         'newlines-between': 'always',
         alphabetize: { order: 'asc' },
+      },
+    ],
+    'jsdoc/require-jsdoc': [
+      'warn',
+      {
+        require: {
+          FunctionDeclaration: true,
+          MethodDefinition: true,
+          ClassDeclaration: true,
+          ArrowFunctionExpression: true,
+          FunctionExpression: true,
+        },
       },
     ],
   },
