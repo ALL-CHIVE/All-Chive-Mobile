@@ -1,23 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react'
 
 import { NavigationContainer } from '@react-navigation/native'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import { RootStack } from '@/screens/RootStack'
 
+const queryClient = new QueryClient()
+
 /**
- *
+ * App
  */
 function App() {
   return (
     <NavigationContainer>
-      <RootStack />
+      <QueryClientProvider client={queryClient}>
+        <RootStack />
+      </QueryClientProvider>
     </NavigationContainer>
   )
 }
