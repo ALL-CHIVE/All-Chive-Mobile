@@ -7,18 +7,18 @@
 
 import React from 'react'
 
-import { Text, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+
+import { RootStack } from '@/screens/RootStack'
 
 /**
  *
  */
 function App() {
   return (
-    <>
-      <View>
-        <Text>Initial</Text>
-      </View>
-    </>
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
   )
 }
 
