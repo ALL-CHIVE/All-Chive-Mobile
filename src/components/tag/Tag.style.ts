@@ -1,7 +1,9 @@
 import styled from '@emotion/native'
 
+import { colors } from '@/styles/colors'
+
 export const TagContainer = styled.View`
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${colors.black};
   padding: 10px;
   border-radius: 7px;
   margin-top: 10px;
@@ -9,5 +11,5 @@ export const TagContainer = styled.View`
 `
 
 export const TagText = styled.Text`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${colors.white};
 `

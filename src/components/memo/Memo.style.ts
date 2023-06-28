@@ -1,7 +1,9 @@
 import styled from '@emotion/native'
 
+import { colors } from '@/styles/colors'
+
 export const MemoContainer = styled.View`
-  background-color: ${({ theme }) => theme.colors.gray95};
+  background-color: ${colors.gray95};
   padding: 10px;
   border-radius: 7px;
   margin-top: 10px;
@@ -9,5 +11,5 @@ export const MemoContainer = styled.View`
 `
 
 export const MemoText = styled.Text`
-  color: ${({ theme }) => theme.colors.gray300};
+  color: ${colors.gray300};
 `
