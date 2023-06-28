@@ -1,70 +1,70 @@
-import { StyleSheet } from 'react-native'
+import { css } from '@emotion/native'
 
-export const Fonts = StyleSheet.create({
-  heading1: {
-    fontFamily: 'Pretendard-SemiBold',
-    fontSize: 28,
-    letterSpacing: -0.5,
-    lineHeight: 140,
-  },
-  heading2: {
-    fontFamily: 'Pretendard-SemiBold',
-    fontSize: 24,
-    letterSpacing: 0,
-    lineHeight: 140,
-  },
-  title1: {
-    fontFamily: 'Pretendard-Bold',
-    fontSize: 22,
-    letterSpacing: -0.5,
-    lineHeight: 140,
-  },
-  title2: {
-    fontFamily: 'Pretendard-SemiBold',
-    fontSize: 20,
-    letterSpacing: 0,
-    lineHeight: 140,
-  },
-  subTitle1: {
-    fontFamily: 'Pretendard-SemiBold',
-    fontSize: 16,
-    letterSpacing: -0.5,
-    lineHeight: 140,
-  },
-  subTitle2: {
-    fontFamily: 'Pretendard-Medium',
-    fontSize: 16,
-    letterSpacing: 0,
-    lineHeight: 140,
-  },
-  subTitle3: {
-    fontFamily: 'Pretendard-Bold',
-    fontSize: 14,
-    letterSpacing: 0,
-    lineHeight: 140,
-  },
-  body1: {
-    fontFamily: 'Pretendard-Regular',
-    fontSize: 16,
-    letterSpacing: 0,
-    lineHeight: 150,
-  },
-  body2: {
-    fontFamily: 'Pretendard-Medium',
-    fontSize: 14,
-    letterSpacing: 0,
-    lineHeight: 150,
-  },
-  body3: {
-    fontFamily: 'Pretendard-Medium',
-    fontSize: 12,
-    letterSpacing: 0,
-    lineHeight: 140,
-  },
-  body4: {
-    fontFamily: 'Pretendard-Bold',
-    fontSize: 12,
-    letterSpacing: 0,
-    lineHeight: 150,
-  },
-})
+export const fonts = {
+  heading1: css`
+    font-family: 'Pretendard-SemiBold';
+    font-size: 28;
+    letter-spacing: -0.5;
+    line-height: 140;
+  `,
+  heading2: css`
+    font-family: 'Pretendard-SemiBold';
+    font-size: 24;
+    letter-spacing: 0;
+    line-height: 140;
+  `,
+  title1: css`
+    font-family: 'Pretendard-Bold';
+    font-size: 22;
+    letter-spacing: -0.5;
+    line-height: 140;
+  `,
+  title2: css`
+    font-family: 'Pretendard-SemiBold';
+    font-size: 20;
+    letter-spacing: 0;
+    line-height: 140;
+  `,
+  subtitle1: css`
+    font-family: 'Pretendard-SemiBold';
+    font-size: 16;
+    letter-spacing: -0.5;
+    line-height: 140;
+  `,
+  subtitle2: css`
+    font-family: 'Pretendard-Medium';
+    font-size: 16;
+    letter-spacing: 0;
+    line-height: 140;
+  `,
+  subtitle3: css`
+    font-family: 'Pretendard-Bold';
+    font-size: 14;
+    letter-spacing: 0;
+    line-height: 140;
+  `,
+  body1: css`
+    font-family: 'Pretendard-Regular';
+    font-size: 16;
+    letter-spacing: 0;
+    line-height: 150;
+  `,
+  body2: css`
+    font-family: 'Pretendard-Medium';
+    font-size: 14;
+    letter-spacing: 0;
+    line-height: 150;
+  `,
+  body3: css`
+    font-family: 'Pretendard-Medium';
+    font-size: 12;
+    letter-spacing: 0;
+    line-height: 140;
+  `,
+  body4: css`
+    font-family: 'Pretendard-Bold';
+    font-size: 12;
+    letter-spacing: 0;
+    line-height: 150;
+  `,
+}
