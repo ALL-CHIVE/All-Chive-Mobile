@@ -16,7 +16,7 @@ export const BoxButtonContainer = styled.TouchableHighlight`
 
 export const BoxButtonStyles = {
   default: css`
-    background-color: ${colors.mainYelllow};
+    background-color: ${colors.mainYellow};
     color: ${colors.gray500};
   `,
   disabled: css`
