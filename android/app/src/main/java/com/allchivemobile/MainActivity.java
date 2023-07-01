@@ -5,6 +5,8 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
+import com.proyecto26.inappbrowser.RNInAppBrowserModule;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -31,5 +33,11 @@ public class MainActivity extends ReactActivity {
         // If you opted-in for the New Architecture, we enable Concurrent React (i.e. React 18).
         DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
         );
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    RNInAppBrowserModule.onStart(this);
   }
 }
