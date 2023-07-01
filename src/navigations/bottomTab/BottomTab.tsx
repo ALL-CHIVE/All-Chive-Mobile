@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
@@ -9,10 +9,17 @@ import { Community } from '@/screens/community/Community'
 
 import { BottomTabImage, Container, UploadButton, UploadModal } from './BottomTab.style'
 
-const BottomTabNavigator = createBottomTabNavigator()
+type BottomTabParamList = {
+  Archiving: undefined
+  Community: undefined
+}
+
+export type BottomTabNavigationProps = BottomTabNavigationProp<BottomTabParamList>
+
+const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
 
 /**
- *
+ * BottomTab
  */
 export const BottomTab = () => {
   const [showUpload, setShowUpload] = useState(false)
