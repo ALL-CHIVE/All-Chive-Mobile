@@ -1,5 +1,6 @@
 {
   "id": "ABCDE",
+  "title": "링크 제목",
   "type": "link",
   "uri": "https://reactnative.dev/docs/image",
   "ogTag": {

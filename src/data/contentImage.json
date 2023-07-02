@@ -1,5 +1,6 @@
 {
   "id": "ABCDE",
+  "title": "이미지 제목",
   "type": "image",
   "uri": "https://reactnative.dev/img/tiny_logo.png",
   "tags": ["uxui", "ux writing", "trands", "clean ui", "tag", "tag2", "tag3"],
