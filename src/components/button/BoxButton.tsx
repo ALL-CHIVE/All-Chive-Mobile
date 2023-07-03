@@ -42,7 +42,7 @@ export const BoxButton = (props: BoxButtonProps) => {
    */
   const handleButtonStyle = () => {
     if (isPressed && buttonStyle === 'default') {
-      return BoxButtonStyles.hover
+      return BoxButtonStyles.click
     } else if (buttonStyle === 'disabled') {
       return BoxButtonStyles.disabled
     } else {

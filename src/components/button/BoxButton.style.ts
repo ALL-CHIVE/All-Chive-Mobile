@@ -26,7 +26,7 @@ export const BoxButtonStyles = {
     color: ${colors.gray300};
     font-family: ${fonts.btn1};
   `,
-  hover: css`
+  click: css`
     background-color: ${colors.yellow500};
     color: ${colors.gray500};
     font-family: ${fonts.btn1};

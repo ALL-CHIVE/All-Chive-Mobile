@@ -18,7 +18,7 @@ export const CategoryStyles = {
     color: ${colors.gray300};
     font-family: ${fonts.body2};
   `,
-  hover: css`
+  click: css`
     background-color: ${colors.mainYellow};
     color: ${colors.gray500};
     font-family: ${fonts.body2};

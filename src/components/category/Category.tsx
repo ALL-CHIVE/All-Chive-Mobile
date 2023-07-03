@@ -37,7 +37,7 @@ export const Category = (props: CategoryProps) => {
    */
   const handleCategoryStyle = () => {
     if (isPressed) {
-      return CategoryStyles.hover
+      return CategoryStyles.click
     } else {
       return CategoryStyles.default
     }
