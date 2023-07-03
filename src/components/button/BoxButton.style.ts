@@ -19,16 +19,17 @@ export const BoxButtonStyles = {
   default: css`
     background-color: ${colors.mainYellow};
     color: ${colors.gray500};
-    font-family: ${fonts.btn1};
   `,
   disabled: css`
     background-color: ${colors.gray50};
     color: ${colors.gray300};
-    font-family: ${fonts.btn1};
   `,
   click: css`
     background-color: ${colors.yellow500};
     color: ${colors.gray500};
-    font-family: ${fonts.btn1};
   `,
 }
+
+export const BoxButtonText = styled.Text`
+  font-family: ${fonts.btn1};
+`

@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 
-import { Text } from 'react-native'
-
 import { colors } from '@/styles/colors'
 
-import { CategoryContainer, CategoryStyles } from './Category.style'
+import { CategoryContainer, CategoryStyles, CategoryText } from './Category.style'
 
 interface CategoryProps {
   text: string
@@ -51,7 +49,7 @@ export const Category = (props: CategoryProps) => {
       onPress={onPress}
       underlayColor={colors.mainYellow}
     >
-      <Text style={handleCategoryStyle()}>{text}</Text>
+      <CategoryText style={handleCategoryStyle()}>{text}</CategoryText>
     </CategoryContainer>
   )
 }

@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 
-import { Text } from 'react-native'
-
 import { colors } from '@/styles/colors'
 
-import { BoxButtonContainer, BoxButtonStyles } from './BoxButton.style'
+import { BoxButtonContainer, BoxButtonStyles, BoxButtonText } from './BoxButton.style'
 
 /**
  *
@@ -41,12 +39,11 @@ export const BoxButton = (props: BoxButtonProps) => {
    *
    */
   const handleButtonStyle = () => {
-    if (isPressed && buttonStyle === 'default') {
-      return BoxButtonStyles.click
-    } else if (buttonStyle === 'disabled') {
-      return BoxButtonStyles.disabled
-    } else {
-      return BoxButtonStyles.default
+    switch (buttonStyle) {
+      case 'default':
+        return isPressed ? BoxButtonStyles.click : BoxButtonStyles.default
+      case 'disabled':
+        return BoxButtonStyles.disabled
     }
   }
 
@@ -58,7 +55,7 @@ export const BoxButton = (props: BoxButtonProps) => {
       onPress={onPress}
       underlayColor={colors.yellow500}
     >
-      <Text style={handleButtonStyle()}>{text}</Text>
+      <BoxButtonText style={handleButtonStyle()}>{text}</BoxButtonText>
     </BoxButtonContainer>
   )
 }

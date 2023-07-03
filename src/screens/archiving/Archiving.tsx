@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { SearchBar } from 'react-native-screens'
 
 import { BoxButton } from '@/components/button/BoxButton'
@@ -26,10 +26,20 @@ export const Archiving = () => {
           <SearchBar />
           <NicknameText>다카이브님</NicknameText>
           <TitleText>{`현재까지 총 10개의\n아카이빙을\n저장하고 계세요!`}</TitleText>
-          <Category
-            text="푸드"
-            onPress={handleUplaod}
-          />
+          <View style={{ flexDirection: 'row' }}>
+            <Category
+              text="푸드"
+              onPress={handleUplaod}
+            />
+            <Category
+              text="패션"
+              onPress={handleUplaod}
+            />
+            <Category
+              text="패션 테스트테스트 테스트"
+              onPress={handleUplaod}
+            />
+          </View>
           <BoxButton
             text="default"
             onPress={handleUplaod}
