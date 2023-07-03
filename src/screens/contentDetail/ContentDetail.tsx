@@ -5,6 +5,7 @@ import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useQuery } from 'react-query'
 
 import { getContent } from '@/apis/fakeServerApis'
+import DefaultHeader from '@/components/defaultHeader/DefaultHeader'
 import HeaderRightWithPopup from '@/components/headerRight/HeaderRightWithPopup'
 import Memo from '@/components/memo/Memo'
 import Tag from '@/components/tag/Tag'
@@ -73,6 +74,17 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
 
   useEffect(() => {
     navigation.setOptions({
+      /**
+       * custom header
+       */
+      header: ({ options }) => (
+        <DefaultHeader
+          navigation={navigation}
+          title={contentTitle}
+          PopupMenuList={PopupMenuList}
+          options={options}
+        />
+      ),
       title: contentTitle,
       /**
        * headerRight
