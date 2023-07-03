@@ -43,7 +43,7 @@ export const Archiving = () => {
           <BoxButton
             text="default"
             onPress={handleUplaod}
-            buttonStyle="default"
+            isDisabled={false}
           />
         </ArchivingContainer>
       </ScrollView>

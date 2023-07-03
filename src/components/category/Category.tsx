@@ -12,8 +12,7 @@ interface CategoryProps {
 /**
  *
  */
-export const Category = (props: CategoryProps) => {
-  const { text, onPress } = props
+export const Category = ({ text, onPress }: CategoryProps) => {
   const [isPressed, setIsPressed] = useState(false)
 
   /**
@@ -30,26 +29,15 @@ export const Category = (props: CategoryProps) => {
     setIsPressed(false)
   }
 
-  /**
-   *
-   */
-  const handleCategoryStyle = () => {
-    if (isPressed) {
-      return CategoryStyles.click
-    } else {
-      return CategoryStyles.default
-    }
-  }
-
   return (
     <CategoryContainer
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      style={handleCategoryStyle()}
+      style={isPressed ? CategoryStyles.click : null}
       onPress={onPress}
       underlayColor={colors.mainYellow}
     >
-      <CategoryText style={handleCategoryStyle()}>{text}</CategoryText>
+      <CategoryText style={isPressed ? CategoryStyles.click : null}>{text}</CategoryText>
     </CategoryContainer>
   )
 }

@@ -9,19 +9,16 @@ export const CategoryContainer = styled.TouchableHighlight`
   height: 29px;
   border-radius: 6px;
   padding: 4px 15px;
+  background-color: ${colors.yellow200};
 `
 
 export const CategoryStyles = {
-  default: css`
-    background-color: ${colors.yellow200};
-    color: ${colors.gray300};
-  `,
   click: css`
-    background-color: ${colors.mainYellow};
     color: ${colors.gray500};
   `,
 }
 
 export const CategoryText = styled.Text`
   font-family: ${fonts.body2};
+  color: ${colors.gray300};
 `
