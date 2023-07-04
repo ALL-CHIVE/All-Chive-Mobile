@@ -17,13 +17,13 @@ export const SearchBar = styled.TouchableOpacity`
 `
 
 export const NicknameText = styled.Text`
-  font-family: ${fonts.subtitle1};
+  ${fonts.subtitle1};
   color: ${colors.gray600};
   margin-top: 28px;
 `
 
 export const TitleText = styled.Text`
-  font-family: ${fonts.heading2};
+  ${fonts.heading2};
   color: ${colors.gray600};
 `
 

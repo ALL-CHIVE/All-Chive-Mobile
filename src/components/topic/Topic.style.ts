@@ -21,6 +21,6 @@ export const Styles = {
 }
 
 export const Text = styled.Text`
-  font-family: ${fonts.body2};
+  ${fonts.body2};
   color: ${colors.gray300};
 `
