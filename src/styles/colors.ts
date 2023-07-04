@@ -1,5 +1,5 @@
 export const colors = {
-  mainYelllow: '#FFEC54',
+  mainYellow: '#FFEC54',
   yellow100: '#FFFCE7',
   yellow200: '#FEF9CE',
   yellow500: '#FFD231',
