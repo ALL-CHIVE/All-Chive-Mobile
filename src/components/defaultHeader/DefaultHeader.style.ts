@@ -15,7 +15,6 @@ export const HeaderLeft = styled.TouchableOpacity``
 
 export const Title = styled.Text`
   ${fonts.title2}
-  line-height: 0;
   width: 75%;
   text-align: center;
 `

@@ -14,7 +14,6 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
   ${fonts.subtitle1}
-  line-height: 0;
 `
 
 export const CloseButton = styled.TouchableOpacity`
