@@ -19,6 +19,6 @@ export const CategoryStyles = {
 }
 
 export const CategoryText = styled.Text`
-  font-family: ${fonts.body2};
+  ${fonts.body2};
   color: ${colors.gray300};
 `

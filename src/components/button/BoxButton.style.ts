@@ -20,6 +20,6 @@ export const BoxButtonStyles = {
 }
 
 export const BoxButtonText = styled.Text`
-  font-family: ${fonts.btn1};
+  ${fonts.btn1};
   color: ${colors.gray500};
 `
