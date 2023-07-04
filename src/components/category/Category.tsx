@@ -33,7 +33,6 @@ export const Category = ({ text, onPress }: CategoryProps) => {
     <CategoryContainer
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      style={isPressed ? CategoryStyles.click : null}
       onPress={onPress}
       underlayColor={colors.mainYellow}
     >

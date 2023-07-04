@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { colors } from '@/styles/colors'
 
@@ -13,25 +13,8 @@ interface BoxButtonProps {
  *
  */
 export const BoxButton = ({ text, onPress, isDisabled }: BoxButtonProps) => {
-  const [, setIsPressed] = useState(false)
-  /**
-   *
-   */
-  const handlePressIn = () => {
-    setIsPressed(true)
-  }
-
-  /**
-   *
-   */
-  const handlePressOut = () => {
-    setIsPressed(false)
-  }
-
   return (
     <BoxButtonContainer
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
       style={isDisabled ? BoxButtonStyles.disabled : null}
       onPress={onPress}
       disabled={isDisabled}
