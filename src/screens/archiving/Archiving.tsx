@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { AxiosError } from 'axios'
 import { ScrollView, TouchableOpacity } from 'react-native'
@@ -68,7 +68,7 @@ export const Archiving = () => {
             <NicknameText>다카이브님</NicknameText>
             <TitleText>{`현재까지 총 10개의\n아카이빙을\n저장하고 계세요!`}</TitleText>
             <ScrollView horizontal={true}>
-              <CategoryContainer style={{ flexDirection: 'row' }}>
+              <CategoryContainer>
                 {TopicList.map((category, index) => (
                   <Topic
                     key={index}

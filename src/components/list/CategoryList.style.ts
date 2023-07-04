@@ -30,7 +30,7 @@ export const Title = styled.Text`
 `
 
 export const Day = styled.Text`
-  font-family: ${fonts.body4};
+  ${fonts.body4};
   position: absolute;
   bottom: 10px;
   left: 108px;
@@ -49,6 +49,6 @@ export const CountContainer = styled.View`
 `
 
 export const CountText = styled.Text`
-  font-family: ${fonts.body4};
+  ${fonts.body4};
   color: ${colors.white};
 `
