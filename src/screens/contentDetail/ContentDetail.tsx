@@ -6,8 +6,8 @@ import { useQuery } from 'react-query'
 
 import { getContent } from '@/apis/fakeServerApis'
 import DefaultHeader from '@/components/defaultHeader/DefaultHeader'
-import HeaderRightWithPopup from '@/components/headerRight/HeaderRightWithPopup'
 import Memo from '@/components/memo/Memo'
+import Popup from '@/components/popup/Popup'
 import Tag from '@/components/tag/Tag'
 import { Content } from '@/models/Content'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -87,10 +87,10 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
       ),
       title: contentTitle,
       /**
-       * headerRight
+       * popup
        */
       headerRight: () => (
-        <HeaderRightWithPopup
+        <Popup
           icon=""
           menuList={PopupMenuList}
         />

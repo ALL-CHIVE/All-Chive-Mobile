@@ -4,10 +4,9 @@ import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { Text } from 'react-native'
 
+import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-
-import HeaderRightWithPopup from '../headerRight/HeaderRightWithPopup'
 
 import { Container, HeaderLeft, Title } from './DefaultHeader.style'
 
@@ -29,7 +28,7 @@ const DefaultHeader = ({ navigation, title, PopupMenuList }: DefaultHeaderProps)
         <Text>back</Text>
       </HeaderLeft>
       <Title>{title}</Title>
-      <HeaderRightWithPopup
+      <Popup
         icon=""
         menuList={PopupMenuList}
       />

@@ -4,15 +4,15 @@ import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-m
 
 import { PopupMenu } from '@/models/PopupMenu'
 
-interface HeaderRightProps {
+interface PopupProps {
   icon: string
   menuList: PopupMenu[]
 }
 
 /**
- * HeaderRight
+ * Popup
  */
-const HeaderRightWithPopup = ({ icon, menuList }: HeaderRightProps) => {
+const Popup = ({ icon, menuList }: PopupProps) => {
   return (
     <Menu>
       {/* TODO: 아이콘 연결 */}
@@ -36,4 +36,4 @@ const HeaderRightWithPopup = ({ icon, menuList }: HeaderRightProps) => {
   )
 }
 
-export default HeaderRightWithPopup
+export default Popup
