@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import { colors } from '@/styles/colors'
 
-import { CategoryContainer, CategoryStyles, CategoryText } from './Category.style'
+import { Container, Styles, Text } from './Topic.style'
 
-interface CategoryProps {
+interface TopicProps {
   text: string
   onPress: () => void
 }
@@ -12,7 +12,7 @@ interface CategoryProps {
 /**
  *
  */
-export const Category = ({ text, onPress }: CategoryProps) => {
+export const Topic = ({ text, onPress }: TopicProps) => {
   const [isPressed, setIsPressed] = useState(false)
 
   /**
@@ -30,13 +30,13 @@ export const Category = ({ text, onPress }: CategoryProps) => {
   }
 
   return (
-    <CategoryContainer
+    <Container
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onPress}
       underlayColor={colors.mainYellow}
     >
-      <CategoryText style={isPressed ? CategoryStyles.click : null}>{text}</CategoryText>
-    </CategoryContainer>
+      <Text style={isPressed ? Styles.click : null}>{text}</Text>
+    </Container>
   )
 }
