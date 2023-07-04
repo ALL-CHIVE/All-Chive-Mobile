@@ -8,12 +8,11 @@ export const ArchivingContainer = styled.View`
 `
 
 export const NicknameText = styled.Text`
-  font-family: ${fonts.subtitle1};
+  ${fonts.subtitle1};
   color: ${colors.gray600};
 `
 
 export const TitleText = styled.Text`
-  font-family: ${fonts.heading2};
+  ${fonts.heading2};
   color: ${colors.gray600};
-  white-space: pre-line;
 `
