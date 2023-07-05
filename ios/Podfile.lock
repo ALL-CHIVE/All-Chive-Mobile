@@ -419,6 +419,8 @@ PODS:
     - React-jsi (= 0.71.11)
     - React-logger (= 0.71.11)
     - React-perflogger (= 0.71.11)
+  - RNCAsyncStorage (1.19.0):
+    - React-Core
   - RNInAppBrowser (3.7.0):
     - React-Core
   - RNScreens (3.22.0):
@@ -489,6 +491,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -580,6 +583,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNInAppBrowser:
     :path: "../node_modules/react-native-inappbrowser-reborn"
   RNScreens:
@@ -635,6 +640,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: f09f08de63e4122deb32506e20ca4cae6e4e14c1
   React-runtimeexecutor: 4817d63dbc9d658f8dc0ec56bd9b83ce531129f0
   ReactCommon: 08723d2ed328c5cbcb0de168f231bc7bae7f8aa1
+  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
