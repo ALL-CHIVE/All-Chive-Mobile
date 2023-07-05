@@ -3,7 +3,7 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.TouchableHighlight`
+export const Container = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   height: 29px;
@@ -16,6 +16,7 @@ export const Container = styled.TouchableHighlight`
 
 export const Styles = {
   click: css`
+    background-color: ${colors.mainYellow};
     color: ${colors.gray500};
   `,
 }

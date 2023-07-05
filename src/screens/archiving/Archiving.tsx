@@ -4,11 +4,13 @@ import { AxiosError } from 'axios'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { useQuery } from 'react-query'
+import { useRecoilValue } from 'recoil'
 
 import { CategoryList } from '@/components/list/CategoryList'
 import { Topic } from '@/components/topic/Topic'
 import { PopupMenu } from '@/models/PopupMenu'
 import { ArchivingCategoryList } from '@/models/category/CategoryList'
+import { topicState } from '@/state/topicState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -39,10 +41,16 @@ const TopicList = [
  *
  */
 export const Archiving = () => {
-  // const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
-  //   ['getCategoryList'],
-  //   () => getCategoryList()
-  // )
+  const currentTopicState = useRecoilValue(topicState)
+  const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
+    ['getCategoryList'],
+    () =>
+      getCategoryList({
+        topic: currentTopicState,
+        page: 1,
+        limit: 10,
+      })
+  )
 
   /**
    *
@@ -54,8 +62,8 @@ export const Archiving = () => {
   /**
    *
    */
-  const handleClickTopic = () => {
-    // TODO
+  const handleClickTopic = (value: string) => {
+    // TODO: currentTopicState에 따른 카테고리 리스트 불러오기
   }
 
   return (
@@ -69,13 +77,10 @@ export const Archiving = () => {
             <TitleText>{`현재까지 총 10개의\n아카이빙을\n저장하고 계세요!`}</TitleText>
             <ScrollView horizontal={true}>
               <CategoryContainer>
-                {TopicList.map((category, index) => (
-                  <Topic
-                    key={index}
-                    text={category}
-                    onPress={handleClickTopic} // 추후 수정
-                  />
-                ))}
+                <Topic
+                  options={TopicList}
+                  onPress={handleClickTopic}
+                />
               </CategoryContainer>
             </ScrollView>
             <CategoryListContainer>
