@@ -39,10 +39,10 @@ const TopicList = [
  *
  */
 export const Archiving = () => {
-  const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
-    ['getCategoryList'],
-    () => getCategoryList()
-  )
+  // const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
+  //   ['getCategoryList'],
+  //   () => getCategoryList()
+  // )
 
   /**
    *
