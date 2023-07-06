@@ -2,7 +2,7 @@ import { client } from '@/apis/client'
 import { ArchivingCategoryList } from '@/models/category/CategoryList'
 
 interface GetCategoryListParams {
-  topic: string
+  subject: string
   page: number
   limit: number
 }
@@ -10,10 +10,10 @@ interface GetCategoryListParams {
 /**
  *
  */
-export const getCategoryList = async ({ topic, page, limit }: GetCategoryListParams) => {
+export const getCategoryList = async ({ subject, page, limit }: GetCategoryListParams) => {
   const { data } = await client<ArchivingCategoryList>({
     method: 'get',
-    url: `/categories/me/archiving?topic=${topic}&page=${page}&limit=${limit}`,
+    url: `/categories/me/archiving?subject=${subject}&page=${page}&limit=${limit}`,
   })
 
   return data

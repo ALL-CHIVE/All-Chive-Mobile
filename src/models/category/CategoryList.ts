@@ -5,7 +5,7 @@ export interface ArchivingCategoryList {
       title: string
       imageUrl: string
       createdAt: string
-      topic: string // 추후 topic list로 변경
+      subject: string
       imgCnt: number
       linkCnt: number
       scrapCnt: number

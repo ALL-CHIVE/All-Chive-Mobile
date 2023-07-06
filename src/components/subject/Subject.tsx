@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
-import { topicState } from '@/state/topicState'
+import { subjectState } from '@/state/subjectState'
 
-import { Container, Styles, Text } from './Topic.style'
+import { Container, Styles, Text } from './Subject.style'
 
-interface TopicProps {
+interface SubjectProps {
   options: string[]
   onPress: (value: string) => void
 }
@@ -15,9 +15,9 @@ interface TopicProps {
 /**
  *
  */
-export const Topic = ({ options, onPress }: TopicProps) => {
+export const Subject = ({ options, onPress }: SubjectProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [, setCurrentTopicState] = useRecoilState(topicState)
+  const [, setCurrentSubjectState] = useRecoilState(subjectState)
 
   /**
    *
@@ -25,7 +25,7 @@ export const Topic = ({ options, onPress }: TopicProps) => {
   const handleOptionPress = (option: string) => {
     setSelectedOption(option)
     onPress(option)
-    setCurrentTopicState(option)
+    setCurrentSubjectState(option)
   }
 
   return (

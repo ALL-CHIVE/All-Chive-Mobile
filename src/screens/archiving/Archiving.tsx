@@ -7,10 +7,10 @@ import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { CategoryList } from '@/components/list/CategoryList'
-import { Topic } from '@/components/topic/Topic'
+import { Subject } from '@/components/subject/Subject'
 import { PopupMenu } from '@/models/PopupMenu'
 import { ArchivingCategoryList } from '@/models/category/CategoryList'
-import { topicState } from '@/state/topicState'
+import { subjectState } from '@/state/subjectState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -24,7 +24,7 @@ import {
 import { getCategoryList } from './apis/getCategoryList'
 
 // 추후 수정
-const TopicList = [
+const SubjectList = [
   '전체',
   '푸드',
   '라이프',
@@ -41,12 +41,12 @@ const TopicList = [
  *
  */
 export const Archiving = () => {
-  const currentTopicState = useRecoilValue(topicState)
+  const currentSubjectState = useRecoilValue(subjectState)
   const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
     ['getCategoryList'],
     () =>
       getCategoryList({
-        topic: currentTopicState,
+        subject: currentSubjectState,
         page: 1,
         limit: 10,
       })
@@ -62,8 +62,8 @@ export const Archiving = () => {
   /**
    *
    */
-  const handleClickTopic = (value: string) => {
-    // TODO: currentTopicState에 따른 카테고리 리스트 불러오기
+  const handleClickSubject = (value: string) => {
+    // TODO: currentSubjectState에 따른 카테고리 리스트 불러오기
   }
 
   return (
@@ -77,9 +77,9 @@ export const Archiving = () => {
             <TitleText>{`현재까지 총 10개의\n아카이빙을\n저장하고 계세요!`}</TitleText>
             <ScrollView horizontal={true}>
               <CategoryContainer>
-                <Topic
-                  options={TopicList}
-                  onPress={handleClickTopic}
+                <Subject
+                  options={SubjectList}
+                  onPress={handleClickSubject}
                 />
               </CategoryContainer>
             </ScrollView>
