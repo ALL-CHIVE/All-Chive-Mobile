@@ -41,7 +41,7 @@ export const Archiving = () => {
             />
           </View>
           <BoxButton
-            text="default"
+            textKey="default"
             onPress={handleUplaod}
             isDisabled={false}
           />

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { MenuProvider } from 'react-native-popup-menu'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { RecoilRoot } from 'recoil'
 
 import { RootStack } from '@/navigations/RootStack'
+import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 
 const queryClient = new QueryClient()
 
@@ -12,13 +14,24 @@ const queryClient = new QueryClient()
  * App
  */
 function App() {
+  const [isInstalled, setInstalled] = useState<boolean>(false)
+
+  useEffect(() => {
+    checkIsInstalled().then((res) => {
+      setInstalled(res)
+      // TODO: 스플래시 없애기
+    })
+  }, [])
+
   return (
     <QueryClientProvider client={queryClient}>
-      <MenuProvider>
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </MenuProvider>
+      <RecoilRoot>
+        <MenuProvider>
+          <NavigationContainer>
+            <RootStack isInstalled={isInstalled} />
+          </NavigationContainer>
+        </MenuProvider>
+      </RecoilRoot>
     </QueryClientProvider>
   )
 }

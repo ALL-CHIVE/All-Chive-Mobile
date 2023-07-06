@@ -14,7 +14,7 @@ i18n.use(initReactI18next).init({
   lng: 'ko', // 앱에서 사용할 기본언어 설정
   fallbackLng: 'ko', // lng를 사용할수 없을때 기본언어
   supportedLngs: ['ko'], // 허용할 언어배열
-  compatibilityJSON: 'v4',
+  compatibilityJSON: 'v3',
   interpolation: {
     escapeValue: false, // XSS 주입을 피하기 위해 설정
   },
