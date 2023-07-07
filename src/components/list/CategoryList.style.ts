@@ -8,7 +8,6 @@ export const Container = styled.View`
   height: 107px;
   border-radius: 8px;
   background-color: ${colors.white};
-  elevation: 2; // Android에서 그림자 표현
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
