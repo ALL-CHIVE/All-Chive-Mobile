@@ -21,7 +21,8 @@ export const setIsInstalled = async (value: boolean) => {
  */
 const getItemOrNull = async <T>(key: LocalStorageKey): Promise<T | null> => {
   try {
-    return (await AsyncStorage.getItem(key)) as T
+    const data = await AsyncStorage.getItem(key)
+    return data ? (JSON.parse(data) as T) : null
   } catch (error) {
     // TODO: log 파일에 저장
     console.error('AsyncStorage error:', error)
@@ -32,9 +33,9 @@ const getItemOrNull = async <T>(key: LocalStorageKey): Promise<T | null> => {
 /**
  * 스토리지에 아이템을 저장합니다.
  */
-const setItem = async <T>(key: LocalStorageKey, item: T) => {
+const setItem = async <T>(key: LocalStorageKey, items: T) => {
   try {
-    await AsyncStorage.setItem(key, item as string)
+    await AsyncStorage.setItem(key, JSON.stringify(items))
   } catch (error) {
     // TODO: log 파일에 저장
     console.error('AsyncStorage error:', error)

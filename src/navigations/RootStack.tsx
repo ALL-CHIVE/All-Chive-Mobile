@@ -9,11 +9,12 @@ import { BottomTab, BottomTabNavigationProps } from '@/navigations/bottomTab/Bot
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import SelectSubject from '@/screens/selectSubject/SelectSubject'
+import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
   SelectSubject: undefined
   AddProfile: undefined
-  BottomTab: BottomTabNavigationProps
+  BottomTab: undefined
   ContentDetail: { id: number }
 }
 
@@ -34,6 +35,7 @@ export const RootStack = ({ isInstalled }: RootStackProps) => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          contentStyle: { backgroundColor: colors.white },
         }}
       >
         {!isInstalled && (

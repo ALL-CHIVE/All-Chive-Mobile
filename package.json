@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@alessiocancian/react-native-actionsheet": "^3.2.0",
     "@emotion/native": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@react-native-async-storage/async-storage": "^1.19.0",
