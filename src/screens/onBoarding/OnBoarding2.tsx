@@ -19,7 +19,7 @@ const OnBoarding2 = ({ navigation }: OnBoardingProps) => {
       <OnBoardingImage source={require('@/assets/onboarding_2.png')} />
       <Title>{i18n.t('shareCategoryWithPeople')}</Title>
       <BoxButton
-        textKey="next"
+        textKey="complete"
         onPress={() => {
           navigation.navigate('SelectSubject')
         }}
