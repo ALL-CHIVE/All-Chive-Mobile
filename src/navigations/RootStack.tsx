@@ -5,13 +5,17 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
 
-import { BottomTab, BottomTabNavigationProps } from '@/navigations/bottomTab/BottomTab'
+import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
+import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
+import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import SelectSubject from '@/screens/selectSubject/SelectSubject'
 import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
+  OnBoarding1: undefined
+  OnBoarding2: undefined
   SelectSubject: undefined
   AddProfile: undefined
   BottomTab: undefined
@@ -40,6 +44,14 @@ export const RootStack = ({ isInstalled }: RootStackProps) => {
       >
         {!isInstalled && (
           <>
+            <Stack.Screen
+              name="OnBoarding1"
+              component={OnBoarding1}
+            />
+            <Stack.Screen
+              name="OnBoarding2"
+              component={OnBoarding2}
+            />
             <Stack.Screen
               name="SelectSubject"
               component={SelectSubject}

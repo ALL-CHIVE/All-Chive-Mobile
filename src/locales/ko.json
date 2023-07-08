@@ -31,5 +31,8 @@
   "pleaseAllowCameraPermission": "카메라 권한을 설정해주세요",
   "cameraPermissionGuideIOS": "\"설정 > 카메라\" 권한을 허용해 주세요",
   "cameraPermissionGuideAndroid": "\"설정 > 권한 > 카메라\" 권한을 허용해 주세요",
-  "nicknamePlaceholder": "예) 올카이브"
+  "nicknamePlaceholder": "예) 올카이브",
+  "easilyManageContent": "컨텐츠를 손쉽게\n분류하고 관리해요!",
+  "shareCategoryWithPeople": "같은 관심사를 가진 사람들과\n카테고리를 공유해요.",
+  "next": "다음"
 }
