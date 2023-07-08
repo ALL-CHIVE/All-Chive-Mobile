@@ -9,7 +9,7 @@ import { RecoilRoot } from 'recoil'
 import { RootStack } from '@/navigations/RootStack'
 import { checkIsInstalled, setIsInstalled } from '@/services/localStorage/LocalStorage'
 
-import { requestPermissions } from './services/permission/PermissionService'
+import { requestPermissions } from './services/PermissionService'
 
 const queryClient = new QueryClient()
 

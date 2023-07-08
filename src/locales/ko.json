@@ -30,5 +30,6 @@
   "confirm": "확인",
   "pleaseAllowCameraPermission": "카메라 권한을 설정해주세요",
   "cameraPermissionGuideIOS": "\"설정 > 카메라\" 권한을 허용해 주세요",
-  "cameraPermissionGuideAndroid": "\"설정 > 권한 > 카메라\" 권한을 허용해 주세요"
+  "cameraPermissionGuideAndroid": "\"설정 > 권한 > 카메라\" 권한을 허용해 주세요",
+  "nicknamePlaceholder": "예) 올카이브"
 }

@@ -4,7 +4,6 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
-  background-color: ${colors.white};
   height: 80px;
   flex-direction: row;
   align-items: center;
