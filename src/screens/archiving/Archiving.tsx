@@ -8,8 +8,10 @@ import { useRecoilValue } from 'recoil'
 
 import { CategoryList } from '@/components/list/CategoryList'
 import { Subject } from '@/components/subject/Subject'
+import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { ArchivingCategoryList } from '@/models/category/CategoryList'
+import { AllSubjectListState } from '@/recoils/SubjectListState'
 import { subjectState } from '@/state/subjectState'
 import { colors } from '@/styles/colors'
 
@@ -23,25 +25,12 @@ import {
 } from './Archiving.style'
 import { getCategoryList } from './apis/getCategoryList'
 
-// 추후 수정
-const SubjectList = [
-  '전체',
-  '푸드',
-  '라이프',
-  '홈·리빙',
-  '쇼핑',
-  '스포츠',
-  '자기계발',
-  '테크',
-  '디자인',
-  '트렌드',
-]
-
 /**
  *
  */
 export const Archiving = () => {
   const currentSubjectState = useRecoilValue(subjectState)
+  const allSubjectList = useRecoilValue(AllSubjectListState)
   const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
     ['getCategoryList'],
     () =>
@@ -74,11 +63,11 @@ export const Archiving = () => {
             <SearchBar />
             {/* Profile Button */}
             <NicknameText>다카이브님</NicknameText>
-            <TitleText>{`현재까지 총 10개의\n아카이빙을\n저장하고 계세요!`}</TitleText>
+            <TitleText>{i18n.t('youHaveSavedArchives', { number: 10 })}</TitleText>
             <ScrollView horizontal={true}>
               <CategoryContainer>
                 <Subject
-                  options={SubjectList}
+                  options={allSubjectList}
                   onPress={handleClickSubject}
                 />
               </CategoryContainer>
@@ -118,8 +107,8 @@ const HandleRemove = () => {
 
 const PopupMenuList: PopupMenu[] = [
   {
-    title: '고정',
+    title: 'fix',
     onClick: HandleFix,
   },
-  { title: '삭제', onClick: HandleRemove },
+  { title: 'delete', onClick: HandleRemove },
 ]

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, Text, TouchableOpacity } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 
 import { Content } from '@/models/Content'
@@ -33,7 +33,6 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
         <ImageViewer
           imageUrls={[{ url: content.uri }]}
           renderIndicator={(_currentIndex, _allSize) => <Text></Text>}
-          enableSwipeDown={true}
           renderHeader={() => (
             <ImageHeader
               title={content.title}

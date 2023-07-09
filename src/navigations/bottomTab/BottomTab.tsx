@@ -4,6 +4,7 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
+import i18n from '@/locales'
 import { Archiving } from '@/screens/archiving/Archiving'
 import { Community } from '@/screens/community/Community'
 
@@ -59,7 +60,7 @@ export const BottomTab = () => {
                   source={require('@/assets/icon_archiving_focus.png')}
                   resizeMode="contain"
                 />
-                <Text>아카이빙</Text>
+                <Text>{i18n.t('archiving')}</Text>
               </Container>
             ),
           }}
@@ -77,7 +78,7 @@ export const BottomTab = () => {
                   source={require('@/assets/icon_community.png')}
                   resizeMode="contain"
                 />
-                <Text>커뮤니티</Text>
+                <Text>{i18n.t('community')}</Text>
               </Container>
             ),
           }}
@@ -99,10 +100,10 @@ export const BottomTab = () => {
         >
           <UploadModal source={require('@/assets/upload.png')}>
             <TouchableOpacity>
-              <Text>사진</Text>
+              <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>
             <TouchableOpacity>
-              <Text>링크</Text>
+              <Text>{i18n.t('link')}</Text>
             </TouchableOpacity>
           </UploadModal>
         </Modal>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
+import i18n from '@/locales'
 import { subjectState } from '@/state/subjectState'
 
 import { Container, Styles, Text } from './Subject.style'
@@ -36,7 +37,7 @@ export const Subject = ({ options, onPress }: SubjectProps) => {
           onPress={() => handleOptionPress(option)}
           style={selectedOption === option ? Styles.click : null}
         >
-          <Text style={selectedOption === option ? Styles.click : null}>{option}</Text>
+          <Text style={selectedOption === option ? Styles.click : null}>{i18n.t(option)}</Text>
         </Container>
       ))}
     </View>
