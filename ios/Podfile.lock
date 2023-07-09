@@ -419,12 +419,26 @@ PODS:
     - React-jsi (= 0.71.11)
     - React-logger (= 0.71.11)
     - React-perflogger (= 0.71.11)
+  - RNCAsyncStorage (1.19.0):
+    - React-Core
+  - RNImageCropPicker (0.40.0):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.40.0)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.40.0):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNInAppBrowser (3.7.0):
+    - React-Core
+  - RNPermissions (3.8.0):
     - React-Core
   - RNScreens (3.22.0):
     - React-Core
     - React-RCTImage
   - SocketRocket (0.6.0)
+  - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -489,7 +503,10 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -509,6 +526,7 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - SocketRocket
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -580,8 +598,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNInAppBrowser:
     :path: "../node_modules/react-native-inappbrowser-reborn"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -635,9 +659,13 @@ SPEC CHECKSUMS:
   React-RCTVibration: f09f08de63e4122deb32506e20ca4cae6e4e14c1
   React-runtimeexecutor: 4817d63dbc9d658f8dc0ec56bd9b83ce531129f0
   ReactCommon: 08723d2ed328c5cbcb0de168f231bc7bae7f8aa1
+  RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
+  RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364
+  RNPermissions: 3dae5a683e39cb7031dd771a434788008ac1cfbb
   RNScreens: 68fd1060f57dd1023880bf4c05d74784b5392789
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: f7decafdc5e8c125e6fa0da38a687e35238420fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

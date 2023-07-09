@@ -1,18 +1,19 @@
 import React from 'react'
 
+import i18n from '@/locales'
 import { colors } from '@/styles/colors'
 
 import { BoxButtonContainer, BoxButtonStyles, BoxButtonText } from './BoxButton.style'
 
 interface BoxButtonProps {
-  text: string
+  textKey: string
   onPress: () => void
   isDisabled?: boolean
 }
 /**
  *
  */
-export const BoxButton = ({ text, onPress, isDisabled }: BoxButtonProps) => {
+export const BoxButton = ({ textKey, onPress, isDisabled }: BoxButtonProps) => {
   return (
     <BoxButtonContainer
       style={isDisabled ? BoxButtonStyles.disabled : null}
@@ -20,7 +21,9 @@ export const BoxButton = ({ text, onPress, isDisabled }: BoxButtonProps) => {
       disabled={isDisabled}
       underlayColor={colors.yellow500}
     >
-      <BoxButtonText style={isDisabled ? BoxButtonStyles.disabled : null}>{text}</BoxButtonText>
+      <BoxButtonText style={isDisabled ? BoxButtonStyles.disabled : null}>
+        {i18n.t(textKey)}
+      </BoxButtonText>
     </BoxButtonContainer>
   )
 }
