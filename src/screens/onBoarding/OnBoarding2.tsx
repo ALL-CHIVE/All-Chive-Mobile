@@ -21,7 +21,7 @@ const OnBoarding2 = ({ navigation }: OnBoardingProps) => {
       <BoxButton
         textKey="complete"
         onPress={() => {
-          navigation.navigate('SelectSubject')
+          navigation.navigate('Login')
         }}
       />
     </Container>
