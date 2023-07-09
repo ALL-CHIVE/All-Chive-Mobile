@@ -42,5 +42,7 @@
   "community": "커뮤니티",
   "photo": "사진",
   "link": "링크",
-  "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!"
+  "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
+  "tag": "태그",
+  "memo": "메모"
 }
