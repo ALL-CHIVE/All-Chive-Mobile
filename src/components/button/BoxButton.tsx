@@ -11,7 +11,7 @@ interface BoxButtonProps {
   isDisabled?: boolean
 }
 /**
- *
+ * BoxButton
  */
 export const BoxButton = ({ textKey, onPress, isDisabled }: BoxButtonProps) => {
   return (

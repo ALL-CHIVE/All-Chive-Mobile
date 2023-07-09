@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, Text, TouchableOpacity } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 
 import { Content } from '@/models/Content'

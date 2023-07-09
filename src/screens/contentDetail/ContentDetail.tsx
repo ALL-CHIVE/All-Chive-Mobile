@@ -9,6 +9,7 @@ import DefaultHeader from '@/components/defaultHeader/DefaultHeader'
 import Memo from '@/components/memo/Memo'
 import Popup from '@/components/popup/Popup'
 import Tag from '@/components/tag/Tag'
+import i18n from '@/locales'
 import { Content } from '@/models/Content'
 import { PopupMenu } from '@/models/PopupMenu'
 import { ContentType } from '@/models/enums/ContentType'
@@ -61,10 +62,10 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
 
   const PopupMenuList: PopupMenu[] = isMine
     ? [
-        { title: '수정하기', onClick: HandleEdit },
-        { title: '삭제하기', onClick: HandleRemove },
+        { title: 'fix', onClick: HandleEdit },
+        { title: 'delete', onClick: HandleRemove },
       ]
-    : [{ title: '신고하기', onClick: HandleReport }]
+    : [{ title: 'report', onClick: HandleReport }]
 
   const {
     isLoading,
@@ -106,7 +107,7 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
         {content && (
           <ContentDetailView>
             <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-            <SubTitle>태그</SubTitle>
+            <SubTitle>{i18n.t('tag')}</SubTitle>
             <TagList>
               {content.tags.map((tag) => (
                 <Tag
@@ -115,7 +116,7 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
                 />
               ))}
             </TagList>
-            <SubTitle>메모</SubTitle>
+            <SubTitle>{i18n.t('memo')}</SubTitle>
             <Memo text={content.memo} />
           </ContentDetailView>
         )}
