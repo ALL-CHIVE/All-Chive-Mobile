@@ -6437,7 +6437,7 @@ pkg-dir@^4.2.0:
 
 pkg-dir@^5.0.0:
   version "5.0.0"
-  resolved "https://registry.npmjs.org/pkg-dir/-/pkg-dir-5.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-5.0.0.tgz#a02d6aebe6ba133a928f74aec20bafdfe6b8e760"
   integrity sha512-NPE8TDbzl/3YQYY7CSS228s3g2ollTFnc+Qi3tqmqJp9Vg2ovUpixcJEo2HJScN2Ez+kEaal6y70c0ehqJBJeA==
   dependencies:
     find-up "^5.0.0"
@@ -6637,12 +6637,12 @@ react-native-image-crop-picker@^0.40.0:
 
 react-native-image-pan-zoom@^2.1.12:
   version "2.1.12"
-  resolved "https://registry.npmjs.org/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-image-pan-zoom/-/react-native-image-pan-zoom-2.1.12.tgz#eb98bf56fb5610379bdbfdb63219cc1baca98fd2"
   integrity sha512-BF66XeP6dzuANsPmmFsJshM2Jyh/Mo1t8FsGc1L9Q9/sVP8MJULDabB1hms+eAoqgtyhMr5BuXV3E1hJ5U5H6Q==
 
 react-native-image-zoom-viewer@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.npmjs.org/react-native-image-zoom-viewer/-/react-native-image-zoom-viewer-3.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-image-zoom-viewer/-/react-native-image-zoom-viewer-3.0.1.tgz#a2bd5fb3bda15e0686ce88fcde8576726495d7fb"
   integrity sha512-la6s5DNSuq4GCRLsi5CZ29FPjgTpdCuGIRdO5T9rUrAtxrlpBPhhSnHrbmPVxsdtOUvxHacTh2Gfa9+RraMZQA==
   dependencies:
     react-native-image-pan-zoom "^2.1.12"
@@ -6670,7 +6670,7 @@ react-native-modal@^13.0.1:
 
 react-native-permissions@3.8.0:
   version "3.8.0"
-  resolved "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.8.0.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.8.0.tgz#7c1f75ae126c7d0b863eec9d2f5cd93ff8ad8310"
   integrity sha512-BfZ7ksgdpGchHZH8M/kxCGZbWeACANbnPmb3hNjVOMDQusc4PWlPpobX3eBqYMSKbpi7bMECeV9BVU4QuwAf9A==
   dependencies:
     picocolors "^1.0.0"

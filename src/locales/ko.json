@@ -34,5 +34,15 @@
   "nicknamePlaceholder": "예) 올카이브",
   "easilyManageContent": "컨텐츠를 손쉽게\n분류하고 관리해요!",
   "shareCategoryWithPeople": "같은 관심사를 가진 사람들과\n카테고리를 공유해요.",
-  "next": "다음"
+  "next": "다음",
+  "fix": "고정",
+  "delete": "삭제",
+  "report": "신고하기",
+  "archiving": "아카이빙",
+  "community": "커뮤니티",
+  "photo": "사진",
+  "link": "링크",
+  "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
+  "tag": "태그",
+  "memo": "메모"
 }

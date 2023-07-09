@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu'
 
+import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 
 interface PopupProps {
@@ -28,7 +29,7 @@ const Popup = ({ icon, menuList }: PopupProps) => {
           <MenuOption
             key={menu.title}
             onSelect={menu.onClick}
-            text={menu.title}
+            text={i18n.t(menu.title)}
           />
         ))}
       </MenuOptions>
