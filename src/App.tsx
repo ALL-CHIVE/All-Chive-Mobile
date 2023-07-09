@@ -7,6 +7,8 @@ import { RecoilRoot } from 'recoil'
 
 import { RootStack } from '@/navigations/RootStack'
 
+import { Login } from './screens/login/Login'
+
 const queryClient = new QueryClient()
 
 /**
@@ -18,7 +20,8 @@ function App() {
       <RecoilRoot>
         <MenuProvider>
           <NavigationContainer>
-            <RootStack />
+            {/* <RootStack /> */}
+            <Login />
           </NavigationContainer>
         </MenuProvider>
       </RecoilRoot>

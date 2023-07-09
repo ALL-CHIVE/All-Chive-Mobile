@@ -7,7 +7,7 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
+      android:allowBackup="true"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
@@ -18,7 +18,13 @@
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:host="oauth"
+            android:scheme="kakao{네이티브 앱 키}" />
         </intent-filter>
       </activity>
     </application>
