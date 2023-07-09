@@ -22,13 +22,18 @@
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+      <activity
+        android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-
             <data android:host="oauth"
-            android:scheme="kakao{네이티브 앱 키}" />
+            android:scheme="@string/ALLCHIVE_DEV_NATIVE_APP_KEY_WITH_KAKAO" />
         </intent-filter>
       </activity>
     </application>

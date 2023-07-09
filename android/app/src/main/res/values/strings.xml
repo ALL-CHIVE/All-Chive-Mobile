@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">AllChiveMobile</string>
-    <string name="kakao_app_key">{네이티브 앱 키}</string>
+    <string name="kakao_app_key">@string/ALLCHIVE_DEV_NATIVE_APP_KEY</string>
 </resources>
