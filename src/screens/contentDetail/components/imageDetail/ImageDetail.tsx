@@ -33,7 +33,6 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
         <ImageViewer
           imageUrls={[{ url: content.uri }]}
           renderIndicator={(_currentIndex, _allSize) => <Text></Text>}
-          enableSwipeDown={true}
           renderHeader={() => (
             <ImageHeader
               title={content.title}

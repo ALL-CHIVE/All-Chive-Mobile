@@ -1,5 +1,6 @@
 import styled from '@emotion/native'
 
+import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
@@ -8,6 +9,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background-color: ${colors.white};
 `
 
 export const Title = styled.Text`
