@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Shadow } from 'react-native-shadow-2'
 
+import { defaultIcons, icons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { colors } from '@/styles/colors'
@@ -37,7 +38,7 @@ export const CategoryList = ({
       >
         <Container>
           {/* 이미지 추후 수정 */}
-          <Image source={require('@/assets/icon_upload.png')} />
+          <Image source={defaultIcons.upload} />
           <Title
             numberOfLines={2}
             ellipsizeMode="tail"

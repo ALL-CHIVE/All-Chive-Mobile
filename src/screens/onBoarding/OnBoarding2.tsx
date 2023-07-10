@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { defaultImages } from '@/assets'
 import { BoxButton } from '@/components/button/BoxButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -16,7 +17,7 @@ interface OnBoardingProps {
 const OnBoarding2 = ({ navigation }: OnBoardingProps) => {
   return (
     <Container>
-      <OnBoardingImage source={require('@/assets/onboarding_2.png')} />
+      <OnBoardingImage source={defaultImages.onBoarding2} />
       <Title>{i18n.t('shareCategoryWithPeople')}</Title>
       <BoxButton
         textKey="complete"

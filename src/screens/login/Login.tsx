@@ -3,6 +3,7 @@ import React from 'react'
 import { login } from '@react-native-seoul/kakao-login'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 
+import { loginIcons } from '@/assets'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
@@ -40,10 +41,10 @@ export const Login = ({ navigation }: LoginProps) => {
         <Text>{i18n.t('simpleLogin')}</Text>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity>
-            <Image source={require('@/assets/icon_apple_login.png')} />
+            <Image source={loginIcons.apple} />
           </TouchableOpacity>
           <TouchableOpacity onPress={signInWithKakao}>
-            <Image source={require('@/assets/icon_kakao_login.png')} />
+            <Image source={loginIcons.kakao} />
           </TouchableOpacity>
         </View>
       </Container>
