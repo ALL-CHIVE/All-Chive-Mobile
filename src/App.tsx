@@ -32,6 +32,7 @@ function App() {
       <RecoilRoot>
         <MenuProvider>
           <NavigationContainer>
+            {/* <Login /> */}
             <RootStack isInstalled={isInstalled} />
           </NavigationContainer>
         </MenuProvider>

@@ -1,0 +1,10 @@
+//
+//  Config.xcconfig
+//  AllChiveMobile
+//
+//  Created by 백승빈 on 2023/07/10.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+#include? "tmp.xcconfig"
