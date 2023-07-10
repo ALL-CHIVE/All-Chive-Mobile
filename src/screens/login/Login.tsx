@@ -42,9 +42,6 @@ export const Login = ({ navigation }: LoginProps) => {
           <TouchableOpacity>
             <Image source={require('@/assets/icon_apple_login.png')} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Image source={require('@/assets/icon_naver_login.png')} />
-          </TouchableOpacity>
           <TouchableOpacity onPress={signInWithKakao}>
             <Image source={require('@/assets/icon_kakao_login.png')} />
           </TouchableOpacity>
