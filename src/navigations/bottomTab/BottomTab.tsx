@@ -4,6 +4,7 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
+import { defaultIcons, icons } from '@/assets'
 import i18n from '@/locales'
 import { Archiving } from '@/screens/archiving/Archiving'
 import { Community } from '@/screens/community/Community'
@@ -57,7 +58,7 @@ export const BottomTab = () => {
             tabBarIcon: ({ focused }) => (
               <Container>
                 <BottomTabImage
-                  source={require('@/assets/icon_archiving_focus.png')}
+                  source={defaultIcons.archivingFocus}
                   resizeMode="contain"
                 />
                 <Text>{i18n.t('archiving')}</Text>
@@ -75,7 +76,7 @@ export const BottomTab = () => {
             tabBarIcon: ({ focused }) => (
               <Container>
                 <BottomTabImage
-                  source={require('@/assets/icon_community.png')}
+                  source={defaultIcons.community}
                   resizeMode="contain"
                 />
                 <Text>{i18n.t('community')}</Text>
@@ -87,7 +88,7 @@ export const BottomTab = () => {
       <Container>
         <UploadButton onPress={handleUpload}>
           <Image
-            source={require('@/assets/icon_upload.png')}
+            source={defaultIcons.upload}
             resizeMode="contain"
           />
         </UploadButton>
@@ -98,7 +99,7 @@ export const BottomTab = () => {
           onBackdropPress={handleUpload}
           backdropOpacity={0.5}
         >
-          <UploadModal source={require('@/assets/upload.png')}>
+          <UploadModal source={defaultIcons.upload}>
             <TouchableOpacity>
               <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>

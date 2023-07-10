@@ -4,6 +4,7 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { Text, Platform, Linking } from 'react-native'
 import { useRecoilState } from 'recoil'
 
+import { defaultImages } from '@/assets'
 import i18n from '@/locales'
 import { Permissions } from '@/models/enums/Permissions'
 import { ProfileMenuType } from '@/models/enums/ProfileMenuType'
@@ -36,7 +37,7 @@ const Profile = () => {
     switch (index) {
       case ProfileMenuType.SelectDefaultImage: {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        setProfileImage(require('@/assets/default_profile.png'))
+        setProfileImage(defaultImages.profile)
         break
       }
       case ProfileMenuType.selectFromPhotoLibrary: {
