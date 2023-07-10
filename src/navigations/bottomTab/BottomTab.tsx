@@ -4,15 +4,15 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
-import { defaultIcons, icons } from '@/assets'
+import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
-import { Archiving } from '@/screens/archiving/Archiving'
 import { Community } from '@/screens/community/Community'
+import { Home } from '@/screens/home/Home'
 
 import { BottomTabImage, Container, UploadButton, UploadModal } from './BottomTab.style'
 
 type BottomTabParamList = {
-  Archiving: undefined
+  Home: undefined
   Community: undefined
 }
 
@@ -49,8 +49,8 @@ export const BottomTab = () => {
         }}
       >
         <BottomTabNavigator.Screen
-          name="Archiving"
-          component={Archiving}
+          name="Home"
+          component={Home}
           options={{
             /**
              *

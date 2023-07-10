@@ -16,19 +16,19 @@ import { subjectState } from '@/state/subjectState'
 import { colors } from '@/styles/colors'
 
 import {
-  ArchivingContainer,
+  Container,
   CategoryContainer,
   CategoryListContainer,
   NicknameText,
   SearchBar,
   TitleText,
-} from './Archiving.style'
+} from './Home.style'
 import { getCategoryList } from './apis/getCategoryList'
 
 /**
  *
  */
-export const Archiving = () => {
+export const Home = () => {
   const currentSubjectState = useRecoilValue(subjectState)
   const allSubjectList = useRecoilValue(AllSubjectListState)
   const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
@@ -59,7 +59,7 @@ export const Archiving = () => {
     <>
       <ScrollView>
         <LinearGradient colors={[colors.yellow200, colors.white]}>
-          <ArchivingContainer>
+          <Container>
             <SearchBar />
             {/* Profile Button */}
             <NicknameText>다카이브님</NicknameText>
@@ -84,7 +84,7 @@ export const Archiving = () => {
                 />
               </TouchableOpacity>
             </CategoryListContainer>
-          </ArchivingContainer>
+          </Container>
         </LinearGradient>
       </ScrollView>
     </>

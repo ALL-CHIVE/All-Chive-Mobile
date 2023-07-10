@@ -3,7 +3,7 @@ import styled from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const ArchivingContainer = styled.View`
+export const Container = styled.View`
   padding: 0 25px;
 `
 
