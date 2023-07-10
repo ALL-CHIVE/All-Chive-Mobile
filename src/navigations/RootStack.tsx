@@ -11,13 +11,13 @@ import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
-import SelectSubject from '@/screens/selectSubject/SelectSubject'
+import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
-  SelectSubject: undefined
+  SelectCategory: undefined
   AddProfile: undefined
   BottomTab: undefined
   Login: undefined
@@ -61,8 +61,8 @@ export const RootStack = ({ isInstalled }: RootStackProps) => {
           component={Login}
         />
         <Stack.Screen
-          name="SelectSubject"
-          component={SelectSubject}
+          name="SelectCategory"
+          component={SelectCategory}
         />
         <Stack.Screen
           name="AddProfile"

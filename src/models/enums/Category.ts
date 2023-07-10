@@ -1,6 +1,6 @@
 import { GetAll } from '@/extensions/enumExtensions'
 
-export enum Subject {
+export enum Category {
   All = 'all',
   Food = 'food',
   Life = 'life',
@@ -17,10 +17,10 @@ export enum Subject {
 /**
  * 전체와 기타를 제외한 주제를 가져옵니다.
  */
-export const GetSubjects = () =>
-  GetAll(Subject).filter((subject) => subject !== Subject.All && subject !== Subject.Etc)
+export const GetCategory = () =>
+  GetAll(Category).filter((category) => category !== Category.All && category !== Category.Etc)
 
 /**
  * 전체와 기타 포함 모든 주제를 가져옵니다.
  */
-export const GetAllSubject = () => GetAll(Subject)
+export const GetAllCategory = () => GetAll(Category)

@@ -2,7 +2,7 @@ import { client } from '@/apis/client'
 import { HomeArchivingList } from '@/models/archiving/ArchivingList'
 
 interface GetArchivingListParams {
-  subject: string
+  category: string
   page: number
   limit: number
 }
@@ -10,10 +10,10 @@ interface GetArchivingListParams {
 /**
  *
  */
-export const getArchivingList = async ({ subject, page, limit }: GetArchivingListParams) => {
+export const getArchivingList = async ({ category, page, limit }: GetArchivingListParams) => {
   const { data } = await client<HomeArchivingList>({
     method: 'get',
-    url: `/categories/me/archiving?subject=${subject}&page=${page}&limit=${limit}`,
+    url: `/categories/me/archiving?category=${category}&page=${page}&limit=${limit}`,
   })
 
   return data

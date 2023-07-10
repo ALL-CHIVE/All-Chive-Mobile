@@ -7,50 +7,51 @@ import { BoxButton } from '@/components/button/BoxButton'
 import ImageButton from '@/components/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { SubjectListState } from '@/recoils/SubjectListState'
+import { CategoryListState } from '@/recoils/CategoryListState'
 
-import { Container, Description, Heading, SelectButton, SubjectList } from './SelectSubject.style'
+import { Container, Description, Heading, SelectButton, CategoryList } from './SelectCategory.style'
 
-interface SelectSubjectProps {
+interface SelectCategoryProps {
   navigation: MainNavigationProp
 }
 
 /**
- * SelectSubject
+ * SelectCategory
  */
-const SelectSubject = ({ navigation }: SelectSubjectProps) => {
-  const subjectList = useRecoilValue(SubjectListState)
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
+const SelectCategory = ({ navigation }: SelectCategoryProps) => {
+  const categoryList = useRecoilValue(CategoryListState)
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([])
 
   /**
    * 주제 선택을 처리합니다.
    */
-  const handleSubjectPress = (subject: string) => {
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((selectedSubject) => selectedSubject !== subject))
-    } else if (selectedSubjects.length < 3) {
-      setSelectedSubjects((prev) => [...prev, subject])
+  const handleCategoryPress = (category: string) => {
+    if (selectedCategory.includes(category)) {
+      setSelectedCategory(
+        selectedCategory.filter((selectedCategory) => selectedCategory !== category)
+      )
+    } else if (selectedCategory.length < 3) {
+      setSelectedCategory((prev) => [...prev, category])
     }
   }
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
-  const handleSubmitSubjects = () => {
-    console.log(selectedSubjects)
+  const handleSubmitCategory = () => {
     // TODO: api 전달
     navigation.navigate('AddProfile')
   }
 
   /**
-   * SubjectList 내 아이템을 반환합니다
+   * CategoryList 내 아이템을 반환합니다
    */
   const renderItem: ListRenderItem<string> = ({ item }) => {
     return (
       <ImageButton
         title={item}
-        updateSelectedList={handleSubjectPress}
-        disabled={selectedSubjects.length >= 3 && !selectedSubjects.includes(item)}
+        updateSelectedList={handleCategoryPress}
+        disabled={selectedCategory.length >= 3 && !selectedCategory.includes(item)}
       />
     )
   }
@@ -60,18 +61,18 @@ const SelectSubject = ({ navigation }: SelectSubjectProps) => {
       <Container>
         <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
         <Description>{i18n.t('chooseMaximum3')}</Description>
-        <SubjectList
+        <CategoryList
           scrollEnabled={false}
-          data={subjectList}
+          data={categoryList}
           numColumns={3}
           renderItem={renderItem}
-          keyExtractor={(subject) => subject}
+          keyExtractor={(category) => category}
         />
         <SelectButton>
           <BoxButton
             textKey="selectCompleted"
-            onPress={handleSubmitSubjects}
-            isDisabled={selectedSubjects.length <= 0}
+            onPress={handleSubmitCategory}
+            isDisabled={selectedCategory.length <= 0}
           />
         </SelectButton>
       </Container>
@@ -79,4 +80,4 @@ const SelectSubject = ({ navigation }: SelectSubjectProps) => {
   )
 }
 
-export default SelectSubject
+export default SelectCategory

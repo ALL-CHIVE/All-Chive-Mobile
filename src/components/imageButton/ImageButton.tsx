@@ -6,7 +6,7 @@ import { ClickStyles, Container, Image, Title } from './ImageButton.style'
 
 interface Props {
   title: string
-  updateSelectedList: (subject: string) => void
+  updateSelectedList: (category: string) => void
   disabled?: boolean
 }
 

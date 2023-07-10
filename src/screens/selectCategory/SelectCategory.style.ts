@@ -17,7 +17,7 @@ export const Description = styled.Text`
   ${fonts.title2}
   margin-bottom: 10%;
 `
-export const SubjectList = styled(FlatList<string>)`
+export const CategoryList = styled(FlatList<string>)`
   flex-direction: row;
   width: 100%;
 `

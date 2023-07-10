@@ -6,13 +6,13 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
+import { Category } from '@/components/category/Category'
 import { ArchivingList } from '@/components/list/ArchivingList'
-import { Subject } from '@/components/subject/Subject'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { HomeArchivingList } from '@/models/archiving/ArchivingList'
-import { AllSubjectListState } from '@/recoils/SubjectListState'
-import { subjectState } from '@/state/subjectState'
+import { AllCategoryListState } from '@/recoils/CategoryListState'
+import { CategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -29,13 +29,13 @@ import { getArchivingList } from './apis/getArchivingList'
  *
  */
 export const Home = () => {
-  const currentSubjectState = useRecoilValue(subjectState)
-  const allSubjectList = useRecoilValue(AllSubjectListState)
+  const currentCategory = useRecoilValue(CategoryState)
+  const allCategoryList = useRecoilValue(AllCategoryListState)
   const { data: archivingList } = useQuery<HomeArchivingList, AxiosError>(
     ['getArchivingList'],
     () =>
       getArchivingList({
-        subject: currentSubjectState,
+        category: currentCategory,
         page: 1,
         limit: 10,
       })
@@ -51,8 +51,8 @@ export const Home = () => {
   /**
    *
    */
-  const handleClickSubject = (value: string) => {
-    // TODO: currentSubjectState에 따른 카테고리 리스트 불러오기
+  const handleClickCategory = (value: string) => {
+    // TODO: currentCategoryState에 따른 카테고리 리스트 불러오기
   }
 
   return (
@@ -66,9 +66,9 @@ export const Home = () => {
             <TitleText>{i18n.t('youHaveSavedArchives', { number: 10 })}</TitleText>
             <ScrollView horizontal={true}>
               <CategoryContainer>
-                <Subject
-                  options={allSubjectList}
-                  onPress={handleClickSubject}
+                <Category
+                  options={allCategoryList}
+                  onPress={handleClickCategory}
                 />
               </CategoryContainer>
             </ScrollView>

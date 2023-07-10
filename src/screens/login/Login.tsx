@@ -27,7 +27,7 @@ export const Login = ({ navigation }: LoginProps) => {
       // 서버로 data 전송 로직 추가
 
       // 추후 분기처리
-      navigation.navigate('SelectSubject')
+      navigation.navigate('SelectCategory')
     } catch (err) {
       // console.log(err)
     }
