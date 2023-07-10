@@ -6,36 +6,36 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { CategoryList } from '@/components/list/CategoryList'
-import { Subject } from '@/components/subject/Subject'
+import { Category } from '@/components/category/Category'
+import { ArchivingList } from '@/components/list/ArchivingList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
-import { ArchivingCategoryList } from '@/models/category/CategoryList'
-import { AllSubjectListState } from '@/recoils/SubjectListState'
-import { subjectState } from '@/state/subjectState'
+import { HomeArchivingList } from '@/models/archiving/ArchivingList'
+import { AllCategoryListState } from '@/state/CategoryListState'
+import { CategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
-  ArchivingContainer,
+  Container,
   CategoryContainer,
-  CategoryListContainer,
   NicknameText,
   SearchBar,
   TitleText,
-} from './Archiving.style'
-import { getCategoryList } from './apis/getCategoryList'
+  ArchivingListContainer,
+} from './Home.style'
+import { getArchivingList } from './apis/getArchivingList'
 
 /**
  *
  */
-export const Archiving = () => {
-  const currentSubjectState = useRecoilValue(subjectState)
-  const allSubjectList = useRecoilValue(AllSubjectListState)
-  const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
-    ['getCategoryList'],
+export const Home = () => {
+  const currentCategory = useRecoilValue(CategoryState)
+  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const { data: archivingList } = useQuery<HomeArchivingList, AxiosError>(
+    ['getArchivingList'],
     () =>
-      getCategoryList({
-        subject: currentSubjectState,
+      getArchivingList({
+        category: currentCategory,
         page: 1,
         limit: 10,
       })
@@ -51,30 +51,30 @@ export const Archiving = () => {
   /**
    *
    */
-  const handleClickSubject = (value: string) => {
-    // TODO: currentSubjectState에 따른 카테고리 리스트 불러오기
+  const handleClickCategory = (value: string) => {
+    // TODO: currentCategoryState에 따른 카테고리 리스트 불러오기
   }
 
   return (
     <>
       <ScrollView>
         <LinearGradient colors={[colors.yellow200, colors.white]}>
-          <ArchivingContainer>
+          <Container>
             <SearchBar />
             {/* Profile Button */}
             <NicknameText>다카이브님</NicknameText>
             <TitleText>{i18n.t('youHaveSavedArchives', { number: 10 })}</TitleText>
             <ScrollView horizontal={true}>
               <CategoryContainer>
-                <Subject
-                  options={allSubjectList}
-                  onPress={handleClickSubject}
+                <Category
+                  options={allCategoryList}
+                  onPress={handleClickCategory}
                 />
               </CategoryContainer>
             </ScrollView>
-            <CategoryListContainer>
+            <ArchivingListContainer>
               <TouchableOpacity>
-                <CategoryList
+                <ArchivingList
                   title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
                   day="2022.10.27"
                   popupMenuList={PopupMenuList}
@@ -83,8 +83,8 @@ export const Archiving = () => {
                   scrapCnt={3}
                 />
               </TouchableOpacity>
-            </CategoryListContainer>
-          </ArchivingContainer>
+            </ArchivingListContainer>
+          </Container>
         </LinearGradient>
       </ScrollView>
     </>

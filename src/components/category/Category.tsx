@@ -4,11 +4,11 @@ import { View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import i18n from '@/locales'
-import { subjectState } from '@/state/subjectState'
+import { CategoryState } from '@/state/CategoryState'
 
-import { Container, Styles, Text } from './Subject.style'
+import { Container, Styles, Text } from './Category.style'
 
-interface SubjectProps {
+interface CategoryProps {
   options: string[]
   onPress: (value: string) => void
 }
@@ -16,9 +16,9 @@ interface SubjectProps {
 /**
  *
  */
-export const Subject = ({ options, onPress }: SubjectProps) => {
+export const Category = ({ options, onPress }: CategoryProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [, setCurrentSubjectState] = useRecoilState(subjectState)
+  const [, setCurrentCategory] = useRecoilState(CategoryState)
 
   /**
    *
@@ -26,7 +26,7 @@ export const Subject = ({ options, onPress }: SubjectProps) => {
   const handleOptionPress = (option: string) => {
     setSelectedOption(option)
     onPress(option)
-    setCurrentSubjectState(option)
+    setCurrentCategory(option)
   }
 
   return (

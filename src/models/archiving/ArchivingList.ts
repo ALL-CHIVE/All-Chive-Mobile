@@ -1,11 +1,11 @@
-export interface ArchivingCategoryList {
+export interface HomeArchivingList {
   content: [
     {
       categoryId: number
       title: string
       imageUrl: string
       createdAt: string
-      subject: string
+      category: string
       imgCnt: number
       linkCnt: number
       scrapCnt: number
