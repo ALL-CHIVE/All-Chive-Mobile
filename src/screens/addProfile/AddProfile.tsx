@@ -7,8 +7,8 @@ import { BoxButton } from '@/components/button/BoxButton'
 import Profile from '@/components/profile/Profile'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { ProfileImageState } from '@/recoils/ProfileImageState'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
+import { ProfileImageState } from '@/state/ProfileImageState'
 
 import {
   BodyText,

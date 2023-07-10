@@ -11,7 +11,7 @@ import { ArchivingList } from '@/components/list/ArchivingList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { HomeArchivingList } from '@/models/archiving/ArchivingList'
-import { AllCategoryListState } from '@/recoils/CategoryListState'
+import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 

@@ -7,7 +7,7 @@ import { BoxButton } from '@/components/button/BoxButton'
 import ImageButton from '@/components/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { CategoryListState } from '@/recoils/CategoryListState'
+import { CategoryListState } from '@/state/CategoryListState'
 
 import { Container, Description, Heading, SelectButton, CategoryList } from './SelectCategory.style'
 
