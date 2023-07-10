@@ -32,6 +32,6 @@ export const CategoryContainer = styled.View`
   margin-top: 180px;
 `
 
-export const CategoryListContainer = styled.View`
+export const ArchivingListContainer = styled.View`
   /* TODO */
 `

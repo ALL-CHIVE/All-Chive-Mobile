@@ -2,14 +2,14 @@ import React from 'react'
 
 import { Shadow } from 'react-native-shadow-2'
 
-import { defaultIcons, icons } from '@/assets'
+import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { colors } from '@/styles/colors'
 
-import { Container, CountContainer, CountText, Day, Image, Title } from './CategoryList.style'
+import { Container, CountContainer, CountText, Day, Image, Title } from './ArchivingList.style'
 
-interface CategoryListProps {
+interface ArchivingListProps {
   title: string
   day: string
   popupMenuList: PopupMenu[]
@@ -21,14 +21,14 @@ interface CategoryListProps {
 /**
  *
  */
-export const CategoryList = ({
+export const ArchivingList = ({
   title,
   day,
   popupMenuList,
   imgCnt,
   linkCnt,
   scrapCnt,
-}: CategoryListProps) => {
+}: ArchivingListProps) => {
   return (
     <>
       <Shadow

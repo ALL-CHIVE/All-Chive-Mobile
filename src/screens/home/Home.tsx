@@ -6,11 +6,11 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { CategoryList } from '@/components/list/CategoryList'
+import { ArchivingList } from '@/components/list/ArchivingList'
 import { Subject } from '@/components/subject/Subject'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
-import { ArchivingCategoryList } from '@/models/category/CategoryList'
+import { HomeArchivingList } from '@/models/archiving/ArchivingList'
 import { AllSubjectListState } from '@/recoils/SubjectListState'
 import { subjectState } from '@/state/subjectState'
 import { colors } from '@/styles/colors'
@@ -18,12 +18,12 @@ import { colors } from '@/styles/colors'
 import {
   Container,
   CategoryContainer,
-  CategoryListContainer,
   NicknameText,
   SearchBar,
   TitleText,
+  ArchivingListContainer,
 } from './Home.style'
-import { getCategoryList } from './apis/getCategoryList'
+import { getArchivingList } from './apis/getArchivingList'
 
 /**
  *
@@ -31,10 +31,10 @@ import { getCategoryList } from './apis/getCategoryList'
 export const Home = () => {
   const currentSubjectState = useRecoilValue(subjectState)
   const allSubjectList = useRecoilValue(AllSubjectListState)
-  const { data: categoryList } = useQuery<ArchivingCategoryList, AxiosError>(
-    ['getCategoryList'],
+  const { data: archivingList } = useQuery<HomeArchivingList, AxiosError>(
+    ['getArchivingList'],
     () =>
-      getCategoryList({
+      getArchivingList({
         subject: currentSubjectState,
         page: 1,
         limit: 10,
@@ -72,9 +72,9 @@ export const Home = () => {
                 />
               </CategoryContainer>
             </ScrollView>
-            <CategoryListContainer>
+            <ArchivingListContainer>
               <TouchableOpacity>
-                <CategoryList
+                <ArchivingList
                   title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
                   day="2022.10.27"
                   popupMenuList={PopupMenuList}
@@ -83,7 +83,7 @@ export const Home = () => {
                   scrapCnt={3}
                 />
               </TouchableOpacity>
-            </CategoryListContainer>
+            </ArchivingListContainer>
           </Container>
         </LinearGradient>
       </ScrollView>

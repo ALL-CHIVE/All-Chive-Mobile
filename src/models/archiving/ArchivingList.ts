@@ -1,4 +1,4 @@
-export interface ArchivingCategoryList {
+export interface HomeArchivingList {
   content: [
     {
       categoryId: number
