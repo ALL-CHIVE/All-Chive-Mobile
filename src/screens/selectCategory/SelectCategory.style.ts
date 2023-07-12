@@ -1,27 +1,32 @@
 import styled from '@emotion/native'
 import { FlatList } from 'react-native'
 
+import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
   height: 100%;
-  margin: 0 6%;
+  margin: 0 auto;
 `
 
 export const Heading = styled.Text`
   ${fonts.heading1};
-  margin-top: 20%;
+  color: ${colors.mainBlack};
+  margin-top: 15%;
 `
 
 export const Description = styled.Text`
   ${fonts.title2}
-  margin-bottom: 10%;
+  color: ${colors.gray500};
+  margin-top: 3%;
+  margin-bottom: 7%;
 `
 export const CategoryList = styled(FlatList<string>)`
   flex-direction: row;
   width: 100%;
+  margin-bottom: 15%;
 `
 
 export const SelectButton = styled.View`
-  margin: 20% 0;
+  margin-bottom: 7%;
 `

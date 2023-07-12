@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
 
-import i18n from '@/locales'
+import { ImageSourcePropType } from 'react-native'
+import { Shadow } from 'react-native-shadow-2'
 
-import { ClickStyles, Container, Image, Title } from './ImageButton.style'
+import { defaultIcons } from '@/assets'
+import i18n from '@/locales'
+import { colors } from '@/styles/colors'
+
+import { ButtonImage, ClickStyles, Container, Image, ImageView, Title } from './ImageButton.style'
 
 interface Props {
   title: string
   updateSelectedList: (category: string) => void
+  source: ImageSourcePropType
   disabled?: boolean
 }
 
 /**
  * ImageButton
  */
-const ImageButton = ({ title, updateSelectedList, disabled }: Props) => {
+const ImageButton = ({ title, updateSelectedList, source, disabled }: Props) => {
   const [isSelected, setIsSelected] = useState(false)
 
   /**
@@ -29,7 +35,16 @@ const ImageButton = ({ title, updateSelectedList, disabled }: Props) => {
       onPress={handleClick}
       disabled={disabled}
     >
-      <Image style={isSelected && ClickStyles.image}>{/* TODO: 주제 아이콘 추가 */}</Image>
+      <Shadow
+        startColor={colors.shadow}
+        offset={[0, 2]}
+        distance={4}
+        style={{ borderRadius: 50, marginBottom: 10 }}
+      >
+        <ImageView style={isSelected && ClickStyles.image}>
+          <Image source={source} />
+        </ImageView>
+      </Shadow>
       <Title>{i18n.t(title)}</Title>
     </Container>
   )

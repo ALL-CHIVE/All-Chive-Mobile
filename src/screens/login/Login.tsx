@@ -24,7 +24,7 @@ export const Login = ({ navigation }: LoginProps) => {
   const signIn = async (type: SignInType) => {
     await signInWith(type)
 
-    // TODO: 회원가입 체크 후 스크린 이동
+    // TODO: 회원가입 체크 후 이용약관 스크린으로 이동
     navigation.navigate('SelectCategory')
   }
 
