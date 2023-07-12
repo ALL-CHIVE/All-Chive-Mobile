@@ -21,7 +21,7 @@ import { Container, EmptyProfile, ProfileImage, UploadButton } from './Profile.s
  */
 const Profile = () => {
   const [profileImage, setProfileImage] = useRecoilState(ProfileImageState)
-  const actionSheetRef = useRef<ActionSheet>()
+  const actionSheetRef = useRef<ActionSheet>(null)
 
   /**
    * handleUploadButton
