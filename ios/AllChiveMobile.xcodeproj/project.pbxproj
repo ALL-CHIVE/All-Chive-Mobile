@@ -48,6 +48,7 @@
 		954EB4982A5C1C6600B1CF6D /* AllChiveMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AllChiveMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		954EB4992A5C1C6600B1CF6D /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
 		954EB49B2A5C234E00B1CF6D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		954EB49C2A5DA6D200B1CF6D /* AllChiveMobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AllChiveMobile.entitlements; path = AllChiveMobile/AllChiveMobile.entitlements; sourceTree = "<group>"; };
 		958085C12A46D940002CC161 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -92,6 +93,7 @@
 		13B07FAE1A68108700A75B9A /* AllChiveMobile */ = {
 			isa = PBXGroup;
 			children = (
+				954EB49C2A5DA6D200B1CF6D /* AllChiveMobile.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -499,6 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = AllChiveMobile/AllChiveMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AllChiveMobile/Info.plist;
@@ -529,6 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = AllChiveMobile/AllChiveMobile.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = AllChiveMobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "All:Chive";
