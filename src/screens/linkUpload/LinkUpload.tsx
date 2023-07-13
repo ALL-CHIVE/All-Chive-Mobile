@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Text } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import { BoxButton } from '@/components/button/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
@@ -72,8 +72,8 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   return (
     <Container>
       <CloseButtonHeader
-        navigation={navigation}
         title="업로드"
+        onClose={() => navigation.navigate('BottomTab')}
       />
       <Title>아카이빙 이름</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
@@ -115,6 +115,13 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
       />
       {/* TODO: Condition Icon 추가 */}
       <Condition>올바른 url 주소</Condition>
+      <View style={{ flexDirection: 'row' }}>
+        <Title>태그</Title>
+        <Text>선택사항 (최대 10개)</Text>
+      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
+        <Text>+ 태그 추가</Text>
+      </TouchableOpacity>
 
       <BoxButton
         textKey="완료"
