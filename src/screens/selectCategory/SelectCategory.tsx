@@ -4,7 +4,7 @@ import { ListRenderItem, ScrollView } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
