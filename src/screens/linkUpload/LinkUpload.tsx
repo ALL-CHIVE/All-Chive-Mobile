@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 
+import { Text } from 'react-native'
+
 import { BoxButton } from '@/components/button/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { ArchivingModal } from '@/components/modal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import { Condition, Container, Styles, TextInput, Title } from './LinkUpload.style'
+import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from './LinkUpload.style'
 
 interface LinkUploadProps {
   navigation: MainNavigationProp
@@ -18,8 +21,18 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
 
+  const [openArchivingModal, setOpenArchivingModal] = useState(false)
+
   const [contentFocus, setContentFocus] = useState(false)
   const [linkFocus, setLinkFocus] = useState(false)
+
+  /**
+   *
+   */
+  const handleCloseModal = () => {
+    setOpenArchivingModal(false)
+    setArchivingName('')
+  }
 
   /**
    *
@@ -63,7 +76,14 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
         title="업로드"
       />
       <Title>아카이빙 이름</Title>
-      {/* dropdown link */}
+      <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
+        {archivingName ? <Text>{archivingName}</Text> : <Text>아카이빙을 선택하세요</Text>}
+        {/* TODO: 오른쪽 화살표 아이콘 추가 */}
+      </ArchivingSelect>
+      <ArchivingModal
+        onClose={handleCloseModal}
+        isVisible={openArchivingModal}
+      />
       <Title>컨텐츠 이름</Title>
       <TextInput
         placeholder="한/영/특수문자 15자 이내로 입력하세요"

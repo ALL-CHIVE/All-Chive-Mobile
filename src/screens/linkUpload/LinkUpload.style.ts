@@ -12,6 +12,16 @@ export const Title = styled.Text`
   color: ${colors.gray600};
 `
 
+export const ArchivingSelect = styled.TouchableOpacity`
+  width: 100%;
+  height: 38px;
+  border: 1px solid ${colors.gray100};
+  background-color: ${colors.white};
+  padding: 7px 10px 7px 13px;
+  border-radius: 6px;
+  margin-top: 10px;
+`
+
 export const TextInput = styled.TextInput`
   width: 100%;
   height: 38px;
