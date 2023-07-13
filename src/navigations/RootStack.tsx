@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
+import { useRecoilState } from 'recoil'
 
+import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
@@ -13,6 +15,8 @@ import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
+import { requestPermissions } from '@/services/PermissionService'
+import { SignInState } from '@/state/SignInState'
 import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
@@ -30,14 +34,20 @@ export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamLi
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-interface RootStackProps {
-  isInstalled: boolean
-}
-
 /**
  * RootStack
  */
-export const RootStack = ({ isInstalled }: RootStackProps) => {
+export const RootStack = () => {
+  const [isSignIn, setIsSignIn] = useRecoilState(SignInState)
+
+  useEffect(() => {
+    getHasAutoSignInSession().then((res) => {
+      setIsSignIn(res)
+      // TODO: 스플래시 없애기
+      requestPermissions()
+    })
+  }, [])
+
   return (
     <>
       <Stack.Navigator
@@ -45,19 +55,16 @@ export const RootStack = ({ isInstalled }: RootStackProps) => {
           headerShown: false,
           contentStyle: { backgroundColor: colors.white },
         }}
+        initialRouteName={isSignIn ? 'BottomTab' : 'OnBoarding1'}
       >
-        {!isInstalled && (
-          <>
-            <Stack.Screen
-              name="OnBoarding1"
-              component={OnBoarding1}
-            />
-            <Stack.Screen
-              name="OnBoarding2"
-              component={OnBoarding2}
-            />
-          </>
-        )}
+        <Stack.Screen
+          name="OnBoarding1"
+          component={OnBoarding1}
+        />
+        <Stack.Screen
+          name="OnBoarding2"
+          component={OnBoarding2}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

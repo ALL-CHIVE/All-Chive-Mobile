@@ -7,7 +7,6 @@ import { BoxButton } from '@/components/button/BoxButton'
 import Profile from '@/components/profile/Profile'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 
 import {
@@ -37,7 +36,6 @@ const AddProfile = ({ navigation }: AddProfileProps) => {
   const handleComplete = () => {
     // TODO: 서버로 이미지, 닉네임 전달
     navigation.navigate('BottomTab')
-    setIsInstalled(true)
   }
 
   /**

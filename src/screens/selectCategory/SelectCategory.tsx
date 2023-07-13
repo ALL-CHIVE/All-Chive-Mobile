@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ListRenderItem, ScrollView } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/button/BoxButton'
 import ImageButton from '@/components/imageButton/ImageButton'
 import i18n from '@/locales'
@@ -51,6 +52,7 @@ const SelectCategory = ({ navigation }: SelectCategoryProps) => {
       <ImageButton
         title={item}
         updateSelectedList={handleCategoryPress}
+        source={defaultIcons[item]}
         disabled={selectedCategory.length >= 3 && !selectedCategory.includes(item)}
       />
     )
