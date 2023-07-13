@@ -8,6 +8,7 @@ import {
 import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
+import { LinkUpload } from '@/screens/linkUpload/LinkUpload'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
@@ -17,10 +18,11 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
+  Login: undefined
   SelectCategory: undefined
   AddProfile: undefined
   BottomTab: undefined
-  Login: undefined
+  LinkUpload: undefined
   ContentDetail: { id: number }
 }
 
@@ -71,6 +73,10 @@ export const RootStack = ({ isInstalled }: RootStackProps) => {
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+        />
+        <Stack.Screen
+          name="LinkUpload"
+          component={LinkUpload}
         />
         <Stack.Screen
           name="ContentDetail"

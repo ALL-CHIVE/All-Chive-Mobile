@@ -6,6 +6,7 @@ import Modal from 'react-native-modal'
 
 import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Community } from '@/screens/community/Community'
 import { Home } from '@/screens/home/Home'
 
@@ -16,6 +17,10 @@ type BottomTabParamList = {
   Community: undefined
 }
 
+interface BottomTabProps {
+  navigation: MainNavigationProp
+}
+
 export type BottomTabNavigationProps = BottomTabNavigationProp<BottomTabParamList>
 
 const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
@@ -23,7 +28,7 @@ const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
 /**
  * BottomTab
  */
-export const BottomTab = () => {
+export const BottomTab = ({ navigation }: BottomTabProps) => {
   const [showUpload, setShowUpload] = useState(false)
   /**
    *
@@ -103,7 +108,11 @@ export const BottomTab = () => {
             <TouchableOpacity>
               <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('LinkUpload')
+              }}
+            >
               <Text>{i18n.t('link')}</Text>
             </TouchableOpacity>
           </UploadModal>
