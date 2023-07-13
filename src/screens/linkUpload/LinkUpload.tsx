@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 
-import { Text, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/button/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
 import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from './LinkUpload.style'
 
@@ -20,18 +22,22 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
+  const [memo, setMemo] = useState('')
 
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
 
   const [contentFocus, setContentFocus] = useState(false)
   const [linkFocus, setLinkFocus] = useState(false)
+  const [memoFocus, setMemoFocus] = useState(false)
+
+  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
 
   /**
    *
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName('')
+    setArchivingName(selectArchiving)
   }
 
   /**
@@ -65,8 +71,22 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   /**
    *
    */
-  const handleClickButton = () => {
-    // TODO: post link
+  const handleMemoFocus = () => {
+    setMemoFocus(true)
+  }
+
+  /**
+   *
+   */
+  const handleMemoBlur = () => {
+    setMemoFocus(false)
+  }
+
+  /**
+   *
+   */
+  const handlesubmit = () => {
+    // TODO
   }
 
   return (
@@ -122,10 +142,31 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
       <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
         <Text>+ 태그 추가</Text>
       </TouchableOpacity>
-
+      <View style={{ flexDirection: 'row' }}>
+        <Title>메모</Title>
+        <Text>선택사항</Text>
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={160}
+      >
+        <TextInput
+          placeholder="메모를 입력하세요"
+          value={memo}
+          onChangeText={setMemo}
+          onFocus={handleMemoFocus}
+          onBlur={handleMemoBlur}
+          maxLength={150}
+          multiline
+          style={[
+            memoFocus ? Styles.inputFocus : null,
+            !memoFocus && memo.length > 0 ? Styles.inputWithValue : null,
+          ]}
+        />
+      </KeyboardAvoidingView>
       <BoxButton
         textKey="완료"
-        onPress={handleClickButton}
+        onPress={handlesubmit}
         isDisabled={!archivingName || !contentName || !link}
       />
     </Container>
