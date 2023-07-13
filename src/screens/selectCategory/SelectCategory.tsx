@@ -4,13 +4,13 @@ import { ListRenderItem, ScrollView } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
 
-import { Container, Description, Heading, SelectButton, CategoryList } from './SelectCategory.style'
+import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
 
 interface SelectCategoryProps {
   navigation: MainNavigationProp
@@ -70,13 +70,11 @@ const SelectCategory = ({ navigation }: SelectCategoryProps) => {
           renderItem={renderItem}
           keyExtractor={(category) => category}
         />
-        <SelectButton>
-          <BoxButton
-            textKey="selectCompleted"
-            onPress={handleSubmitCategory}
-            isDisabled={selectedCategory.length <= 0}
-          />
-        </SelectButton>
+        <BoxButton
+          textKey="selectCompleted"
+          onPress={handleSubmitCategory}
+          isDisabled={selectedCategory.length <= 0}
+        />
       </Container>
     </ScrollView>
   )

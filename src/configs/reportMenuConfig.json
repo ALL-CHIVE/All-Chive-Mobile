@@ -1,0 +1,34 @@
+[
+  {
+    "id": "spam",
+    "message": "reportSpam"
+  },
+  {
+    "id": "obsceneContent",
+    "message": "reportObsceneContent"
+  },
+  {
+    "id": "personalInfo",
+    "message": "reportPersonalInfomation"
+  },
+  {
+    "id": "copyrightInfringement",
+    "message": "reportCopyrightInfringement"
+  },
+  {
+    "id": "violenceContent",
+    "message": "reportViolenceContent"
+  },
+  {
+    "id": "illegalInfomation",
+    "message": "reportIllegalInfomation"
+  },
+  {
+    "id": "phishingLink",
+    "message": "reportPhishingLink"
+  },
+  {
+    "id": "etc",
+    "message": "reportEtc"
+  }
+]

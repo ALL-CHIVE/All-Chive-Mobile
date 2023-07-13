@@ -3,7 +3,11 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const BoxButtonContainer = styled.TouchableHighlight`
+export const Container = styled.View`
+  margin-bottom: 20%;
+`
+
+export const Button = styled.TouchableHighlight`
   justify-content: center;
   align-items: center;
   width: 325px;
@@ -12,14 +16,16 @@ export const BoxButtonContainer = styled.TouchableHighlight`
   background-color: ${colors.mainYellow};
 `
 
-export const BoxButtonStyles = {
-  disabled: css`
+export const DisabledStyles = {
+  button: css`
     background-color: ${colors.gray50};
+  `,
+  text: css`
     color: ${colors.gray300};
   `,
 }
 
-export const BoxButtonText = styled.Text`
+export const Text = styled.Text`
   ${fonts.btn1};
   color: ${colors.gray500};
 `

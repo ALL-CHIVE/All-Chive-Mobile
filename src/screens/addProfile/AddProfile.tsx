@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import Profile from '@/components/profile/Profile'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'

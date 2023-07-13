@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { defaultImages } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
