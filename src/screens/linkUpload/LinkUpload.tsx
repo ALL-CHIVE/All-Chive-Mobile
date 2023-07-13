@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 
 import { BoxButton } from '@/components/button/BoxButton'
+import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Condition, Container, Styles, TextInput, Title } from './LinkUpload.style'
+
+interface LinkUploadProps {
+  navigation: MainNavigationProp
+}
 
 /**
  *
  */
-export const LinkUpload = () => {
+export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
@@ -52,7 +58,10 @@ export const LinkUpload = () => {
 
   return (
     <Container>
-      {/* x button header */}
+      <CloseButtonHeader
+        navigation={navigation}
+        title="업로드"
+      />
       <Title>아카이빙 이름</Title>
       {/* dropdown link */}
       <Title>컨텐츠 이름</Title>
