@@ -11,3 +11,10 @@ export const getContent = async (id: string, type: ContentType): Promise<Content
   const result: Content = JSON.parse(json)
   return result
 }
+
+/**
+ * getHasAutoSignInSession
+ */
+export const getHasAutoSignInSession = async (token?: string) => {
+  return false
+}
