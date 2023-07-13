@@ -4,7 +4,7 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
-import { defaultIcons } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Community } from '@/screens/community/Community'
@@ -104,7 +104,7 @@ export const BottomTab = ({ navigation }: BottomTabProps) => {
           onBackdropPress={handleUpload}
           backdropOpacity={0.5}
         >
-          <UploadModal source={defaultIcons.upload}>
+          <UploadModal source={defaultImages.uploadBottomSheet}>
             <TouchableOpacity>
               <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>
