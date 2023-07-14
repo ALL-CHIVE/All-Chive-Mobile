@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/button/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
-import { ArchivingModal } from '@/components/modal/ArchivingModal'
+import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
