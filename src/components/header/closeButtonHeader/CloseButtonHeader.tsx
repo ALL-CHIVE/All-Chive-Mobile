@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Image } from 'react-native'
+
+import { defaultIcons } from '@/assets'
 
 import { Container, Title } from './CloseButtonHeader.style'
 
@@ -16,9 +18,8 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
   return (
     <Container>
       <Title>{title}</Title>
-      {/* TODO: Icon 연결 */}
       <TouchableOpacity onPress={onClose}>
-        <Text>close</Text>
+        <Image source={defaultIcons.xButton} />
       </TouchableOpacity>
     </Container>
   )

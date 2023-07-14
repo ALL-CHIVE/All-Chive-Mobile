@@ -11,6 +11,7 @@ export const Container = styled.SafeAreaView`
 `
 
 export const Title = styled.Text`
+  width: 100%;
   ${fonts.title2}
   text-align: center;
   color: ${colors.gray600};
