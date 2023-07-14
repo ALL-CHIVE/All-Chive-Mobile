@@ -1,7 +1,15 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native'
+import {
+  ImageSourcePropType,
+  KeyboardAvoidingView,
+  Linking,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
@@ -9,7 +17,12 @@ import { BoxButton } from '@/components/button/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import i18n from '@/locales'
+import { ImageUploadMenuType } from '@/models/enums/ActionSheetType'
+import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { createCancleConfirmAlert } from '@/services/Alert'
+import { checkPermission } from '@/services/PermissionService'
+import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { colors } from '@/styles/colors'
 
@@ -35,7 +48,7 @@ interface ImageUploadProps {
 export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
 
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
@@ -90,8 +103,51 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   /**
    *
    */
-  const handleActionSheetMenu = () => {
-    // TODO
+  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
+    switch (index) {
+      case ImageUploadMenuType.selectFromPhotoLibrary: {
+        const permission = await checkPermission(Permissions.PhotoLibrary)
+
+        if (permission === 'blocked' || permission === 'denied') {
+          createCancleConfirmAlert(
+            'pleaseAllowPhotoPermission',
+            Platform.select({
+              ios: 'photoPermissionGuideIOS',
+              android: 'photoPermissionGuideAndroid',
+              default: '',
+            }),
+            () => Linking.openSettings()
+          )
+
+          return
+        }
+
+        const selectImage = await handleImageSelect()
+        selectImage && setImage({ uri: selectImage.path })
+        break
+      }
+      case ImageUploadMenuType.selectFromCamera: {
+        const permission = await checkPermission(Permissions.Camera)
+
+        if (permission === 'blocked' || permission === 'denied') {
+          createCancleConfirmAlert(
+            'pleaseAllowCameraPermission',
+            Platform.select({
+              ios: 'cameraPermissionGuideIOS',
+              android: 'cameraPermissionGuideAndroid',
+              default: '',
+            }),
+            () => Linking.openSettings()
+          )
+
+          return
+        }
+
+        const selectImage = await handleCameraOpen()
+        selectImage && setImage({ uri: selectImage.path })
+        break
+      }
+    }
   }
 
   /**
@@ -150,7 +206,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
 
       <Title>이미지</Title>
       {image ? (
-        <Image source={{ uri: image }} />
+        <Image source={image} />
       ) : (
         <PlusImageButton onPress={handleUploadImage}>
           <Text>+</Text>
@@ -203,9 +259,4 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   )
 }
 
-const options = [
-  i18n.t('cancel'),
-  i18n.t('selectDefaultImage'),
-  i18n.t('selectFromPhotoLibrary'),
-  i18n.t('selectFromCamera'),
-]
+const options = [i18n.t('cancel'), i18n.t('selectFromPhotoLibrary'), i18n.t('selectFromCamera')]
