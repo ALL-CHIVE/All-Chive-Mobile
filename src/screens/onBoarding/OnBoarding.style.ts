@@ -4,8 +4,8 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
   height: 100%;
-  margin: 0 6%;
   align-items: center;
+  padding: 0 25px;
 `
 
 export const OnBoardingImage = styled.Image`
