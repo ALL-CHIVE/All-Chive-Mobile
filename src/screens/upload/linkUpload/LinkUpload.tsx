@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/button/BoxButton'
@@ -9,7 +10,8 @@ import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
-import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from './LinkUpload.style'
+import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from '../Upload.style'
+import { postContents } from '../apis/postContents'
 
 interface LinkUploadProps {
   navigation: MainNavigationProp
@@ -31,6 +33,17 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   const [memoFocus, setMemoFocus] = useState(false)
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
+
+  const { mutate } = useMutation(() =>
+    postContents({
+      contentType: 'link',
+      archivingId: 0,
+      title: contentName,
+      link: link,
+      tagIds: [],
+      memo: memo,
+    })
+  )
 
   /**
    *

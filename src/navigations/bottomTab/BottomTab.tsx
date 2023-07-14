@@ -105,7 +105,11 @@ export const BottomTab = ({ navigation }: BottomTabProps) => {
           backdropOpacity={0.5}
         >
           <UploadModal source={defaultImages.uploadBottomSheet}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ImageUpload')
+              }}
+            >
               <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>
             <TouchableOpacity

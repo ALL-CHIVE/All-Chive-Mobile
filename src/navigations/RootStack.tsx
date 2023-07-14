@@ -10,12 +10,13 @@ import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
-import { LinkUpload } from '@/screens/linkUpload/LinkUpload'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { Tag } from '@/screens/tag/Tag'
+import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
+import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
 import { requestPermissions } from '@/services/PermissionService'
 import { SignInState } from '@/state/SignInState'
 import { colors } from '@/styles/colors'
@@ -28,6 +29,7 @@ export type RootStackParamList = {
   AddProfile: undefined
   BottomTab: undefined
   LinkUpload: undefined
+  ImageUpload: undefined
   Tag: undefined
   ContentDetail: { id: number }
 }
@@ -86,6 +88,10 @@ export const RootStack = () => {
         <Stack.Screen
           name="LinkUpload"
           component={LinkUpload}
+        />
+        <Stack.Screen
+          name="ImageUpload"
+          component={ImageUpload}
         />
         <Stack.Screen
           name="Tag"

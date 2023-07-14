@@ -50,3 +50,18 @@ export const Condition = styled.Text`
   ${fonts.body4}
   color: ${colors.gray100};
 `
+
+export const PlusImageButton = styled.TouchableOpacity`
+  width: 78px;
+  height: 78px;
+  border-radius: 4px;
+  background-color: ${colors.gray100};
+  justify-content: center;
+  align-items: center;
+`
+
+export const Image = styled.Image`
+  width: 78px;
+  height: 78px;
+  border-radius: 4px;
+`
