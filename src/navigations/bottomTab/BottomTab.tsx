@@ -44,10 +44,12 @@ export const BottomTab = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
+            position: 'absolute',
             bottom: 40,
             height: 70,
             alignItems: 'center',
             elevation: 0,
+            borderTopWidth: 0,
           },
           /**
            * tabBarBackground
