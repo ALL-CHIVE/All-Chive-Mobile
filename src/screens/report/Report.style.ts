@@ -1,10 +1,11 @@
-import styled, { css } from '@emotion/native'
+import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.ScrollView`
-  padding: 20px 24px;
+  padding: 20px 0;
+  margin: auto;
 `
 
 export const Title = styled.Text`
@@ -14,5 +15,5 @@ export const Title = styled.Text`
 
 export const Menu = styled.View`
   margin-top: 20px;
-  margin-bottom: 100px;
+  margin-bottom: 30px;
 `

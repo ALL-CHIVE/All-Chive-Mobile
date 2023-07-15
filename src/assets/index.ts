@@ -9,6 +9,7 @@ export const defaultImages: Assets = {
   onBoarding1: require('@/assets/default/onboarding1.png'),
   onBoarding2: require('@/assets/default/onboarding2.png'),
   uploadBottomSheet: require('@/assets/default/uploadBottomSheet.png'),
+  reportComplete: require('@/assets/default/reportComplete.png'),
 }
 
 export const defaultIcons: Assets = {
@@ -26,6 +27,7 @@ export const defaultIcons: Assets = {
   sports: require('@/assets/icons/sports.png'),
   tech: require('@/assets/icons/tech.png'),
   trends: require('@/assets/icons/trends.png'),
+  back: require('@/assets/icons/back.png'),
 }
 
 export const loginIcons: Assets = {
