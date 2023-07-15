@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 
 import i18n from '@/locales'
 import { CategoryState } from '@/state/CategoryState'
@@ -8,6 +8,7 @@ import { CategoryState } from '@/state/CategoryState'
 import { Category, ClickStyles, Container, Text } from './CategoryList.style'
 
 interface CategoryListProps {
+  currentCategory: string
   options: string[]
   onPress: (value: string) => void
 }
@@ -15,15 +16,13 @@ interface CategoryListProps {
 /**
  * CategoryList
  */
-export const CategoryList = ({ options, onPress }: CategoryListProps) => {
-  const [selectedOption, setSelectedOption] = useState<string>('all')
-  const [, setCurrentCategory] = useRecoilState(CategoryState)
+export const CategoryList = ({ currentCategory, options, onPress }: CategoryListProps) => {
+  const setCurrentCategory = useSetRecoilState(CategoryState)
 
   /**
    * handleOptionPress
    */
   const handleOptionPress = (option: string) => {
-    setSelectedOption(option)
     onPress(option)
     setCurrentCategory(option)
   }
@@ -37,9 +36,9 @@ export const CategoryList = ({ options, onPress }: CategoryListProps) => {
         <Category
           key={index}
           onPress={() => handleOptionPress(option)}
-          style={selectedOption === option && ClickStyles.category}
+          style={currentCategory === option && ClickStyles.category}
         >
-          <Text style={selectedOption === option && ClickStyles.text}>{i18n.t(option)}</Text>
+          <Text style={currentCategory === option && ClickStyles.text}>{i18n.t(option)}</Text>
         </Category>
       ))}
     </Container>

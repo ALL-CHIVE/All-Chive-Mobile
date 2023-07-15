@@ -74,6 +74,7 @@ export const Home = () => {
             <Title>{i18n.t('youHaveSavedArchives', { number: 10 })}</Title>
           </Greeding>
           <CategoryList
+            currentCategory={currentCategory}
             options={allCategoryList}
             onPress={handleClickCategory}
           />
