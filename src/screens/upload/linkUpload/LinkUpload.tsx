@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 're
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'

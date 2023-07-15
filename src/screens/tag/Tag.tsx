@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text } from 'react-native'
 
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 

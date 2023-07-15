@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import { useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
 import { CreateArchivingModal } from '../createArchivingModal/CreateArchivingModal'

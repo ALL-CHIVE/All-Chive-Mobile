@@ -13,7 +13,7 @@ import {
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import i18n from '@/locales'

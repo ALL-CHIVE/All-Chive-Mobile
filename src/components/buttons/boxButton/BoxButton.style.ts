@@ -4,6 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
+  margin-top: 10%;
   margin-bottom: 20%;
 `
 

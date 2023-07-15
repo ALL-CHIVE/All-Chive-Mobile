@@ -58,5 +58,6 @@
   "reportEtcDescription": "앞의 항목에서 적당한 사유가 없었나요?\n사유를 적어주시면 검토 후\n적절한 조치를 취하겠습니다.",
   "reportComplete": "더 나은 커뮤니티를 위한\n신고 완료!",
   "reviewReasonForReport": "신고 사유 검토 후 적절한 조취를 취하겠습니다.",
-  "backToCommunity": "커뮤니티로 돌아가기"
+  "backToCommunity": "커뮤니티로 돌아가기",
+  "placeholder": "내용을 입력해주세요."
 }

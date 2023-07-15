@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { defaultImages } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import i18n from '@/locales'
+import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Container, OnBoardingImage, Title } from './OnBoarding.style'
@@ -22,7 +23,7 @@ const OnBoarding1 = ({ navigation }: OnBoardingProps) => {
       <BoxButton
         textKey="next"
         onPress={() => {
-          navigation.navigate('OnBoarding2')
+          navigation.navigate('Report', { id: 123, type: ReportType.Archiving })
         }}
       />
     </Container>
