@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Button = styled.TouchableHighlight`
   justify-content: center;
   align-items: center;
-  width: 325px;
+  width: 100%;
   height: 56px;
   border-radius: 8px;
   background-color: ${colors.mainYellow};

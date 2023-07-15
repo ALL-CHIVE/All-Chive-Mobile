@@ -5,7 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
   height: 100%;
-  margin: 0 6%;
+  padding: 0 25px;
 `
 
 export const Heading = styled.Text`
@@ -25,10 +25,6 @@ export const NicknameInputBox = styled.View`
   justify-content: space-between;
   padding-right: 10px;
   margin-bottom: 10px;
-`
-
-export const SelectButton = styled.View`
-  margin: 20% 0;
 `
 
 export const BodyText = styled.Text`

@@ -5,7 +5,7 @@ import { ListRenderItem } from 'react-native'
 
 import { getContentList } from '@/apis/fakeServerApis'
 import ContentCard from '@/components/ContentCard/ContentCard'
-import DefaultHeader from '@/components/defaultHeader/DefaultHeader'
+import DefaultHeader from '@/components/header/defaultHeader/DefaultHeader'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { SimpleContent } from '@/models/SimpleContent'

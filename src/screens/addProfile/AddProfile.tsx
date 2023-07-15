@@ -19,7 +19,6 @@ import {
   Heading,
   NicknameContainer,
   NicknameInputBox,
-  SelectButton,
   disabledStyle,
 } from './AddProfile.style'
 
@@ -84,13 +83,11 @@ const AddProfile = () => {
           <BodyText>{i18n.t('profile')}</BodyText>
           <Profile />
         </View>
-        <SelectButton>
-          <BoxButton
-            textKey="complete"
-            onPress={handleComplete}
-            isDisabled={!isNicknameValid}
-          />
-        </SelectButton>
+        <BoxButton
+          textKey="complete"
+          onPress={handleComplete}
+          isDisabled={!isNicknameValid}
+        />
       </Container>
     </ScrollView>
   )
