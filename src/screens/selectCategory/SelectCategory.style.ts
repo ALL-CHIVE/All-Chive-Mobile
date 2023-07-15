@@ -26,8 +26,3 @@ export const CategoryList = styled(FlatList<string>)`
   width: 100%;
   margin-bottom: 15%;
 `
-
-export const BoxButtonContainer = styled.View`
-  margin-top: 3%;
-  padding: 0 25px;
-`

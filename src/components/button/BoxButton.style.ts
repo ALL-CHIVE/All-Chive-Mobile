@@ -10,10 +10,6 @@ export const BoxButtonContainer = styled.TouchableHighlight`
   height: 56px;
   border-radius: 8px;
   background-color: ${colors.mainYellow};
-  position: absolute;
-  bottom: 34px;
-  left: 25px;
-  right: 25px;
 `
 
 export const BoxButtonStyles = {
