@@ -10,7 +10,13 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
 
-import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
+import {
+  Container,
+  Description,
+  Heading,
+  CategoryList,
+  BoxButtonContainer,
+} from './SelectCategory.style'
 
 interface SelectCategoryProps {
   navigation: MainNavigationProp
@@ -70,12 +76,14 @@ const SelectCategory = ({ navigation }: SelectCategoryProps) => {
           renderItem={renderItem}
           keyExtractor={(category) => category}
         />
+      </Container>
+      <BoxButtonContainer>
         <BoxButton
           textKey="selectCompleted"
           onPress={handleSubmitCategory}
           isDisabled={selectedCategory.length <= 0}
         />
-      </Container>
+      </BoxButtonContainer>
     </ScrollView>
   )
 }

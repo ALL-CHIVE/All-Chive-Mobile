@@ -6,7 +6,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
   height: 100%;
-  padding: 0 25px;
+  margin: 0 auto;
 `
 
 export const Heading = styled.Text`
@@ -25,4 +25,9 @@ export const CategoryList = styled(FlatList<string>)`
   flex-direction: row;
   width: 100%;
   margin-bottom: 15%;
+`
+
+export const BoxButtonContainer = styled.View`
+  margin-top: 3%;
+  padding: 0 25px;
 `

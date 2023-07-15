@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 
 import { TouchableOpacity, Image } from 'react-native'
 import Modal from 'react-native-modal'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/button/BoxButton'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
-import { PlusArchivingModal } from '../plusArchivingModal/PlusArchivingModal'
+import { CreateArchivingModal } from '../createArchivingModal/CreateArchivingModal'
 
 import {
   ArchivingName,
@@ -28,7 +28,7 @@ interface ArchivingModalProps {
  *
  */
 export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
-  const [, setSelectArchiving] = useRecoilState(SelectArchivingState)
+  const setSelectArchiving = useSetRecoilState(SelectArchivingState)
   const [openPlusModal, setOpenPlusModal] = useState(false)
 
   /**
@@ -56,13 +56,13 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
       >
         <Container>
           <CloseButton onPress={onClose}>
-            <Image source={defaultIcons.xButton} />
+            <Image source={defaultIcons.closeButton} />
           </CloseButton>
           <Title>아카이빙</Title>
           <PlusButton onPress={() => setOpenPlusModal(true)}>
             <PlusButtonText>+ 아카이빙 추가</PlusButtonText>
           </PlusButton>
-          <PlusArchivingModal
+          <CreateArchivingModal
             onClose={handleCloseModal}
             isVisible={openPlusModal}
           />

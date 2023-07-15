@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { View } from 'react-native'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 
 import i18n from '@/locales'
 import { CategoryState } from '@/state/CategoryState'
@@ -18,7 +18,7 @@ interface CategoryProps {
  */
 export const Category = ({ options, onPress }: CategoryProps) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [, setCurrentCategory] = useRecoilState(CategoryState)
+  const setCurrentCategory = useSetRecoilState(CategoryState)
 
   /**
    *

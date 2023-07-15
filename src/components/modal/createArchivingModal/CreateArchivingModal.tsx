@@ -15,10 +15,10 @@ import {
   Styles,
   TextInput,
   Title,
-} from './PlusArchivingModal.style'
+} from './CreateArchivingModal.style'
 import { postArchiving } from './apis/postArchiving'
 
-interface PlusArchivingModalProps {
+interface CreateArchivingModalProps {
   onClose: () => void
   isVisible: boolean
 }
@@ -26,7 +26,7 @@ interface PlusArchivingModalProps {
 /**
  *
  */
-export const PlusArchivingModal = ({ onClose, isVisible }: PlusArchivingModalProps) => {
+export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
 
@@ -74,7 +74,7 @@ export const PlusArchivingModal = ({ onClose, isVisible }: PlusArchivingModalPro
       >
         <Container>
           <CloseButton onPress={onClose}>
-            <Image source={defaultIcons.xButton} />
+            <Image source={defaultIcons.closeButton} />
           </CloseButton>
           <ModalTitle>아카이빙 추가</ModalTitle>
           <Title>아카이빙 이름</Title>

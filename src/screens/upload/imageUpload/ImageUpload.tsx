@@ -214,7 +214,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
       )}
       <ActionSheet
         ref={actionSheetRef}
-        title={'이미지 설정'}
+        title={'이미지 업로드'}
         options={options}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
