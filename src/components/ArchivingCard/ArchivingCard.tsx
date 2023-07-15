@@ -1,10 +1,12 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
 import {
@@ -39,8 +41,14 @@ export const ArchivingCard = ({
   linkCnt,
   scrapCnt,
 }: ArchivingListProps) => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   return (
-    <Container>
+    <Container
+      onPress={() => {
+        navigation.navigate('ContentList', { id: 1, title: title })
+      }}
+    >
       <Shadow
         startColor={colors.gray50}
         offset={[0, 0]}

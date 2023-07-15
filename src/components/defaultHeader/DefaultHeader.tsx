@@ -8,7 +8,7 @@ import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import { Container, HeaderLeft, Title } from './DefaultHeader.style'
+import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style'
 
 interface DefaultHeaderProps {
   navigation: MainNavigationProp
@@ -27,11 +27,13 @@ const DefaultHeader = ({ navigation, title, PopupMenuList }: DefaultHeaderProps)
         {/* TODO: Icon 연결 */}
         <Text>back</Text>
       </HeaderLeft>
-      <Title>{title}</Title>
-      <Popup
-        icon=""
-        menuList={PopupMenuList}
-      />
+      <Title numberOfLines={1}>{title}</Title>
+      <HeaderRight>
+        <Popup
+          icon=""
+          menuList={PopupMenuList}
+        />
+      </HeaderRight>
     </Container>
   )
 }

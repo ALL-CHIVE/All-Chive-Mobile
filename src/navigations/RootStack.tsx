@@ -11,6 +11,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
+import ContentList from '@/screens/contentList/ContentList'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
@@ -27,6 +28,7 @@ export type RootStackParamList = {
   AddProfile: undefined
   BottomTab: BottomTabNavigationParams
   Login: undefined
+  ContentList: { id: number; title: string }
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
 }
@@ -81,6 +83,13 @@ export const RootStack = () => {
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+        />
+        <Stack.Screen
+          name="ContentList"
+          component={ContentList}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="ContentDetail"

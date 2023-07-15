@@ -62,8 +62,8 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
 
   const PopupMenuList: PopupMenu[] = isMine
     ? [
-        { title: 'fix', onClick: HandleEdit },
-        { title: 'delete', onClick: HandleRemove },
+        { title: 'update', onClick: HandleEdit },
+        { title: 'remove', onClick: HandleRemove },
       ]
     : [{ title: 'report', onClick: HandleReport }]
 
