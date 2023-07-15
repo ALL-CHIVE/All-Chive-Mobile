@@ -14,6 +14,9 @@ import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
+import { Tag } from '@/screens/tag/Tag'
+import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
+import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
 import { requestPermissions } from '@/services/PermissionService'
 import { SignInState } from '@/state/SignInState'
 import { colors } from '@/styles/colors'
@@ -21,10 +24,13 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
+  Login: undefined
   SelectCategory: undefined
   AddProfile: undefined
   BottomTab: undefined
-  Login: undefined
+  LinkUpload: undefined
+  ImageUpload: undefined
+  Tag: undefined
   ContentDetail: { id: number }
 }
 
@@ -78,6 +84,18 @@ export const RootStack = () => {
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+        />
+        <Stack.Screen
+          name="LinkUpload"
+          component={LinkUpload}
+        />
+        <Stack.Screen
+          name="ImageUpload"
+          component={ImageUpload}
+        />
+        <Stack.Screen
+          name="Tag"
+          component={Tag}
         />
         <Stack.Screen
           name="ContentDetail"

@@ -26,6 +26,7 @@ export const defaultIcons: Assets = {
   sports: require('@/assets/icons/sports.png'),
   tech: require('@/assets/icons/tech.png'),
   trends: require('@/assets/icons/trends.png'),
+  closeButton: require('@/assets/icons/closeButton.png'),
 }
 
 export const loginIcons: Assets = {

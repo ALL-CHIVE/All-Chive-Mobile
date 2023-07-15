@@ -4,8 +4,9 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { Image, Text, TouchableOpacity } from 'react-native'
 import Modal from 'react-native-modal'
 
-import { defaultIcons } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import i18n from '@/locales'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Community } from '@/screens/community/Community'
 import { Home } from '@/screens/home/Home'
 
@@ -16,6 +17,10 @@ type BottomTabParamList = {
   Community: undefined
 }
 
+interface BottomTabProps {
+  navigation: MainNavigationProp
+}
+
 export type BottomTabNavigationProps = BottomTabNavigationProp<BottomTabParamList>
 
 const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
@@ -23,7 +28,7 @@ const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
 /**
  * BottomTab
  */
-export const BottomTab = () => {
+export const BottomTab = ({ navigation }: BottomTabProps) => {
   const [showUpload, setShowUpload] = useState(false)
   /**
    *
@@ -99,11 +104,19 @@ export const BottomTab = () => {
           onBackdropPress={handleUpload}
           backdropOpacity={0.5}
         >
-          <UploadModal source={defaultIcons.upload}>
-            <TouchableOpacity>
+          <UploadModal source={defaultImages.uploadBottomSheet}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ImageUpload')
+              }}
+            >
               <Text>{i18n.t('photo')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('LinkUpload')
+              }}
+            >
               <Text>{i18n.t('link')}</Text>
             </TouchableOpacity>
           </UploadModal>

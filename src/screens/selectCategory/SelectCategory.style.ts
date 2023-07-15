@@ -26,7 +26,3 @@ export const CategoryList = styled(FlatList<string>)`
   width: 100%;
   margin-bottom: 15%;
 `
-
-export const SelectButton = styled.View`
-  margin-bottom: 7%;
-`

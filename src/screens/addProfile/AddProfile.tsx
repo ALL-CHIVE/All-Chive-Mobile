@@ -16,7 +16,6 @@ import {
   Heading,
   NicknameContainer,
   NicknameInputBox,
-  SelectButton,
   disabledStyle,
 } from './AddProfile.style'
 
@@ -72,13 +71,11 @@ const AddProfile = ({ navigation }: AddProfileProps) => {
           </ClearButton>
         </NicknameInputBox>
       </NicknameContainer>
-      <SelectButton>
-        <BoxButton
-          textKey="complete"
-          onPress={handleComplete}
-          isDisabled={!profileImage || !nickname}
-        />
-      </SelectButton>
+      <BoxButton
+        textKey="complete"
+        onPress={handleComplete}
+        isDisabled={!profileImage || !nickname}
+      />
     </Container>
   )
 }

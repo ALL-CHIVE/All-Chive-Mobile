@@ -6,8 +6,8 @@ import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
 import i18n from '@/locales'
+import { ProfileMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
-import { ProfileMenuType } from '@/models/enums/ProfileMenuType'
 import { createCancleConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
@@ -35,15 +35,15 @@ const Profile = () => {
    */
   const handleActionSheetMenu = async (index: ProfileMenuType) => {
     switch (index) {
-      case ProfileMenuType.SelectDefaultImage: {
+      case ProfileMenuType.selectDefaultImage: {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         setProfileImage(defaultImages.profile)
         break
       }
       case ProfileMenuType.selectFromPhotoLibrary: {
-        const permision = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkPermission(Permissions.PhotoLibrary)
 
-        if (permision === 'blocked' || permision === 'denied') {
+        if (permission === 'blocked' || permission === 'denied') {
           createCancleConfirmAlert(
             'pleaseAllowPhotoPermission',
             Platform.select({
@@ -62,9 +62,9 @@ const Profile = () => {
         break
       }
       case ProfileMenuType.selectFromCamera: {
-        const permision = await checkPermission(Permissions.Camera)
+        const permission = await checkPermission(Permissions.Camera)
 
-        if (permision === 'blocked' || permision === 'denied') {
+        if (permission === 'blocked' || permission === 'denied') {
           createCancleConfirmAlert(
             'pleaseAllowCameraPermission',
             Platform.select({

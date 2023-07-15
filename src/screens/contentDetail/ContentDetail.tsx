@@ -5,7 +5,7 @@ import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useQuery } from 'react-query'
 
 import { getContent } from '@/apis/fakeServerApis'
-import DefaultHeader from '@/components/defaultHeader/DefaultHeader'
+import DefaultHeader from '@/components/header/defaultHeader/DefaultHeader'
 import Memo from '@/components/memo/Memo'
 import Popup from '@/components/popup/Popup'
 import Tag from '@/components/tag/Tag'
