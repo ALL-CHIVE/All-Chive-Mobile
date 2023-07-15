@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 
 import { defaultIcons } from '@/assets'
-import { BoxButton } from '@/components/button/BoxButton'
+import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 
 import {
   CloseButton,

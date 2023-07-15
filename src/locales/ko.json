@@ -45,5 +45,19 @@
   "link": "링크",
   "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
   "tag": "태그",
-  "memo": "메모"
+  "memo": "메모",
+  "selectReportReason": "신고하는 이유를 선택해주세요.",
+  "reportSpam": "스팸이에요",
+  "reportObsceneContent": "음란성 컨텐츠를 담고있어요",
+  "reportPersonalInfomation": "개인정보가 노출되고 있어요",
+  "reportCopyrightInfringement": "지식재산권을 침해해요",
+  "reportViolenceContent": "혐오/폭력 컨텐츠를 담고 있어요",
+  "reportIllegalInfomation": "불법 정보를 포함하고 있어요",
+  "reportPhishingLink": "사기 또는 피싱성 링크를 포함하고 있어요",
+  "reportEtc": "기타 (직접 입력)",
+  "reportEtcDescription": "앞의 항목에서 적당한 사유가 없었나요?\n사유를 적어주시면 검토 후\n적절한 조치를 취하겠습니다.",
+  "reportComplete": "더 나은 커뮤니티를 위한\n신고 완료!",
+  "reviewReasonForReport": "신고 사유 검토 후 적절한 조취를 취하겠습니다.",
+  "backToCommunity": "커뮤니티로 돌아가기",
+  "placeholder": "내용을 입력해주세요."
 }

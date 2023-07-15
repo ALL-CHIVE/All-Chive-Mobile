@@ -7,12 +7,14 @@ import {
 import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
+import { ReportType } from '@/models/enums/ReportType'
 import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
+import Report from '@/screens/report/Report'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { Tag } from '@/screens/tag/Tag'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
@@ -32,6 +34,7 @@ export type RootStackParamList = {
   ImageUpload: undefined
   Tag: undefined
   ContentDetail: { id: number }
+  Report: { id: number; type: ReportType }
 }
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
@@ -100,6 +103,13 @@ export const RootStack = () => {
         <Stack.Screen
           name="ContentDetail"
           component={ContentDetail}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="Report"
+          component={Report}
           options={{
             headerShown: true,
           }}
