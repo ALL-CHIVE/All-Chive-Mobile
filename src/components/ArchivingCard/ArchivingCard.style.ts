@@ -1,15 +1,17 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.View`
-  width: 100%;
+export const Container = styled.TouchableOpacity`
+  margin-bottom: 12px;
+`
+
+export const Card = styled.View`
+  width: 325px;
   height: 107px;
   border-radius: 8px;
   background-color: ${colors.white};
-  margin-bottom: 10px;
-  display: flex;
   flex-direction: row;
 `
 
@@ -51,3 +53,15 @@ export const CountText = styled.Text`
   ${fonts.body4};
   color: ${colors.white};
 `
+
+export const PopupContainer = styled.View`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+`
+
+export const Styles = {
+  shadow: css`
+    border-radius: 8px;
+  `,
+}

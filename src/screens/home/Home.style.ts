@@ -4,7 +4,19 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  padding: 0 25px;
+  margin: 0 auto;
+`
+
+export const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 27px 0;
+`
+
+export const ProfileImage = styled.Image`
+  width: 38px;
+  height: 38px;
 `
 
 export const SearchBar = styled.TouchableOpacity`
@@ -12,26 +24,26 @@ export const SearchBar = styled.TouchableOpacity`
   height: 34px;
   border-radius: 19.5px;
   background-color: ${colors.white};
-  margin-top: 27px;
+  margin-right: 10px;
   /* 돋보기 아이콘 추가 */
+`
+
+export const Greeding = styled.View`
+  margin-bottom: 180px;
+  margin-left: 25px;
 `
 
 export const NicknameText = styled.Text`
   ${fonts.subtitle1};
   color: ${colors.gray600};
-  margin-top: 28px;
 `
 
-export const TitleText = styled.Text`
+export const Title = styled.Text`
   ${fonts.heading2};
   color: ${colors.gray600};
 `
 
-export const CategoryContainer = styled.View`
-  flex-direction: row;
-  margin-top: 180px;
-`
-
 export const ArchivingListContainer = styled.View`
-  /* TODO */
+  margin-top: 5px;
+  align-items: center;
 `

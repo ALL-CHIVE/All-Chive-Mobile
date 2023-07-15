@@ -7,7 +7,17 @@ import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { colors } from '@/styles/colors'
 
-import { Container, CountContainer, CountText, Day, Image, Title } from './ArchivingList.style'
+import {
+  Card,
+  Container,
+  CountContainer,
+  CountText,
+  Day,
+  Image,
+  PopupContainer,
+  Styles,
+  Title,
+} from './ArchivingCard.style'
 
 interface ArchivingListProps {
   title: string
@@ -19,9 +29,9 @@ interface ArchivingListProps {
 }
 
 /**
- *
+ * ArchivingCard
  */
-export const ArchivingList = ({
+export const ArchivingCard = ({
   title,
   day,
   popupMenuList,
@@ -30,13 +40,14 @@ export const ArchivingList = ({
   scrapCnt,
 }: ArchivingListProps) => {
   return (
-    <>
+    <Container>
       <Shadow
-        style={{ width: '100%', borderRadius: 8 }}
-        distance={5}
         startColor={colors.gray50}
+        offset={[0, 0]}
+        distance={4}
+        style={Styles.shadow}
       >
-        <Container>
+        <Card>
           {/* 이미지 추후 수정 */}
           <Image source={defaultIcons.upload} />
           <Title
@@ -46,17 +57,19 @@ export const ArchivingList = ({
             {title}
           </Title>
           <Day>{day}</Day>
-          <Popup
-            icon=""
-            menuList={popupMenuList}
-          />
+          <PopupContainer>
+            <Popup
+              icon=""
+              menuList={popupMenuList}
+            />
+          </PopupContainer>
           <CountContainer>
             <CountText>{imgCnt}</CountText>
             <CountText>{linkCnt}</CountText>
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
-        </Container>
+        </Card>
       </Shadow>
-    </>
+    </Container>
   )
 }

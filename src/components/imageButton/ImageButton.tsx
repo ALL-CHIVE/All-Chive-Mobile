@@ -3,13 +3,12 @@ import React, { useState } from 'react'
 import { ImageSourcePropType } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 
-import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
 import { colors } from '@/styles/colors'
 
-import { ButtonImage, ClickStyles, Container, Image, ImageView, Title } from './ImageButton.style'
+import { ClickStyles, Container, Image, ImageView, Title } from './ImageButton.style'
 
-interface Props {
+interface ImageButtonProps {
   title: string
   updateSelectedList: (category: string) => void
   source: ImageSourcePropType
@@ -19,7 +18,7 @@ interface Props {
 /**
  * ImageButton
  */
-const ImageButton = ({ title, updateSelectedList, source, disabled }: Props) => {
+const ImageButton = ({ title, updateSelectedList, source, disabled }: ImageButtonProps) => {
   const [isSelected, setIsSelected] = useState(false)
 
   /**
