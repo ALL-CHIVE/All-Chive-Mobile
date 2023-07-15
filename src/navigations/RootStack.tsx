@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { ReportType } from '@/models/enums/ReportType'
-import { BottomTab } from '@/navigations/bottomTab/BottomTab'
+import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import { Login } from '@/screens/login/Login'
@@ -25,7 +25,7 @@ export type RootStackParamList = {
   OnBoarding2: undefined
   SelectCategory: undefined
   AddProfile: undefined
-  BottomTab: undefined
+  BottomTab: BottomTabNavigationParams
   Login: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-import { SafeAreaView, ScrollView, Text, TextInput, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { ScrollView, Text, TextInput, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -22,23 +23,21 @@ import {
   disabledStyle,
 } from './AddProfile.style'
 
-interface AddProfileProps {
-  navigation: MainNavigationProp
-}
 /**
  * AddProfile
  */
-const AddProfile = ({ navigation }: AddProfileProps) => {
+const AddProfile = () => {
   const profileImage = useRecoilValue(ProfileImageState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
+  const navigation = useNavigation<MainNavigationProp>()
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleComplete = () => {
     // TODO: 서버로 이미지, 닉네임 전달
-    navigation.navigate('BottomTab')
+    navigation.navigate('BottomTab', { screen: 'Community' })
   }
 
   /**

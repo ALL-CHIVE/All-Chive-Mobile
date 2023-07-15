@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigatorScreenParams } from '@react-navigation/native'
 import { Image, Text, TouchableOpacity } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 import Modal from 'react-native-modal'
 
 import { defaultIcons } from '@/assets'
+import TabBarBackground from '@/components/tabBar/tabBarBackground/TabBarBackground'
+import TabIcon from '@/components/tabBar/tabIcon/TabIcon'
 import i18n from '@/locales'
 import { Community } from '@/screens/community/Community'
 import { Home } from '@/screens/home/Home'
+import { colors } from '@/styles/colors'
 
-import { BottomTabImage, Container, UploadButton, UploadModal } from './BottomTab.style'
+import { Container, Styles, UploadButton, UploadModal } from './BottomTab.style'
 
 type BottomTabParamList = {
   Home: undefined
@@ -17,6 +22,7 @@ type BottomTabParamList = {
 }
 
 export type BottomTabNavigationProps = BottomTabNavigationProp<BottomTabParamList>
+export type BottomTabNavigationParams = NavigatorScreenParams<BottomTabParamList>
 
 const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
 
@@ -38,14 +44,15 @@ export const BottomTab = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
-            position: 'absolute',
             bottom: 40,
-            left: 24,
-            right: 24,
-            elevation: 0,
-            borderRadius: 36.5,
             height: 70,
+            alignItems: 'center',
+            elevation: 0,
           },
+          /**
+           * tabBarBackground
+           */
+          tabBarBackground: () => <TabBarBackground />,
         }}
       >
         <BottomTabNavigator.Screen
@@ -56,13 +63,10 @@ export const BottomTab = () => {
              *
              */
             tabBarIcon: ({ focused }) => (
-              <Container>
-                <BottomTabImage
-                  source={defaultIcons.archivingFocus}
-                  resizeMode="contain"
-                />
-                <Text>{i18n.t('archiving')}</Text>
-              </Container>
+              <TabIcon
+                icon={defaultIcons.archivingFocus}
+                text="archiving"
+              />
             ),
           }}
         />
@@ -74,24 +78,26 @@ export const BottomTab = () => {
              *
              */
             tabBarIcon: ({ focused }) => (
-              <Container>
-                <BottomTabImage
-                  source={defaultIcons.community}
-                  resizeMode="contain"
-                />
-                <Text>{i18n.t('community')}</Text>
-              </Container>
+              <TabIcon
+                icon={defaultIcons.community}
+                text="community"
+              />
             ),
           }}
         />
       </BottomTabNavigator.Navigator>
       <Container>
-        <UploadButton onPress={handleUpload}>
-          <Image
-            source={defaultIcons.upload}
-            resizeMode="contain"
-          />
-        </UploadButton>
+        <LinearGradient
+          style={Styles.linearGradient}
+          colors={[colors.yellow500, colors.mainYellow]}
+        >
+          <UploadButton onPress={handleUpload}>
+            <Image
+              source={defaultIcons.upload}
+              resizeMode="contain"
+            />
+          </UploadButton>
+        </LinearGradient>
       </Container>
       {showUpload ? (
         <Modal
