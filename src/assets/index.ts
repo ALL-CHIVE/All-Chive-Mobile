@@ -10,6 +10,7 @@ export const defaultImages: Assets = {
   onBoarding2: require('@/assets/default/onboarding2.png'),
   uploadBottomSheet: require('@/assets/default/uploadBottomSheet.png'),
   reportComplete: require('@/assets/default/reportComplete.png'),
+  thumbnail: require('@/assets/default/thumbnail.png'),
 }
 
 export const defaultIcons: Assets = {
