@@ -4,13 +4,13 @@ export enum Category {
   All = 'all',
   Food = 'food',
   Life = 'life',
-  HomeAndLiving = 'homeAndLiving',
+  HomeLiving = 'homeLiving',
   Shopping = 'shopping',
-  Sports = 'sports',
-  SelfDevelopment = 'selfDevelopment',
+  Sport = 'sport',
+  SelfImprovement = 'selfImprovement',
   Tech = 'tech',
   Design = 'design',
-  Trends = 'trends',
+  Trend = 'trend',
   Etc = 'etc',
 }
 
