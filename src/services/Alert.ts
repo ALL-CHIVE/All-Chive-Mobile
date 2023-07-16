@@ -5,7 +5,7 @@ import i18n from '@/locales'
 /**
  * 확인 / 취소 버튼 알림창 입니다
  */
-export const createCancleConfirmAlert = (
+export const createCancelConfirmAlert = (
   titleKey: string,
   messageKey: string,
   confirmAction: () => void

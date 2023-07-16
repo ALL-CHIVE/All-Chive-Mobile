@@ -14,7 +14,7 @@ import Popup from '@/components/popup/Popup'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { SimpleContent } from '@/models/SimpleContent'
-import { ReportMenuType } from '@/models/enums/ActionSheetType'
+import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
@@ -139,7 +139,7 @@ const ContentList = ({ route }: ContentListProps) => {
       </Container>
       <ActionSheet
         ref={actionSheetRef}
-        options={options}
+        options={ReportMenus()}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
@@ -174,7 +174,5 @@ const ContentList = ({ route }: ContentListProps) => {
     </>
   )
 }
-
-const options = [i18n.t('cancel'), i18n.t('reportThisContent'), i18n.t('blockThisUser')]
 
 export default ContentList

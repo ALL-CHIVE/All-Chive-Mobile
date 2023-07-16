@@ -17,10 +17,10 @@ import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import i18n from '@/locales'
-import { ImageUploadMenuType } from '@/models/enums/ActionSheetType'
+import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { createCancleConfirmAlert } from '@/services/Alert'
+import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
@@ -109,7 +109,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         const permission = await checkPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowPhotoPermission',
             Platform.select({
               ios: 'photoPermissionGuideIOS',
@@ -130,7 +130,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         const permission = await checkPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowCameraPermission',
             Platform.select({
               ios: 'cameraPermissionGuideIOS',
@@ -215,7 +215,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
       <ActionSheet
         ref={actionSheetRef}
         title={'이미지 업로드'}
-        options={options}
+        options={ImageUploadMenus()}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
@@ -258,5 +258,3 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
     </Container>
   )
 }
-
-const options = [i18n.t('cancel'), i18n.t('selectFromPhotoLibrary'), i18n.t('selectFromCamera')]
