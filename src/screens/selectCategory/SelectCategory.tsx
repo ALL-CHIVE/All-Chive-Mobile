@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import ImageButton from '@/components/imageButton/ImageButton'
+import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
