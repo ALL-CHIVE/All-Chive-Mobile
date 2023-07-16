@@ -10,3 +10,9 @@ export enum ImageUploadMenuType {
   selectFromPhotoLibrary,
   selectFromCamera,
 }
+
+export enum ReportMenuType {
+  cancel,
+  reportThisContent,
+  blockThisUser,
+}

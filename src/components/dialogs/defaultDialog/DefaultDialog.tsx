@@ -13,6 +13,7 @@ interface DialogProps {
   imageUrl: ImageSourcePropType
   description?: string
   buttonText: string
+  onClose?: () => void
   onClick: () => void
 }
 
@@ -25,12 +26,14 @@ const DefaultDialog = ({
   imageUrl,
   description,
   buttonText,
+  onClose,
   onClick,
 }: DialogProps) => {
   return (
     <Modal
       style={Css.modal}
       isVisible={isVisible}
+      onModalHide={onClose}
     >
       <Container>
         <Title>{i18n.t(title)}</Title>
