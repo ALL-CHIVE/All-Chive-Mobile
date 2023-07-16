@@ -94,22 +94,6 @@ const ContentList = ({ route }: ContentListProps) => {
   }, [])
 
   /**
-   *
-   */
-  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
-    return (
-      <ContentCard
-        id={item.id}
-        title={item.title}
-        day={item.createdAt}
-        imageUrl={item.imageUrl}
-        tags={item.tags}
-        type={item.type}
-      />
-    )
-  }
-
-  /**
    * handleActionSheetMenu
    */
   const handleActionSheetMenu = (index: ReportMenuType) => {
@@ -172,6 +156,22 @@ const ContentList = ({ route }: ContentListProps) => {
         }}
       />
     </>
+  )
+}
+
+/**
+ * ListRenderItem
+ */
+const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+  return (
+    <ContentCard
+      id={item.id}
+      title={item.title}
+      day={item.createdAt}
+      imageUrl={item.imageUrl}
+      tags={item.tags}
+      type={item.type}
+    />
   )
 }
 
