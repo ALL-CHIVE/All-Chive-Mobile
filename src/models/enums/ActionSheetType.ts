@@ -1,4 +1,4 @@
-export enum ProfileMenuType {
+export enum DefaultMenuType {
   cancel,
   selectDefaultImage,
   selectFromPhotoLibrary,
