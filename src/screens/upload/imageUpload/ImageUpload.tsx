@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { useNavigation } from '@react-navigation/native'
 import {
   ImageSourcePropType,
   KeyboardAvoidingView,
@@ -38,14 +39,11 @@ import {
 } from '../Upload.style'
 import { postContents } from '../apis/postContents'
 
-interface ImageUploadProps {
-  navigation: MainNavigationProp
-}
-
 /**
  *
  */
-export const ImageUpload = ({ navigation }: ImageUploadProps) => {
+export const ImageUpload = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [image, setImage] = useState<ImageSourcePropType | ''>('')

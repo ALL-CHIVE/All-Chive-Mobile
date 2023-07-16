@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { ListRenderItem, ScrollView } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
@@ -12,14 +13,11 @@ import { CategoryListState } from '@/state/CategoryListState'
 
 import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
 
-interface SelectCategoryProps {
-  navigation: MainNavigationProp
-}
-
 /**
  * SelectCategory
  */
-const SelectCategory = ({ navigation }: SelectCategoryProps) => {
+const SelectCategory = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const categoryList = useRecoilValue(CategoryListState)
   const [selectedCategory, setSelectedCategory] = useState<string[]>([])
 
