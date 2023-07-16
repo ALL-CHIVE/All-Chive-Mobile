@@ -42,6 +42,7 @@
   "archiving": "아카이빙",
   "community": "커뮤니티",
   "photo": "사진",
+  "image": "이미지",
   "link": "링크",
   "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
   "tag": "태그",
@@ -59,5 +60,9 @@
   "reportComplete": "더 나은 커뮤니티를 위한\n신고 완료!",
   "reviewReasonForReport": "신고 사유 검토 후 적절한 조취를 취하겠습니다.",
   "backToCommunity": "커뮤니티로 돌아가기",
-  "placeholder": "내용을 입력해주세요."
+  "placeholder": "내용을 입력해주세요.",
+  "nicknameVerify": "한/영문/숫자 1~20자리 이내",
+  "isNotDuplicate": "중복되지 않는 닉네임",
+  "update": "수정하기",
+  "remove": "삭제하기"
 }

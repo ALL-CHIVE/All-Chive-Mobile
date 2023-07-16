@@ -1,32 +1,34 @@
 import React from 'react'
 
 import { AxiosError } from 'axios'
-import { ScrollView, TouchableOpacity } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { ScrollView } from 'react-native'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { Category } from '@/components/category/Category'
-import { ArchivingList } from '@/components/list/ArchivingList'
+import { defaultImages } from '@/assets'
+import { ArchivingCard } from '@/components/ArchivingCard/ArchivingCard'
+import { CategoryList } from '@/components/categoryList/CategoryList'
+import HomeBackground from '@/components/homeBackground/HomeBackground'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { HomeArchivingList } from '@/models/archiving/ArchivingList'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
-import { colors } from '@/styles/colors'
 
 import {
   Container,
-  CategoryContainer,
   NicknameText,
   SearchBar,
-  TitleText,
+  Header,
+  ProfileImage,
+  Greeding,
+  Title,
   ArchivingListContainer,
 } from './Home.style'
 import { getArchivingList } from './apis/getArchivingList'
 
 /**
- *
+ * Home
  */
 export const Home = () => {
   const currentCategory = useRecoilValue(CategoryState)
@@ -56,38 +58,87 @@ export const Home = () => {
   }
 
   return (
-    <>
-      <ScrollView>
-        <LinearGradient colors={[colors.yellow200, colors.white]}>
-          <Container>
-            <SearchBar />
-            {/* Profile Button */}
+    <HomeBackground>
+      <Container>
+        <Header>
+          <SearchBar />
+          {/* Profile Api 연동 */}
+          <ProfileImage source={defaultImages.profile} />
+        </Header>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[1]}
+        >
+          <Greeding>
             <NicknameText>다카이브님</NicknameText>
-            <TitleText>{i18n.t('youHaveSavedArchives', { number: 10 })}</TitleText>
-            <ScrollView horizontal={true}>
-              <CategoryContainer>
-                <Category
-                  options={allCategoryList}
-                  onPress={handleClickCategory}
-                />
-              </CategoryContainer>
-            </ScrollView>
-            <ArchivingListContainer>
-              <TouchableOpacity>
-                <ArchivingList
-                  title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-                  day="2022.10.27"
-                  popupMenuList={PopupMenuList}
-                  imgCnt={1}
-                  linkCnt={2}
-                  scrapCnt={3}
-                />
-              </TouchableOpacity>
-            </ArchivingListContainer>
-          </Container>
-        </LinearGradient>
-      </ScrollView>
-    </>
+            <Title>{i18n.t('youHaveSavedArchives', { number: 10 })}</Title>
+          </Greeding>
+          <CategoryList
+            currentCategory={currentCategory}
+            options={allCategoryList}
+            onPress={handleClickCategory}
+          />
+          <ArchivingListContainer>
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+            <ArchivingCard
+              title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
+              day="2022.10.27"
+              popupMenuList={PopupMenuList}
+              imgCnt={1}
+              linkCnt={2}
+              scrapCnt={3}
+            />
+          </ArchivingListContainer>
+        </ScrollView>
+      </Container>
+    </HomeBackground>
   )
 }
 

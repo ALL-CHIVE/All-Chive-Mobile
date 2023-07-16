@@ -8,9 +8,10 @@ import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { ReportType } from '@/models/enums/ReportType'
-import { BottomTab } from '@/navigations/bottomTab/BottomTab'
+import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
+import ContentList from '@/screens/contentList/ContentList'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
@@ -26,10 +27,11 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
-  Login: undefined
   SelectCategory: undefined
   AddProfile: undefined
-  BottomTab: undefined
+  BottomTab: BottomTabNavigationParams
+  Login: undefined
+  ContentList: { id: number; title: string }
   LinkUpload: undefined
   ImageUpload: undefined
   Tag: undefined
@@ -87,6 +89,13 @@ export const RootStack = () => {
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+        />
+        <Stack.Screen
+          name="ContentList"
+          component={ContentList}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="LinkUpload"

@@ -24,6 +24,7 @@ export const NicknameInputBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding-right: 10px;
+  margin-bottom: 10px;
 `
 
 export const BodyText = styled.Text`

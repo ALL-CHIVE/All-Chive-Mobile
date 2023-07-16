@@ -1,13 +1,25 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
-import { Container, CountContainer, CountText, Day, Image, Title } from './ArchivingList.style'
+import {
+  Card,
+  Container,
+  CountContainer,
+  CountText,
+  Day,
+  Image,
+  PopupContainer,
+  Styles,
+  Title,
+} from './ArchivingCard.style'
 
 interface ArchivingListProps {
   title: string
@@ -19,9 +31,9 @@ interface ArchivingListProps {
 }
 
 /**
- *
+ * ArchivingCard
  */
-export const ArchivingList = ({
+export const ArchivingCard = ({
   title,
   day,
   popupMenuList,
@@ -29,14 +41,21 @@ export const ArchivingList = ({
   linkCnt,
   scrapCnt,
 }: ArchivingListProps) => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   return (
-    <>
+    <Container
+      onPress={() => {
+        navigation.navigate('ContentList', { id: 1, title: title })
+      }}
+    >
       <Shadow
-        style={{ width: '100%', borderRadius: 8 }}
-        distance={5}
         startColor={colors.gray50}
+        offset={[0, 0]}
+        distance={4}
+        style={Styles.shadow}
       >
-        <Container>
+        <Card>
           {/* 이미지 추후 수정 */}
           <Image source={defaultIcons.upload} />
           <Title
@@ -46,17 +65,19 @@ export const ArchivingList = ({
             {title}
           </Title>
           <Day>{day}</Day>
-          <Popup
-            icon=""
-            menuList={popupMenuList}
-          />
+          <PopupContainer>
+            <Popup
+              icon=""
+              menuList={popupMenuList}
+            />
+          </PopupContainer>
           <CountContainer>
             <CountText>{imgCnt}</CountText>
             <CountText>{linkCnt}</CountText>
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
-        </Container>
+        </Card>
       </Shadow>
-    </>
+    </Container>
   )
 }

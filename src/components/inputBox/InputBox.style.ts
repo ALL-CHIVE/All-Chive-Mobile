@@ -5,10 +5,11 @@ import { fonts } from '@/styles/fonts'
 
 export const TextBox = styled.TextInput`
   width: 325px;
-  height: 117px;
+  min-height: 117px;
   border-radius: 10px;
   border-width: 1px;
   padding: 10px;
+  padding-bottom: 24px;
 `
 
 export const TextCounter = styled.Text`

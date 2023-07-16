@@ -107,7 +107,7 @@ const Report = ({ navigation }: ReportProps) => {
         buttonText="backToCommunity"
         onClick={() => {
           setIsDialogVisible(false)
-          navigation.navigate('BottomTab')
+          navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
       <BottomSheet

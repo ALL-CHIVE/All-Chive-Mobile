@@ -8,7 +8,7 @@ import { colors } from '@/styles/colors'
 
 import { ClickStyles, Container, Image, ImageView, Title } from './ImageButton.style'
 
-interface Props {
+interface ImageButtonProps {
   title: string
   updateSelectedList: (category: string) => void
   source: ImageSourcePropType
@@ -18,7 +18,7 @@ interface Props {
 /**
  * ImageButton
  */
-const ImageButton = ({ title, updateSelectedList, source, disabled }: Props) => {
+const ImageButton = ({ title, updateSelectedList, source, disabled }: ImageButtonProps) => {
   const [isSelected, setIsSelected] = useState(false)
 
   /**
