@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'

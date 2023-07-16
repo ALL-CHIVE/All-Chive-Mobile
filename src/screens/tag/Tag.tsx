@@ -3,7 +3,7 @@ import React from 'react'
 import { Text } from 'react-native'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Container, PlusTagButton, PlusTagText, Title } from './Tag.style'
