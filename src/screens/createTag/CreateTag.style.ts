@@ -21,7 +21,7 @@ export const PlusTagButton = styled.TouchableOpacity`
   background-color: ${colors.mainYellow};
   justify-content: center;
   align-items: center;
-  padding: 13px 136px 13px 136px;
+  padding: 13px 13px 13px 13px;
   margin: 0 auto;
   margin-top: 26px;
 `
