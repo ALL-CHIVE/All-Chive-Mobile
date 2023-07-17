@@ -6,16 +6,16 @@ import {
   KeyboardAvoidingView,
   Linking,
   Platform,
+  ScrollView,
   Text,
-  TouchableOpacity,
-  View,
 } from 'react-native'
 import { useMutation } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
+import { Tag } from '@/components/tag/Tag'
 import i18n from '@/locales'
 import { ImageUploadMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
@@ -24,14 +24,18 @@ import { createCancleConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
+import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
 
 import {
+  AddTagButton,
+  AddTagText,
   ArchivingSelect,
   Condition,
   Container,
   Image,
   PlusImageButton,
+  RowView,
   Styles,
   TextInput,
   Title,
@@ -56,7 +60,8 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   const [contentFocus, setContentFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
-  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
+  const selectArchiving = useRecoilValue(SelectArchivingState)
+  const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -175,7 +180,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
     <Container>
       <CloseButtonHeader
         title="업로드"
-        onClose={() => navigation.navigate('BottomTab')}
+        onClose={() => navigation.navigate('BottomTab', { screen: 'Home' })}
       />
       <Title>아카이빙 이름</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
@@ -221,17 +226,32 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         onPress={handleActionSheetMenu}
         theme="ios"
       />
-      <View style={{ flexDirection: 'row' }}>
+      <RowView>
         <Title>태그</Title>
         <Text>선택사항 (최대 10개)</Text>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
-        <Text>+ 태그 추가</Text>
-      </TouchableOpacity>
-      <View style={{ flexDirection: 'row' }}>
+      </RowView>
+      <RowView>
+        <ScrollView horizontal={true}>
+          <AddTagButton onPress={() => navigation.navigate('CreateTag')}>
+            <AddTagText>+ 태그 추가</AddTagText>
+          </AddTagButton>
+          {selectTag &&
+            selectTag.map((tag) => (
+              <Tag
+                key={tag}
+                tag={tag}
+                isGray={true}
+                onRemove={() => {
+                  setSelectTag(selectTag.filter((item) => item !== tag))
+                }}
+              />
+            ))}
+        </ScrollView>
+      </RowView>
+      <RowView>
         <Title>메모</Title>
         <Text>선택사항</Text>
-      </View>
+      </RowView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={160}

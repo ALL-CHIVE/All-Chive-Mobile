@@ -65,3 +65,22 @@ export const Image = styled.Image`
   height: 78px;
   border-radius: 4px;
 `
+
+export const AddTagButton = styled.TouchableOpacity`
+  width: 85px;
+  height: 29px;
+  border-radius: 30px;
+  background-color: ${colors.gray100};
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
+`
+
+export const AddTagText = styled.Text`
+  ${fonts.body2}
+  color: ${colors.gray300};
+`
+
+export const RowView = styled.View`
+  flex-direction: row;
+`

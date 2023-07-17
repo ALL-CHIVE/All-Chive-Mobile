@@ -1,16 +1,28 @@
 import React, { useState } from 'react'
 
-import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
 import { useMutation } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
+import { Tag } from '@/components/tag/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
+import { SelectTagState } from '@/state/upload/SelectTagState'
 
-import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from '../Upload.style'
+import {
+  AddTagButton,
+  AddTagText,
+  ArchivingSelect,
+  Condition,
+  Container,
+  RowView,
+  Styles,
+  TextInput,
+  Title,
+} from '../Upload.style'
 import { postContents } from '../apis/postContents'
 
 interface LinkUploadProps {
@@ -32,7 +44,8 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
   const [linkFocus, setLinkFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
-  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
+  const selectArchiving = useRecoilValue(SelectArchivingState)
+  const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const { mutate } = useMutation(() =>
     postContents({
@@ -106,7 +119,7 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
     <Container>
       <CloseButtonHeader
         title="업로드"
-        onClose={() => navigation.navigate('BottomTab')}
+        onClose={() => navigation.navigate('BottomTab', { screen: 'Home' })}
       />
       <Title>아카이빙 이름</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
@@ -148,17 +161,32 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
       />
       {/* TODO: Condition Icon 추가 */}
       <Condition>올바른 url 주소</Condition>
-      <View style={{ flexDirection: 'row' }}>
+      <RowView>
         <Title>태그</Title>
         <Text>선택사항 (최대 10개)</Text>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Tag')}>
-        <Text>+ 태그 추가</Text>
-      </TouchableOpacity>
-      <View style={{ flexDirection: 'row' }}>
+      </RowView>
+      <RowView>
+        <ScrollView horizontal={true}>
+          <AddTagButton onPress={() => navigation.navigate('CreateTag')}>
+            <AddTagText>+ 태그 추가</AddTagText>
+          </AddTagButton>
+          {selectTag &&
+            selectTag.map((tag) => (
+              <Tag
+                key={tag}
+                tag={tag}
+                isGray={true}
+                onRemove={() => {
+                  setSelectTag(selectTag.filter((item) => item !== tag))
+                }}
+              />
+            ))}
+        </ScrollView>
+      </RowView>
+      <RowView>
         <Title>메모</Title>
         <Text>선택사항</Text>
-      </View>
+      </RowView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={160}
