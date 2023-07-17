@@ -30,6 +30,7 @@ export const defaultIcons: Assets = {
   trend: require('@/assets/icons/trend.png'),
   closeButton: require('@/assets/icons/closeButton.png'),
   back: require('@/assets/icons/back.png'),
+  search: require('@/assets/icons/search.png'),
 }
 
 export const loginIcons: Assets = {
