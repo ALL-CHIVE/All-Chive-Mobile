@@ -201,21 +201,21 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   return (
     <Container>
       <CloseButtonHeader
-        title="업로드"
+        title={i18n.t('upload')}
         onClose={() => navigation.navigate('BottomTab', { screen: 'Home' })}
       />
-      <Title>아카이빙 이름</Title>
+      <Title>{i18n.t('archivingName')}</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
-        {archivingName ? <Text>{archivingName}</Text> : <Text>아카이빙을 선택하세요</Text>}
+        {archivingName ? <Text>{archivingName}</Text> : <Text>{i18n.t('choiceArchiving')}</Text>}
         {/* TODO: 오른쪽 화살표 아이콘 추가 */}
       </ArchivingSelect>
       <ArchivingModal
         onClose={handleCloseModal}
         isVisible={openArchivingModal}
       />
-      <Title>컨텐츠 이름</Title>
+      <Title>{i18n.t('contentName')}</Title>
       <TextInput
-        placeholder="한/영/특수문자 15자 이내로 입력하세요"
+        placeholder={i18n.t('contentVerify')}
         value={contentName}
         onChangeText={setContentName}
         onFocus={handleContentFocus}
@@ -228,10 +228,10 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
       />
       {/* TODO: Condition Icon 추가 */}
       <Condition style={[contentName.length > 0 ? Styles.conditionComplete : null]}>
-        한/영/특수문자 15자 이내로 입력하세요
+        {i18n.t('contentVerify')}
       </Condition>
 
-      <Title>이미지</Title>
+      <Title>{i18n.t('image')}</Title>
       {image ? (
         <TouchableOpacity onPress={handleUploadImage}>
           <Image source={image} />
@@ -243,7 +243,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
       )}
       <ActionSheet
         ref={actionSheetRef}
-        title={'이미지 업로드'}
+        title={i18n.t('uploadImage')}
         options={options}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
@@ -251,13 +251,13 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         theme="ios"
       />
       <RowView>
-        <Title>태그</Title>
-        <Text>선택사항 (최대 10개)</Text>
+        <Title>{i18n.t('tag')}</Title>
+        <Text>{i18n.t('choice10')}</Text>
       </RowView>
       <RowView>
         <ScrollView horizontal={true}>
           <AddTagButton onPress={() => navigation.navigate('CreateTag')}>
-            <AddTagText>+ 태그 추가</AddTagText>
+            <AddTagText>{`+ ${i18n.t('addTag')}`}</AddTagText>
           </AddTagButton>
           {selectTag &&
             selectTag.map((tag) => (
@@ -273,15 +273,15 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         </ScrollView>
       </RowView>
       <RowView>
-        <Title>메모</Title>
-        <Text>선택사항</Text>
+        <Title>{i18n.t('memo')}</Title>
+        <Text>{i18n.t('choice')}</Text>
       </RowView>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={160}
       >
         <TextInput
-          placeholder="메모를 입력하세요"
+          placeholder={i18n.t('placeHolderMemo')}
           value={memo}
           onChangeText={setMemo}
           onFocus={handleMemoFocus}
@@ -295,7 +295,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         />
       </KeyboardAvoidingView>
       <BoxButton
-        textKey="완료"
+        textKey={i18n.t('complete')}
         onPress={handlesubmit}
         isDisabled={!archivingName || !contentName || !image}
       />

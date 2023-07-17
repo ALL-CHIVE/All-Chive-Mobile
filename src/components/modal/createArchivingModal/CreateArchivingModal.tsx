@@ -173,10 +173,10 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.closeButton} />
             </CloseButton>
-            <ModalTitle>아카이빙 추가</ModalTitle>
-            <Title>아카이빙 이름</Title>
+            <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
+            <Title>{i18n.t('archivingName')}</Title>
             <TextInput
-              placeholder="한/영/특수문자 15자 이내로 입력하세요"
+              placeholder={i18n.t('contentVerify')}
               value={name}
               onChangeText={setName}
               onFocus={handleNameFocus}
@@ -189,11 +189,11 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             />
             {/* TODO: Condition Icon 추가 */}
             <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
-              한/영/특수문자 15자 이내로 입력하세요
+              {i18n.t('contentVerify')}
             </Condition>
-            <Title>카테고리</Title>
+            <Title>{i18n.t('category')}</Title>
             <DropDown />
-            <Title>썸네일</Title>
+            <Title>{i18n.t('thumbnail')}</Title>
             {image ? (
               <TouchableOpacity onPress={handleUploadImage}>
                 <Image source={image} />
@@ -206,7 +206,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             )}
             <ActionSheet
               ref={actionSheetRef}
-              title="썸네일 사진 설정"
+              title={i18n.t('settingThumbnail')}
               options={options}
               cancelButtonIndex={0}
               tintColor={colors.gray600}
@@ -214,7 +214,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
               theme="ios"
             />
             <View style={{ flexDirection: 'row' }}>
-              <Title>공개설정</Title>
+              <Title>{i18n.t('settingPublic')}</Title>
               <Switch
                 trackColor={{ false: colors.gray100, true: colors.mainYellow }}
                 thumbColor={colors.white}
@@ -223,9 +223,9 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
                 value={publicStatus}
               />
             </View>
-            <NoticeText>공개설정 여부는 언제든지 변경할 수 있습니다.</NoticeText>
+            <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
             <BoxButton
-              textKey="추가하기"
+              textKey={i18n.t('add')}
               onPress={handleSubmit}
               // isDisabled
             />

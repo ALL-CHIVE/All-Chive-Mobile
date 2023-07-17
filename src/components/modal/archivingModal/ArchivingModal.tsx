@@ -64,9 +64,9 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.closeButton} />
             </CloseButton>
-            <Title>아카이빙</Title>
+            <Title>{i18n.t('archiving')}</Title>
             <PlusButton onPress={() => setOpenPlusModal(true)}>
-              <PlusButtonText>+ 아카이빙 추가</PlusButtonText>
+              <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
             </PlusButton>
             <CreateArchivingModal
               onClose={handleCloseModal}
@@ -92,7 +92,7 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
             </ListContainer>
             <BoxButton
               onPress={onClose}
-              textKey="확인"
+              textKey={i18n.t('confirm')}
               isDisabled={!SelectArchivingState}
             />
           </ScrollView>

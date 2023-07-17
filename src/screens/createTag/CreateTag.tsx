@@ -11,6 +11,7 @@ import { Divider } from '@/components/divider/Divider'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import { Tag } from '@/components/tag/Tag'
+import i18n from '@/locales'
 import { GetTagResponse } from '@/models/tag/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectTagState } from '@/state/upload/SelectTagState'
@@ -83,19 +84,19 @@ export const CreateTag = ({ navigation }: TagProps) => {
           />
         ))}
       <SearchBar
-        placeholder="태그를 검색해보세요"
+        placeholder={i18n.t('searchTag')}
         value={searchText}
         onChangeText={handleSearch}
       />
-      <Title>{`검색한 태그가 없습니다.\n 새로운 태그로 등록할까요?`}</Title>
+      <Title>{`${i18n.t('notExistTag')}\n ${i18n.t('askCreateTag')}`}</Title>
       <PlusTagButton onPress={handleCreateTag}>
         {/* TODO: + Icon 추가 */}
-        <PlusTagText>+ 태그 등록하기</PlusTagText>
+        <PlusTagText>{`+ ${i18n.t('createTag')}`}</PlusTagText>
       </PlusTagButton>
       {latestTagData && (
         <>
           <Divider />
-          <Title>최근 사용한 태그</Title>
+          <Title>{i18n.t('recentlyTag')}</Title>
           {latestTagData.tags.map((tag) => (
             <ClickableTag
               key={tag.tagId}
@@ -111,7 +112,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
       )}
 
       <BoxButton
-        textKey="완료"
+        textKey={i18n.t('complete')}
         onPress={handleUploadTag}
         isDisabled={selectTag.length === 0}
       />

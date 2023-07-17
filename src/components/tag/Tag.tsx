@@ -11,7 +11,7 @@ interface TagProps {
 }
 
 /**
- * WhiteTag Components
+ * Tag Components
  */
 export const Tag = ({ tag, isGray, onRemove }: TagProps) => {
   return (
