@@ -8,7 +8,7 @@ import { getContent } from '@/apis/fakeServerApis'
 import DefaultHeader from '@/components/header/defaultHeader/DefaultHeader'
 import Memo from '@/components/memo/Memo'
 import Popup from '@/components/popup/Popup'
-import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
+import { Tag } from '@/components/tag/Tag'
 import i18n from '@/locales'
 import { Content } from '@/models/Content'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -110,9 +110,10 @@ const ContentDetail = ({ navigation }: ContentDetailProps) => {
             <SubTitle>{i18n.t('tag')}</SubTitle>
             <TagList>
               {content.tags.map((tag) => (
-                <WhiteTag
+                <Tag
                   key={tag}
                   tag={tag}
+                  isGray={false}
                 />
               ))}
             </TagList>
