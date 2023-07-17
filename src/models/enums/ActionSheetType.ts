@@ -8,5 +8,6 @@ export enum DefaultMenuType {
 export enum ImageUploadMenuType {
   cancel,
   selectFromPhotoLibrary,
+  selectFromFile,
   selectFromCamera,
 }

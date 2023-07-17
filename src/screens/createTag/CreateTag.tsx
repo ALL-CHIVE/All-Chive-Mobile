@@ -15,7 +15,7 @@ import { GetTagResponse } from '@/models/tag/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 
-import { ClickableTag } from '../upload/components/ClickAbleTag'
+import { ClickableTag } from '../upload/components/ClickableTag'
 
 import { Container, PlusTagButton, PlusTagText, Title } from './CreateTag.style'
 interface TagProps {

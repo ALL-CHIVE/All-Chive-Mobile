@@ -1,7 +1,16 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Image, ImageSourcePropType, Linking, Platform, ScrollView, Text, View } from 'react-native'
+import {
+  Image,
+  ImageSourcePropType,
+  Linking,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -186,7 +195,9 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <DropDown />
             <Title>썸네일</Title>
             {image ? (
-              <Image source={image} />
+              <TouchableOpacity onPress={handleUploadImage}>
+                <Image source={image} />
+              </TouchableOpacity>
             ) : (
               <PlusImageButton onPress={handleUploadImage}>
                 {/* TODO: + icon으로 변경 */}

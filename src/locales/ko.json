@@ -23,6 +23,7 @@
   "cancel": "취소",
   "selectDefaultImage": "기본 이미지 선택",
   "selectFromPhotoLibrary": "앨범에서 사진 선택",
+  "selectFromFile": "파일에서 사진 선택",
   "selectFromCamera": "사진 찍기",
   "pleaseAllowPhotoPermission": "사진 권한을 설정해주세요",
   "photoPermissionGuideIOS": "\"설정 > 사진 > 모든 사진\" 권한을 허용해 주세요",

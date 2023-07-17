@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   Text,
+  TouchableOpacity,
 } from 'react-native'
 import { useMutation } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -22,7 +23,7 @@ import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { createCancleConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
+import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -131,6 +132,27 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         selectImage && setImage({ uri: selectImage.path })
         break
       }
+      case ImageUploadMenuType.selectFromFile: {
+        const permission = await checkPermission(Permissions.File)
+
+        if (permission === 'blocked' || permission === 'denied') {
+          createCancleConfirmAlert(
+            'pleaseAllowFilePermission',
+            Platform.select({
+              ios: 'filePermissionGuideIOS',
+              android: 'filePermissionGuideAndroid',
+              default: '',
+            }),
+            () => Linking.openSettings()
+          )
+
+          return
+        }
+
+        const selectImage = await handleFileOpen()
+        selectImage && setImage({ uri: selectImage.toString() })
+        break
+      }
       case ImageUploadMenuType.selectFromCamera: {
         const permission = await checkPermission(Permissions.Camera)
 
@@ -211,7 +233,9 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
 
       <Title>이미지</Title>
       {image ? (
-        <Image source={image} />
+        <TouchableOpacity onPress={handleUploadImage}>
+          <Image source={image} />
+        </TouchableOpacity>
       ) : (
         <PlusImageButton onPress={handleUploadImage}>
           <Text>+</Text>
@@ -279,4 +303,9 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
   )
 }
 
-const options = [i18n.t('cancel'), i18n.t('selectFromPhotoLibrary'), i18n.t('selectFromCamera')]
+const options = [
+  i18n.t('cancel'),
+  i18n.t('selectFromPhotoLibrary'),
+  i18n.t('selectFromFile'),
+  i18n.t('selectFromCamera'),
+]
