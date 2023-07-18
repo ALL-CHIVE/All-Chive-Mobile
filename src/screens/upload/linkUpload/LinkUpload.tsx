@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
-import { Tag } from '@/components/tag/Tag'
+import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
@@ -173,10 +173,9 @@ export const LinkUpload = ({ navigation }: LinkUploadProps) => {
           </AddTagButton>
           {selectTag &&
             selectTag.map((tag) => (
-              <Tag
+              <GrayTag
                 key={tag}
                 tag={tag}
-                isGray={true}
                 onRemove={() => {
                   setSelectTag(selectTag.filter((item) => item !== tag))
                 }}

@@ -10,7 +10,7 @@ import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { Divider } from '@/components/divider/Divider'
 import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
 import { SearchBar } from '@/components/searchBar/SearchBar'
-import { Tag } from '@/components/tag/Tag'
+import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { GetTagResponse } from '@/models/tag/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -69,15 +69,14 @@ export const CreateTag = ({ navigation }: TagProps) => {
   return (
     <Container>
       <CloseButtonHeader
-        title="태그"
+        title={i18n.t('tag')}
         onClose={() => navigation.goBack()}
       />
       {selectTag &&
         selectTag.map((tag) => (
-          <Tag
+          <GrayTag
             key={tag}
             tag={tag}
-            isGray={true}
             onRemove={() => {
               setSelectTag(selectTag.filter((item) => item !== tag))
             }}
