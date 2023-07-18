@@ -1,8 +1,9 @@
 import React from 'react'
 
+import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
 
-import { Container, Text } from './Verifier.style'
+import { Container, Icon, Text } from './Verifier.style'
 
 interface VerifierProps {
   isValid: boolean
@@ -15,8 +16,7 @@ interface VerifierProps {
 const Verifier = ({ isValid, text }: VerifierProps) => {
   return (
     <Container>
-      {/* TODO: icon 연결 */}
-      {isValid ? <Text>V</Text> : <Text>X</Text>}
+      {isValid ? <Icon source={defaultIcons.check} /> : <Icon source={defaultIcons.closeButton} />}
       <Text>{i18n.t(text)}</Text>
     </Container>
   )

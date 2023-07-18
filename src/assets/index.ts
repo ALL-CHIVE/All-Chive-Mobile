@@ -15,6 +15,8 @@ export const defaultImages: Assets = {
 
 export const defaultIcons: Assets = {
   firstIndicator: require('@/assets/icons/firstIndicator.png'),
+  secondIndicator: require('@/assets/icons/secondIndicator.png'),
+  check: require('@/assets/icons/check.png'),
   archiving: require('@/assets/icons/archiving.png'),
   archivingFocus: require('@/assets/icons/archiving_focus.png'),
   community: require('@/assets/icons/community.png'),
@@ -36,4 +38,9 @@ export const defaultIcons: Assets = {
 export const loginIcons: Assets = {
   apple: require('@/assets/login/apple.png'),
   kakao: require('@/assets/login/kakao.png'),
+}
+
+export const logo: Assets = {
+  allchiveLogo: require('@/assets/logo/allchiveLogo.png'),
+  allchiveSubLogo: require('@/assets/logo/allchiveSubLogo.png'),
 }

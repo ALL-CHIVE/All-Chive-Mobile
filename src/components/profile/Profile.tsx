@@ -9,7 +9,7 @@ import i18n from '@/locales'
 import { ProfileMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkPermission } from '@/services/PermissionService'
+import { checkAndRequestPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
@@ -36,12 +36,11 @@ const Profile = () => {
   const handleActionSheetMenu = async (index: ProfileMenuType) => {
     switch (index) {
       case ProfileMenuType.selectDefaultImage: {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         setProfileImage(defaultImages.profile)
         break
       }
       case ProfileMenuType.selectFromPhotoLibrary: {
-        const permission = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -62,7 +61,7 @@ const Profile = () => {
         break
       }
       case ProfileMenuType.selectFromCamera: {
-        const permission = await checkPermission(Permissions.Camera)
+        const permission = await checkAndRequestPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(

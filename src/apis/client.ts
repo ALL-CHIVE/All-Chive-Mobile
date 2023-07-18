@@ -9,3 +9,10 @@ export const client = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+/**
+ * postIdTokenLogin
+ */
+export const postIdTokenLogin = (type: string, idToken: string) => {
+  return client.post(`/auth/oauth/login/${type}/idtoken?idToken=${idToken}`)
+}

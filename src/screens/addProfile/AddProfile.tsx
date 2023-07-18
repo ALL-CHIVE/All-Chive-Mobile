@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ScrollView, Text, TextInput, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import Profile from '@/components/profile/Profile'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
@@ -17,9 +20,9 @@ import {
   ClearButton,
   Container,
   Heading,
+  InputBox,
   NicknameContainer,
   NicknameInputBox,
-  disabledStyle,
 } from './AddProfile.style'
 
 /**
@@ -49,47 +52,53 @@ const AddProfile = () => {
     // TODO: nickname 중복 체크
   }
 
+  /**
+   * handleClearNickname
+   */
+  const handleClearNickname = () => {
+    setNickname('')
+    setIsNicknameValid(false)
+  }
+
   return (
-    <ScrollView>
-      <Container>
-        <Heading>{i18n.t('setProfileAndNickName')}</Heading>
-        <NicknameContainer>
-          <BodyText>{i18n.t('nickName')}</BodyText>
-          <NicknameInputBox>
-            <TextInput
-              placeholder={i18n.t('nicknamePlaceholder')}
-              onChangeText={handleChangeNickname}
-              maxLength={20}
-              value={nickname}
+    <DefaultContainer>
+      <DefaultScrollContainer>
+        <Container>
+          <Heading>{i18n.t('pleaseSetProfile')}</Heading>
+          <NicknameContainer>
+            <BodyText>{i18n.t('nickName')}</BodyText>
+            <NicknameInputBox>
+              <InputBox
+                placeholder={i18n.t('nicknamePlaceholder')}
+                onChangeText={handleChangeNickname}
+                maxLength={20}
+                value={nickname}
+              />
+              <ClearButton
+                onPress={handleClearNickname}
+                disabled={!nickname}
+              >
+                {/* TODO: 아이콘 연결 */}
+                <Image source={defaultIcons.closeButton} />
+              </ClearButton>
+            </NicknameInputBox>
+            <Verifier
+              isValid={isNicknameValid}
+              text={'nicknameVerify'}
             />
-            <ClearButton
-              onPress={() => setNickname('')}
-              disabled={!nickname}
-            >
-              {/* TODO: 아이콘 연결 */}
-              <Text style={!nickname && disabledStyle.clearButton}>X</Text>
-            </ClearButton>
-          </NicknameInputBox>
-          <Verifier
-            isValid={false}
-            text={'isNotDuplicate'}
-          />
-          <Verifier
-            isValid={isNicknameValid}
-            text={'nicknameVerify'}
-          />
-        </NicknameContainer>
-        <View>
-          <BodyText>{i18n.t('profile')}</BodyText>
-          <Profile />
-        </View>
-        <BoxButton
-          textKey="complete"
-          onPress={handleComplete}
-          isDisabled={!isNicknameValid}
-        />
-      </Container>
-    </ScrollView>
+          </NicknameContainer>
+          <View>
+            <BodyText>{i18n.t('profile')}</BodyText>
+            <Profile />
+          </View>
+        </Container>
+      </DefaultScrollContainer>
+      <BoxButton
+        textKey="complete"
+        onPress={handleComplete}
+        isDisabled={!isNicknameValid}
+      />
+    </DefaultContainer>
   )
 }
 

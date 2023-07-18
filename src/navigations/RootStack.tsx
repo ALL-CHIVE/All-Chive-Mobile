@@ -60,14 +60,13 @@ export const RootStack = () => {
       if (res) {
         // TODO: 자동 로그인 API 연동
         getHasAutoSignInSession().then((res) => {
+          //TODO: 로그인 처리
           setIsSignIn(res)
           setIsLoading(false)
         })
       } else {
         setIsLoading(false)
       }
-
-      requestPermissions()
     })
   }, [])
 
