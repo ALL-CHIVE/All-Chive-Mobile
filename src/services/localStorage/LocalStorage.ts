@@ -3,6 +3,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LocalStorageKey } from './LocalStorageKey'
 
 /**
+ * refresh Token을 가져옵니다.
+ */
+export const getRefreshToken = async () => {
+  return await getItemOrNull<string>(LocalStorageKey.RefreshToken)
+}
+
+/**
+ * refresh Token을 갱신합니다.
+ */
+export const setRefreshToken = async (value: string) => {
+  await setItem(LocalStorageKey.RefreshToken, value)
+}
+
+/**
  * 최초 실행 여부를 확인합니다.
  */
 export const checkIsInstalled = async () => {
