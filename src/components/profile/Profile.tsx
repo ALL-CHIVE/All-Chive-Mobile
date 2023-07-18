@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
 import i18n from '@/locales'
-import { ProfileMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
+import { DefaultMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
@@ -33,14 +33,14 @@ const Profile = () => {
   /**
    * handleActionSheetMenu
    */
-  const handleActionSheetMenu = async (index: ProfileMenuType) => {
+  const handleActionSheetMenu = async (index: DefaultMenuType) => {
     switch (index) {
-      case ProfileMenuType.selectDefaultImage: {
+      case DefaultMenuType.selectDefaultImage: {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         setProfileImage(defaultImages.profile)
         break
       }
-      case ProfileMenuType.selectFromPhotoLibrary: {
+      case DefaultMenuType.selectFromPhotoLibrary: {
         const permission = await checkPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
@@ -61,7 +61,7 @@ const Profile = () => {
         image && setProfileImage({ uri: image.path })
         break
       }
-      case ProfileMenuType.selectFromCamera: {
+      case DefaultMenuType.selectFromCamera: {
         const permission = await checkPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {

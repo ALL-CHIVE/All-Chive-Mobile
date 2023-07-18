@@ -1,7 +1,7 @@
 import { GetAllKeys } from '@/extensions/enumExtensions'
 import i18n from '@/locales'
 
-export enum ProfileMenuType {
+export enum DefaultMenuType {
   cancel,
   selectDefaultImage,
   selectFromPhotoLibrary,
@@ -11,6 +11,7 @@ export enum ProfileMenuType {
 export enum ImageUploadMenuType {
   cancel,
   selectFromPhotoLibrary,
+  selectFromFile,
   selectFromCamera,
 }
 
@@ -23,7 +24,7 @@ export enum ReportMenuType {
 /**
  * ProfileMenus 를 반환합니다.
  */
-export const ProfileMenus = () => GetAllKeys(ProfileMenuType).map((key: string) => i18n.t(key))
+export const ProfileMenus = () => GetAllKeys(DefaultMenuType).map((key: string) => i18n.t(key))
 
 /**
  * ImageUploadMenus 를 반환합니다.

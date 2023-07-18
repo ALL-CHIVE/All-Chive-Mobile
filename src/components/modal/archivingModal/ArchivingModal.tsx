@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 
-import { TouchableOpacity, Image } from 'react-native'
+import { TouchableOpacity, Image, View, Text } from 'react-native'
+import { ScrollView } from 'react-native'
 import Modal from 'react-native-modal'
 import { useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import { Divider } from '@/components/divider/Divider'
+import i18n from '@/locales'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
 import { CreateArchivingModal } from '../createArchivingModal/CreateArchivingModal'
 
 import {
-  ArchivingName,
+  ArchivingText,
+  CategoryText,
   CloseButton,
   Container,
+  ListContainer,
   PlusButton,
   PlusButtonText,
   Title,
@@ -55,31 +60,110 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
         }}
       >
         <Container>
-          <CloseButton onPress={onClose}>
-            <Image source={defaultIcons.closeButton} />
-          </CloseButton>
-          <Title>아카이빙</Title>
-          <PlusButton onPress={() => setOpenPlusModal(true)}>
-            <PlusButtonText>+ 아카이빙 추가</PlusButtonText>
-          </PlusButton>
-          <CreateArchivingModal
-            onClose={handleCloseModal}
-            isVisible={openPlusModal}
-          />
-          {/* 추후 데이터 가져오는 걸로 변경 */}
-          <TouchableOpacity
-            onPress={() => handleClickArchiving('디자인')}
-            style={{ top: 100 }}
-          >
-            <ArchivingName>디자인</ArchivingName>
-          </TouchableOpacity>
-          <BoxButton
-            onPress={onClose}
-            textKey="확인"
-            isDisabled={!SelectArchivingState}
-          />
+          <ScrollView>
+            <CloseButton onPress={onClose}>
+              <Image source={defaultIcons.closeButton} />
+            </CloseButton>
+            <Title>{i18n.t('archiving')}</Title>
+            <PlusButton onPress={() => setOpenPlusModal(true)}>
+              <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
+            </PlusButton>
+            <CreateArchivingModal
+              onClose={handleCloseModal}
+              isVisible={openPlusModal}
+            />
+            <ListContainer>
+              {ArchivingList &&
+                Object.keys(ArchivingList).map((category) =>
+                  ArchivingList[category].map((item, index) => (
+                    <>
+                      <CategoryText>{i18n.t(`${category}`)}</CategoryText>
+                      <Divider />
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => handleClickArchiving(item.title)}
+                      >
+                        <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
+                        <Divider />
+                      </TouchableOpacity>
+                    </>
+                  ))
+                )}
+            </ListContainer>
+            <BoxButton
+              onPress={onClose}
+              textKey={i18n.t('confirm')}
+              isDisabled={!SelectArchivingState}
+            />
+          </ScrollView>
         </Container>
       </Modal>
     </>
   )
+}
+
+// 추후 삭제
+interface ArchivingItem {
+  title: string
+  contentCnt: number
+}
+interface ArchivingList {
+  [category: string]: ArchivingItem[]
+}
+
+const ArchivingList: ArchivingList = {
+  food: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  life: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  homeLiving: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  shopping: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  sport: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  selfImprovement: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  tech: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  design: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
+  trend: [
+    {
+      title: '아카이빙 제목',
+      contentCnt: 1,
+    },
+  ],
 }

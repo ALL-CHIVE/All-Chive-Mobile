@@ -23,7 +23,7 @@ export const Title = styled.Text`
 export const CloseButton = styled.TouchableOpacity`
   position: absolute;
   top: 28px;
-  right: 26px;
+  right: 0px;
 `
 
 export const PlusButton = styled.TouchableOpacity`
@@ -31,7 +31,7 @@ export const PlusButton = styled.TouchableOpacity`
   height: 28px;
   position: absolute;
   top: 69px;
-  right: 25px;
+  right: 0px;
   padding: 5px 10px;
   border-radius: 30px;
   background-color: ${colors.yellow200};
@@ -43,8 +43,19 @@ export const PlusButtonText = styled.Text`
   text-align: center;
 `
 
-export const ArchivingName = styled.Text`
+export const CategoryText = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.mainBlack};
   left: 25px;
+`
+
+export const ListContainer = styled.View`
+  display: flex;
+  top: 90px;
+`
+
+export const ArchivingText = styled.Text`
+  ${fonts.body1}
+  color: ${colors.gray300};
+  left: 32px;
 `

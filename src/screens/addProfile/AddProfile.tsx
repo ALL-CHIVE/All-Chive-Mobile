@@ -36,7 +36,7 @@ const AddProfile = () => {
    */
   const handleComplete = () => {
     // TODO: 서버로 이미지, 닉네임 전달
-    navigation.navigate('BottomTab', { screen: 'Community' })
+    navigation.navigate('BottomTab', { screen: 'Home' })
   }
 
   /**
