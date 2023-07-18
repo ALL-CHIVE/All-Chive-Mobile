@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, SafeAreaView, ScrollView, View } from 'react-native'
+import { Image } from 'react-native'
 
 import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
