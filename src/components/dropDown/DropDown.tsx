@@ -44,7 +44,9 @@ export const DropDown = () => {
         ) : (
           <Input
             editable={false}
-            placeholder={selectedCategory ? `${selectedCategory}` : '카테고리 선택 안함'}
+            placeholder={
+              selectedCategory ? `${selectedCategory}` : `${i18n.t('noSelectCategory')}}`
+            }
           />
         )}
       </TouchableOpacity>
