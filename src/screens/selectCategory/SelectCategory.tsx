@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ListRenderItem, ScrollView } from 'react-native'
+import { ListRenderItem } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/buttons/imageButton/ImageButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
 
-import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
+import { Description, Heading, CategoryList } from './SelectCategory.style'
 
 /**
  * SelectCategory
@@ -57,8 +59,8 @@ const SelectCategory = () => {
   }
 
   return (
-    <ScrollView>
-      <Container>
+    <DefaultContainer>
+      <DefaultScrollContainer>
         <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
         <Description>{i18n.t('chooseMaximum3')}</Description>
         <CategoryList
@@ -68,13 +70,13 @@ const SelectCategory = () => {
           renderItem={renderItem}
           keyExtractor={(category) => category}
         />
-        <BoxButton
-          textKey="selectCompleted"
-          onPress={handleSubmitCategory}
-          isDisabled={selectedCategory.length <= 0}
-        />
-      </Container>
-    </ScrollView>
+      </DefaultScrollContainer>
+      <BoxButton
+        textKey="selectCompleted"
+        onPress={handleSubmitCategory}
+        isDisabled={selectedCategory.length <= 0}
+      />
+    </DefaultContainer>
   )
 }
 

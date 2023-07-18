@@ -38,6 +38,7 @@ export const Login = () => {
       navigation.navigate('BottomTab', { screen: 'Home' })
     } else if (!signInResult.canLogin && signInResult.idToken) {
       setIdTokenState(signInResult.idToken)
+      // TODO: 이용약관 페이지 추가
       navigation.navigate('SelectCategory')
     }
   }
