@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ListRenderItem } from 'react-native'
+import { ListRenderItem, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
@@ -13,7 +13,7 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
 
-import { Description, Heading, CategoryList } from './SelectCategory.style'
+import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
 
 /**
  * SelectCategory
@@ -61,15 +61,19 @@ const SelectCategory = () => {
   return (
     <DefaultContainer>
       <DefaultScrollContainer>
-        <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
-        <Description>{i18n.t('chooseMaximum3')}</Description>
-        <CategoryList
-          scrollEnabled={false}
-          data={categoryList}
-          numColumns={3}
-          renderItem={renderItem}
-          keyExtractor={(category) => category}
-        />
+        <Container>
+          <View>
+            <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
+            <Description>{i18n.t('chooseMaximum3')}</Description>
+          </View>
+          <CategoryList
+            scrollEnabled={false}
+            data={categoryList}
+            numColumns={3}
+            renderItem={renderItem}
+            keyExtractor={(category) => category}
+          />
+        </Container>
       </DefaultScrollContainer>
       <BoxButton
         textKey="selectCompleted"

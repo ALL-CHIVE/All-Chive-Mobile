@@ -4,6 +4,10 @@ import { FlatList } from 'react-native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
+export const Container = styled.View`
+  align-items: center;
+`
+
 export const Heading = styled.Text`
   ${fonts.heading1};
   color: ${colors.mainBlack};
