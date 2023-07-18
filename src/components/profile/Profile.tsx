@@ -6,9 +6,9 @@ import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
 import i18n from '@/locales'
-import { DefaultMenuType } from '@/models/enums/ActionSheetType'
+import { DefaultMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
-import { createCancleConfirmAlert } from '@/services/Alert'
+import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { ProfileImageState } from '@/state/ProfileImageState'
@@ -44,7 +44,7 @@ const Profile = () => {
         const permission = await checkPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowPhotoPermission',
             Platform.select({
               ios: 'photoPermissionGuideIOS',
@@ -65,7 +65,7 @@ const Profile = () => {
         const permission = await checkPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowCameraPermission',
             Platform.select({
               ios: 'cameraPermissionGuideIOS',
@@ -94,7 +94,7 @@ const Profile = () => {
       <ActionSheet
         ref={actionSheetRef}
         title={i18n.t('setProfile')}
-        options={options}
+        options={ProfileMenus()}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
@@ -103,12 +103,5 @@ const Profile = () => {
     </Container>
   )
 }
-
-const options = [
-  i18n.t('cancel'),
-  i18n.t('selectDefaultImage'),
-  i18n.t('selectFromPhotoLibrary'),
-  i18n.t('selectFromCamera'),
-]
 
 export default Profile

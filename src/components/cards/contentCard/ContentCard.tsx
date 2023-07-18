@@ -1,9 +1,11 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
 import i18n from '@/locales'
 import { ContentType } from '@/models/enums/ContentType'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
 import {
@@ -37,8 +39,10 @@ interface ContentCardProps {
  * ContentCard
  */
 const ContentCard = ({ id, title, day, imageUrl, tags, type }: ContentCardProps) => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   return (
-    <Container>
+    <Container onPress={() => navigation.navigate('ContentDetail', { id: 123 })}>
       <Shadow
         startColor={colors.gray50}
         offset={[0, 0]}

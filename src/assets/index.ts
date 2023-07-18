@@ -11,6 +11,7 @@ export const defaultImages: Assets = {
   uploadBottomSheet: require('@/assets/default/uploadBottomSheet.png'),
   reportComplete: require('@/assets/default/reportComplete.png'),
   thumbnail: require('@/assets/default/thumbnail.png'),
+  blockComplete: require('@/assets/default/blockComplete.png'),
 }
 
 export const defaultIcons: Assets = {

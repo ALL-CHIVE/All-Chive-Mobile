@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { ListRenderItem, ScrollView } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import ImageButton from '@/components/imageButton/ImageButton'
+import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryListState } from '@/state/CategoryListState'
 
 import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
 
-interface SelectCategoryProps {
-  navigation: MainNavigationProp
-}
-
 /**
  * SelectCategory
  */
-const SelectCategory = ({ navigation }: SelectCategoryProps) => {
+const SelectCategory = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const categoryList = useRecoilValue(CategoryListState)
   const [selectedCategory, setSelectedCategory] = useState<string[]>([])
 

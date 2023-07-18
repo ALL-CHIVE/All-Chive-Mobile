@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigatorScreenParams } from '@react-navigation/native'
+import { NavigatorScreenParams, useNavigation } from '@react-navigation/native'
 import { Image, Text, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import Modal from 'react-native-modal'
@@ -22,10 +22,6 @@ type BottomTabParamList = {
   Community: undefined
 }
 
-interface BottomTabProps {
-  navigation: MainNavigationProp
-}
-
 export type BottomTabNavigationProps = BottomTabNavigationProp<BottomTabParamList>
 export type BottomTabNavigationParams = NavigatorScreenParams<BottomTabParamList>
 
@@ -34,7 +30,9 @@ const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
 /**
  * BottomTab
  */
-export const BottomTab = ({ navigation }: BottomTabProps) => {
+export const BottomTab = () => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   const [showUpload, setShowUpload] = useState(false)
   /**
    *
