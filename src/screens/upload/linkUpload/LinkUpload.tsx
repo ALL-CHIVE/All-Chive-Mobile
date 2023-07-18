@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native'
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
@@ -13,14 +14,11 @@ import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { ArchivingSelect, Condition, Container, Styles, TextInput, Title } from '../Upload.style'
 import { postContents } from '../apis/postContents'
 
-interface LinkUploadProps {
-  navigation: MainNavigationProp
-}
-
 /**
  *
  */
-export const LinkUpload = ({ navigation }: LinkUploadProps) => {
+export const LinkUpload = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')

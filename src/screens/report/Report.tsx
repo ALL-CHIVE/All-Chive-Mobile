@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { View } from 'react-native'
 
 import { defaultImages } from '@/assets'
@@ -7,7 +8,7 @@ import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import RadioButton from '@/components/buttons/radioButton/RadioButton'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
-import { LeftButtonHeader } from '@/components/header/leftButtonHeader/LeftButtonHeader'
+import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import reportMenuConfig from '@/configs/reportMenuConfig.json'
 import i18n from '@/locales'
 import { ReportMenu } from '@/models/ReportMenu'
@@ -16,14 +17,11 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Container, Menu, Title } from './Report.style'
 import ReportBottomSheet from './components/reportBottomSheet/ReportBottomSheet'
 
-interface ReportProps {
-  navigation: MainNavigationProp
-}
-
 /**
  * Report
  */
-const Report = ({ navigation }: ReportProps) => {
+const Report = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const reportMenus = reportMenuConfig as ReportMenu[]
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
   const [isVisibleBottomSheet, setIsVisibleBottomSheet] = useState(false)
@@ -34,12 +32,7 @@ const Report = ({ navigation }: ReportProps) => {
       /**
        * header
        */
-      header: () => (
-        <LeftButtonHeader
-          navigation={navigation}
-          title={'신고하기'}
-        />
-      ),
+      header: () => <LeftButtonHeader title={'신고하기'} />,
     })
   })
 

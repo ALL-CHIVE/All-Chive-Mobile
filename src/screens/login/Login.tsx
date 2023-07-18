@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Image, Platform, Text, TouchableOpacity, View } from 'react-native'
 
 import { loginIcons } from '@/assets'
@@ -10,14 +11,12 @@ import { signInWith } from '@/services/SignInService'
 
 import { Container } from './Login.style'
 
-interface LoginProps {
-  navigation: MainNavigationProp
-}
-
 /**
  *
  */
-export const Login = ({ navigation }: LoginProps) => {
+export const Login = () => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   /**
    * 로그인을 처리합니다.
    */

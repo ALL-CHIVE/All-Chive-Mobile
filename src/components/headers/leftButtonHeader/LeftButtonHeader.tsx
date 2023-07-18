@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Image, View } from 'react-native'
 
 import { defaultIcons } from '@/assets'
@@ -8,14 +9,15 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Container, HeaderLeft, Title } from './LeftButtonHeader.style'
 
 interface LeftButtonHeaderProps {
-  navigation: MainNavigationProp
   title: string
 }
 
 /**
  * LeftButtonHeader
  */
-export const LeftButtonHeader = ({ navigation, title }: LeftButtonHeaderProps) => {
+export const LeftButtonHeader = ({ title }: LeftButtonHeaderProps) => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>

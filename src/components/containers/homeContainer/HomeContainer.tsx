@@ -6,14 +6,14 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { colors } from '@/styles/colors'
 
-interface HomeBackgroundProps {
+interface HomeContainerProps {
   children: React.ReactNode
 }
 
 /**
- * HomeBackground
+ * HomeContainer
  */
-const HomeBackground = ({ children }: HomeBackgroundProps) => {
+const HomeContainer = ({ children }: HomeContainerProps) => {
   return (
     <LinearGradient
       style={{ height: Dimensions.get('window').height }}
@@ -24,4 +24,4 @@ const HomeBackground = ({ children }: HomeBackgroundProps) => {
   )
 }
 
-export default HomeBackground
+export default HomeContainer

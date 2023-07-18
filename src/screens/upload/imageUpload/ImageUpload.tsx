@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { useNavigation } from '@react-navigation/native'
 import {
   ImageSourcePropType,
   KeyboardAvoidingView,
@@ -14,13 +15,13 @@ import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
 import i18n from '@/locales'
-import { ImageUploadMenuType } from '@/models/enums/ActionSheetType'
+import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { createCancleConfirmAlert } from '@/services/Alert'
+import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
@@ -38,14 +39,11 @@ import {
 } from '../Upload.style'
 import { postContents } from '../apis/postContents'
 
-interface ImageUploadProps {
-  navigation: MainNavigationProp
-}
-
 /**
  *
  */
-export const ImageUpload = ({ navigation }: ImageUploadProps) => {
+export const ImageUpload = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
@@ -109,7 +107,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         const permission = await checkPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowPhotoPermission',
             Platform.select({
               ios: 'photoPermissionGuideIOS',
@@ -130,7 +128,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
         const permission = await checkPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowCameraPermission',
             Platform.select({
               ios: 'cameraPermissionGuideIOS',
@@ -215,7 +213,7 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
       <ActionSheet
         ref={actionSheetRef}
         title={'이미지 업로드'}
-        options={options}
+        options={ImageUploadMenus()}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
@@ -258,5 +256,3 @@ export const ImageUpload = ({ navigation }: ImageUploadProps) => {
     </Container>
   )
 }
-
-const options = [i18n.t('cancel'), i18n.t('selectFromPhotoLibrary'), i18n.t('selectFromCamera')]

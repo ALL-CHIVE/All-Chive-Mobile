@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
+import { SafeAreaView } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
@@ -21,6 +22,7 @@ import { Tag } from '@/screens/tag/Tag'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
 import { requestPermissions } from '@/services/PermissionService'
+import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/SignInState'
 import { colors } from '@/styles/colors'
 
@@ -48,14 +50,30 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
  */
 export const RootStack = () => {
   const [isSignIn, setIsSignIn] = useRecoilState(SignInState)
+  const [isInstalled, setIsInstalled] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    getHasAutoSignInSession().then((res) => {
-      setIsSignIn(res)
-      // TODO: 스플래시 없애기
+    checkIsInstalled().then((res) => {
+      setIsInstalled(res)
+
+      if (res) {
+        // TODO: 자동 로그인 API 연동
+        getHasAutoSignInSession().then((res) => {
+          setIsSignIn(res)
+          setIsLoading(false)
+        })
+      } else {
+        setIsLoading(false)
+      }
+
       requestPermissions()
     })
   }, [])
+
+  if (isLoading) {
+    return <SafeAreaView></SafeAreaView>
+  }
 
   return (
     <>
@@ -64,7 +82,7 @@ export const RootStack = () => {
           headerShown: false,
           contentStyle: { backgroundColor: colors.white },
         }}
-        initialRouteName={isSignIn ? 'BottomTab' : 'OnBoarding1'}
+        initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding1'}
       >
         <Stack.Screen
           name="OnBoarding1"

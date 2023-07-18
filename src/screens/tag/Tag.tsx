@@ -1,21 +1,20 @@
 import React from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { Text } from 'react-native'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { CloseButtonHeader } from '@/components/header/closeButtonHeader/CloseButtonHeader'
+import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Container, PlusTagButton, PlusTagText, Title } from './Tag.style'
 
-interface TagProps {
-  navigation: MainNavigationProp
-}
-
 /**
  *
  */
-export const Tag = ({ navigation }: TagProps) => {
+export const Tag = () => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   /**
    *
    */

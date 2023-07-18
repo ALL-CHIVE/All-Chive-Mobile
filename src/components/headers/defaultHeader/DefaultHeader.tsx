@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
+import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { Text } from 'react-native'
 
@@ -11,7 +12,6 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style'
 
 interface DefaultHeaderProps {
-  navigation: MainNavigationProp
   title: string
   PopupMenuList: PopupMenu[]
   options: NativeStackNavigationOptions | BottomTabNavigationOptions
@@ -20,7 +20,9 @@ interface DefaultHeaderProps {
 /**
  * DefaultHeader
  */
-const DefaultHeader = ({ navigation, title, PopupMenuList }: DefaultHeaderProps) => {
+const DefaultHeader = ({ title, PopupMenuList }: DefaultHeaderProps) => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>

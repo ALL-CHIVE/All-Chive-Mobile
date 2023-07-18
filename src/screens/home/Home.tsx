@@ -6,9 +6,9 @@ import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { defaultImages } from '@/assets'
-import { ArchivingCard } from '@/components/ArchivingCard/ArchivingCard'
-import { CategoryList } from '@/components/categoryList/CategoryList'
-import HomeBackground from '@/components/homeBackground/HomeBackground'
+import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
+import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
+import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import { HomeArchivingList } from '@/models/archiving/ArchivingList'
@@ -58,7 +58,7 @@ export const Home = () => {
   }
 
   return (
-    <HomeBackground>
+    <HomeContainer>
       <Container>
         <Header>
           <SearchBar />
@@ -138,7 +138,7 @@ export const Home = () => {
           </ArchivingListContainer>
         </ScrollView>
       </Container>
-    </HomeBackground>
+    </HomeContainer>
   )
 }
 
