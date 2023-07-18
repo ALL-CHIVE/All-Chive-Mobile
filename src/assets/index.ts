@@ -14,6 +14,7 @@ export const defaultImages: Assets = {
 }
 
 export const defaultIcons: Assets = {
+  firstIndicator: require('@/assets/icons/firstIndicator.png'),
   archiving: require('@/assets/icons/archiving.png'),
   archivingFocus: require('@/assets/icons/archiving_focus.png'),
   community: require('@/assets/icons/community.png'),

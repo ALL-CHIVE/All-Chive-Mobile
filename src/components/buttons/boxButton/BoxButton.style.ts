@@ -4,14 +4,14 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  margin-top: 10%;
-  margin-bottom: 20%;
+  position: absolute;
+  bottom: 4%;
 `
 
 export const Button = styled.TouchableHighlight`
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 325px;
   height: 56px;
   border-radius: 8px;
   background-color: ${colors.mainYellow};
