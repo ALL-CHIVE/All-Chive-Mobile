@@ -89,7 +89,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
        */
       header: ({ options }) => (
         <DefaultHeader
-          navigation={navigation}
           title={contentTitle}
           PopupMenuList={PopupMenuList}
           options={options}

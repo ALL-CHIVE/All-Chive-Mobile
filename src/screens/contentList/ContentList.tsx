@@ -75,7 +75,6 @@ const ContentList = ({ route }: ContentListProps) => {
        */
       header: ({ options }) => (
         <DefaultHeader
-          navigation={navigation}
           title={route.params.title}
           PopupMenuList={PopupMenuList}
           options={options}
