@@ -19,7 +19,7 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
     <Container>
       <Title>{title}</Title>
       <TouchableOpacity onPress={onClose}>
-        <Image source={defaultIcons.closeButton} />
+        <Image source={defaultIcons.grayCloseButton} />
       </TouchableOpacity>
     </Container>
   )
