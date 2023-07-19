@@ -19,7 +19,7 @@ export const GrayTag = ({ tag, onRemove }: GrayTagProps) => {
         <RowView>
           <Text>{tag}</Text>
           <TouchableOpacity onPress={onRemove}>
-            <Text>X</Text>
+            <Text>{`  x`}</Text>
           </TouchableOpacity>
         </RowView>
       </Container>

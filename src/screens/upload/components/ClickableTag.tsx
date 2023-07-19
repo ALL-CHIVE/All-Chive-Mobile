@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Container, Text } from './ClickableTag.style'
+import { Container, RowView, Text } from './ClickableTag.style'
 
 interface TagProps {
   tag: string
@@ -13,7 +13,9 @@ interface TagProps {
 export const ClickableTag = ({ tag, onClick }: TagProps) => {
   return (
     <Container onPress={onClick}>
-      <Text>{tag}</Text>
+      <RowView>
+        <Text>{tag}</Text>
+      </RowView>
     </Container>
   )
 }
