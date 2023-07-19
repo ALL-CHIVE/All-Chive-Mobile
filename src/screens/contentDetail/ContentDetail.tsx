@@ -6,8 +6,8 @@ import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { deleteContent } from '@/apis/content/DeleteContent'
-import { getContent } from '@/apis/content/GetContent'
+import { deleteContent } from '@/apis/content/deleteContent'
+import { getContent } from '@/apis/content/getContent'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -71,11 +71,20 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   //   getContent(content?.contentId)
   // )
 
-  const { mutate: deleteContentMutate } = useMutation(() =>
-    deleteContent({
-      contentId: content?.contentId,
-    })
-  )
+  const { mutate: deleteContentMutate } = useMutation(deleteContent, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    },
+    /**
+     *
+     */
+    onError: (error: AxiosError) => {
+      // console.log(error)
+    },
+  })
 
   /**
    * HandleEdit
@@ -110,8 +119,9 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
    *
    */
   const handleDelete = () => {
-    // TODO: delete mutate
-    deleteContentMutate()
+    deleteContentMutate({
+      contentId: content.contentId,
+    })
   }
 
   const PopupMenuList: PopupMenu[] = content.isMine

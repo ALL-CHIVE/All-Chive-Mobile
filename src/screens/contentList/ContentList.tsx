@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
 import { ListRenderItem } from 'react-native'
+import { useMutation } from 'react-query'
 
+import { deleteArchiving } from '@/apis/archiving/deleteArchiving'
 import { getContentList } from '@/apis/fakeServerApis'
 import { defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
@@ -31,26 +34,41 @@ interface ContentListProps {
  */
 const ContentList = ({ route }: ContentListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const isMine = false
+  const isMine = true
   const [contentList, setContentList] = useState<SimpleContent[] | null>(null)
   const actionSheetRef = useRef<ActionSheet>(null)
+
+  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+
+  const { mutate: deleteArchivingMutate } = useMutation(deleteArchiving, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    },
+    /**
+     *
+     */
+    onError: (error: AxiosError) => {
+      // console.log(error)
+    },
+  })
 
   /**
    * HandleEdit
    */
   const HandleEdit = () => {
     // TODO: edit 로직 추가
-    console.log('edit content')
   }
 
   /**
    * HandleRemove
    */
-  const HandleRemove = () => {
-    // TODO: remove 로직 추가
-    console.log('remove content')
+  const showDeleteDialog = () => {
+    setIsDeleteDialogVisible(true)
   }
 
   /**
@@ -60,10 +78,17 @@ const ContentList = ({ route }: ContentListProps) => {
     actionSheetRef.current?.show()
   }
 
+  /**
+   *
+   */
+  const handleDelete = () => {
+    // deleteArchivingMutate()
+  }
+
   const PopupMenuList: PopupMenu[] = isMine
     ? [
         { title: 'update', onClick: HandleEdit },
-        { title: 'remove', onClick: HandleRemove },
+        { title: 'remove', onClick: showDeleteDialog },
       ]
     : [{ title: 'report', onClick: HandleReport }]
 
@@ -127,6 +152,19 @@ const ContentList = ({ route }: ContentListProps) => {
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
         theme="ios"
+      />
+      <TwoButtonDialog
+        isVisible={isDeleteDialogVisible}
+        title="doYouWantDeleteThisArchiving"
+        imageUrl={defaultImages.recycleBin}
+        completeText="delete"
+        onCancel={() => {
+          setIsDeleteDialogVisible(false)
+        }}
+        onComplete={() => {
+          setIsDeleteDialogVisible(false)
+          handleDelete()
+        }}
       />
       <TwoButtonDialog
         isVisible={isBlockDialogVisible}
