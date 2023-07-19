@@ -1,10 +1,10 @@
 {
   "food": "푸드",
   "life": "라이프",
-  "homeLiving": "홈/리빙",
+  "home_living": "홈/리빙",
   "shopping": "쇼핑",
   "sport": "스포츠",
-  "selfImprovement": "자기계발",
+  "self_improvement": "자기계발",
   "tech": "테크",
   "design": "디자인",
   "trend": "트렌드",

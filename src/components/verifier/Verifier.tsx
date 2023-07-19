@@ -16,7 +16,11 @@ interface VerifierProps {
 const Verifier = ({ isValid, text }: VerifierProps) => {
   return (
     <Container>
-      {isValid ? <Icon source={defaultIcons.check} /> : <Icon source={defaultIcons.closeButton} />}
+      {isValid ? (
+        <Icon source={defaultIcons.check} />
+      ) : (
+        <Icon source={defaultIcons.grayCloseButton} />
+      )}
       <Text>{i18n.t(text)}</Text>
     </Container>
   )

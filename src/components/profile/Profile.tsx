@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Text, Platform, Linking } from 'react-native'
+import { Platform, Linking } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
@@ -14,7 +14,7 @@ import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
 
-import { Container, ProfileImage, UploadButton } from './Profile.style'
+import { ButtonText, Container, ProfileImage, UploadButton } from './Profile.style'
 
 /**
  * Profile
@@ -86,9 +86,13 @@ const Profile = () => {
 
   return (
     <Container>
-      <ProfileImage source={profileImage ?? defaultImages.profile} />
+      {profileImage ? (
+        <ProfileImage source={profileImage} />
+      ) : (
+        <ProfileImage source={defaultImages.profile} />
+      )}
       <UploadButton onPress={handleUploadButton}>
-        <Text>{profileImage ? i18n.t('edit') : i18n.t('upload')}</Text>
+        <ButtonText>{profileImage ? i18n.t('edit') : i18n.t('upload')}</ButtonText>
       </UploadButton>
       <ActionSheet
         ref={actionSheetRef}

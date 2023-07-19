@@ -15,6 +15,7 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
+import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { IdTokenState } from '@/state/signIn/UserState'
 
@@ -58,6 +59,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
     )
 
     if (isSucess) {
+      setIsInstalled(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
     }
   }
@@ -101,7 +103,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 disabled={!nickname}
               >
                 {/* TODO: 아이콘 연결 */}
-                <Image source={defaultIcons.closeButton} />
+                <Image source={defaultIcons.grayCloseButton} />
               </ClearButton>
             </NicknameInputBox>
             <Verifier

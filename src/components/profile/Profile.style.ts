@@ -21,4 +21,5 @@ export const UploadButton = styled.TouchableOpacity`
 `
 export const ButtonText = styled.Text`
   ${fonts.body2}
+  color: ${colors.gray600}
 `

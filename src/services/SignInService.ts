@@ -75,7 +75,7 @@ const getIsUser = async (type: string, idToken: string): Promise<SignInResult | 
 
     if (!response?.data?.data) {
       return
-    } else if (response.data.data['canLogin']) {
+    } else if (!response.data.data['canLogin']) {
       return {
         canLogin: false,
         idToken,
@@ -103,13 +103,18 @@ export const signUp = async (
   categories: string[]
 ) => {
   try {
-    const response = await signUpUser(provider, idToken, profileImgUrl, nickname, categories)
+    const response = await signUpUser(
+      provider,
+      idToken,
+      profileImgUrl,
+      nickname,
+      categories.map((c) => c.toUpperCase())
+    )
 
     if (!response?.data?.data) {
       return false
     } else {
       saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
-      return true
     }
   } catch (err) {
     //ignore
