@@ -10,6 +10,7 @@ export const defaultImages: Assets = {
   onBoarding2: require('@/assets/default/onboarding2.png'),
   uploadBottomSheet: require('@/assets/default/uploadBottomSheet.png'),
   reportComplete: require('@/assets/default/reportComplete.png'),
+  thumbnail: require('@/assets/default/thumbnail.png'),
   blockComplete: require('@/assets/default/blockComplete.png'),
 }
 
@@ -24,15 +25,17 @@ export const defaultIcons: Assets = {
   upload: require('@/assets/icons/upload.png'),
   design: require('@/assets/icons/design.png'),
   food: require('@/assets/icons/food.png'),
-  homeAndLiving: require('@/assets/icons/homeAndLiving.png'),
+  homeLiving: require('@/assets/icons/homeLiving.png'),
   life: require('@/assets/icons/life.png'),
-  selfDevelopment: require('@/assets/icons/selfDevelopment.png'),
+  selfImprovement: require('@/assets/icons/selfImprovement.png'),
   shopping: require('@/assets/icons/shopping.png'),
-  sports: require('@/assets/icons/sports.png'),
+  sport: require('@/assets/icons/sport.png'),
   tech: require('@/assets/icons/tech.png'),
-  trends: require('@/assets/icons/trends.png'),
-  closeButton: require('@/assets/icons/closeButton.png'),
+  trend: require('@/assets/icons/trend.png'),
+  grayCloseButton: require('@/assets/icons/gray_closeButton.png'),
+  whiteCloseButton: require('@/assets/icons/white_closeButton.png'),
   back: require('@/assets/icons/back.png'),
+  search: require('@/assets/icons/search.png'),
 }
 
 export const loginIcons: Assets = {

@@ -58,7 +58,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
     )
 
     if (isSucess) {
-      navigation.navigate('BottomTab', { screen: 'Community' })
+      navigation.navigate('BottomTab', { screen: 'Home' })
     }
   }
 

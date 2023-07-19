@@ -14,12 +14,12 @@ import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/Bo
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
+import { CreateTag } from '@/screens/createTag/CreateTag'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import Report from '@/screens/report/Report'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
-import { Tag } from '@/screens/tag/Tag'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
@@ -36,7 +36,7 @@ export type RootStackParamList = {
   ContentList: { id: number; title: string }
   LinkUpload: undefined
   ImageUpload: undefined
-  Tag: undefined
+  CreateTag: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
 }
@@ -128,8 +128,8 @@ export const RootStack = () => {
           component={ImageUpload}
         />
         <Stack.Screen
-          name="Tag"
-          component={Tag}
+          name="CreateTag"
+          component={CreateTag}
         />
         <Stack.Screen
           name="ContentDetail"

@@ -16,3 +16,12 @@ export interface HomeArchivingList {
   size: number
   hasNext: boolean
 }
+
+export interface ArchivingListResponse {
+  [category: string]: ArchivingItem[]
+}
+
+export interface ArchivingItem {
+  title: string
+  contentCnt: number
+}

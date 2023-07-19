@@ -49,6 +49,9 @@ const PermissionFactory = (type: string) => {
     case Permissions.PhotoLibrary:
       return getPhotoLibraryPermissionKey()
 
+    case Permissions.File:
+      return getFilePermissionKey()
+
     default:
       return null
   }
@@ -72,6 +75,17 @@ const getPhotoLibraryPermissionKey = (): Permission | null => {
   return Platform.select({
     ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
     android: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+    default: null,
+  })
+}
+
+/**
+ *
+ */
+const getFilePermissionKey = (): Permission | null => {
+  return Platform.select({
+    // ios: PERMISSIONS.IOS.,
+    android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
     default: null,
   })
 }

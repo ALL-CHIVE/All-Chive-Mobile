@@ -1,3 +1,4 @@
+import DocumentPicker from 'react-native-document-picker'
 import ImageCropPicker from 'react-native-image-crop-picker'
 
 /**
@@ -25,5 +26,18 @@ export const handleCameraOpen = async () => {
     })
   } catch (error) {
     //ignore
+  }
+}
+
+/**
+ *
+ */
+export const handleFileOpen = async () => {
+  try {
+    return await DocumentPicker.pickSingle({
+      type: 'images',
+    })
+  } catch (error) {
+    // ignore
   }
 }
