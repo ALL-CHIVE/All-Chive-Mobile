@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Modal, Text, TouchableOpacity } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
 
-import { Content } from '@/models/Content'
+import { GetContentsResponse } from '@/models/contents/Contents'
 import {
   Container,
   ImagePreview,
@@ -12,7 +12,7 @@ import {
 import ImageHeader from './components/ImageHeader'
 
 interface ImageDetailProps {
-  content: Content
+  content: GetContentsResponse
 }
 
 /**
@@ -24,18 +24,18 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
   return (
     <Container>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <ImagePreview source={{ uri: content.uri }} />
+        <ImagePreview source={{ uri: content.imgUrl }} />
       </TouchableOpacity>
       <Modal
         visible={isModalVisible}
         transparent={true}
       >
         <ImageViewer
-          imageUrls={[{ url: content.uri }]}
+          imageUrls={[{ url: content.imgUrl }]}
           renderIndicator={(_currentIndex, _allSize) => <Text></Text>}
           renderHeader={() => (
             <ImageHeader
-              title={content.title}
+              title={content.contentTitle}
               onClose={() => setModalVisible(false)}
             />
           )}
