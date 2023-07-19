@@ -10,8 +10,7 @@ import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
-import { TokenState } from '@/state/UserState'
-import { IdTokenState } from '@/state/UserState'
+import { IdTokenState } from '@/state/signIn/UserState'
 
 import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.style'
 
@@ -20,7 +19,6 @@ import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.s
  */
 export const Login = () => {
   const navigation = useNavigation<MainNavigationProp>()
-  const setTokenState = useSetRecoilState(TokenState)
   const setIdTokenState = useSetRecoilState(IdTokenState)
 
   /**
@@ -33,13 +31,12 @@ export const Login = () => {
       return
     }
 
-    if (signInResult.canLogin && signInResult.accessToken) {
-      setTokenState(signInResult.accessToken)
+    if (signInResult.canLogin) {
       navigation.navigate('BottomTab', { screen: 'Home' })
     } else if (!signInResult.canLogin && signInResult.idToken) {
       setIdTokenState(signInResult.idToken)
       // TODO: 이용약관 페이지 추가
-      navigation.navigate('SelectCategory')
+      navigation.navigate('SelectCategory', { type })
     }
   }
 

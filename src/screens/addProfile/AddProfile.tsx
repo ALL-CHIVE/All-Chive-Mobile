@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Image, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
@@ -12,8 +12,11 @@ import Profile from '@/components/profile/Profile'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
 import { checkNickname } from '@/services/NicknameChecker'
+import { signUp } from '@/services/SignInService'
 import { ProfileImageState } from '@/state/ProfileImageState'
+import { IdTokenState } from '@/state/signIn/UserState'
 
 import {
   BodyText,
@@ -25,28 +28,47 @@ import {
   NicknameInputBox,
 } from './AddProfile.style'
 
+interface AddProfileProps {
+  route: RouteProp<RootStackParamList, 'AddProfile'>
+}
+
 /**
  * AddProfile
  */
-const AddProfile = () => {
+const AddProfile = ({ route }: AddProfileProps) => {
   const profileImage = useRecoilValue(ProfileImageState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
+  const idToken = useRecoilValue(IdTokenState)
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
-  const handleComplete = () => {
-    // TODO: 서버로 이미지, 닉네임 전달
-    navigation.navigate('BottomTab', { screen: 'Community' })
+  const handleComplete = async () => {
+    //TODO: 이미지 파일 업로드
+    const imageUrl = profileImage ? '' : ''
+
+    const isSucess = await signUp(
+      route.params.type,
+      idToken,
+      imageUrl,
+      nickname,
+      route.params.categories
+    )
+
+    if (isSucess) {
+      navigation.navigate('BottomTab', { screen: 'Community' })
+    }
   }
+
+  // TODO: 닉네임 체크 500 error
+  // const { data, isLoading } = useQuery(['nickname', nickname], () => checkNicknameValid(nickname))
 
   /**
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
-    // TODO: nickname 조건 처리
     setNickname(nickname)
     setIsNicknameValid(checkNickname(nickname))
     // TODO: nickname 중복 체크

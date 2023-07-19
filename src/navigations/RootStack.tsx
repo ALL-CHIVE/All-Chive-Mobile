@@ -9,6 +9,7 @@ import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { ReportType } from '@/models/enums/ReportType'
+import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
@@ -21,16 +22,15 @@ import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { Tag } from '@/screens/tag/Tag'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
-import { requestPermissions } from '@/services/PermissionService'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
-import { SignInState } from '@/state/SignInState'
+import { SignInState } from '@/state/signIn/SignInState'
 import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
-  SelectCategory: undefined
-  AddProfile: undefined
+  SelectCategory: { type: SignInType }
+  AddProfile: { type: SignInType; categories: string[] }
   BottomTab: BottomTabNavigationParams
   Login: undefined
   ContentList: { id: number; title: string }
@@ -98,10 +98,15 @@ export const RootStack = () => {
         <Stack.Screen
           name="SelectCategory"
           component={SelectCategory}
+          initialParams={{ type: SignInType.Kakao }}
         />
         <Stack.Screen
           name="AddProfile"
           component={AddProfile}
+          initialParams={{
+            type: SignInType.Kakao,
+            categories: ['FOOD'],
+          }}
         />
         <Stack.Screen
           name="BottomTab"

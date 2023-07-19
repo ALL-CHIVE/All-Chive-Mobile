@@ -1,11 +1,11 @@
 import { appleAuth } from '@invertase/react-native-apple-authentication'
 import { login } from '@react-native-seoul/kakao-login'
 
-import { postIdTokenLogin } from '@/apis/client'
+import { postIdTokenLogin, signUpUser } from '@/apis/client'
 import { SignInResult } from '@/models/SignInResult'
 import { SignInType } from '@/models/enums/SignInType'
 
-import { setRefreshToken } from './localStorage/LocalStorage'
+import { setAccessToken, setRefreshToken } from './localStorage/LocalStorage'
 
 /**
  * 로그인을 진행합니다.
@@ -36,7 +36,7 @@ const signInWithApple = async (): Promise<SignInResult | undefined> => {
     if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
       const data = [user, fullName, email, identityToken, credentialState]
       console.log(JSON.stringify(data))
-      return getIsUser('APPLE', identityToken)
+      return getIsUser(SignInType.Apple.toUpperCase(), identityToken)
     }
 
     return
@@ -56,7 +56,7 @@ const signInWithKakao = async (): Promise<SignInResult | undefined> => {
     const data = await login()
 
     if (data) {
-      return getIsUser('KAKAO', data['idToken'])
+      return getIsUser(SignInType.Kakao.toUpperCase(), data['idToken'])
     }
 
     return
@@ -75,16 +75,15 @@ const getIsUser = async (type: string, idToken: string): Promise<SignInResult | 
 
     if (!response?.data?.data) {
       return
-    } else if (!response.data.data['canLogin']) {
+    } else if (response.data.data['canLogin']) {
       return {
         canLogin: false,
         idToken,
       }
     } else {
-      saveTokens(response.data.data['refreshToken'])
+      saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
       return {
         canLogin: true,
-        accessToken: response.data.data['accessToken'],
       }
     }
   } catch (err) {
@@ -94,8 +93,35 @@ const getIsUser = async (type: string, idToken: string): Promise<SignInResult | 
 }
 
 /**
+ * 가입합니다.
+ */
+export const signUp = async (
+  provider: SignInType,
+  idToken: string,
+  profileImgUrl: string,
+  nickname: string,
+  categories: string[]
+) => {
+  try {
+    const response = await signUpUser(provider, idToken, profileImgUrl, nickname, categories)
+
+    if (!response?.data?.data) {
+      return false
+    } else {
+      saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
+      return true
+    }
+  } catch (err) {
+    //ignore
+    console.log(err)
+    return false
+  }
+}
+
+/**
  * saveTokens
  */
-const saveTokens = (token: string) => {
-  setRefreshToken(token)
+const saveTokens = (refreshToken: string, accessToken: string) => {
+  setRefreshToken(refreshToken)
+  setAccessToken(accessToken)
 }

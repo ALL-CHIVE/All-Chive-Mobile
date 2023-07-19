@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import { ListRenderItem, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
@@ -11,14 +11,19 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
 import { CategoryListState } from '@/state/CategoryListState'
 
 import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
 
+interface SelectCategoryProps {
+  route: RouteProp<RootStackParamList, 'SelectCategory'>
+}
+
 /**
  * SelectCategory
  */
-const SelectCategory = () => {
+const SelectCategory = ({ route }: SelectCategoryProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const categoryList = useRecoilValue(CategoryListState)
   const [selectedCategory, setSelectedCategory] = useState<string[]>([])
@@ -40,8 +45,7 @@ const SelectCategory = () => {
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleSubmitCategory = () => {
-    // TODO: api 전달
-    navigation.navigate('AddProfile')
+    navigation.navigate('AddProfile', { type: route.params.type, categories: selectedCategory })
   }
 
   /**

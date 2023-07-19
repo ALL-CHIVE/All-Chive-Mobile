@@ -14,7 +14,7 @@ import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
 
-import { Container, EmptyProfile, ProfileImage, UploadButton } from './Profile.style'
+import { Container, ProfileImage, UploadButton } from './Profile.style'
 
 /**
  * Profile
@@ -36,7 +36,7 @@ const Profile = () => {
   const handleActionSheetMenu = async (index: ProfileMenuType) => {
     switch (index) {
       case ProfileMenuType.selectDefaultImage: {
-        setProfileImage(defaultImages.profile)
+        setProfileImage(null)
         break
       }
       case ProfileMenuType.selectFromPhotoLibrary: {
@@ -86,7 +86,7 @@ const Profile = () => {
 
   return (
     <Container>
-      {profileImage ? <ProfileImage source={profileImage} /> : <EmptyProfile />}
+      <ProfileImage source={profileImage ?? defaultImages.profile} />
       <UploadButton onPress={handleUploadButton}>
         <Text>{profileImage ? i18n.t('edit') : i18n.t('upload')}</Text>
       </UploadButton>
