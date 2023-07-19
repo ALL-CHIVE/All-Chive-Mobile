@@ -171,7 +171,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         <Container>
           <ScrollView>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.closeButton} />
+              <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
             <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>

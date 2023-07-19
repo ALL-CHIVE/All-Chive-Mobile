@@ -98,6 +98,7 @@
   "unblock": "해제",
   "blockComplete": "{{nickname, string}}님 차단 완료!",
   "youCannotSeeBlockUserContents": "{{nickname, string}}님의 카테고리를 더이상 볼 수 없어요.",
+  "noMoreTag": "태그 개수가 10개가 초과되어\n더이상 태그를 추가할 수 없습니다.",
   "doYouWantDeleteThisContent": "이 컨텐츠를 휴지통에\n버리시겠어요?",
   "doYouWantDeleteThisArchiving": "이 아카이빙을 휴지통에\n버리시겠어요?"
 }
