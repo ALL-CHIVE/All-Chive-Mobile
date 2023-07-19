@@ -14,6 +14,12 @@ export const Title = styled.Text`
   text-align: center;
 `
 
+export const LatestTitle = styled.Text`
+  ${fonts.subtitle2}
+  color: ${colors.gray600};
+  margin-bottom: 13px;
+`
+
 export const PlusTagButton = styled.TouchableOpacity`
   width: 215px;
   height: 50px;
@@ -29,4 +35,8 @@ export const PlusTagButton = styled.TouchableOpacity`
 export const PlusTagText = styled.Text`
   ${fonts.btn1}
   color: ${colors.gray400};
+`
+
+export const RowView = styled.View`
+  flex-direction: row;
 `

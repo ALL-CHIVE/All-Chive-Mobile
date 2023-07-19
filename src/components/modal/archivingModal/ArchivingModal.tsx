@@ -62,7 +62,7 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
         <Container>
           <ScrollView>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.closeButton} />
+              <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
             <Title>{i18n.t('archiving')}</Title>
             <PlusButton onPress={() => setOpenPlusModal(true)}>
