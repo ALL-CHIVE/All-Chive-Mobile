@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
-import { Container } from './GrayTag.style'
+import { Container, RowView, Text } from './GrayTag.style'
 
 interface GrayTagProps {
   tag: string
@@ -16,10 +16,12 @@ export const GrayTag = ({ tag, onRemove }: GrayTagProps) => {
   return (
     <>
       <Container>
-        <Text>{tag}</Text>
-        <TouchableOpacity onPress={onRemove}>
-          <Text>X</Text>
-        </TouchableOpacity>
+        <RowView>
+          <Text>{tag}</Text>
+          <TouchableOpacity onPress={onRemove}>
+            <Text>X</Text>
+          </TouchableOpacity>
+        </RowView>
       </Container>
     </>
   )
