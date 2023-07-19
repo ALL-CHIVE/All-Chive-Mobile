@@ -97,5 +97,6 @@
   "block": "차단",
   "unblock": "해제",
   "blockComplete": "{{nickname, string}}님 차단 완료!",
-  "youCannotSeeBlockUserContents": "{{nickname, string}}님의 카테고리를 더이상 볼 수 없어요."
+  "youCannotSeeBlockUserContents": "{{nickname, string}}님의 카테고리를 더이상 볼 수 없어요.",
+  "doYouWantDeleteThisContent": "이 컨텐츠를 휴지통에\n버리시겠어요?"
 }
