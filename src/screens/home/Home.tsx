@@ -11,7 +11,7 @@ import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
-import { HomeArchivingList } from '@/models/archiving/ArchivingList'
+import { HomeArchivingListResponse } from '@/models/archiving/HomeArchivingList'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
@@ -33,7 +33,7 @@ import { getArchivingList } from './apis/getArchivingList'
 export const Home = () => {
   const currentCategory = useRecoilValue(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
-  const { data: archivingList } = useQuery<HomeArchivingList, AxiosError>(
+  const { data: archivingList } = useQuery<HomeArchivingListResponse, AxiosError>(
     ['getArchivingList'],
     () =>
       getArchivingList({

@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 import { ListRenderItem } from 'react-native'
 import { useMutation } from 'react-query'
 
-import { deleteArchiving } from '@/apis/archiving/deleteArchiving'
+import { deleteArchiving } from '@/apis/archiving/archiving'
 import { getContentList } from '@/apis/fakeServerApis'
 import { defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
