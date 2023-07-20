@@ -76,7 +76,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      *
      */
     onSuccess: () => {
-      navigation.navigate('BottomTab', { screen: 'Home' })
+      navigation.goBack()
     },
     /**
      *
@@ -215,7 +215,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         onComplete={() => {
           setIsDeleteDialogVisible(false)
           handleDelete()
-          navigation.navigate('BottomTab', { screen: 'Home' })
         }}
       />
       <TwoButtonDialog
