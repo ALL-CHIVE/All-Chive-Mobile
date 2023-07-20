@@ -14,6 +14,8 @@ import AddProfile from '@/screens/addProfile/AddProfile'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
 import { CreateTag } from '@/screens/createTag/CreateTag'
+import { ImageEdit } from '@/screens/edit/imageEdit/ImageEdit'
+import { LinkEdit } from '@/screens/edit/linkEdit/LinkEdit'
 import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
@@ -39,6 +41,8 @@ export type RootStackParamList = {
   CreateTag: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
+  LinkEdit: undefined
+  ImageEdit: undefined
 }
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
@@ -140,6 +144,14 @@ export const RootStack = () => {
           options={{
             headerShown: true,
           }}
+        />
+        <Stack.Screen
+          name="LinkEdit"
+          component={LinkEdit}
+        />
+        <Stack.Screen
+          name="ImageEdit"
+          component={ImageEdit}
         />
       </Stack.Navigator>
     </>

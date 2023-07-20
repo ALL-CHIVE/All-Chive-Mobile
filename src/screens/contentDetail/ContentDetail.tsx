@@ -4,9 +4,10 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
-import { getContent } from '@/apis/fakeServerApis'
+import { deleteContent } from '@/apis/content/deleteContent'
+import { getContent } from '@/apis/content/getContent'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -15,8 +16,8 @@ import Memo from '@/components/memo/Memo'
 import Popup from '@/components/popup/Popup'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
-import { Content } from '@/models/Content'
 import { PopupMenu } from '@/models/PopupMenu'
+import { GetContentsResponse } from '@/models/contents/Contents'
 import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
@@ -38,28 +39,73 @@ interface ContentDetailProps {
  */
 const ContentDetail = ({ route }: ContentDetailProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const contentId = 'test'
-  const contentType = ContentType.Image
-  const contentTitle = '제목제목'
-  const isMine = false
   const actionSheetRef = useRef<ActionSheet>(null)
+
+  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+
+  // 추후삭제
+  const content = {
+    contentId: 0,
+    contentTitle: '컨텐츠 타이틀',
+    contentType: 'IMAGE',
+    link: '',
+    imgUrl: '',
+    contentCreatedAt: '2023.07.02',
+    tagList: [
+      {
+        tagId: 0,
+        name: 'UX/UI',
+      },
+    ],
+    isMine: true,
+    memo: '컨텐츠 메모',
+  }
+
+  // const {
+  //   isLoading,
+  //   error,
+  //   data: content,
+  // } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
+  //   getContent(content?.contentId)
+  // )
+
+  const { mutate: deleteContentMutate } = useMutation(deleteContent, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    },
+    /**
+     *
+     */
+    onError: (error: AxiosError) => {
+      // console.log(error)
+    },
+  })
 
   /**
    * HandleEdit
    */
   const HandleEdit = () => {
     // TODO: edit 로직 추가
-    console.log('edit content')
+    switch (content?.contentType) {
+      case ContentType.Link:
+        navigation.navigate('LinkEdit')
+        break
+      case ContentType.Image:
+        navigation.navigate('ImageEdit')
+        break
+    }
   }
 
   /**
-   * HandleRemove
+   * showDeleteDialog
    */
-  const HandleRemove = () => {
-    // TODO: remove 로직 추가
-    console.log('remove content')
+  const showDeleteDialog = () => {
+    setIsDeleteDialogVisible(true)
   }
 
   /**
@@ -69,18 +115,21 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     actionSheetRef.current?.show()
   }
 
-  const PopupMenuList: PopupMenu[] = isMine
+  /**
+   *
+   */
+  const handleDelete = () => {
+    deleteContentMutate({
+      contentId: content.contentId,
+    })
+  }
+
+  const PopupMenuList: PopupMenu[] = content.isMine
     ? [
         { title: 'update', onClick: HandleEdit },
-        { title: 'remove', onClick: HandleRemove },
+        { title: 'remove', onClick: showDeleteDialog },
       ]
     : [{ title: 'report', onClick: HandleReport }]
-
-  const {
-    isLoading,
-    error,
-    data: content,
-  } = useQuery<Content, AxiosError>(queryKeys.contents, () => getContent(contentId, contentType))
 
   useEffect(() => {
     navigation.setOptions({
@@ -89,12 +138,12 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
        */
       header: ({ options }) => (
         <DefaultHeader
-          title={contentTitle}
+          title={content?.contentTitle}
           PopupMenuList={PopupMenuList}
           options={options}
         />
       ),
-      title: contentTitle,
+      title: content?.contentTitle,
       /**
        * popup
        */
@@ -127,17 +176,17 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     <>
       <SafeAreaView>
         <ScrollView>
-          {isLoading && <Text>loading</Text>}
-          {error && <Text>error</Text>}
+          {/* {isLoading && <Text>loading</Text>}
+          {error && <Text>error</Text>} */}
           {content && (
             <ContentDetailView>
               <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
               <SubTitle>{i18n.t('tag')}</SubTitle>
               <TagList>
-                {content.tags.map((tag) => (
+                {content.tagList.map((tag) => (
                   <WhiteTag
-                    key={tag}
-                    tag={tag}
+                    key={tag.tagId}
+                    tag={tag.name}
                   />
                 ))}
               </TagList>
@@ -154,6 +203,20 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}
         theme="ios"
+      />
+      <TwoButtonDialog
+        isVisible={isDeleteDialogVisible}
+        title="doYouWantDeleteThisContent"
+        imageUrl={defaultImages.recycleBin}
+        completeText="delete"
+        onCancel={() => {
+          setIsDeleteDialogVisible(false)
+        }}
+        onComplete={() => {
+          setIsDeleteDialogVisible(false)
+          handleDelete()
+          navigation.navigate('BottomTab', { screen: 'Home' })
+        }}
       />
       <TwoButtonDialog
         isVisible={isBlockDialogVisible}
@@ -188,8 +251,8 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
 /**
  * content detail을 가져옵니다.
  */
-const getContentDetail = (content: Content) => {
-  switch (content?.type) {
+const getContentDetail = (content: GetContentsResponse) => {
+  switch (content?.contentType) {
     case ContentType.Link:
       return <LinkDetail content={content} />
     case ContentType.Image:

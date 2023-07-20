@@ -12,6 +12,7 @@ export const defaultImages: Assets = {
   reportComplete: require('@/assets/default/reportComplete.png'),
   thumbnail: require('@/assets/default/thumbnail.png'),
   blockComplete: require('@/assets/default/blockComplete.png'),
+  recycleBin: require('@/assets/default/recycleBin.png'),
 }
 
 export const defaultIcons: Assets = {

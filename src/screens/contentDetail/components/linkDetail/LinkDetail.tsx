@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { TouchableOpacity, Alert, Platform, Linking } from 'react-native'
+import { TouchableOpacity, Platform, Linking } from 'react-native'
 import { InAppBrowser, InAppBrowserOptions } from 'react-native-inappbrowser-reborn'
 import { InAppBrowseriOSOptions } from 'react-native-inappbrowser-reborn'
 import { InAppBrowserAndroidOptions } from 'react-native-inappbrowser-reborn'
 
-import { Content } from '@/models/Content'
+import { GetContentsResponse } from '@/models/contents/Contents'
 
 import { LinkPreview } from './LinkDetail.style'
 
 interface LinkDetailProps {
-  content: Content
+  content: GetContentsResponse
 }
 
 /**
@@ -22,26 +22,26 @@ const LinkDetail = ({ content }: LinkDetailProps) => {
    */
   const openInappBrowser = async () => {
     try {
-      if (!content?.uri) {
+      if (!content?.link) {
         return
       }
 
       const isAvailable = await InAppBrowser.isAvailable()
 
       if (isAvailable) {
-        InAppBrowser.open(content.uri, getInAppBrowserOptions())
+        InAppBrowser.open(content.link, getInAppBrowserOptions())
         return
       }
 
       throw new Error('can not open inapp browser')
     } catch (error) {
-      Linking.openURL(content.uri)
+      Linking.openURL(content.link)
     }
   }
 
   return (
     <TouchableOpacity onPress={() => openInappBrowser()}>
-      <LinkPreview source={{ uri: content.ogTag?.image_url }} />
+      <LinkPreview source={{ uri: content.link }} />
     </TouchableOpacity>
   )
 }
