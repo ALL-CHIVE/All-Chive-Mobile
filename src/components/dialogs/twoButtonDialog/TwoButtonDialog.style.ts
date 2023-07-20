@@ -37,7 +37,7 @@ export const Buttons = styled.View`
   margin-top: 20px;
 `
 
-export const CancleButton = styled.TouchableOpacity`
+export const CancelButton = styled.TouchableOpacity`
   width: 102px;
   height: 36px;
   background-color: ${colors.gray500};
@@ -59,7 +59,7 @@ export const CompleteButton = styled.TouchableOpacity`
   margin-right: 10px;
 `
 
-export const CancleButtonText = styled.Text`
+export const CancelButtonText = styled.Text`
   ${fonts.btn1}
   color: ${colors.white}
 `
