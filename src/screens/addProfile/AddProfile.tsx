@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Image, View } from 'react-native'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -17,6 +17,7 @@ import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
+import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState } from '@/state/signIn/UserState'
 
 import {
@@ -38,6 +39,7 @@ interface AddProfileProps {
  */
 const AddProfile = ({ route }: AddProfileProps) => {
   const profileImage = useRecoilValue(ProfileImageState)
+  const setIsSignIn = useSetRecoilState(SignInState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
@@ -60,6 +62,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
 
     if (isSucess) {
       setIsInstalled(true)
+      setIsSignIn(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
     }
   }

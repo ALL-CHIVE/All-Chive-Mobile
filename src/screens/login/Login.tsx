@@ -10,6 +10,7 @@ import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
+import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState } from '@/state/signIn/UserState'
 
 import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.style'
@@ -20,6 +21,7 @@ import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.s
 export const Login = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const setIdTokenState = useSetRecoilState(IdTokenState)
+  const IsSignInState = useSetRecoilState(SignInState)
 
   /**
    * 로그인을 처리합니다.
@@ -32,6 +34,7 @@ export const Login = () => {
     }
 
     if (signInResult.canLogin) {
+      IsSignInState(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
     } else if (!signInResult.canLogin && signInResult.idToken) {
       setIdTokenState(signInResult.idToken)

@@ -83,31 +83,35 @@ export const RootStack = () => {
         }}
         initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding1'}
       >
-        <Stack.Screen
-          name="OnBoarding1"
-          component={OnBoarding1}
-        />
-        <Stack.Screen
-          name="OnBoarding2"
-          component={OnBoarding2}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          name="SelectCategory"
-          component={SelectCategory}
-          initialParams={{ type: SignInType.Kakao }}
-        />
-        <Stack.Screen
-          name="AddProfile"
-          component={AddProfile}
-          initialParams={{
-            type: SignInType.Kakao,
-            categories: ['FOOD'],
-          }}
-        />
+        {!isSignIn && (
+          <>
+            <Stack.Screen
+              name="OnBoarding1"
+              component={OnBoarding1}
+            />
+            <Stack.Screen
+              name="OnBoarding2"
+              component={OnBoarding2}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+            />
+            <Stack.Screen
+              name="SelectCategory"
+              component={SelectCategory}
+              initialParams={{ type: SignInType.Kakao }}
+            />
+            <Stack.Screen
+              name="AddProfile"
+              component={AddProfile}
+              initialParams={{
+                type: SignInType.Kakao,
+                categories: ['FOOD'],
+              }}
+            />
+          </>
+        )}
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
