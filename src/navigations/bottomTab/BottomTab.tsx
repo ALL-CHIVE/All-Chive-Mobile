@@ -11,8 +11,8 @@ import TabBarBackground from '@/components/tabBar/tabBarBackground/TabBarBackgro
 import TabIcon from '@/components/tabBar/tabIcon/TabIcon'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { Community } from '@/screens/community/Community'
-import { Home } from '@/screens/home/Home'
+import { Community } from '@/screens/main/community/Community'
+import { Home } from '@/screens/main/home/Home'
 import { colors } from '@/styles/colors'
 
 import { Container, Styles, UploadButton, UploadModal } from './BottomTab.style'

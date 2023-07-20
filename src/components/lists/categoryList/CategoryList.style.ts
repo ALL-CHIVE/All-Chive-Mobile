@@ -3,11 +3,10 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.ScrollView`
+export const ScrollContainer = styled.ScrollView`
   flex-direction: row;
-  background-color: ${colors.yellow100};
+  background-color: rgba(255, 252, 231, 0.9);
   padding-left: 25px;
-  padding-bottom: 17px;
 `
 
 export const Category = styled.TouchableOpacity`
