@@ -21,8 +21,8 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
-import { createCancleConfirmAlert } from '@/services/Alert'
-import { checkPermission } from '@/services/PermissionService'
+import { createCancelConfirmAlert } from '@/services/Alert'
+import { checkAndRequestPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
@@ -101,10 +101,10 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         break
       }
       case DefaultMenuType.selectFromPhotoLibrary: {
-        const permission = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowPhotoPermission',
             Platform.select({
               ios: 'photoPermissionGuideIOS',
@@ -122,10 +122,10 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         break
       }
       case DefaultMenuType.selectFromCamera: {
-        const permission = await checkPermission(Permissions.Camera)
+        const permission = await checkAndRequestPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
-          createCancleConfirmAlert(
+          createCancelConfirmAlert(
             'pleaseAllowCameraPermission',
             Platform.select({
               ios: 'cameraPermissionGuideIOS',

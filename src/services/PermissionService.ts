@@ -23,22 +23,6 @@ export const checkAndRequestPermission = async (type: Permissions) => {
 }
 
 /**
- * checkPermission
- */
-export const checkPermission = async (type: Permissions) => {
-  const key = PermissionFactory(type)
-  return key && (await check(key))
-}
-
-/**
- * requestPermission
- */
-export const requestPermission = async (type: Permissions) => {
-  const key = PermissionFactory(type)
-  return key && (await request(key))
-}
-
-/**
  * PermissionFactory
  */
 const PermissionFactory = (type: string) => {

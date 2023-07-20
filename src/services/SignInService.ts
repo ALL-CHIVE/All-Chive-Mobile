@@ -1,7 +1,7 @@
 import { appleAuth } from '@invertase/react-native-apple-authentication'
 import { login } from '@react-native-seoul/kakao-login'
 
-import { postIdTokenLogin, signUpUser } from '@/apis/client'
+import { postIdTokenLogin, signUpUser } from '@/apis/auth'
 import { SignInResult } from '@/models/SignInResult'
 import { SignInType } from '@/models/enums/SignInType'
 

@@ -23,7 +23,7 @@ import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionShee
 import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkPermission } from '@/services/PermissionService'
+import { checkAndRequestPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
@@ -110,7 +110,7 @@ export const ImageUpload = () => {
   const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
     switch (index) {
       case ImageUploadMenuType.selectFromPhotoLibrary: {
-        const permission = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -131,7 +131,7 @@ export const ImageUpload = () => {
         break
       }
       case ImageUploadMenuType.selectFromFile: {
-        const permission = await checkPermission(Permissions.File)
+        const permission = await checkAndRequestPermission(Permissions.File)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -152,7 +152,7 @@ export const ImageUpload = () => {
         break
       }
       case ImageUploadMenuType.selectFromCamera: {
-        const permission = await checkPermission(Permissions.Camera)
+        const permission = await checkAndRequestPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
