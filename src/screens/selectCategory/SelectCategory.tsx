@@ -56,7 +56,7 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
       <ImageButton
         title={item}
         updateSelectedList={handleCategoryPress}
-        source={defaultIcons[item]}
+        source={defaultIcons[item.toLowerCase()]}
         disabled={selectedCategory.length >= 3 && !selectedCategory.includes(item)}
       />
     )

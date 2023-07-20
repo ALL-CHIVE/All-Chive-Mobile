@@ -36,7 +36,7 @@ const signInWithApple = async (): Promise<SignInResult | undefined> => {
     if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
       const data = [user, fullName, email, identityToken, credentialState]
       console.log(JSON.stringify(data))
-      return getIsUser(SignInType.Apple.toUpperCase(), identityToken)
+      return getIsUser(SignInType.Apple, identityToken)
     }
 
     return
@@ -56,7 +56,7 @@ const signInWithKakao = async (): Promise<SignInResult | undefined> => {
     const data = await login()
 
     if (data) {
-      return getIsUser(SignInType.Kakao.toUpperCase(), data['idToken'])
+      return getIsUser(SignInType.Kakao, data['idToken'])
     }
 
     return
@@ -103,22 +103,17 @@ export const signUp = async (
   categories: string[]
 ) => {
   try {
-    const response = await signUpUser(
-      provider,
-      idToken,
-      profileImgUrl,
-      nickname,
-      categories.map((c) => c.toUpperCase())
-    )
+    const response = await signUpUser(provider, idToken, profileImgUrl, nickname, categories)
 
     if (!response?.data?.data) {
       return false
     } else {
       saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
+      return true
     }
   } catch (err) {
     //ignore
-    console.log(err)
+    console.log(err.message)
     return false
   }
 }
