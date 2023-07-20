@@ -19,4 +19,5 @@ export interface ContentByArchivingResponse {
   archivingTitle: string
   archivingId: number
   totalContentsCount: number
+  isMine: boolean
 }

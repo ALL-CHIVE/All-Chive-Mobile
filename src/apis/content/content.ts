@@ -14,14 +14,10 @@ export const getContent = async (contentId: number | undefined): Promise<GetCont
   return data.data
 }
 
-interface DeleteContentParams {
-  contentId: number
-}
-
 /**
- *
+ * 컨텐츠를 삭제합니다.
  */
-export const deleteContent = async ({ contentId }: DeleteContentParams) => {
+export const deleteContent = async (contentId: number) => {
   const response = await client({
     method: 'DELETE',
     url: `/contents/${contentId}`,

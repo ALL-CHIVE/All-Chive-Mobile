@@ -49,6 +49,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     contentId: 0,
     contentTitle: '컨텐츠 타이틀',
     contentType: 'IMAGE',
+    contentMemo: '컨텐츠 메모',
     link: '',
     imgUrl: '',
     contentCreatedAt: '2023.07.02',
@@ -59,7 +60,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       },
     ],
     isMine: true,
-    memo: '컨텐츠 메모',
   }
 
   // const {
@@ -118,9 +118,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
    *
    */
   const handleDelete = () => {
-    deleteContentMutate({
-      contentId: content.contentId,
-    })
+    deleteContentMutate(content.contentId)
   }
 
   const PopupMenuList: PopupMenu[] = content.isMine
@@ -190,7 +188,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                 ))}
               </TagList>
               <SubTitle>{i18n.t('memo')}</SubTitle>
-              <Memo text={content.memo} />
+              <Memo text={content.contentMemo} />
             </ContentDetailView>
           )}
         </ScrollView>
