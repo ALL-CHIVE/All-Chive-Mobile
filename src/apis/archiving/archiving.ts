@@ -39,7 +39,7 @@ export const getHomeArchivingList = async (
   sort?: Array<string>
 ): Promise<HomeArchivingListResponse> => {
   const accessToken = await getAccessToken()
-  const data = await client.get(`/archivings/me/archiving`, {
+  const response = await client.get(`/archivings/me/archiving`, {
     params: {
       category,
       page,
@@ -51,7 +51,7 @@ export const getHomeArchivingList = async (
     },
   })
 
-  return data.data
+  return response.data.data
 }
 
 /**
