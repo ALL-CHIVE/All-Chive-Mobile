@@ -1,19 +1,20 @@
 import styled from '@emotion/native'
 
+import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.SafeAreaView`
-  height: 100%;
+export const Container = styled.View`
   align-items: center;
-  padding: 0 25px;
+  padding-top: 173px;
 `
 
 export const OnBoardingImage = styled.Image`
-  margin-top: 30%;
+  margin-bottom: 31px;
 `
 
 export const Title = styled.Text`
-  ${fonts.heading2}
+  ${fonts.heading2};
   text-align: center;
-  margin: 6% 0;
+  color: ${colors.mainBlack};
+  margin-bottom: 31px;
 `

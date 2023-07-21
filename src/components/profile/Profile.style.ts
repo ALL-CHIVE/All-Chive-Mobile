@@ -13,13 +13,6 @@ export const ProfileImage = styled.Image`
   background-color: ${colors.gray95};
 `
 
-export const EmptyProfile = styled.View`
-  width: 130px;
-  height: 130px;
-  border-radius: 65px;
-  background-color: ${colors.gray95};
-`
-
 export const UploadButton = styled.TouchableOpacity`
   background-color: ${colors.mainYellow};
   padding: 5px 20px;
@@ -28,4 +21,5 @@ export const UploadButton = styled.TouchableOpacity`
 `
 export const ButtonText = styled.Text`
   ${fonts.body2}
+  color: ${colors.gray600}
 `

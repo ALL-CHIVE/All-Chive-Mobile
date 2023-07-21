@@ -1,17 +1,17 @@
 import { GetAll } from '@/extensions/enumExtensions'
 
 export enum Category {
-  All = 'all',
-  Food = 'food',
-  Life = 'life',
-  HomeLiving = 'homeLiving',
-  Shopping = 'shopping',
-  Sport = 'sport',
-  SelfImprovement = 'selfImprovement',
-  Tech = 'tech',
-  Design = 'design',
-  Trend = 'trend',
-  Etc = 'etc',
+  All = 'ALL',
+  Food = 'FOOD',
+  Life = 'LIFE',
+  HomeLiving = 'HOME_LIVING',
+  Shopping = 'SHOPPING',
+  Sport = 'SPORT',
+  SelfImprovement = 'SELF_IMPROVEMENT',
+  Tech = 'TECH',
+  Design = 'DESIGN',
+  Trend = 'TREND',
+  Etc = 'ETC',
 }
 
 /**

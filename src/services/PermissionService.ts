@@ -1,49 +1,25 @@
 import { Platform } from 'react-native'
-import {
-  PERMISSIONS,
-  Permission,
-  RESULTS,
-  check,
-  request,
-  checkMultiple,
-  requestMultiple,
-} from 'react-native-permissions'
+import { PERMISSIONS, Permission, RESULTS, check, request } from 'react-native-permissions'
 
 import { Permissions } from '@/models/enums/Permissions'
 
 /**
- *
+ * checkAndRequestPermission
  */
-export const requestPermissions = async () => {
-  try {
-    const permissions = Object.values(Permissions)
+export const checkAndRequestPermission = async (type: Permissions) => {
+  const key = PermissionFactory(type)
 
-    const permissionKeys = permissions.map((p) => PermissionFactory(p)) as Permission[]
-
-    const checkResults = await checkMultiple(permissionKeys)
-
-    const requestKeys = permissionKeys.filter((p) => checkResults[p] === RESULTS.DENIED)
-
-    await requestMultiple(requestKeys)
-  } catch (error) {
-    console.error(error)
+  if (!key) {
+    return 'denied'
   }
-}
 
-/**
- * checkPermission
- */
-export const checkPermission = async (type: Permissions) => {
-  const key = PermissionFactory(type)
-  return key && (await check(key))
-}
+  const checkResult = await check(key)
 
-/**
- * requestPermission
- */
-export const requestPermission = async (type: Permissions) => {
-  const key = PermissionFactory(type)
-  return key && (await request(key))
+  if (checkResult === RESULTS.DENIED) {
+    return await request(key)
+  }
+
+  return checkResult
 }
 
 /**

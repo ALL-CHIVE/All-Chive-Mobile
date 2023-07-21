@@ -1,51 +1,67 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Platform } from 'react-native'
+import { useSetRecoilState } from 'recoil'
 
-import { loginIcons } from '@/assets'
+import { loginIcons, logo } from '@/assets'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
+import { SignInState } from '@/state/signIn/SignInState'
+import { IdTokenState } from '@/state/signIn/UserState'
 
-import { Container } from './Login.style'
+import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.style'
 
 /**
- *
+ * Login
  */
 export const Login = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const setIdTokenState = useSetRecoilState(IdTokenState)
+  const IsSignInState = useSetRecoilState(SignInState)
 
   /**
    * 로그인을 처리합니다.
    */
   const signIn = async (type: SignInType) => {
-    await signInWith(type)
+    const signInResult = await signInWith(type)
 
-    // TODO: 회원가입 체크 후 이용약관 스크린으로 이동
-    navigation.navigate('SelectCategory')
+    if (!signInResult) {
+      return
+    }
+
+    if (signInResult.canLogin) {
+      IsSignInState(true)
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    } else if (!signInResult.canLogin && signInResult.idToken) {
+      setIdTokenState(signInResult.idToken)
+      // TODO: 이용약관 페이지 추가
+      navigation.navigate('SelectCategory', { type })
+    }
   }
 
   return (
-    <>
+    <DefaultContainer>
       <Container>
-        <Text>always, all, archive</Text>
-        <Text>All:chive</Text>
-        <Text>{i18n.t('simpleLogin')}</Text>
-        <View style={{ flexDirection: 'row' }}>
+        <SubLogo source={logo.allchiveSubLogo} />
+        <Logo source={logo.allchiveLogo} />
+        <Title>{i18n.t('simpleLogin')}</Title>
+        <LoginButtons>
           {Platform.select({
             ios: (
-              <TouchableOpacity onPress={() => signIn(SignInType.Apple)}>
+              <Button onPress={() => signIn(SignInType.Apple)}>
                 <Image source={loginIcons.apple} />
-              </TouchableOpacity>
+              </Button>
             ),
           })}
-          <TouchableOpacity onPress={() => signIn(SignInType.Kakao)}>
+          <Button onPress={() => signIn(SignInType.Kakao)}>
             <Image source={loginIcons.kakao} />
-          </TouchableOpacity>
-        </View>
+          </Button>
+        </LoginButtons>
       </Container>
-    </>
+    </DefaultContainer>
   )
 }

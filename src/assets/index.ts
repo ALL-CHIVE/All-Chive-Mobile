@@ -16,6 +16,9 @@ export const defaultImages: Assets = {
 }
 
 export const defaultIcons: Assets = {
+  firstIndicator: require('@/assets/icons/firstIndicator.png'),
+  secondIndicator: require('@/assets/icons/secondIndicator.png'),
+  check: require('@/assets/icons/check.png'),
   archiving: require('@/assets/icons/archiving.png'),
   archivingFocus: require('@/assets/icons/archiving_focus.png'),
   community: require('@/assets/icons/community.png'),
@@ -23,9 +26,9 @@ export const defaultIcons: Assets = {
   upload: require('@/assets/icons/upload.png'),
   design: require('@/assets/icons/design.png'),
   food: require('@/assets/icons/food.png'),
-  homeLiving: require('@/assets/icons/homeLiving.png'),
+  home_living: require('@/assets/icons/homeLiving.png'),
   life: require('@/assets/icons/life.png'),
-  selfImprovement: require('@/assets/icons/selfImprovement.png'),
+  self_improvement: require('@/assets/icons/selfImprovement.png'),
   shopping: require('@/assets/icons/shopping.png'),
   sport: require('@/assets/icons/sport.png'),
   tech: require('@/assets/icons/tech.png'),
@@ -39,4 +42,9 @@ export const defaultIcons: Assets = {
 export const loginIcons: Assets = {
   apple: require('@/assets/login/apple.png'),
   kakao: require('@/assets/login/kakao.png'),
+}
+
+export const logo: Assets = {
+  allchiveLogo: require('@/assets/logo/allchiveLogo.png'),
+  allchiveSubLogo: require('@/assets/logo/allchiveSubLogo.png'),
 }
