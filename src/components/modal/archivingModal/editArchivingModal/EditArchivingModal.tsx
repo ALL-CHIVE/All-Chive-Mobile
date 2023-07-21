@@ -19,7 +19,7 @@ import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
-import { DefaultMenuType } from '@/models/enums/ActionSheetType'
+import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkAndRequestPermission } from '@/services/PermissionService'
@@ -209,7 +209,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <ActionSheet
               ref={actionSheetRef}
               title={i18n.t('settingThumbnail')}
-              options={options}
+              options={DefalutMenus()}
               cancelButtonIndex={0}
               tintColor={colors.gray600}
               onPress={handleActionSheetMenu}
@@ -237,10 +237,3 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     </>
   )
 }
-
-const options = [
-  i18n.t('cancel'),
-  i18n.t('selectDefaultImage'),
-  i18n.t('selectFromPhotoLibrary'),
-  i18n.t('selectFromCamera'),
-]
