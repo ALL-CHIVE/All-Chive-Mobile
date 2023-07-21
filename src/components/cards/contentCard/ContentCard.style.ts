@@ -56,31 +56,6 @@ export const TagContainer = styled.View`
   margin: 5px 0;
 `
 
-export const Tag = styled.View`
-  border-radius: 20px;
-  border-width: 0.5px;
-  border-color: ${colors.gray400};
-  padding: 1px 8px;
-  margin-right: 5px;
-`
-
-export const TagText = styled.Text`
-  ${fonts.body4};
-  color: ${colors.gray500};
-`
-
-export const TagCount = styled.View`
-  border-radius: 20px;
-  border-width: 0.5px;
-  border-color: ${colors.gray400};
-  padding: 1px 4px;
-`
-
-export const TagCountText = styled.Text`
-  ${fonts.body4};
-  color: ${colors.gray500};
-`
-
 export const Styles = {
   shadow: css`
     border-radius: 9px;
