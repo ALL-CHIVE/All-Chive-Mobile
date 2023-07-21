@@ -5,6 +5,7 @@ import { FlatList, ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
+import { getHomeArchivingList } from '@/apis/archiving/archiving'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
@@ -12,7 +13,10 @@ import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
-import { ArchivingListContent, HomeArchivingList } from '@/models/archiving/ArchivingList'
+import {
+  ArchivingListContent,
+  HomeArchivingListResponse,
+} from '@/models/archiving/HomeArchivingList'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
@@ -43,7 +47,7 @@ export const Home = () => {
     hasNextPage,
     isLoading,
     isError,
-  } = useInfiniteQuery<HomeArchivingList, AxiosError>(
+  } = useInfiniteQuery<HomeArchivingListResponse, AxiosError>(
     ['getArchivingList'],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
     {
@@ -98,7 +102,9 @@ export const Home = () => {
             scrollEnabled={false}
             numColumns={1}
             renderItem={renderItem}
-            data={archivingList?.pages.map((page: HomeArchivingList) => page.content).flat()}
+            data={archivingList?.pages
+              .map((page: HomeArchivingListResponse) => page.content)
+              .flat()}
           />
         </ArchivingListContainer>
         <Blank />

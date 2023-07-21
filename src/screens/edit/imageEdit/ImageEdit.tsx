@@ -41,13 +41,12 @@ import {
   Styles,
   TextInput,
   Title,
-} from '../Upload.style'
-import { postContents } from '../apis/postContents'
+} from '../Edit.style'
 
 /**
  *
  */
-export const ImageUpload = () => {
+export const ImageEdit = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
@@ -64,16 +63,16 @@ export const ImageUpload = () => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { mutate } = useMutation(() =>
-    postContents({
-      contentType: 'image',
-      archivingId: 0,
-      title: contentName,
-      imgUrl: '',
-      tagIds: [],
-      memo: memo,
-    })
-  )
+  // const { mutate } = useMutation(() =>
+  //   patchContents({
+  //     contentType: 'image',
+  //     archivingId: 0,
+  //     title: contentName,
+  //     imgUrl: '',
+  //     tagIds: [],
+  //     memo: memo,
+  //   })
+  // )
 
   /**
    *
@@ -199,8 +198,8 @@ export const ImageUpload = () => {
   return (
     <Container>
       <CloseButtonHeader
-        title={i18n.t('upload')}
-        onClose={() => navigation.navigate('BottomTab', { screen: 'Home' })}
+        title={i18n.t('update')}
+        onClose={() => navigation.goBack()}
       />
       <Title>{i18n.t('archivingName')}</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>

@@ -13,8 +13,7 @@ export const Css = {
 export const Container = styled.View`
   background-color: ${colors.white};
   opacity: 0.9;
-  width: 276px;
-  height: 360px;
+  padding: 30px;
   border-radius: 8px;
   justify-content: center;
   align-items: center;

@@ -3,8 +3,9 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
+import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
-import { ContentType } from '@/models/enums/ContentType'
+import { SimpleContent } from '@/models/SimpleContent'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
@@ -19,26 +20,22 @@ import {
   TypeText,
   ImageContainer,
   Information,
-  Tag,
   TagContainer,
-  TagCount,
-  TagText,
-  TagCountText,
 } from './ContentCard.style'
-
-interface ContentCardProps {
-  id: string
-  title: string
-  day: string
-  imageUrl: string
-  tags: string[]
-  type: ContentType
-}
 
 /**
  * ContentCard
  */
-const ContentCard = ({ id, title, day, imageUrl, tags, type }: ContentCardProps) => {
+const ContentCard = ({
+  contentId,
+  contentTitle,
+  contentType,
+  link,
+  imgUrl,
+  contentCreatedAt,
+  tag,
+  tagCount,
+}: SimpleContent) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   return (
@@ -51,22 +48,18 @@ const ContentCard = ({ id, title, day, imageUrl, tags, type }: ContentCardProps)
       >
         <Card>
           <ImageContainer>
-            <Image source={{ uri: imageUrl }} />
+            <Image source={{ uri: imgUrl }} />
             <Type>
-              <TypeText>{i18n.t(type)}</TypeText>
+              <TypeText>{i18n.t(contentType)}</TypeText>
             </Type>
           </ImageContainer>
           <Information>
-            <Title numberOfLines={1}>{title}</Title>
-            <Day>{day}</Day>
-            {tags && tags.length > 0 && (
+            <Title numberOfLines={1}>{contentTitle}</Title>
+            <Day>{contentCreatedAt}</Day>
+            {tag && (
               <TagContainer>
-                <Tag>
-                  <TagText>{tags[0]}</TagText>
-                </Tag>
-                <TagCount>
-                  <TagCountText>+{tags.length - 1}</TagCountText>
-                </TagCount>
+                <WhiteTag tag={tag} />
+                <WhiteTag tag={`+${tagCount}`} />
               </TagContainer>
             )}
           </Information>

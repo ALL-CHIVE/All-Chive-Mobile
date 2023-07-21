@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
 import i18n from '@/locales'
-import { DefaultMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
+import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkAndRequestPermission } from '@/services/PermissionService'
@@ -97,7 +97,7 @@ const Profile = () => {
       <ActionSheet
         ref={actionSheetRef}
         title={i18n.t('setProfile')}
-        options={ProfileMenus()}
+        options={DefalutMenus()}
         cancelButtonIndex={0}
         tintColor={colors.gray600}
         onPress={handleActionSheetMenu}

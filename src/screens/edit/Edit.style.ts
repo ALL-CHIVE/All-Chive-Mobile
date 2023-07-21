@@ -4,31 +4,23 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  position: absolute;
-  width: 100%;
-  height: 500px;
-  bottom: 0px;
-  background-color: ${colors.white};
-  border-radius: 20px 20px 0px 0px;
-  padding: 30px 25px;
-`
-
-export const ModalTitle = styled.Text`
-  ${fonts.title2}
-  color: ${colors.mainBlack};
-  margin-top: 34px;
-`
-
-export const CloseButton = styled.TouchableOpacity`
-  position: absolute;
-  right: 0px;
+  height: 100%;
+  padding: 0 25px;
 `
 
 export const Title = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.gray600};
-  margin-top: 20px;
-  margin-bottom: 10px;
+`
+
+export const ArchivingSelect = styled.TouchableOpacity`
+  width: 100%;
+  height: 38px;
+  border: 1px solid ${colors.gray100};
+  background-color: ${colors.white};
+  padding: 7px 10px 7px 13px;
+  border-radius: 6px;
+  margin-top: 10px;
 `
 
 export const TextInput = styled.TextInput`
@@ -39,6 +31,7 @@ export const TextInput = styled.TextInput`
   color: ${colors.gray600};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
+  margin-top: 10px;
 `
 
 export const Styles = {
@@ -73,13 +66,21 @@ export const Image = styled.Image`
   border-radius: 4px;
 `
 
-export const Switch = styled.Switch`
-  position: absolute;
-  top: 15px;
-  right: 0px;
+export const AddTagButton = styled.TouchableOpacity`
+  width: 85px;
+  height: 29px;
+  border-radius: 30px;
+  background-color: ${colors.gray100};
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
 `
 
-export const NoticeText = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray200};
+export const AddTagText = styled.Text`
+  ${fonts.body2}
+  color: ${colors.gray300};
+`
+
+export const RowView = styled.View`
+  flex-direction: row;
 `

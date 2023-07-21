@@ -12,7 +12,7 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style'
 
 interface DefaultHeaderProps {
-  title: string
+  title: string | undefined
   PopupMenuList: PopupMenu[]
   options: NativeStackNavigationOptions | BottomTabNavigationOptions
 }

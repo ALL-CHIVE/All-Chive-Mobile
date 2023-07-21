@@ -5,8 +5,7 @@ import { ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getTag } from '@/apis/tag/getTag'
-import { postTag } from '@/apis/tag/postTag'
+import { getTag, postTag } from '@/apis/tag/tag'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { SimpleDialog } from '@/components/dialogs/simpleDialog/SimpleDialog'
 import { Divider } from '@/components/divider/Divider'
@@ -41,19 +40,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
 
   const [openDialog, setOpenDialog] = useState(false)
 
-  const { mutate } = useMutation(() =>
-    postTag({
-      name: searchText,
-    })
-  )
+  const { mutate } = useMutation(() => postTag(searchText))
 
-  const { data: latestTagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () =>
-    getTag({ latest: true })
-  )
+  const { data: latestTagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () => getTag(true))
 
-  const { data: tagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () =>
-    getTag({ latest: false })
-  )
+  const { data: tagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () => getTag(false))
 
   /**
    *

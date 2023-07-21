@@ -1,4 +1,4 @@
 export enum ContentType {
-  Link = 'link',
-  Image = 'image',
+  Link = 'LINK',
+  Image = 'IMAGE',
 }

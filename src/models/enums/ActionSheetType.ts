@@ -22,9 +22,9 @@ export enum ReportMenuType {
 }
 
 /**
- * ProfileMenus 를 반환합니다.
+ * DefaultMenus 를 반환합니다.
  */
-export const ProfileMenus = () => GetAllKeys(DefaultMenuType).map((key: string) => i18n.t(key))
+export const DefalutMenus = () => GetAllKeys(DefaultMenuType).map((key: string) => i18n.t(key))
 
 /**
  * ImageUploadMenus 를 반환합니다.
