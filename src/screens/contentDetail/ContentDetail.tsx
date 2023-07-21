@@ -6,8 +6,7 @@ import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { deleteContent } from '@/apis/content/deleteContent'
-import { getContent } from '@/apis/content/getContent'
+import { deleteContent, getContent } from '@/apis/content/content'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -50,6 +49,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     contentId: 0,
     contentTitle: '컨텐츠 타이틀',
     contentType: 'IMAGE',
+    contentMemo: '컨텐츠 메모',
     link: '',
     imgUrl: '',
     contentCreatedAt: '2023.07.02',
@@ -60,7 +60,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       },
     ],
     isMine: true,
-    memo: '컨텐츠 메모',
   }
 
   // const {
@@ -76,7 +75,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      *
      */
     onSuccess: () => {
-      navigation.navigate('BottomTab', { screen: 'Home' })
+      navigation.goBack()
     },
     /**
      *
@@ -119,9 +118,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
    *
    */
   const handleDelete = () => {
-    deleteContentMutate({
-      contentId: content.contentId,
-    })
+    deleteContentMutate(content.contentId)
   }
 
   const PopupMenuList: PopupMenu[] = content.isMine
@@ -191,7 +188,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                 ))}
               </TagList>
               <SubTitle>{i18n.t('memo')}</SubTitle>
-              <Memo text={content.memo} />
+              <Memo text={content.contentMemo} />
             </ContentDetailView>
           )}
         </ScrollView>
@@ -215,7 +212,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         onComplete={() => {
           setIsDeleteDialogVisible(false)
           handleDelete()
-          navigation.navigate('BottomTab', { screen: 'Home' })
         }}
       />
       <TwoButtonDialog

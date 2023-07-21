@@ -1,4 +1,5 @@
 import { client } from '@/apis/client'
+import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 interface PostContentsParams {
   contentType: 'link' | 'image'
@@ -22,9 +23,8 @@ export const postContents = async ({
   tagIds,
   memo,
 }: PostContentsParams) => {
-  const response = await client({
-    method: 'POST',
-    url: '/contents',
+  const accessToken = await getAccessToken()
+  const response = await client.post('/contents', {
     data: {
       contentType,
       archivingId,
@@ -34,7 +34,9 @@ export const postContents = async ({
       tagIds,
       memo,
     },
-    // headers: token
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response

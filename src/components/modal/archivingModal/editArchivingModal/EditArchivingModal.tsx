@@ -19,7 +19,7 @@ import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
-import { DefaultMenuType } from '@/models/enums/ActionSheetType'
+import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
 import { checkAndRequestPermission } from '@/services/PermissionService'
@@ -38,10 +38,10 @@ import {
   Switch,
   TextInput,
   Title,
-} from './CreateArchivingModal.style'
-import { postArchiving } from './apis/postArchiving'
+} from '../ArchivingModal.style'
+import { patchArchiving } from '../apis/archiving'
 
-interface CreateArchivingModalProps {
+interface EditArchivingModalProps {
   onClose: () => void
   isVisible: boolean
 }
@@ -49,7 +49,7 @@ interface CreateArchivingModalProps {
 /**
  *
  */
-export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
+export const EditArchivingModal = ({ onClose, isVisible }: EditArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
@@ -58,15 +58,17 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
+  // TODO: 현재 아카이빙 정보 가져오기
   /**
    *
    */
-  const { mutate } = useMutation(() =>
-    postArchiving({
+  const { mutate: postArchivingMutate } = useMutation(() =>
+    patchArchiving({
+      archivingId: 0,
       title: name,
-      imageUrl: '',
+      imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
       category: selectedCategory,
-      publicStatus: false,
+      publicStatus: publicStatus,
     })
   )
 
@@ -156,7 +158,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const handleSubmit = () => {
-    // mutate() & close modal
+    postArchivingMutate()
   }
 
   return (
@@ -173,7 +175,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
-            <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
+            <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
@@ -207,7 +209,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <ActionSheet
               ref={actionSheetRef}
               title={i18n.t('settingThumbnail')}
-              options={options}
+              options={DefalutMenus()}
               cancelButtonIndex={0}
               tintColor={colors.gray600}
               onPress={handleActionSheetMenu}
@@ -225,7 +227,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             </View>
             <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
             <BoxButton
-              textKey={i18n.t('add')}
+              textKey={i18n.t('confirm')}
               onPress={handleSubmit}
               // isDisabled
             />
@@ -235,10 +237,3 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     </>
   )
 }
-
-const options = [
-  i18n.t('cancel'),
-  i18n.t('selectDefaultImage'),
-  i18n.t('selectFromPhotoLibrary'),
-  i18n.t('selectFromCamera'),
-]

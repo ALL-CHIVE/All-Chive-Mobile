@@ -11,7 +11,7 @@ import { Divider } from '@/components/divider/Divider'
 import i18n from '@/locales'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
-import { CreateArchivingModal } from '../createArchivingModal/CreateArchivingModal'
+import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
 
 import {
   ArchivingText,
@@ -22,9 +22,9 @@ import {
   PlusButton,
   PlusButtonText,
   Title,
-} from './ArchivingModal.style'
+} from './SelectArchivingModal.style'
 
-interface ArchivingModalProps {
+interface SelectArchivingModalProps {
   onClose: () => void
   isVisible: boolean
 }
@@ -32,9 +32,9 @@ interface ArchivingModalProps {
 /**
  *
  */
-export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
+export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModalProps) => {
   const setSelectArchiving = useSetRecoilState(SelectArchivingState)
-  const [openPlusModal, setOpenPlusModal] = useState(false)
+  const [createModal, setCreateModal] = useState(false)
 
   /**
    *
@@ -47,7 +47,7 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
    *
    */
   const handleCloseModal = () => {
-    setOpenPlusModal(false)
+    setCreateModal(false)
   }
 
   return (
@@ -65,12 +65,12 @@ export const ArchivingModal = ({ onClose, isVisible }: ArchivingModalProps) => {
               <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
             <Title>{i18n.t('archiving')}</Title>
-            <PlusButton onPress={() => setOpenPlusModal(true)}>
+            <PlusButton onPress={() => setCreateModal(true)}>
               <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
             </PlusButton>
             <CreateArchivingModal
               onClose={handleCloseModal}
-              isVisible={openPlusModal}
+              isVisible={createModal}
             />
             <ListContainer>
               {ArchivingList &&
