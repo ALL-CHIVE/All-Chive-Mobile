@@ -8,7 +8,7 @@ export const handleImageSelect = async () => {
   try {
     return await ImageCropPicker.openPicker({
       mediaType: 'photo',
-      cropping: true,
+      cropping: false,
     })
   } catch (error) {
     // ignore
@@ -22,7 +22,7 @@ export const handleCameraOpen = async () => {
   try {
     return await ImageCropPicker.openCamera({
       mediaType: 'photo',
-      cropping: true,
+      cropping: false,
     })
   } catch (error) {
     //ignore

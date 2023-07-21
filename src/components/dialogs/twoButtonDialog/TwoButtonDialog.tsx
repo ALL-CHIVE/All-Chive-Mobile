@@ -11,8 +11,8 @@ import {
   Title,
   Description,
   Buttons,
-  CancleButton,
-  CancleButtonText,
+  CancelButton,
+  CancelButtonText,
   CompleteButton,
   CompleteButtonText,
 } from './TwoButtonDialog.style'
@@ -62,9 +62,9 @@ const TwoButtonDialog = ({
         {imageUrl && <Image source={imageUrl} />}
         {description && <Description>{i18n.t(description)}</Description>}
         <Buttons>
-          <CancleButton onPress={onCancel}>
-            <CancleButtonText>{i18n.t('cancel')}</CancleButtonText>
-          </CancleButton>
+          <CancelButton onPress={onCancel}>
+            <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>
+          </CancelButton>
           <CompleteButton onPress={handleComplete}>
             <CompleteButtonText>{i18n.t(completeText)}</CompleteButtonText>
           </CompleteButton>

@@ -1,4 +1,4 @@
 export enum SignInType {
-  Kakao = 'kakao',
-  Apple = 'apple',
+  Kakao = 'KAKAO',
+  Apple = 'APPLE',
 }

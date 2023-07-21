@@ -1,50 +1,41 @@
-import styled, { css } from '@emotion/native'
+import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.SafeAreaView`
-  height: 100%;
-  padding: 0 25px;
+export const Container = styled.View`
+  padding: 0 24px;
 `
 
 export const Heading = styled.Text`
   ${fonts.heading2};
-  margin-top: 20%;
+  color: ${colors.mainBlack};
+  margin-top: 111px;
 `
 
 export const NicknameContainer = styled.View`
-  margin-top: 8%;
+  margin-top: 47px;
+  margin-bottom: 59px;
 `
 
 export const NicknameInputBox = styled.View`
   border-bottom-color: ${colors.gray600};
   border-bottom-width: 1px;
-  padding: 10px 0;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  padding-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 `
 
 export const BodyText = styled.Text`
   ${fonts.body1}
-  margin-top: 5%;
   color: ${colors.gray600};
+  margin-bottom: 5px;
 `
+
+export const InputBox = styled.TextInput``
 
 export const ClearButton = styled.TouchableOpacity`
-  color: ${colors.gray600};
+  width: 24px;
+  height: 24px;
 `
-
-export const disabledStyle = {
-  nicknameInputBox: css`
-    border-bottom-color: ${colors.gray100};
-  `,
-  text: css`
-    color: ${colors.gray100};
-  `,
-  clearButton: css`
-    color: ${colors.gray100};
-  `,
-}

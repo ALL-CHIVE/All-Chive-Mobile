@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Text, Platform, Linking } from 'react-native'
+import { Platform, Linking } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import { defaultImages } from '@/assets'
@@ -9,12 +9,12 @@ import i18n from '@/locales'
 import { DefaultMenuType, ProfileMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkPermission } from '@/services/PermissionService'
+import { checkAndRequestPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
 
-import { Container, EmptyProfile, ProfileImage, UploadButton } from './Profile.style'
+import { ButtonText, Container, ProfileImage, UploadButton } from './Profile.style'
 
 /**
  * Profile
@@ -36,12 +36,11 @@ const Profile = () => {
   const handleActionSheetMenu = async (index: DefaultMenuType) => {
     switch (index) {
       case DefaultMenuType.selectDefaultImage: {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        setProfileImage(defaultImages.profile)
+        setProfileImage(null)
         break
       }
       case DefaultMenuType.selectFromPhotoLibrary: {
-        const permission = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -62,7 +61,7 @@ const Profile = () => {
         break
       }
       case DefaultMenuType.selectFromCamera: {
-        const permission = await checkPermission(Permissions.Camera)
+        const permission = await checkAndRequestPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -87,9 +86,13 @@ const Profile = () => {
 
   return (
     <Container>
-      {profileImage ? <ProfileImage source={profileImage} /> : <EmptyProfile />}
+      {profileImage ? (
+        <ProfileImage source={profileImage} />
+      ) : (
+        <ProfileImage source={defaultImages.profile} />
+      )}
       <UploadButton onPress={handleUploadButton}>
-        <Text>{profileImage ? i18n.t('edit') : i18n.t('upload')}</Text>
+        <ButtonText>{profileImage ? i18n.t('edit') : i18n.t('upload')}</ButtonText>
       </UploadButton>
       <ActionSheet
         ref={actionSheetRef}

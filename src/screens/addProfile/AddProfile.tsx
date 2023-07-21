@@ -1,95 +1,131 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { ScrollView, Text, TextInput, View } from 'react-native'
-import { useRecoilValue } from 'recoil'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import { Image, View } from 'react-native'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import Profile from '@/components/profile/Profile'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
 import { checkNickname } from '@/services/NicknameChecker'
+import { signUp } from '@/services/SignInService'
+import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
+import { SignInState } from '@/state/signIn/SignInState'
+import { IdTokenState } from '@/state/signIn/UserState'
 
 import {
   BodyText,
   ClearButton,
   Container,
   Heading,
+  InputBox,
   NicknameContainer,
   NicknameInputBox,
-  disabledStyle,
 } from './AddProfile.style'
+
+interface AddProfileProps {
+  route: RouteProp<RootStackParamList, 'AddProfile'>
+}
 
 /**
  * AddProfile
  */
-const AddProfile = () => {
+const AddProfile = ({ route }: AddProfileProps) => {
   const profileImage = useRecoilValue(ProfileImageState)
+  const setIsSignIn = useSetRecoilState(SignInState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
+  const idToken = useRecoilValue(IdTokenState)
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
-  const handleComplete = () => {
-    // TODO: 서버로 이미지, 닉네임 전달
-    navigation.navigate('BottomTab', { screen: 'Home' })
+  const handleComplete = async () => {
+    //TODO: 이미지 파일 업로드
+    const imageUrl = profileImage ? '' : ''
+
+    const isSucess = await signUp(
+      route.params.type,
+      idToken,
+      imageUrl,
+      nickname,
+      route.params.categories
+    )
+
+    if (isSucess) {
+      setIsInstalled(true)
+      setIsSignIn(true)
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    }
   }
+
+  // TODO: 닉네임 체크 500 error
+  // const { data, isLoading } = useQuery(['nickname', nickname], () => checkNicknameValid(nickname))
 
   /**
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
-    // TODO: nickname 조건 처리
     setNickname(nickname)
     setIsNicknameValid(checkNickname(nickname))
     // TODO: nickname 중복 체크
   }
 
+  /**
+   * handleClearNickname
+   */
+  const handleClearNickname = () => {
+    setNickname('')
+    setIsNicknameValid(false)
+  }
+
   return (
-    <ScrollView>
-      <Container>
-        <Heading>{i18n.t('setProfileAndNickName')}</Heading>
-        <NicknameContainer>
-          <BodyText>{i18n.t('nickName')}</BodyText>
-          <NicknameInputBox>
-            <TextInput
-              placeholder={i18n.t('nicknamePlaceholder')}
-              onChangeText={handleChangeNickname}
-              maxLength={20}
-              value={nickname}
+    <DefaultContainer>
+      <DefaultScrollContainer>
+        <Container>
+          <Heading>{i18n.t('pleaseSetProfile')}</Heading>
+          <NicknameContainer>
+            <BodyText>{i18n.t('nickName')}</BodyText>
+            <NicknameInputBox>
+              <InputBox
+                placeholder={i18n.t('nicknamePlaceholder')}
+                onChangeText={handleChangeNickname}
+                maxLength={20}
+                value={nickname}
+              />
+              <ClearButton
+                onPress={handleClearNickname}
+                disabled={!nickname}
+              >
+                {/* TODO: 아이콘 연결 */}
+                <Image source={defaultIcons.grayCloseButton} />
+              </ClearButton>
+            </NicknameInputBox>
+            <Verifier
+              isValid={isNicknameValid}
+              text={'nicknameVerify'}
             />
-            <ClearButton
-              onPress={() => setNickname('')}
-              disabled={!nickname}
-            >
-              {/* TODO: 아이콘 연결 */}
-              <Text style={!nickname && disabledStyle.clearButton}>X</Text>
-            </ClearButton>
-          </NicknameInputBox>
-          <Verifier
-            isValid={false}
-            text={'isNotDuplicate'}
-          />
-          <Verifier
-            isValid={isNicknameValid}
-            text={'nicknameVerify'}
-          />
-        </NicknameContainer>
-        <View>
-          <BodyText>{i18n.t('profile')}</BodyText>
-          <Profile />
-        </View>
-        <BoxButton
-          textKey="complete"
-          onPress={handleComplete}
-          isDisabled={!isNicknameValid}
-        />
-      </Container>
-    </ScrollView>
+          </NicknameContainer>
+          <View>
+            <BodyText>{i18n.t('profile')}</BodyText>
+            <Profile />
+          </View>
+        </Container>
+      </DefaultScrollContainer>
+      <BoxButton
+        textKey="complete"
+        onPress={handleComplete}
+        isDisabled={!isNicknameValid}
+      />
+    </DefaultContainer>
   )
 }
 

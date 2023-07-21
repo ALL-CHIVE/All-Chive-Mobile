@@ -1,22 +1,29 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { ListRenderItem, ScrollView } from 'react-native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import { ListRenderItem, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/buttons/imageButton/ImageButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
 import { CategoryListState } from '@/state/CategoryListState'
 
-import { Container, Description, Heading, CategoryList } from './SelectCategory.style'
+import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
+
+interface SelectCategoryProps {
+  route: RouteProp<RootStackParamList, 'SelectCategory'>
+}
 
 /**
  * SelectCategory
  */
-const SelectCategory = () => {
+const SelectCategory = ({ route }: SelectCategoryProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const categoryList = useRecoilValue(CategoryListState)
   const [selectedCategory, setSelectedCategory] = useState<string[]>([])
@@ -38,8 +45,7 @@ const SelectCategory = () => {
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleSubmitCategory = () => {
-    // TODO: api 전달
-    navigation.navigate('AddProfile')
+    navigation.navigate('AddProfile', { type: route.params.type, categories: selectedCategory })
   }
 
   /**
@@ -50,31 +56,35 @@ const SelectCategory = () => {
       <ImageButton
         title={item}
         updateSelectedList={handleCategoryPress}
-        source={defaultIcons[item]}
+        source={defaultIcons[item.toLowerCase()]}
         disabled={selectedCategory.length >= 3 && !selectedCategory.includes(item)}
       />
     )
   }
 
   return (
-    <ScrollView>
-      <Container>
-        <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
-        <Description>{i18n.t('chooseMaximum3')}</Description>
-        <CategoryList
-          scrollEnabled={false}
-          data={categoryList}
-          numColumns={3}
-          renderItem={renderItem}
-          keyExtractor={(category) => category}
-        />
-        <BoxButton
-          textKey="selectCompleted"
-          onPress={handleSubmitCategory}
-          isDisabled={selectedCategory.length <= 0}
-        />
-      </Container>
-    </ScrollView>
+    <DefaultContainer>
+      <DefaultScrollContainer>
+        <Container>
+          <View>
+            <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
+            <Description>{i18n.t('chooseMaximum3')}</Description>
+          </View>
+          <CategoryList
+            scrollEnabled={false}
+            data={categoryList}
+            numColumns={3}
+            renderItem={renderItem}
+            keyExtractor={(category) => category}
+          />
+        </Container>
+      </DefaultScrollContainer>
+      <BoxButton
+        textKey="selectCompleted"
+        onPress={handleSubmitCategory}
+        isDisabled={selectedCategory.length <= 0}
+      />
+    </DefaultContainer>
   )
 }
 
