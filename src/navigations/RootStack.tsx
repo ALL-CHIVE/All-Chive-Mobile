@@ -19,6 +19,7 @@ import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import Report from '@/screens/report/Report'
+import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
@@ -39,6 +40,7 @@ export type RootStackParamList = {
   CreateTag: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
+  Search: undefined
 }
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
@@ -86,16 +88,16 @@ export const RootStack = () => {
         {!isSignIn && (
           <>
             <Stack.Screen
+              name="Login"
+              component={Login}
+            />
+            <Stack.Screen
               name="OnBoarding1"
               component={OnBoarding1}
             />
             <Stack.Screen
               name="OnBoarding2"
               component={OnBoarding2}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
             />
             <Stack.Screen
               name="SelectCategory"
@@ -148,6 +150,10 @@ export const RootStack = () => {
           options={{
             headerShown: true,
           }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={Search}
         />
       </Stack.Navigator>
     </>
