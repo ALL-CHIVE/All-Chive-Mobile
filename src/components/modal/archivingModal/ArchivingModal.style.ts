@@ -1,61 +1,85 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  display: flex;
   position: absolute;
   width: 100%;
-  height: 439px;
+  height: 500px;
   bottom: 0px;
   background-color: ${colors.white};
   border-radius: 20px 20px 0px 0px;
-  padding: 0px 25px;
+  padding: 30px 25px;
 `
 
-export const Title = styled.Text`
+export const ModalTitle = styled.Text`
   ${fonts.title2}
   color: ${colors.mainBlack};
-  top: 69px;
+  margin-top: 34px;
 `
 
 export const CloseButton = styled.TouchableOpacity`
   position: absolute;
-  top: 28px;
   right: 0px;
 `
 
-export const PlusButton = styled.TouchableOpacity`
-  width: 100px;
-  height: 28px;
-  position: absolute;
-  top: 69px;
-  right: 0px;
-  padding: 5px 10px;
-  border-radius: 30px;
-  background-color: ${colors.yellow200};
-`
-
-export const PlusButtonText = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray500};
-  text-align: center;
-`
-
-export const CategoryText = styled.Text`
+export const Title = styled.Text`
   ${fonts.subtitle2}
-  color: ${colors.mainBlack};
-  left: 25px;
+  color: ${colors.gray600};
+  margin-top: 20px;
+  margin-bottom: 10px;
 `
 
-export const ListContainer = styled.View`
-  display: flex;
-  top: 90px;
+export const TextInput = styled.TextInput`
+  width: 100%;
+  height: 38px;
+  border: 1px solid ${colors.gray100};
+  background-color: ${colors.white};
+  color: ${colors.gray600};
+  padding: 7px 10px 7px 13px;
+  border-radius: 6px;
 `
 
-export const ArchivingText = styled.Text`
-  ${fonts.body1}
-  color: ${colors.gray300};
-  left: 32px;
+export const Styles = {
+  inputFocus: css`
+    border: 1px solid ${colors.yellow500};
+  `,
+  inputWithValue: css`
+    border: 1px solid ${colors.gray500};
+  `,
+  conditionComplete: css`
+    color: ${colors.gray600};
+  `,
+}
+
+export const Condition = styled.Text`
+  ${fonts.body4}
+  color: ${colors.gray100};
+`
+
+export const PlusImageButton = styled.TouchableOpacity`
+  width: 78px;
+  height: 78px;
+  border-radius: 4px;
+  background-color: ${colors.gray100};
+  justify-content: center;
+  align-items: center;
+`
+
+export const Image = styled.Image`
+  width: 78px;
+  height: 78px;
+  border-radius: 4px;
+`
+
+export const Switch = styled.Switch`
+  position: absolute;
+  top: 15px;
+  right: 0px;
+`
+
+export const NoticeText = styled.Text`
+  ${fonts.body4}
+  color: ${colors.gray200};
 `

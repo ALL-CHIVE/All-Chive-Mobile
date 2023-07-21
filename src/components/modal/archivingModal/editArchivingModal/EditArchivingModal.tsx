@@ -38,8 +38,8 @@ import {
   Switch,
   TextInput,
   Title,
-} from './CreateArchivingModal.style'
-import { postArchiving } from './apis/postArchiving'
+} from '../ArchivingModal.style'
+import { patchArchiving } from '../apis/archiving'
 
 interface CreateArchivingModalProps {
   onClose: () => void
@@ -58,11 +58,13 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
+  // TODO: 현재 아카이빙 정보 가져오기
   /**
    *
    */
   const { mutate: postArchivingMutate } = useMutation(() =>
-    postArchiving({
+    patchArchiving({
+      archivingId: 0,
       title: name,
       imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
       category: selectedCategory,

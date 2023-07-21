@@ -16,14 +16,14 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
-import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
+import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkPermission } from '@/services/PermissionService'
+import { checkAndRequestPermission } from '@/services/PermissionService'
 import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
@@ -109,7 +109,7 @@ export const ImageEdit = () => {
   const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
     switch (index) {
       case ImageUploadMenuType.selectFromPhotoLibrary: {
-        const permission = await checkPermission(Permissions.PhotoLibrary)
+        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -130,7 +130,7 @@ export const ImageEdit = () => {
         break
       }
       case ImageUploadMenuType.selectFromFile: {
-        const permission = await checkPermission(Permissions.File)
+        const permission = await checkAndRequestPermission(Permissions.File)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -151,7 +151,7 @@ export const ImageEdit = () => {
         break
       }
       case ImageUploadMenuType.selectFromCamera: {
-        const permission = await checkPermission(Permissions.Camera)
+        const permission = await checkAndRequestPermission(Permissions.Camera)
 
         if (permission === 'blocked' || permission === 'denied') {
           createCancelConfirmAlert(
@@ -206,7 +206,7 @@ export const ImageEdit = () => {
         {archivingName ? <Text>{archivingName}</Text> : <Text>{i18n.t('choiceArchiving')}</Text>}
         {/* TODO: 오른쪽 화살표 아이콘 추가 */}
       </ArchivingSelect>
-      <ArchivingModal
+      <SelectArchivingModal
         onClose={handleCloseModal}
         isVisible={openArchivingModal}
       />

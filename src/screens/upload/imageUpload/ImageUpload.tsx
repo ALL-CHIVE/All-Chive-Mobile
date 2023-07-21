@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
-import { ArchivingModal } from '@/components/modal/archivingModal/ArchivingModal'
+import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
@@ -207,7 +207,7 @@ export const ImageUpload = () => {
         {archivingName ? <Text>{archivingName}</Text> : <Text>{i18n.t('choiceArchiving')}</Text>}
         {/* TODO: 오른쪽 화살표 아이콘 추가 */}
       </ArchivingSelect>
-      <ArchivingModal
+      <SelectArchivingModal
         onClose={handleCloseModal}
         isVisible={openArchivingModal}
       />
