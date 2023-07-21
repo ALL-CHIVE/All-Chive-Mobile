@@ -14,14 +14,16 @@ export const getCommunityArchivingList = async (
   size?: number,
   sort?: Array<string>
 ): Promise<CommunityArchivingListResponse> => {
-  const data = await client({
-    method: 'GET',
-    url: `/archivings`,
+  const accessToken = await getAccessToken()
+  const data = await client.get(`/archivings`, {
     params: {
       category,
       page,
       size,
       sort,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -37,16 +39,17 @@ export const getHomeArchivingList = async (
   size?: number,
   sort?: Array<string>
 ): Promise<HomeArchivingListResponse> => {
-  const data = await client({
-    method: 'GET',
-    url: `/archivings/me/archiving`,
+  const accessToken = await getAccessToken()
+  const data = await client.get(`/archivings/me/archiving`, {
     params: {
       category,
       page,
       size,
       sort,
     },
-    headers: getAccessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return data.data
@@ -61,13 +64,15 @@ export const getContentByArchiving = async (
   size?: number,
   sort?: Array<string>
 ): Promise<ContentByArchivingResponse> => {
-  const data = await client({
-    method: 'GET',
-    url: `/archivings/${archivingId}/contents`,
+  const accessToken = await getAccessToken()
+  const data = await client.get(`/archivings/${archivingId}/contents`, {
     params: {
       page,
       size,
       sort,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -78,9 +83,11 @@ export const getContentByArchiving = async (
  * 아카이빙을 삭제합니다.
  */
 export const deleteArchiving = async (archivingId: number) => {
-  const response = await client({
-    method: 'DELETE',
-    url: `/archivings/${archivingId}`,
+  const accessToken = await getAccessToken()
+  const response = await client.delete(`/archivings/${archivingId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response

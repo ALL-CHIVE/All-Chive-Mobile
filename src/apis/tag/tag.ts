@@ -1,4 +1,5 @@
 import { GetTagResponse } from '@/models/tag/Tag'
+import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'
 
@@ -6,13 +7,14 @@ import { client } from '../client'
  * 모든 태그를 가져옵니다. (latest = true면 최근 사용한 태그를 가져옵니다.)
  */
 export const getTag = async (latest: boolean) => {
-  const { data } = await client<GetTagResponse>({
-    method: 'GET',
-    url: '/tags',
+  const accessToken = await getAccessToken()
+  const { data } = await client.get<GetTagResponse>('/tags', {
     data: {
       latest,
     },
-    // headers: token
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return data
@@ -22,13 +24,14 @@ export const getTag = async (latest: boolean) => {
  * 태그를 추가합니다.
  */
 export const postTag = async (name: string) => {
-  const response = await client({
-    method: 'POST',
-    url: '/tags',
+  const accessToken = await getAccessToken()
+  const response = await client.post('/tags', {
     data: {
       name,
     },
-    // headers: token
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response
@@ -38,10 +41,11 @@ export const postTag = async (name: string) => {
  * 태그를 삭제합니다.
  */
 export const deleteTag = async (tagId: number) => {
-  const response = await client({
-    method: 'DELETE',
-    url: `/tags/${tagId}`,
-    // headers: token
+  const accessToken = await getAccessToken()
+  const response = await client.delete(`/tags/${tagId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response
@@ -51,13 +55,14 @@ export const deleteTag = async (tagId: number) => {
  * 태그를 수정합니다.
  */
 export const patchTag = async (tagId: number, name: string) => {
-  const response = await client({
-    method: 'PATCH',
-    url: `/tags/${tagId}`,
+  const accessToken = await getAccessToken()
+  const response = await client.patch(`/tags/${tagId}`, {
     data: {
       name,
     },
-    // headers: token
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response

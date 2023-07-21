@@ -1,4 +1,5 @@
 import { client } from '@/apis/client'
+import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 interface PostArchivingParams {
   title: string
@@ -16,14 +17,16 @@ export const postArchiving = async ({
   category,
   publicStatus,
 }: PostArchivingParams) => {
-  const response = await client({
-    method: 'POST',
-    url: '/archivings',
+  const accessToken = await getAccessToken()
+  const response = await client.post('/archivings', {
     data: {
       title,
       imageUrl,
       category,
       publicStatus,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -48,14 +51,16 @@ export const patchArchiving = async ({
   category,
   publicStatus,
 }: PatchArchivingParams) => {
-  const response = await client({
-    method: 'PATCH',
-    url: `/archivings/${archivingId}`,
+  const accessToken = await getAccessToken()
+  const response = await client.patch(`/archivings/${archivingId}`, {
     data: {
       title,
       imageUrl,
       category,
       publicStatus,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
   })
 

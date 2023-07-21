@@ -1,4 +1,5 @@
 import { GetContentsResponse } from '@/models/contents/Contents'
+import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'
 
@@ -6,9 +7,11 @@ import { client } from '../client'
  * 콘텐츠를 가져옵니다.
  */
 export const getContent = async (contentId: number | undefined): Promise<GetContentsResponse> => {
-  const data = await client({
-    method: 'GET',
-    url: `/contents/${contentId}`,
+  const accessToken = await getAccessToken()
+  const data = await client.get(`/contents/${contentId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return data.data
@@ -18,9 +21,11 @@ export const getContent = async (contentId: number | undefined): Promise<GetCont
  * 컨텐츠를 삭제합니다.
  */
 export const deleteContent = async (contentId: number) => {
-  const response = await client({
-    method: 'DELETE',
-    url: `/contents/${contentId}`,
+  const accessToken = await getAccessToken()
+  const response = await client.delete(`/contents/${contentId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
 
   return response
