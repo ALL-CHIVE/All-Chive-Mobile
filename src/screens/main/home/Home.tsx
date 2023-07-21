@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { AxiosError } from 'axios'
-import { ScrollView, View } from 'react-native'
-import { useQuery } from 'react-query'
+import { FlatList, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { useInfiniteQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { defaultImages } from '@/assets'
@@ -12,7 +12,7 @@ import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
-import { HomeArchivingList } from '@/models/archiving/ArchivingList'
+import { ArchivingListContent, HomeArchivingList } from '@/models/archiving/ArchivingList'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
@@ -28,7 +28,8 @@ import {
   BackgroundImage,
   Blank,
 } from './Home.style'
-import { getArchivingList } from './apis/getArchivingList'
+
+const PAGE_LIMIT = 10
 
 /**
  * Home
@@ -36,21 +37,30 @@ import { getArchivingList } from './apis/getArchivingList'
 export const Home = () => {
   const currentCategory = useRecoilValue(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
-  const { data: archivingList } = useQuery<HomeArchivingList, AxiosError>(
+  const {
+    data: archivingList,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery<HomeArchivingList, AxiosError>(
     ['getArchivingList'],
-    () =>
-      getArchivingList({
-        category: currentCategory,
-        page: 1,
-        limit: 10,
-      })
+    ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
+    {
+      /**
+       * getNextPageParam
+       */
+      getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+    }
   )
 
   /**
    *
    */
-  const handleUplaod = () => {
-    // console.log('upload') // upload 화면으로 navigation
+  const onEndReached = () => {
+    if (hasNextPage) {
+      fetchNextPage()
+    }
   }
 
   return (
@@ -65,6 +75,11 @@ export const Home = () => {
       <ScrollContainer
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[1]}
+        onScrollEndDrag={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            onEndReached()
+          }
+        }}
       >
         <Greeding>
           <>
@@ -78,68 +93,26 @@ export const Home = () => {
           currentCategory={currentCategory}
           options={allCategoryList}
         />
-        <ArchivingListContainer>
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
-          />
-          <ArchivingCard
-            title="흑백 타이포 그래피 래퍼 아카이빙 흑백 타이포 그래피 래퍼 아카이빙"
-            day="2022.10.27"
-            popupMenuList={PopupMenuList}
-            imgCnt={1}
-            linkCnt={2}
-            scrapCnt={3}
+        <ArchivingListContainer style={{ flex: 1 }}>
+          <FlatList
+            scrollEnabled={false}
+            numColumns={1}
+            renderItem={renderItem}
+            data={archivingList?.pages.map((page: HomeArchivingList) => page.content).flat()}
           />
         </ArchivingListContainer>
         <Blank />
       </ScrollContainer>
     </HomeContainer>
   )
+}
+
+/**
+ * isCloseToBottom
+ */
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
+  const paddingToBottom = 600
+  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
 }
 
 /**
@@ -163,3 +136,20 @@ const PopupMenuList: PopupMenu[] = [
   },
   { title: 'delete', onClick: HandleRemove },
 ]
+
+/**
+ * renderItem
+ */
+const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
+  return (
+    <ArchivingCard
+      key={item.archivingId}
+      title={item.title}
+      day={item.createdAt}
+      popupMenuList={PopupMenuList}
+      imgCnt={item.imgCnt}
+      linkCnt={item.linkCnt}
+      scrapCnt={item.scrapCnt}
+    />
+  )
+}
