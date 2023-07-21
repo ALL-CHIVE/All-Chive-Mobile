@@ -41,7 +41,7 @@ import {
 } from '../ArchivingModal.style'
 import { patchArchiving } from '../apis/archiving'
 
-interface CreateArchivingModalProps {
+interface EditArchivingModalProps {
   onClose: () => void
   isVisible: boolean
 }
@@ -49,7 +49,7 @@ interface CreateArchivingModalProps {
 /**
  *
  */
-export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
+export const EditArchivingModal = ({ onClose, isVisible }: EditArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
@@ -175,7 +175,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
-            <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
+            <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
@@ -227,7 +227,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             </View>
             <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
             <BoxButton
-              textKey={i18n.t('add')}
+              textKey={i18n.t('confirm')}
               onPress={handleSubmit}
               // isDisabled
             />
