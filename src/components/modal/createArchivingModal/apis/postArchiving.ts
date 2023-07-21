@@ -8,7 +8,7 @@ interface PostArchivingParams {
 }
 
 /**
- *
+ * 아카이빙을 생성합니다.
  */
 export const postArchiving = async ({
   title,
@@ -25,7 +25,6 @@ export const postArchiving = async ({
       category,
       publicStatus,
     },
-    // headers: token
   })
 
   return response

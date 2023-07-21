@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native'
 import { useQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
+import { getHomeArchivingList } from '@/apis/archiving/archiving'
 import { defaultImages } from '@/assets'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
@@ -25,7 +26,6 @@ import {
   Title,
   ArchivingListContainer,
 } from './Home.style'
-import { getArchivingList } from './apis/getArchivingList'
 
 /**
  * Home
@@ -35,12 +35,7 @@ export const Home = () => {
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const { data: archivingList } = useQuery<HomeArchivingListResponse, AxiosError>(
     ['getArchivingList'],
-    () =>
-      getArchivingList({
-        category: currentCategory,
-        page: 1,
-        limit: 10,
-      })
+    () => getHomeArchivingList(currentCategory, 1, 10, ['test'])
   )
 
   /**

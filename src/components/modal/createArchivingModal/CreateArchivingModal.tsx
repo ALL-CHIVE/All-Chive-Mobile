@@ -61,12 +61,12 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   /**
    *
    */
-  const { mutate } = useMutation(() =>
+  const { mutate: postArchivingMutate } = useMutation(() =>
     postArchiving({
       title: name,
-      imageUrl: '',
+      imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
       category: selectedCategory,
-      publicStatus: false,
+      publicStatus: publicStatus,
     })
   )
 
@@ -156,7 +156,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const handleSubmit = () => {
-    // mutate() & close modal
+    postArchivingMutate()
   }
 
   return (
