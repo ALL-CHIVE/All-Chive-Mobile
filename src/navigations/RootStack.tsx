@@ -86,41 +86,42 @@ export const RootStack = () => {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: colors.white },
+          gestureEnabled: false,
         }}
         initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding1'}
       >
-        {!isSignIn && (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-            />
-            <Stack.Screen
-              name="OnBoarding1"
-              component={OnBoarding1}
-            />
-            <Stack.Screen
-              name="OnBoarding2"
-              component={OnBoarding2}
-            />
-            <Stack.Screen
-              name="SelectCategory"
-              component={SelectCategory}
-              initialParams={{ type: SignInType.Kakao }}
-            />
-            <Stack.Screen
-              name="AddProfile"
-              component={AddProfile}
-              initialParams={{
-                type: SignInType.Kakao,
-                categories: ['FOOD'],
-              }}
-            />
-          </>
-        )}
+        <Stack.Screen
+          name="OnBoarding1"
+          component={OnBoarding1}
+        />
+        <Stack.Screen
+          name="OnBoarding2"
+          component={OnBoarding2}
+        />
+        <Stack.Screen
+          name="SelectCategory"
+          component={SelectCategory}
+          initialParams={{ type: SignInType.Kakao }}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="AddProfile"
+          component={AddProfile}
+          initialParams={{
+            type: SignInType.Kakao,
+            categories: ['FOOD'],
+          }}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ gestureEnabled: false }}
+        />
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="ContentList"
