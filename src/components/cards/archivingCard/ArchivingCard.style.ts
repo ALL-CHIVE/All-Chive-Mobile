@@ -4,7 +4,8 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.TouchableOpacity`
-  margin-bottom: 12px;
+  padding: 5px 5px;
+  margin: 0 3px;
 `
 
 export const Card = styled.View`

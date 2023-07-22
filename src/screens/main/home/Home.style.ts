@@ -1,5 +1,7 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
+import { FlatList } from 'react-native'
 
+import { ArchivingListContent } from '@/models/archiving/MainArchivingList'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
@@ -48,10 +50,16 @@ export const BackgroundImage = styled.Image`
   top: 38px;
 `
 
-export const ArchivingListContainer = styled.View`
-  margin-top: 16px;
-  align-items: center;
-`
+export const ArchivingCardList = styled(FlatList<ArchivingListContent>)``
+
+export const Styles = {
+  flatList: css`
+    margin-top: 9px;
+    align-items: center;
+    flex: 1;
+  `,
+}
+
 export const Blank = styled.View`
   height: 400px;
 `

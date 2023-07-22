@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { AxiosError } from 'axios'
-import { FlatList, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -17,6 +17,7 @@ import {
   ArchivingListContent,
   MainArchivingListResponse,
 } from '@/models/archiving/MainArchivingList'
+import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
@@ -26,14 +27,16 @@ import {
   ProfileImage,
   Greeding,
   Title,
-  ArchivingListContainer,
   ScrollContainer,
   SearchContainer,
   BackgroundImage,
   Blank,
+  ArchivingCardList,
+  Styles,
 } from './Home.style'
 
-const PAGE_LIMIT = 10
+const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
+const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
 
 /**
  * Home
@@ -98,16 +101,13 @@ export const Home = () => {
           currentCategory={currentCategory}
           options={allCategoryList}
         />
-        <ArchivingListContainer style={{ flex: 1 }}>
-          <FlatList
-            scrollEnabled={false}
-            numColumns={1}
-            renderItem={renderItem}
-            data={archivingList?.pages
-              .map((page: MainArchivingListResponse) => page.content)
-              .flat()}
-          />
-        </ArchivingListContainer>
+        <ArchivingCardList
+          contentContainerStyle={Styles.flatList}
+          scrollEnabled={false}
+          numColumns={LIST_NUMS_COLUMNS}
+          renderItem={renderItem}
+          data={archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()}
+        />
         <Blank />
       </ScrollContainer>
     </HomeContainer>
