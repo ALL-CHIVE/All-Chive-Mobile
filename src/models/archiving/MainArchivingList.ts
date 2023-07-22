@@ -1,4 +1,4 @@
-export interface HomeArchivingListResponse {
+export interface MainArchivingListResponse {
   content: ArchivingListContent[]
   page: number
   size: number

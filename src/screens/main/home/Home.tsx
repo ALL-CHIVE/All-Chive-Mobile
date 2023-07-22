@@ -15,8 +15,8 @@ import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 import {
   ArchivingListContent,
-  HomeArchivingListResponse,
-} from '@/models/archiving/HomeArchivingList'
+  MainArchivingListResponse,
+} from '@/models/archiving/MainArchivingList'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
@@ -41,13 +41,14 @@ const PAGE_LIMIT = 10
 export const Home = () => {
   const currentCategory = useRecoilValue(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
+
   const {
     data: archivingList,
     fetchNextPage,
     hasNextPage,
     isLoading,
     isError,
-  } = useInfiniteQuery<HomeArchivingListResponse, AxiosError>(
+  } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getArchivingList'],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
     {
@@ -103,7 +104,7 @@ export const Home = () => {
             numColumns={1}
             renderItem={renderItem}
             data={archivingList?.pages
-              .map((page: HomeArchivingListResponse) => page.content)
+              .map((page: MainArchivingListResponse) => page.content)
               .flat()}
           />
         </ArchivingListContainer>
