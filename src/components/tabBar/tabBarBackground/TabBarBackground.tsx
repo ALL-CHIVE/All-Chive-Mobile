@@ -15,7 +15,7 @@ const TabBarBackground = () => {
     <View>
       <LinearGradient
         style={Styles.linearGradient}
-        colors={[colors.white, colors.mainYellow]}
+        colors={['rgba(255, 255, 139, 0.8)', colors.navbar]}
       ></LinearGradient>
     </View>
   )
