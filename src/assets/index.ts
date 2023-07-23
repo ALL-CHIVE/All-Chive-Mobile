@@ -43,6 +43,9 @@ export const defaultIcons: Assets = {
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
   popup: require('@/assets/icons/popup.png'),
+  linkWhite: require('@/assets/icons/linkWhite.png'),
+  photoWhite: require('@/assets/icons/photoWhite.png'),
+  scrapWhite: require('@/assets/icons/scrapWhite.png'),
 }
 
 export const loginIcons: Assets = {

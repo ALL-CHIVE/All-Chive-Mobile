@@ -17,6 +17,7 @@ import {
   CountContainer,
   CountText,
   Day,
+  Icon,
   Image,
   PopupContainer,
   Styles,
@@ -64,11 +65,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
         style={Styles.shadow}
       >
         <Card>
-          {!imageUrl ? (
-            <Image source={{ uri: imageUrl }} />
-          ) : (
-            <Image source={defaultIcons.upload} />
-          )}
+          {imageUrl ? <Image source={{ uri: imageUrl }} /> : <Image source={defaultIcons.upload} />}
           <Title
             numberOfLines={2}
             ellipsizeMode="tail"
@@ -82,8 +79,11 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
             </PopupContainer>
           )}
           <CountContainer>
+            <Icon source={defaultIcons.photoWhite} />
             <CountText>{imgCnt}</CountText>
+            <Icon source={defaultIcons.linkWhite} />
             <CountText>{linkCnt}</CountText>
+            <Icon source={defaultIcons.scrapWhite} />
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
         </Card>
