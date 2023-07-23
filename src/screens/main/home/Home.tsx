@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
-import { ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -91,11 +91,10 @@ export const Home = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        {profileData?.imgUrl ? (
-          <ProfileImage source={{ uri: profileData.imgUrl }} />
-        ) : (
-          <ProfileImage source={defaultImages.profile} />
-        )}
+        <ProfileImage
+          source={{ uri: profileData?.imgUrl }}
+          defaultSource={defaultImages.profile as ImageURISource}
+        />
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}

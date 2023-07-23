@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { ImageURISource } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 
 import { deleteArchiving } from '@/apis/archiving/archiving'
@@ -65,7 +66,10 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
         style={Styles.shadow}
       >
         <Card>
-          {imageUrl ? <Image source={{ uri: imageUrl }} /> : <Image source={defaultIcons.upload} />}
+          <Image
+            source={{ uri: imageUrl }}
+            defaultSource={defaultIcons.upload as ImageURISource}
+          />
           <Title
             numberOfLines={2}
             ellipsizeMode="tail"
