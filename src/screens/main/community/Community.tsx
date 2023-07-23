@@ -44,6 +44,7 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  */
 export const Community = () => {
   const [currentCategory, setCurrentCategory] = useState(Category.All)
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const [currentCommunityMenu, setCurrentCommunityMenu] = useState(CommunityMenuType.Community)
   const queryClient = useQueryClient()
@@ -97,7 +98,12 @@ export const Community = () => {
           <SearchButton />
         </SearchContainer>
         <ProfileImage
-          source={{ uri: profileData?.imgUrl }}
+          source={
+            isProfileImageError || !defaultImages?.profile
+              ? defaultImages.profile
+              : { uri: profileData?.imgUrl }
+          }
+          onError={() => setIsProfileImageError(true)}
           defaultSource={defaultImages.profile as ImageURISource}
         />
       </Header>

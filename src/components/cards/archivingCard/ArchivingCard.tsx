@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native'
@@ -35,6 +35,7 @@ interface ArchivingListProps {
  */
 export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const [isImageError, setIsImageError] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId } = item
 
   /**
@@ -67,7 +68,8 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
       >
         <Card>
           <Image
-            source={{ uri: imageUrl }}
+            source={isImageError || defaultIcons?.upload ? defaultIcons.upload : { uri: imageUrl }}
+            onError={() => setIsImageError(true)}
             defaultSource={defaultIcons.upload as ImageURISource}
           />
           <Title
