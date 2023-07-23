@@ -13,20 +13,19 @@ export const postSearch = async (
   sort?: Array<string>
 ) => {
   const accessToken = await getAccessToken()
-  const response = await client.post(`/searches`, {
-    data: {
-      page,
-      size,
-      sort,
-      type,
+  const { data } = await client.post(
+    `/searches?page=${page}?size=${size}?sort=${sort}?type=${type}`,
+    {
       keyword,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
-  return response
+  return data
 }
 
 /**
@@ -34,16 +33,19 @@ export const postSearch = async (
  */
 export const postSearchRelation = async (keyword: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.post(`/searches/relation`, {
-    data: {
+  const { data } = await client.post(
+    `/searches/relation`,
+    {
       keyword,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
-  return response
+  return data
 }
 
 /**
@@ -51,11 +53,11 @@ export const postSearchRelation = async (keyword: string) => {
  */
 export const getSearchLatest = async () => {
   const accessToken = await getAccessToken()
-  const response = await client.get(`/searches/latest`, {
+  const { data } = await client.get(`/searches/latest`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   })
 
-  return response
+  return data
 }

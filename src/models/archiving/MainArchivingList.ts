@@ -1,4 +1,4 @@
-export interface CommunityArchivingListResponse {
+export interface MainArchivingListResponse {
   content: [
     {
       archivingId: number

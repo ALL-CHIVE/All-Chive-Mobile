@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { deleteContent, getContent } from '@/apis/content/content'
+import { deleteContents, getContents } from '@/apis/content/content'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -67,10 +67,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   //   error,
   //   data: content,
   // } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
-  //   getContent(content?.contentId)
+  //   getContents(content?.contentId)
   // )
 
-  const { mutate: deleteContentMutate } = useMutation(deleteContent, {
+  const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
      *
      */
