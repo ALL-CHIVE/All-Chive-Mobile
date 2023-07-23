@@ -1,23 +1,23 @@
 import React from 'react'
 
-import { useSetRecoilState } from 'recoil'
-
 import i18n from '@/locales'
-import { CategoryState } from '@/state/CategoryState'
 
 import { Category, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
 
 interface CategoryListProps {
   currentCategory: string
+  setCurrentCategory: (option: string) => void
   options: string[]
 }
 
 /**
  * CategoryList
  */
-export const CategoryList = ({ currentCategory, options }: CategoryListProps) => {
-  const setCurrentCategory = useSetRecoilState(CategoryState)
-
+export const CategoryList = ({
+  currentCategory,
+  setCurrentCategory,
+  options,
+}: CategoryListProps) => {
   /**
    * handleOptionPress
    */

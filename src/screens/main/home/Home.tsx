@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { ListRenderItem, NativeScrollEvent } from 'react-native'
@@ -18,9 +18,9 @@ import {
   ArchivingListContent,
   MainArchivingListResponse,
 } from '@/models/archiving/MainArchivingList'
+import { Category } from '@/models/enums/Category'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
-import { CategoryState } from '@/state/CategoryState'
 
 import {
   NicknameText,
@@ -34,7 +34,8 @@ import {
   Blank,
   ArchivingCardList,
   Styles,
-} from './Home.style'
+  List,
+} from '../Main.style'
 
 const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
 const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
@@ -43,7 +44,7 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  * Home
  */
 export const Home = () => {
-  const currentCategory = useRecoilValue(CategoryState)
+  const [currentCategory, setCurrentCategory] = useState(Category.All)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const queryClient = useQueryClient()
 
@@ -60,7 +61,7 @@ export const Home = () => {
     isLoading,
     isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
-    ['getArchivingList', currentCategory],
+    ['getHomeArchivingList', currentCategory],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
     {
       /**
@@ -72,7 +73,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      queryClient.setQueryData(['getArchivingList', currentCategory], archivingList)
+      queryClient.setQueryData(['getHomeArchivingList', currentCategory], archivingList)
     }
   }, [currentCategory, archivingList, isLoading])
 
@@ -91,7 +92,6 @@ export const Home = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        {/* Profile Api 연동 */}
         {profileData?.imgUrl ? (
           <ProfileImage source={{ uri: profileData.imgUrl }} />
         ) : (
@@ -121,15 +121,20 @@ export const Home = () => {
         </Greeding>
         <CategoryList
           currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
           options={allCategoryList}
         />
-        <ArchivingCardList
-          contentContainerStyle={Styles.flatList}
-          scrollEnabled={false}
-          numColumns={LIST_NUMS_COLUMNS}
-          renderItem={renderItem}
-          data={archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()}
-        />
+        <List>
+          <ArchivingCardList
+            contentContainerStyle={Styles.flatList}
+            scrollEnabled={false}
+            numColumns={LIST_NUMS_COLUMNS}
+            renderItem={renderItem}
+            data={archivingList?.pages
+              .map((page: MainArchivingListResponse) => page.content)
+              .flat()}
+          />
+        </List>
         <Blank />
       </ScrollContainer>
     </HomeContainer>
