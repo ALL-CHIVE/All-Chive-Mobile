@@ -177,13 +177,8 @@ const PopupMenuList: PopupMenu[] = [
 const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
   return (
     <ArchivingCard
-      key={item.archivingId}
-      title={item.title}
-      day={item.createdAt}
+      item={item}
       popupMenuList={PopupMenuList}
-      imgCnt={item.imgCnt}
-      linkCnt={item.linkCnt}
-      scrapCnt={item.scrapCnt}
     />
   )
 }

@@ -144,12 +144,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       /**
        * popup
        */
-      headerRight: () => (
-        <Popup
-          icon=""
-          menuList={PopupMenuList}
-        />
-      ),
+      headerRight: () => <Popup menuList={PopupMenuList} />,
     })
   }, [])
 

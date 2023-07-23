@@ -42,6 +42,7 @@ export const defaultIcons: Assets = {
   searchNormal: require('@/assets/icons/searchNormal.png'),
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
+  popup: require('@/assets/icons/popup.png'),
 }
 
 export const loginIcons: Assets = {

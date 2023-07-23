@@ -6,6 +6,7 @@ import { Shadow } from 'react-native-shadow-2'
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
+import { ArchivingListContent } from '@/models/archiving/MainArchivingList'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
@@ -22,26 +23,16 @@ import {
 } from './ArchivingCard.style'
 
 interface ArchivingListProps {
-  title: string
-  day: string
-  popupMenuList: PopupMenu[]
-  imgCnt: number
-  linkCnt: number
-  scrapCnt: number
+  item: ArchivingListContent
+  popupMenuList?: PopupMenu[]
 }
 
 /**
  * ArchivingCard
  */
-export const ArchivingCard = ({
-  title,
-  day,
-  popupMenuList,
-  imgCnt,
-  linkCnt,
-  scrapCnt,
-}: ArchivingListProps) => {
+export const ArchivingCard = ({ item, popupMenuList }: ArchivingListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt } = item
 
   return (
     <Container
@@ -56,21 +47,23 @@ export const ArchivingCard = ({
         style={Styles.shadow}
       >
         <Card>
-          {/* 이미지 추후 수정 */}
-          <Image source={defaultIcons.upload} />
+          {!imageUrl ? (
+            <Image source={{ uri: imageUrl }} />
+          ) : (
+            <Image source={defaultIcons.upload} />
+          )}
           <Title
             numberOfLines={2}
             ellipsizeMode="tail"
           >
             {title}
           </Title>
-          <Day>{day}</Day>
-          <PopupContainer>
-            <Popup
-              icon=""
-              menuList={popupMenuList}
-            />
-          </PopupContainer>
+          <Day>{createdAt}</Day>
+          {popupMenuList && (
+            <PopupContainer>
+              <Popup menuList={popupMenuList} />
+            </PopupContainer>
+          )}
           <CountContainer>
             <CountText>{imgCnt}</CountText>
             <CountText>{linkCnt}</CountText>

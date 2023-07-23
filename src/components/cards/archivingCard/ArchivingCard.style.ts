@@ -57,8 +57,8 @@ export const CountText = styled.Text`
 
 export const PopupContainer = styled.View`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 8px;
+  top: 6px;
 `
 
 export const Styles = {
