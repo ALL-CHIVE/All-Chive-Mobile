@@ -6,6 +6,7 @@ import { Styles } from './BottomSheet.style'
 
 interface BottomSheetProps {
   isVisible: boolean
+  onBackdropPress: () => void
   onModalHide: () => void
   children: React.ReactNode
 }
@@ -13,11 +14,12 @@ interface BottomSheetProps {
 /**
  * BottomSheet
  */
-const BottomSheet = ({ isVisible, onModalHide, children }: BottomSheetProps) => {
+const BottomSheet = ({ isVisible, onBackdropPress, onModalHide, children }: BottomSheetProps) => {
   return (
     <Modal
       isVisible={isVisible}
       style={Styles.modal}
+      onBackdropPress={onBackdropPress}
       onModalHide={onModalHide}
     >
       {children}

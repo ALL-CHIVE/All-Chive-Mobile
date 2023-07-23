@@ -21,6 +21,7 @@ import { Login } from '@/screens/login/Login'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import Report from '@/screens/report/Report'
+import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
@@ -41,6 +42,7 @@ export type RootStackParamList = {
   CreateTag: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
+  Search: undefined
   LinkEdit: undefined
   ImageEdit: undefined
 }
@@ -84,41 +86,42 @@ export const RootStack = () => {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: colors.white },
+          gestureEnabled: false,
         }}
         initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding1'}
       >
-        {!isSignIn && (
-          <>
-            <Stack.Screen
-              name="OnBoarding1"
-              component={OnBoarding1}
-            />
-            <Stack.Screen
-              name="OnBoarding2"
-              component={OnBoarding2}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-            />
-            <Stack.Screen
-              name="SelectCategory"
-              component={SelectCategory}
-              initialParams={{ type: SignInType.Kakao }}
-            />
-            <Stack.Screen
-              name="AddProfile"
-              component={AddProfile}
-              initialParams={{
-                type: SignInType.Kakao,
-                categories: ['FOOD'],
-              }}
-            />
-          </>
-        )}
+        <Stack.Screen
+          name="OnBoarding1"
+          component={OnBoarding1}
+        />
+        <Stack.Screen
+          name="OnBoarding2"
+          component={OnBoarding2}
+        />
+        <Stack.Screen
+          name="SelectCategory"
+          component={SelectCategory}
+          initialParams={{ type: SignInType.Kakao }}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="AddProfile"
+          component={AddProfile}
+          initialParams={{
+            type: SignInType.Kakao,
+            categories: ['FOOD'],
+          }}
+          options={{ gestureEnabled: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ gestureEnabled: false }}
+        />
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="ContentList"
@@ -152,6 +155,10 @@ export const RootStack = () => {
           options={{
             headerShown: true,
           }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={Search}
         />
         <Stack.Screen
           name="LinkEdit"

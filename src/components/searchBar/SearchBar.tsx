@@ -14,17 +14,24 @@ interface SearchBarProps {
   placeholder: string
   value: string
   onChangeText: (text: string) => void
+  onSubmitEditing?: () => void
 }
 /**
  *
  */
-export const SearchBar = ({ placeholder, value, onChangeText }: SearchBarProps) => {
+export const SearchBar = ({
+  placeholder,
+  value,
+  onChangeText,
+  onSubmitEditing,
+}: SearchBarProps) => {
   return (
     <Container>
       <TextInput
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
       />
       <SearchImage source={defaultIcons.search} />
       {value.length > 0 ? (
