@@ -18,9 +18,11 @@ export enum Category {
  * 전체와 기타를 제외한 주제를 가져옵니다.
  */
 export const GetCategory = () =>
-  GetAll(Category).filter((category) => category !== Category.All && category !== Category.Etc)
+  GetAll(Category).filter(
+    (category) => category !== Category.All && category !== Category.Etc
+  ) as Category[]
 
 /**
  * 전체와 기타 포함 모든 주제를 가져옵니다.
  */
-export const GetAllCategory = () => GetAll(Category)
+export const GetAllCategory = () => GetAll(Category) as Category[]

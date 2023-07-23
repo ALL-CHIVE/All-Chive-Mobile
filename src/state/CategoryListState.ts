@@ -1,13 +1,13 @@
 import { atom } from 'recoil'
 
-import { GetAllCategory, GetCategory } from '@/models/enums/Category'
+import { Category, GetAllCategory, GetCategory } from '@/models/enums/Category'
 
-export const CategoryListState = atom<string[]>({
+export const CategoryListState = atom<Category[]>({
   key: 'categoryListState',
   default: GetCategory(),
 })
 
-export const AllCategoryListState = atom<string[]>({
+export const AllCategoryListState = atom<Category[]>({
   key: 'allCategoryListState',
   default: GetAllCategory(),
 })

@@ -78,7 +78,7 @@ export const Home = () => {
   }, [currentCategory, archivingList, isLoading])
 
   /**
-   *
+   * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {

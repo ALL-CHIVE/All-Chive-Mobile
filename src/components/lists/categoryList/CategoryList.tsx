@@ -1,13 +1,14 @@
 import React from 'react'
 
 import i18n from '@/locales'
+import { Category } from '@/models/enums/Category'
 
-import { Category, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
+import { Button, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
 
 interface CategoryListProps {
-  currentCategory: string
-  setCurrentCategory: (option: string) => void
-  options: string[]
+  currentCategory: Category
+  setCurrentCategory: React.Dispatch<React.SetStateAction<Category>>
+  options: Category[]
 }
 
 /**
@@ -21,7 +22,7 @@ export const CategoryList = ({
   /**
    * handleOptionPress
    */
-  const handleOptionPress = (option: string) => {
+  const handleOptionPress = (option: Category) => {
     setCurrentCategory(option)
   }
 
@@ -31,13 +32,13 @@ export const CategoryList = ({
       showsHorizontalScrollIndicator={false}
     >
       {options.map((option, index) => (
-        <Category
+        <Button
           key={index}
           onPress={() => handleOptionPress(option)}
           style={currentCategory === option && ClickStyles.category}
         >
           <Text style={currentCategory === option && ClickStyles.text}>{i18n.t(option)}</Text>
-        </Category>
+        </Button>
       ))}
     </ScrollContainer>
   )

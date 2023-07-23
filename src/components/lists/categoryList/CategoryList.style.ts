@@ -9,7 +9,7 @@ export const ScrollContainer = styled.ScrollView`
   padding-left: 25px;
 `
 
-export const Category = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   border-radius: 6px;
