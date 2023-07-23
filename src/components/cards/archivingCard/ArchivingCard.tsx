@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
+import { deleteArchiving } from '@/apis/archiving/archiving'
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -24,15 +25,31 @@ import {
 
 interface ArchivingListProps {
   item: ArchivingListContent
-  popupMenuList?: PopupMenu[]
+  isMine?: boolean
 }
 
 /**
  * ArchivingCard
  */
-export const ArchivingCard = ({ item, popupMenuList }: ArchivingListProps) => {
+export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt } = item
+  const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId } = item
+
+  /**
+   *
+   */
+  const HandleFix = () => {
+    // TODO
+  }
+
+  /**
+   *
+   */
+  const HandleRemove = () => {
+    deleteArchiving(archivingId)
+  }
+
+  const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: HandleRemove }]
 
   return (
     <Container
@@ -59,7 +76,7 @@ export const ArchivingCard = ({ item, popupMenuList }: ArchivingListProps) => {
             {title}
           </Title>
           <Day>{createdAt}</Day>
-          {popupMenuList && (
+          {isMine && (
             <PopupContainer>
               <Popup menuList={popupMenuList} />
             </PopupContainer>

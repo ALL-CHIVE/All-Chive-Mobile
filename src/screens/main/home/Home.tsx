@@ -13,7 +13,6 @@ import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
-import { PopupMenu } from '@/models/PopupMenu'
 import {
   ArchivingListContent,
   MainArchivingListResponse,
@@ -150,35 +149,13 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: Nati
 }
 
 /**
- *
- */
-const HandleFix = () => {
-  // TODO
-}
-
-/**
- *
- */
-const HandleRemove = () => {
-  // TODO
-}
-
-const PopupMenuList: PopupMenu[] = [
-  {
-    title: 'fix',
-    onClick: HandleFix,
-  },
-  { title: 'delete', onClick: HandleRemove },
-]
-
-/**
  * renderItem
  */
 const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
   return (
     <ArchivingCard
       item={item}
-      popupMenuList={PopupMenuList}
+      isMine={true}
     />
   )
 }
