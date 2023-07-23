@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigatorScreenParams, useNavigation } from '@react-navigation/native'
-import { Image, Text, TouchableOpacity } from 'react-native'
+import { NavigatorScreenParams } from '@react-navigation/native'
+import { Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import Modal from 'react-native-modal'
 
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultIcons } from '@/assets'
+import BottomSheet from '@/components/bottomSheet/BottomSheet'
+import UploadModal from '@/components/modal/uploadModal/UploadModal'
 import TabBarBackground from '@/components/tabBar/tabBarBackground/TabBarBackground'
 import TabIcon from '@/components/tabBar/tabIcon/TabIcon'
-import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { Community } from '@/screens/main/community/Community'
 import { Home } from '@/screens/main/home/Home'
 import { colors } from '@/styles/colors'
 
-import { Container, Styles, UploadButton, UploadModal } from './BottomTab.style'
+import { Styles, UploadButton, UploadButtonContainer } from './BottomTab.style'
 
 type BottomTabParamList = {
   Home: undefined
@@ -31,15 +30,8 @@ const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
  * BottomTab
  */
 export const BottomTab = () => {
-  const navigation = useNavigation<MainNavigationProp>()
-
   const [showUpload, setShowUpload] = useState(false)
-  /**
-   *
-   */
-  const handleUpload = () => {
-    setShowUpload(!showUpload)
-  }
+
   return (
     <>
       <BottomTabNavigator.Navigator
@@ -91,43 +83,27 @@ export const BottomTab = () => {
           }}
         />
       </BottomTabNavigator.Navigator>
-      <Container>
+      {/* 업로드 버튼 */}
+      <UploadButtonContainer>
         <LinearGradient
           style={Styles.linearGradient}
           colors={[colors.yellow500, colors.mainYellow]}
         >
-          <UploadButton onPress={handleUpload}>
+          <UploadButton onPress={() => setShowUpload(true)}>
             <Image
               source={defaultIcons.upload}
               resizeMode="contain"
             />
           </UploadButton>
         </LinearGradient>
-      </Container>
-      {showUpload ? (
-        <Modal
-          isVisible={showUpload}
-          onBackdropPress={handleUpload}
-          backdropOpacity={0.5}
-        >
-          <UploadModal source={defaultImages.uploadBottomSheet}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('ImageUpload')
-              }}
-            >
-              <Text>{i18n.t('photo')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('LinkUpload')
-              }}
-            >
-              <Text>{i18n.t('link')}</Text>
-            </TouchableOpacity>
-          </UploadModal>
-        </Modal>
-      ) : null}
+      </UploadButtonContainer>
+      <BottomSheet
+        isVisible={showUpload}
+        onBackdropPress={() => setShowUpload(false)}
+        onModalHide={() => null}
+      >
+        <UploadModal onClose={() => setShowUpload(false)} />
+      </BottomSheet>
     </>
   )
 }

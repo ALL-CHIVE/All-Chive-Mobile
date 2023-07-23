@@ -105,6 +105,7 @@ const Report = () => {
       />
       <BottomSheet
         isVisible={isVisibleBottomSheet}
+        onBackdropPress={() => setIsVisibleBottomSheet(false)}
         onModalHide={() => setIsDialogVisible(true)}
       >
         <ReportBottomSheet
