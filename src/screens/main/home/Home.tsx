@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { AxiosError } from 'axios'
 import { ListRenderItem, NativeScrollEvent } from 'react-native'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { getHomeArchivingList } from '@/apis/archiving/archiving'
@@ -44,6 +44,7 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
 export const Home = () => {
   const currentCategory = useRecoilValue(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
+  const queryClient = useQueryClient()
 
   const {
     data: archivingList,
@@ -52,7 +53,7 @@ export const Home = () => {
     isLoading,
     isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
-    ['getArchivingList'],
+    ['getArchivingList', currentCategory],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
     {
       /**
@@ -61,6 +62,12 @@ export const Home = () => {
       getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
     }
   )
+
+  useEffect(() => {
+    if (!isLoading) {
+      queryClient.setQueryData(['getArchivingList', currentCategory], archivingList)
+    }
+  }, [currentCategory, archivingList, isLoading])
 
   /**
    *
