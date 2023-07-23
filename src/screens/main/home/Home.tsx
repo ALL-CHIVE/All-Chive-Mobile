@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 
 import { AxiosError } from 'axios'
 import { ListRenderItem, NativeScrollEvent } from 'react-native'
-import { useInfiniteQuery, useQueryClient } from 'react-query'
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { getHomeArchivingList } from '@/apis/archiving/archiving'
+import { getProfile } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
@@ -47,6 +48,12 @@ export const Home = () => {
   const queryClient = useQueryClient()
 
   const {
+    data: profileData,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useQuery(['getProfile'], () => getProfile())
+
+  const {
     data: archivingList,
     fetchNextPage,
     hasNextPage,
@@ -85,7 +92,11 @@ export const Home = () => {
           <SearchButton />
         </SearchContainer>
         {/* Profile Api 연동 */}
-        <ProfileImage source={defaultImages.profile} />
+        {profileData?.imgUrl ? (
+          <ProfileImage source={{ uri: profileData.imgUrl }} />
+        ) : (
+          <ProfileImage source={defaultImages.profile} />
+        )}
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
@@ -98,9 +109,13 @@ export const Home = () => {
       >
         <Greeding>
           <>
-            {/* TODO: 이름, 컨텐츠 개수 연결 */}
-            <NicknameText>다카이브님</NicknameText>
-            <Title>{i18n.t('youHaveSavedArchives', { number: 10 })}</Title>
+            <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
+            <Title>
+              {i18n.t('youHaveSavedArchives', {
+                // TODO: 아카이빙 개수로 변경 필요
+                number: profileData ? profileData.imgCount + profileData.linkCount : 0,
+              })}
+            </Title>
           </>
           <BackgroundImage source={defaultImages.homeBackground} />
         </Greeding>
