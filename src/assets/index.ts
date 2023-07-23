@@ -12,6 +12,7 @@ export const defaultImages: Assets = {
   reportComplete: require('@/assets/default/reportComplete.png'),
   thumbnail: require('@/assets/default/thumbnail.png'),
   blockComplete: require('@/assets/default/blockComplete.png'),
+  homeBackground: require('@/assets/default/homeBackground.png'),
   recycleBin: require('@/assets/default/recycleBin.png'),
 }
 
@@ -37,6 +38,9 @@ export const defaultIcons: Assets = {
   whiteCloseButton: require('@/assets/icons/white_closeButton.png'),
   back: require('@/assets/icons/back.png'),
   search: require('@/assets/icons/search.png'),
+  searchNormal: require('@/assets/icons/searchNormal.png'),
+  photo: require('@/assets/icons/photo.png'),
+  link: require('@/assets/icons/link.png'),
 }
 
 export const loginIcons: Assets = {

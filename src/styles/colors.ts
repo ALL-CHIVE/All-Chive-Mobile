@@ -15,4 +15,5 @@ export const colors = {
   gray600: '#1F2123',
   black: '#000000',
   shadow: '#3D3D3D33',
+  navbar: '#FFF28B',
 }

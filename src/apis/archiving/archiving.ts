@@ -1,6 +1,5 @@
-import { CommunityArchivingListResponse } from '@/models/archiving/CommunityArchivingList'
 import { ContentByArchivingResponse } from '@/models/archiving/ContentByArchiving'
-import { HomeArchivingListResponse } from '@/models/archiving/HomeArchivingList'
+import { MainArchivingListResponse } from '@/models/archiving/MainArchivingList'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'
@@ -13,7 +12,7 @@ export const getCommunityArchivingList = async (
   page?: number,
   size?: number,
   sort?: Array<string>
-): Promise<CommunityArchivingListResponse> => {
+): Promise<MainArchivingListResponse> => {
   const accessToken = await getAccessToken()
   const data = await client.get(`/archivings`, {
     params: {
@@ -38,9 +37,9 @@ export const getHomeArchivingList = async (
   page?: number,
   size?: number,
   sort?: Array<string>
-): Promise<HomeArchivingListResponse> => {
+): Promise<MainArchivingListResponse> => {
   const accessToken = await getAccessToken()
-  const data = await client.get(`/archivings/me/archiving`, {
+  const response = await client.get(`/archivings/me/archiving`, {
     params: {
       category,
       page,
@@ -52,7 +51,7 @@ export const getHomeArchivingList = async (
     },
   })
 
-  return data.data
+  return response.data.data
 }
 
 /**
