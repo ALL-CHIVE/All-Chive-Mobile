@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
+import { useMutation } from 'react-query'
 
 import { deleteArchiving } from '@/apis/archiving/archiving'
 import { defaultIcons } from '@/assets'
@@ -38,6 +39,8 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
   const [isImageError, setIsImageError] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId } = item
 
+  const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving)
+
   /**
    *
    */
@@ -49,7 +52,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
    *
    */
   const HandleRemove = () => {
-    deleteArchiving(archivingId)
+    deleteMutate(archivingId)
   }
 
   const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: HandleRemove }]
