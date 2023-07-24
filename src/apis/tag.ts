@@ -1,7 +1,7 @@
 import { GetTagResponse } from '@/models/Tag'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from './client'
 
 /**
  * 모든 태그를 가져옵니다. (latest = true면 최근 사용한 태그를 가져옵니다.)

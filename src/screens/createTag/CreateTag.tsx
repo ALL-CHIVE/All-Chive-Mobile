@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getTag, postTag } from '@/apis/tag/tag'
+import { getTag, postTag } from '@/apis/tag'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { SimpleDialog } from '@/components/dialogs/simpleDialog/SimpleDialog'
 import { Divider } from '@/components/divider/Divider'
@@ -13,7 +13,7 @@ import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseB
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
-import { GetTagResponse } from '@/models/tag/Tag'
+import { GetTagResponse } from '@/models/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 

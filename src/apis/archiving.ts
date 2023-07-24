@@ -1,7 +1,7 @@
 import { ContentByArchivingResponse, MainArchivingListResponse } from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from './client'
 
 /**
  * 커뮤니티의 카테고리별 아카이빙 리스트를 가져옵니다.

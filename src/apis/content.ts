@@ -1,7 +1,7 @@
 import { GetContentsResponse } from '@/models/Contents'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from './client'
 
 /**
  * 컨텐츠 내용을 가져옵니다.

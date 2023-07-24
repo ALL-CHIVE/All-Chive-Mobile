@@ -5,7 +5,7 @@ import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { getHomeArchivingList } from '@/apis/archiving/archiving'
+import { getHomeArchivingList } from '@/apis/archiving'
 import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'

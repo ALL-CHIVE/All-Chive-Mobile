@@ -5,7 +5,7 @@ import { ImageURISource } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
-import { deleteArchiving } from '@/apis/archiving/archiving'
+import { deleteArchiving } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
