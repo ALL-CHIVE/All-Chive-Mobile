@@ -52,10 +52,13 @@ export const BackgroundImage = styled.Image`
 
 export const ArchivingCardList = styled(FlatList<ArchivingListContent>)``
 
+export const List = styled.View`
+  align-items: center;
+`
+
 export const Styles = {
   flatList: css`
     margin-top: 9px;
-    align-items: center;
     flex: 1;
   `,
 }

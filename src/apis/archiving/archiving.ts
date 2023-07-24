@@ -14,7 +14,7 @@ export const getCommunityArchivingList = async (
   sort?: Array<string>
 ): Promise<MainArchivingListResponse> => {
   const accessToken = await getAccessToken()
-  const data = await client.get(`/archivings`, {
+  const { data } = await client.get(`/archivings`, {
     params: {
       category,
       page,
@@ -39,7 +39,7 @@ export const getHomeArchivingList = async (
   sort?: Array<string>
 ): Promise<MainArchivingListResponse> => {
   const accessToken = await getAccessToken()
-  const response = await client.get(`/archivings/me/archiving`, {
+  const { data } = await client.get(`/archivings/me/archiving`, {
     params: {
       category,
       page,
@@ -51,7 +51,7 @@ export const getHomeArchivingList = async (
     },
   })
 
-  return response.data.data
+  return data.data
 }
 
 /**

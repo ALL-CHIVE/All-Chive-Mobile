@@ -4,13 +4,14 @@ import { ImageSourcePropType } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 
 import i18n from '@/locales'
+import { Category } from '@/models/enums/Category'
 import { colors } from '@/styles/colors'
 
 import { ClickStyles, Container, Image, ImageView, Title } from './ImageButton.style'
 
 interface ImageButtonProps {
-  title: string
-  updateSelectedList: (category: string) => void
+  title: Category
+  updateSelectedList: (category: Category) => void
   source: ImageSourcePropType
   disabled?: boolean
 }
