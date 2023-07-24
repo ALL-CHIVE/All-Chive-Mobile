@@ -36,29 +36,32 @@ export const Day = styled.Text`
   position: absolute;
   bottom: 10px;
   left: 108px;
+  color: ${colors.gray300};
 `
 
 export const CountContainer = styled.View`
   position: absolute;
-  display: flex;
   flex-direction: row;
-  align-items: flex-start;
   bottom: 10px;
   right: 12px;
   padding: 2px 7px;
   background-color: ${colors.gray200};
   border-radius: 4px;
+  align-items: center;
 `
 
 export const CountText = styled.Text`
   ${fonts.body4};
   color: ${colors.white};
+  margin: 0 4px;
 `
+
+export const Icon = styled.Image``
 
 export const PopupContainer = styled.View`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 8px;
+  top: 6px;
 `
 
 export const Styles = {

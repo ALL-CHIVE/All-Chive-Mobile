@@ -57,6 +57,7 @@ export const postUserInfo = async (
  */
 export const getUser = async (): Promise<UserResponse> => {
   const accessToken = await getAccessToken()
+
   const { data } = await client.get(`/user`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

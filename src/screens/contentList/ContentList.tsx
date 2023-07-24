@@ -124,12 +124,7 @@ const ContentList = ({ route }: ContentListProps) => {
       /**
        * popup
        */
-      headerRight: () => (
-        <Popup
-          icon=""
-          menuList={PopupMenuList}
-        />
-      ),
+      headerRight: () => <Popup menuList={PopupMenuList} />,
     })
   }, [])
 

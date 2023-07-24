@@ -1,36 +1,47 @@
 import React from 'react'
 
+import { Image } from 'react-native'
 import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu'
 
+import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
 import { PopupMenu } from '@/models/PopupMenu'
 
+import { Container, Title } from './Popup.style'
+
 interface PopupProps {
-  icon: string
   menuList: PopupMenu[]
 }
 
 /**
  * Popup
  */
-const Popup = ({ icon, menuList }: PopupProps) => {
+const Popup = ({ menuList }: PopupProps) => {
   return (
     <Menu>
       {/* TODO: 아이콘 연결 */}
-      <MenuTrigger text="팝업" />
+      <MenuTrigger>
+        <Container>
+          <Image source={defaultIcons.popup} />
+        </Container>
+      </MenuTrigger>
       <MenuOptions
         optionsContainerStyle={{
           marginTop: 20,
-          width: 80,
           shadowOpacity: 0,
+          borderRadius: 4,
+          width: 'auto',
+          padding: 4,
         }}
       >
         {menuList?.map((menu) => (
           <MenuOption
+            style={{ padding: 6 }}
             key={menu.title}
             onSelect={menu.onClick}
-            text={i18n.t(menu.title)}
-          />
+          >
+            <Title>{i18n.t(menu.title)}</Title>
+          </MenuOption>
         ))}
       </MenuOptions>
     </Menu>

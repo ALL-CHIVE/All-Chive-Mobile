@@ -1,27 +1,28 @@
 import React from 'react'
 
-import { useSetRecoilState } from 'recoil'
-
 import i18n from '@/locales'
-import { CategoryState } from '@/state/CategoryState'
+import { Category } from '@/models/enums/Category'
 
-import { Category, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
+import { Button, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
 
 interface CategoryListProps {
-  currentCategory: string
-  options: string[]
+  currentCategory: Category
+  setCurrentCategory: React.Dispatch<React.SetStateAction<Category>>
+  options: Category[]
 }
 
 /**
  * CategoryList
  */
-export const CategoryList = ({ currentCategory, options }: CategoryListProps) => {
-  const setCurrentCategory = useSetRecoilState(CategoryState)
-
+export const CategoryList = ({
+  currentCategory,
+  setCurrentCategory,
+  options,
+}: CategoryListProps) => {
   /**
    * handleOptionPress
    */
-  const handleOptionPress = (option: string) => {
+  const handleOptionPress = (option: Category) => {
     setCurrentCategory(option)
   }
 
@@ -31,13 +32,13 @@ export const CategoryList = ({ currentCategory, options }: CategoryListProps) =>
       showsHorizontalScrollIndicator={false}
     >
       {options.map((option, index) => (
-        <Category
+        <Button
           key={index}
           onPress={() => handleOptionPress(option)}
           style={currentCategory === option && ClickStyles.category}
         >
           <Text style={currentCategory === option && ClickStyles.text}>{i18n.t(option)}</Text>
-        </Category>
+        </Button>
       ))}
     </ScrollContainer>
   )

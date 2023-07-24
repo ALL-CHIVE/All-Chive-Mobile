@@ -10,6 +10,7 @@ import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
+import { Category } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { CategoryListState } from '@/state/CategoryListState'
@@ -26,12 +27,12 @@ interface SelectCategoryProps {
 const SelectCategory = ({ route }: SelectCategoryProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const categoryList = useRecoilValue(CategoryListState)
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<Category[]>([])
 
   /**
    * 주제 선택을 처리합니다.
    */
-  const handleCategoryPress = (category: string) => {
+  const handleCategoryPress = (category: Category) => {
     if (selectedCategory.includes(category)) {
       setSelectedCategory(
         selectedCategory.filter((selectedCategory) => selectedCategory !== category)
@@ -51,7 +52,7 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
   /**
    * CategoryList 내 아이템을 반환합니다
    */
-  const renderItem: ListRenderItem<string> = ({ item }) => {
+  const renderItem: ListRenderItem<Category> = ({ item }) => {
     return (
       <ImageButton
         title={item}
