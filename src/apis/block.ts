@@ -14,7 +14,7 @@ export const getBlockList = async (): Promise<BlockListResponse> => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
-  return data
+  return data.data
 }
 
 /**
@@ -34,7 +34,7 @@ export const postBlock = async (userId: number): Promise<BlockResponse> => {
     }
   )
 
-  return data
+  return data.data
 }
 
 /**
@@ -51,5 +51,5 @@ export const deleteBlock = async (userId: number): Promise<BlockResponse> => {
     },
   })
 
-  return data
+  return data.data
 }

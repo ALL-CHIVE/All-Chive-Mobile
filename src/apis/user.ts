@@ -21,7 +21,7 @@ export const getUserInfo = async (): Promise<UserInfoResponse> => {
     },
   })
 
-  return data
+  return data.data
 }
 
 /**
@@ -63,5 +63,5 @@ export const getUser = async (): Promise<UserResponse> => {
     },
   })
 
-  return data
+  return data.data
 }

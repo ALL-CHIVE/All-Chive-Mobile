@@ -14,7 +14,7 @@ export const getContents = async (contentId: number | undefined): Promise<GetCon
     },
   })
 
-  return data
+  return data.data
 }
 
 /**

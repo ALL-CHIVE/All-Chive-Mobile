@@ -92,7 +92,7 @@ export const getContentByArchiving = async (
     },
   })
 
-  return data
+  return data.data
 }
 
 /**
@@ -115,7 +115,7 @@ export const getScrapArchivingList = async (
     },
   })
 
-  return data
+  return data.data
 }
 
 /**

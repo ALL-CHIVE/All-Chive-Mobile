@@ -56,14 +56,17 @@ export const deleteTag = async (tagId: number) => {
  */
 export const patchTag = async (tagId: number, name: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.patch(`/tags/${tagId}`, {
-    data: {
+  const response = await client.patch(
+    `/tags/${tagId}`,
+    {
       name,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }

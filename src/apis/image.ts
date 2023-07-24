@@ -14,7 +14,7 @@ export const getUserImageUrl = async (): Promise<ImageUrl> => {
     },
   })
 
-  return data
+  return data.data
 }
 
 /**
@@ -28,7 +28,7 @@ export const getContentsImageUrl = async (): Promise<ImageUrl> => {
     },
   })
 
-  return data
+  return data.data
 }
 
 /**
@@ -42,5 +42,5 @@ export const getArchivingImageUrl = async (): Promise<ImageUrl> => {
     },
   })
 
-  return data
+  return data.data
 }

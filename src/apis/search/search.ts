@@ -25,7 +25,7 @@ export const postSearch = async (
     }
   )
 
-  return data
+  return data.data
 }
 
 /**
@@ -45,7 +45,7 @@ export const postSearchRelation = async (keyword: string) => {
     }
   )
 
-  return data
+  return data.data
 }
 
 /**
@@ -59,5 +59,5 @@ export const getSearchLatest = async () => {
     },
   })
 
-  return data
+  return data.data
 }
