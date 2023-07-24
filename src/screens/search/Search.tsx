@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
 import { getSearchLatest, postSearch } from '@/apis/search/search'
 import { defaultIcons } from '@/assets'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
-import { KeywordResponse } from '@/models/Search'
 
-import { AllRemoveText, Container, Image, ItemText, LatestContainer, Title } from './Search.style'
+import {
+  AllRemoveText,
+  Container,
+  Image,
+  ItemText,
+  LatestContainer,
+  TabContainer,
+  Title,
+} from './Search.style'
+import { SearchTab } from './SearchTab'
 
 /**
  * Search
@@ -63,7 +71,9 @@ const Search = () => {
         onSubmitEditing={handleSearch}
       />
 
-      {latestSearchData !== undefined && (
+      <TabContainer>{searchData !== undefined && <SearchTab />}</TabContainer>
+
+      {latestSearchData !== undefined && !searchData && (
         <>
           <LatestContainer>
             <Title>{i18n.t('recentlySearchText')}</Title>

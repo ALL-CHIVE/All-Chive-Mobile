@@ -34,3 +34,9 @@ export const ItemText = styled.Text`
   ${fonts.body1}
   color: ${colors.gray400};
 `
+
+export const TabContainer = styled.View`
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+`
