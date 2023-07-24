@@ -12,11 +12,8 @@ import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
+import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
-import {
-  ArchivingListContent,
-  MainArchivingListResponse,
-} from '@/models/archiving/MainArchivingList'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'

@@ -1,3 +1,4 @@
+import { KeywordResponse, SearchResponse } from '@/models/Search'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'
@@ -13,7 +14,7 @@ export const postSearch = async (
   sort?: Array<string>
 ) => {
   const accessToken = await getAccessToken()
-  const { data } = await client.post(
+  const { data } = await client.post<SearchResponse>(
     `/searches?type=${type}`,
     {
       page,
@@ -28,7 +29,7 @@ export const postSearch = async (
     }
   )
 
-  return data.data
+  return data
 }
 
 /**
@@ -36,7 +37,7 @@ export const postSearch = async (
  */
 export const postSearchRelation = async (keyword: string) => {
   const accessToken = await getAccessToken()
-  const { data } = await client.post(
+  const { data } = await client.post<KeywordResponse>(
     `/searches/relation`,
     {
       keyword,
@@ -48,7 +49,7 @@ export const postSearchRelation = async (keyword: string) => {
     }
   )
 
-  return data.data
+  return data.keyword
 }
 
 /**
@@ -56,11 +57,11 @@ export const postSearchRelation = async (keyword: string) => {
  */
 export const getSearchLatest = async () => {
   const accessToken = await getAccessToken()
-  const { data } = await client.get(`/searches/latest`, {
+  const { data } = await client.get<KeywordResponse>(`/searches/latest`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   })
 
-  return data.data
+  return data.keyword
 }

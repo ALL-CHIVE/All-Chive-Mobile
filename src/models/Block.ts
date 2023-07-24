@@ -1,3 +1,7 @@
+export interface BlockResponse {
+  nickname: string
+}
+
 export interface BlockListResponse {
   users: UserData[]
 }

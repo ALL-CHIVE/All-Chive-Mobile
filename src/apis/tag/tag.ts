@@ -1,4 +1,4 @@
-import { GetTagResponse } from '@/models/tag/Tag'
+import { GetTagResponse } from '@/models/Tag'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'

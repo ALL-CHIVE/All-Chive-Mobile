@@ -1,5 +1,4 @@
-import { BlockResponse } from '@/models/block/Block'
-import { BlockListResponse } from '@/models/block/BlockList'
+import { BlockListResponse, BlockResponse } from '@/models/Block'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'

@@ -1,4 +1,4 @@
-import { UserInfoResponse, UserResponse } from '@/models/user/Info'
+import { UserInfoResponse, UserResponse } from '@/models/User'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'

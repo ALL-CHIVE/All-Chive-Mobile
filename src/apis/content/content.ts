@@ -1,4 +1,4 @@
-import { GetContentsResponse } from '@/models/contents/Contents'
+import { GetContentsResponse } from '@/models/Contents'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'

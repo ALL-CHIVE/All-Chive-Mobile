@@ -1,5 +1,4 @@
-import { ContentByArchivingResponse } from '@/models/archiving/ContentByArchiving'
-import { MainArchivingListResponse } from '@/models/archiving/MainArchivingList'
+import { ContentByArchivingResponse, MainArchivingListResponse } from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from '../client'
