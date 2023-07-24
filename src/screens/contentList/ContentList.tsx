@@ -44,45 +44,10 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
 
-  // const { data: contentList } = useQuery<ContentByArchivingResponse, AxiosError>(
-  //   ['contentByArchiving', route.params.id],
-  //   () => getContentByArchiving(route.params.id)
-  // )
-
-  // 추후 삭제
-  const contentList = {
-    contents: {
-      content: [
-        {
-          contentId: 0,
-          contentTitle: '컴포넌트 1',
-          contentType: 'IMAGE',
-          link: '컨텐츠 링크',
-          imgUrl: '컨텐츠 이미지 url',
-          contentCreatedAt: '2023-07-21',
-          tag: '깔끔 ui',
-          tagCount: 4,
-        },
-        {
-          contentId: 1,
-          contentTitle: '컴포넌트 2',
-          contentType: 'IMAGE',
-          link: '컨텐츠 링크',
-          imgUrl: '컨텐츠 이미지 url',
-          contentCreatedAt: '2023-07-22',
-          tag: '깔끔 ui',
-          tagCount: 4,
-        },
-      ],
-      page: 0,
-      size: 0,
-      hasNext: true,
-    },
-    archivingTitle: 'string',
-    archivingId: 0,
-    totalContentsCount: 0,
-    isMine: true,
-  }
+  const { data: contentList } = useQuery<ContentByArchivingResponse, AxiosError>(
+    ['contentByArchiving', route.params.id],
+    () => getContentByArchiving(route.params.id)
+  )
 
   const { mutate: deleteArchivingMutate } = useMutation(deleteArchiving, {
     /**
@@ -132,10 +97,10 @@ const ContentList = ({ route }: ContentListProps) => {
    *
    */
   const handleDelete = () => {
-    // deleteArchivingMutate()
+    contentList && deleteArchivingMutate(contentList.archivingId)
   }
 
-  const PopupMenuList: PopupMenu[] = contentList.isMine
+  const PopupMenuList: PopupMenu[] = contentList?.isMine
     ? [
         { title: 'update', onClick: HandleEdit },
         { title: 'remove', onClick: showDeleteDialog },
@@ -144,7 +109,7 @@ const ContentList = ({ route }: ContentListProps) => {
 
   useEffect(() => {
     // getContentByArchiving(route.params.id).then((res) => setContentCard(res.contents.content))
-    setContentCard(contentList.contents.content)
+    contentList?.contents && setContentCard(contentList.contents.content)
     navigation.setOptions({
       /**
        * custom header
