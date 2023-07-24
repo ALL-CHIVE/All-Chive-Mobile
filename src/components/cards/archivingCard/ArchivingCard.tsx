@@ -21,7 +21,8 @@ import {
   Title,
 } from './ArchivingCard.style'
 
-interface ArchivingListProps {
+interface ArchivingCardProps {
+  id: number
   title: string
   day: string
   popupMenuList: PopupMenu[]
@@ -34,19 +35,20 @@ interface ArchivingListProps {
  * ArchivingCard
  */
 export const ArchivingCard = ({
+  id,
   title,
   day,
   popupMenuList,
   imgCnt,
   linkCnt,
   scrapCnt,
-}: ArchivingListProps) => {
+}: ArchivingCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   return (
     <Container
       onPress={() => {
-        navigation.navigate('ContentList', { id: 1, title: title })
+        navigation.navigate('ContentList', { id: id, title: title })
       }}
     >
       <Shadow

@@ -158,6 +158,7 @@ const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
   return (
     <ArchivingCard
       key={item.archivingId}
+      id={item.archivingId}
       title={item.title}
       day={item.createdAt}
       popupMenuList={PopupMenuList}
