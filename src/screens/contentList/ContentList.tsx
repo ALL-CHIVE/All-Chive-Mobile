@@ -162,6 +162,7 @@ const ContentList = ({ route }: ContentListProps) => {
         )}
       </Container>
       <EditArchivingModal
+        archivingId={route.params.id}
         onClose={handleCloseModal}
         isVisible={editModal}
       />
