@@ -14,8 +14,11 @@ export const postSearch = async (
 ) => {
   const accessToken = await getAccessToken()
   const { data } = await client.post(
-    `/searches?page=${page}?size=${size}?sort=${sort}?type=${type}`,
+    `/searches?type=${type}`,
     {
+      page,
+      size,
+      sort,
       keyword,
     },
     {
