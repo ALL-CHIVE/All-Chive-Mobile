@@ -13,5 +13,5 @@ export const getArchivingList = async (): Promise<ArchivingListResponse> => {
     },
   })
 
-  return data
+  return data.data
 }

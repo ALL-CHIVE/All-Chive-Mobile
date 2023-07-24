@@ -1,5 +1,5 @@
 export interface ArchivingListResponse {
-  [category: string]: ArchivingItem[]
+  [category: string]: ArchivingItem[] | []
 }
 
 export interface ArchivingItem {

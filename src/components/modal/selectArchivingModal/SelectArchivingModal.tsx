@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { TouchableOpacity, Image, View, Text } from 'react-native'
+import { TouchableOpacity, Image } from 'react-native'
 import { ScrollView } from 'react-native'
 import Modal from 'react-native-modal'
+import { useQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { Divider } from '@/components/divider/Divider'
 import i18n from '@/locales'
+import { ArchivingListResponse } from '@/models/archiving/ArchivingList'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
 import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
@@ -23,6 +25,7 @@ import {
   PlusButtonText,
   Title,
 } from './SelectArchivingModal.style'
+import { getArchivingList } from './apis/archivingList'
 
 interface SelectArchivingModalProps {
   onClose: () => void
@@ -35,6 +38,10 @@ interface SelectArchivingModalProps {
 export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModalProps) => {
   const setSelectArchiving = useSetRecoilState(SelectArchivingState)
   const [createModal, setCreateModal] = useState(false)
+
+  const { data: archivingList } = useQuery<ArchivingListResponse>(['getArchivingList'], () =>
+    getArchivingList()
+  )
 
   /**
    *
@@ -73,22 +80,24 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
               isVisible={createModal}
             />
             <ListContainer>
-              {ArchivingList &&
-                Object.keys(ArchivingList).map((category) =>
-                  ArchivingList[category].map((item, index) => (
-                    <>
-                      <CategoryText>{i18n.t(`${category}`)}</CategoryText>
-                      <Divider />
-                      <TouchableOpacity
-                        key={index}
-                        onPress={() => handleClickArchiving(item.title)}
-                      >
-                        <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
-                        <Divider />
-                      </TouchableOpacity>
-                    </>
-                  ))
-                )}
+              {archivingList &&
+                Object.keys(archivingList).map((category) => (
+                  <>
+                    <CategoryText>{i18n.t(`${category}`)}</CategoryText>
+                    <Divider />
+                    {archivingList[category].map((item, index) => (
+                      <>
+                        <TouchableOpacity
+                          key={index}
+                          onPress={() => handleClickArchiving(item.title)}
+                        >
+                          <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
+                          <Divider />
+                        </TouchableOpacity>
+                      </>
+                    ))}
+                  </>
+                ))}
             </ListContainer>
             <BoxButton
               onPress={onClose}
@@ -100,70 +109,4 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
       </Modal>
     </>
   )
-}
-
-// 추후 삭제
-interface ArchivingItem {
-  title: string
-  contentCnt: number
-}
-interface ArchivingList {
-  [category: string]: ArchivingItem[]
-}
-
-const ArchivingList: ArchivingList = {
-  food: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  life: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  homeLiving: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  shopping: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  sport: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  selfImprovement: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  tech: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  design: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
-  trend: [
-    {
-      title: '아카이빙 제목',
-      contentCnt: 1,
-    },
-  ],
 }
