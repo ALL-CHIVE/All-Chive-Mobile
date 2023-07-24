@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 
 import { View } from 'react-native'
+import { useMutation } from 'react-query'
 
+import { postSearch } from '@/apis/search/search'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
 
@@ -10,13 +12,15 @@ import i18n from '@/locales'
  */
 const Search = () => {
   const [searchText, setSearchText] = useState('')
+  const [searchType, setSearchType] = useState<'ALL' | 'MY' | 'COMMUNITY'>('ALL')
+
+  const { mutate: searchMutate } = useMutation(() => postSearch(searchType, searchText))
 
   /**
    * handleSearch
    */
   const handleSearch = () => {
-    console.log(searchText)
-    // TODO: 검색어 처리 로직 추가
+    searchMutate()
   }
 
   return (
