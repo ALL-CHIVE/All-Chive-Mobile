@@ -94,7 +94,7 @@ export const Home = () => {
         </SearchContainer>
         <ProfileImage
           source={
-            isProfileImageError || !defaultImages?.profile
+            isProfileImageError || !profileData?.imgUrl
               ? defaultImages.profile
               : { uri: profileData?.imgUrl }
           }

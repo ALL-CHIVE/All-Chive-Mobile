@@ -71,7 +71,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
       >
         <Card>
           <Image
-            source={isImageError || defaultIcons?.upload ? defaultIcons.upload : { uri: imageUrl }}
+            source={isImageError || !imageUrl ? defaultIcons.upload : { uri: imageUrl }}
             onError={() => setIsImageError(true)}
             defaultSource={defaultIcons.upload as ImageURISource}
           />
