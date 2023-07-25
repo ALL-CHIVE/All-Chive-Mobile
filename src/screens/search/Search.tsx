@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { getSearchLatest, postSearch } from '@/apis/search/search'
+import { getSearchLatest, postSearch } from '@/apis/search'
 import { defaultIcons } from '@/assets'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'

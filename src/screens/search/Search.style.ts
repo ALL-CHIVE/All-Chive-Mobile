@@ -44,6 +44,7 @@ export const TabContainer = styled.View`
 export const TabItemContainer = styled.View`
   display: flex;
   padding: 0px 25px;
+  height: 100%;
   background-color: ${colors.yellow200};
 `
 
