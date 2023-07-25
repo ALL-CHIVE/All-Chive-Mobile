@@ -29,7 +29,7 @@ export const postSearch = async (
     }
   )
 
-  return data
+  return data.data
 }
 
 /**
