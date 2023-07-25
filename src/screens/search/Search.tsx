@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 
-import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
 import { getSearchLatest, postSearch } from '@/apis/search'
 import { defaultIcons } from '@/assets'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import {
   AllRemoveText,
   Container,
-  Image,
   ItemText,
   LatestContainer,
   TabContainer,
   LatestSearch,
+  SmallImage,
+  RowView,
 } from './Search.style'
 import { SearchTab } from './SearchTab'
 
@@ -23,6 +26,8 @@ import { SearchTab } from './SearchTab'
  * Search
  */
 const Search = () => {
+  const navigation = useNavigation<MainNavigationProp>()
+
   const [searchText, setSearchText] = useState('')
   const [searchType, setSearchType] = useState<'ALL' | 'MY' | 'COMMUNITY'>('ALL')
 
@@ -63,13 +68,21 @@ const Search = () => {
 
   return (
     <Container>
-      {/* back button 추가 */}
-      <SearchBar
-        placeholder={i18n.t('pleaseEnterSearchKeyword')}
-        value={searchText}
-        onChangeText={setSearchText}
-        onSubmitEditing={handleSearch}
-      />
+      <RowView>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack()
+          }}
+        >
+          <Image source={defaultIcons.back} />
+        </TouchableOpacity>
+        <SearchBar
+          placeholder={i18n.t('pleaseEnterSearchKeyword')}
+          value={searchText}
+          onChangeText={setSearchText}
+          onSubmitEditing={handleSearch}
+        />
+      </RowView>
 
       <TabContainer>
         {searchData !== undefined && <SearchTab searchData={searchData} />}
@@ -90,7 +103,7 @@ const Search = () => {
                 <ItemText>{item}</ItemText>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleRemoveLatest(item)}>
-                <Image source={defaultIcons.grayCloseButton} />
+                <SmallImage source={defaultIcons.grayCloseButton} />
               </TouchableOpacity>
             </LatestContainer>
           ))}

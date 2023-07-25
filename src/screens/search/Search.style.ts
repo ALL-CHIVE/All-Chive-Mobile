@@ -7,13 +7,19 @@ export const Container = styled.View`
   display: flex;
 `
 
+export const RowView = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 25px;
+`
+
 export const LatestContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 11px;
 `
 
-export const Image = styled.Image`
+export const SmallImage = styled.Image`
   width: 9px;
   height: 9px;
 `
