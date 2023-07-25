@@ -15,7 +15,7 @@ import {
   ItemText,
   LatestContainer,
   TabContainer,
-  Title,
+  LatestSearch,
 } from './Search.style'
 import { SearchTab } from './SearchTab'
 
@@ -71,12 +71,14 @@ const Search = () => {
         onSubmitEditing={handleSearch}
       />
 
-      <TabContainer>{searchData !== undefined && <SearchTab />}</TabContainer>
+      <TabContainer>
+        {searchData !== undefined && <SearchTab searchData={searchData} />}
+      </TabContainer>
 
       {latestSearchData !== undefined && !searchData && (
         <>
           <LatestContainer>
-            <Title>{i18n.t('recentlySearchText')}</Title>
+            <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
             <TouchableOpacity onPress={handleRemoveAllLatest}>
               <AllRemoveText>{i18n.t('allRemove')}</AllRemoveText>
             </TouchableOpacity>
