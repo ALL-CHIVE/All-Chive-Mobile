@@ -72,12 +72,20 @@ export const WhiteDivider = styled.View`
   background-color: ${colors.white};
 `
 
+export const TabBarWrapper = styled.View`
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding-left: 4px;
+`
+
 export const TabButton = styled.TouchableOpacity<{ isFocused: boolean }>`
   align-items: center;
   justify-content: center;
   height: 40px;
-  margin: 0px 16px;
-  border-bottom-width: 2px;
+  margin: 0px 18px;
+  border-bottom-width: ${(props) => (props.isFocused ? '2px' : '0px')};
   border-bottom-color: ${colors.mainYellow};
 `
 

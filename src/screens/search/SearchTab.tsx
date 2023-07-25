@@ -13,6 +13,7 @@ import {
   Title,
   WhiteDivider,
 } from './Search.style'
+import { SearchTabBar } from './SearchTabBar'
 
 interface SearchTabProps {
   searchData: {
@@ -31,12 +32,6 @@ interface SearchTabProps {
   }
 }
 
-interface Route {
-  key: string
-  name: string
-  params?: object | undefined
-}
-
 /**
  * 검색 창 내부 탭
  */
@@ -44,7 +39,10 @@ export const SearchTab = ({ searchData }: SearchTabProps) => {
   const Tab = createMaterialTopTabNavigator()
 
   return (
-    <Tab.Navigator initialRouteName="AllTab">
+    <Tab.Navigator
+      initialRouteName="AllTab"
+      tabBar={(props) => <SearchTabBar {...props} />}
+    >
       <Tab.Screen
         name="AllTab"
         options={{
