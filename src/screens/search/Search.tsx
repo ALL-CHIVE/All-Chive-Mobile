@@ -84,10 +84,6 @@ const Search = () => {
         />
       </RowView>
 
-      <TabContainer>
-        {searchData !== undefined && <SearchTab searchData={searchData} />}
-      </TabContainer>
-
       {latestSearchData !== undefined && !searchData && (
         <>
           <LatestContainer>
@@ -109,6 +105,10 @@ const Search = () => {
           ))}
         </>
       )}
+
+      <TabContainer>
+        {searchData && searchData !== undefined && <SearchTab searchData={searchData} />}
+      </TabContainer>
     </Container>
   )
 }

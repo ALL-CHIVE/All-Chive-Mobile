@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { ScrollView } from 'react-native'
 
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
+import i18n from '@/locales'
 import { ArchivingListContent } from '@/models/Archiving'
 
 import {
@@ -107,8 +108,10 @@ export const AllTab = ({ searchData }: SearchTabProps) => {
   return (
     <TabItemContainer>
       <ScrollView>
-        <SearchDataText>{`총 n개의 검색 결과`}</SearchDataText>
-        <Title>내 아카이빙</Title>
+        <SearchDataText>
+          {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
+        </SearchDataText>
+        <Title>{i18n.t('myArchiving')}</Title>
         <TabArchivingCardContainer>
           {searchData !== undefined &&
             searchData.archivings.content.map((item) => (
@@ -119,8 +122,10 @@ export const AllTab = ({ searchData }: SearchTabProps) => {
               />
             ))}
           <WhiteDivider />
-          <SearchDataText>{`총 n개의 검색 결과`}</SearchDataText>
-          <Title>커뮤니티</Title>
+          <SearchDataText>
+            {i18n.t('numberOfsearchResult', { number: searchData.community.content.length })}
+          </SearchDataText>
+          <Title>{i18n.t('community')}</Title>
           {searchData !== undefined &&
             searchData.community.content.map((item) => (
               <ArchivingCard
@@ -156,8 +161,10 @@ export const ArchivingTab = ({ searchData }: SearchTabProps) => {
   return (
     <TabItemContainer>
       <ScrollView>
-        <SearchDataText>{`총 n개의 검색 결과`}</SearchDataText>
-        <Title>내 아카이빙</Title>
+        <SearchDataText>
+          {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
+        </SearchDataText>
+        <Title>{i18n.t('myArchiving')}</Title>
         <TabArchivingCardContainer>
           {searchData !== undefined &&
             searchData.archivings.content.map((item) => (
@@ -180,8 +187,10 @@ export const CommunityTab = ({ searchData }: SearchTabProps) => {
   return (
     <TabItemContainer>
       <ScrollView>
-        <SearchDataText>{`총 n개의 검색 결과`}</SearchDataText>
-        <Title>커뮤니티</Title>
+        <SearchDataText>
+          {i18n.t('numberOfsearchResult', { number: searchData.community.content.length })}
+        </SearchDataText>
+        <Title>{i18n.t('community')}</Title>
         <TabArchivingCardContainer>
           {searchData !== undefined &&
             searchData.community.content.map((item) => (

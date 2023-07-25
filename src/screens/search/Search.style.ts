@@ -17,6 +17,7 @@ export const LatestContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 11px;
+  padding: 0px 25px;
 `
 
 export const SmallImage = styled.Image`
@@ -92,10 +93,10 @@ export const TabButton = styled.TouchableOpacity<{ isFocused: boolean }>`
   height: 40px;
   margin: 0px 18px;
   border-bottom-width: ${(props) => (props.isFocused ? '2px' : '0px')};
-  border-bottom-color: ${colors.mainYellow};
+  border-bottom-color: ${colors.yellow500};
 `
 
 export const TabText = styled.Text<{ isFocused: boolean }>`
   ${fonts.subtitle2}
-  color: ${(props) => (props.isFocused ? colors.mainYellow : colors.gray400)}
+  color: ${(props) => (props.isFocused ? colors.yellow500 : colors.gray400)}
 `
