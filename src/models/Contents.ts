@@ -1,4 +1,4 @@
-import { Tag } from '../tag/Tag'
+import { Tag } from './Tag'
 
 export interface GetContentsResponse {
   contentId: number

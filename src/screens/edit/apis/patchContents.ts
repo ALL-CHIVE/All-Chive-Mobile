@@ -1,7 +1,8 @@
 import { client } from '@/apis/client'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-interface PostContentsParams {
+interface PatchContentsParams {
+  contentId: number
   contentType: 'link' | 'image'
   archivingId: number
   title: string
@@ -12,9 +13,10 @@ interface PostContentsParams {
 }
 
 /**
- * 컨텐츠를 생성합니다.
+ * 컨텐츠를 수정합니다.
  */
-export const postContents = async ({
+export const patchContents = async ({
+  contentId,
   contentType,
   archivingId,
   title,
@@ -22,10 +24,10 @@ export const postContents = async ({
   imgUrl,
   tagIds,
   memo,
-}: PostContentsParams) => {
+}: PatchContentsParams) => {
   const accessToken = await getAccessToken()
-  const response = await client.post(
-    '/contents',
+  const response = await client.patch(
+    `/contents/${contentId}`,
     {
       contentType,
       archivingId,

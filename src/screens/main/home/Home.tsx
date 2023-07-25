@@ -5,18 +5,15 @@ import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { getHomeArchivingList } from '@/apis/archiving/archiving'
-import { getProfile } from '@/apis/user'
+import { getHomeArchivingList } from '@/apis/archiving'
+import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
-import {
-  ArchivingListContent,
-  MainArchivingListResponse,
-} from '@/models/archiving/MainArchivingList'
+import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { Category } from '@/models/enums/Category'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
@@ -52,7 +49,7 @@ export const Home = () => {
     data: profileData,
     isLoading: isProfileLoading,
     isError: isProfileError,
-  } = useQuery(['getProfile'], () => getProfile())
+  } = useQuery(['getUser'], () => getUser())
 
   const {
     data: archivingList,

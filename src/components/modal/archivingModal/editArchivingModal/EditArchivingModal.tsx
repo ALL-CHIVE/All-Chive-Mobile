@@ -42,6 +42,7 @@ import {
 import { patchArchiving } from '../apis/archiving'
 
 interface EditArchivingModalProps {
+  archivingId: number
   onClose: () => void
   isVisible: boolean
 }
@@ -49,7 +50,11 @@ interface EditArchivingModalProps {
 /**
  *
  */
-export const EditArchivingModal = ({ onClose, isVisible }: EditArchivingModalProps) => {
+export const EditArchivingModal = ({
+  archivingId,
+  onClose,
+  isVisible,
+}: EditArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
@@ -62,14 +67,24 @@ export const EditArchivingModal = ({ onClose, isVisible }: EditArchivingModalPro
   /**
    *
    */
-  const { mutate: postArchivingMutate } = useMutation(() =>
-    patchArchiving({
-      archivingId: 0,
-      title: name,
-      imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
-      category: selectedCategory,
-      publicStatus: publicStatus,
-    })
+  const { mutate: postArchivingMutate } = useMutation(
+    () =>
+      patchArchiving({
+        archivingId: archivingId,
+        title: name,
+        imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
+        category: selectedCategory,
+        publicStatus: publicStatus,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        onClose()
+        // 리패치 필요
+      },
+    }
   )
 
   /**

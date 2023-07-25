@@ -1,7 +1,7 @@
-import { GetTagResponse } from '@/models/tag/Tag'
+import { GetTagResponse } from '@/models/Tag'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from './client'
 
 /**
  * 모든 태그를 가져옵니다. (latest = true면 최근 사용한 태그를 가져옵니다.)
@@ -56,14 +56,17 @@ export const deleteTag = async (tagId: number) => {
  */
 export const patchTag = async (tagId: number, name: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.patch(`/tags/${tagId}`, {
-    data: {
+  const response = await client.patch(
+    `/tags/${tagId}`,
+    {
       name,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }

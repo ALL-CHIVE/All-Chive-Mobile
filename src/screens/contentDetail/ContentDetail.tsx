@@ -6,7 +6,7 @@ import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { deleteContent, getContent } from '@/apis/content/content'
+import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -15,8 +15,8 @@ import Memo from '@/components/memo/Memo'
 import Popup from '@/components/popup/Popup'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
+import { GetContentsResponse } from '@/models/Contents'
 import { PopupMenu } from '@/models/PopupMenu'
-import { GetContentsResponse } from '@/models/contents/Contents'
 import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
@@ -67,10 +67,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   //   error,
   //   data: content,
   // } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
-  //   getContent(content?.contentId)
+  //   getContents(content?.contentId)
   // )
 
-  const { mutate: deleteContentMutate } = useMutation(deleteContent, {
+  const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
      *
      */

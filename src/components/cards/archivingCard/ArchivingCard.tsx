@@ -5,11 +5,11 @@ import { ImageURISource } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
-import { deleteArchiving } from '@/apis/archiving/archiving'
+import { deleteArchiving } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
+import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
-import { ArchivingListContent } from '@/models/archiving/MainArchivingList'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
@@ -26,7 +26,7 @@ import {
   Title,
 } from './ArchivingCard.style'
 
-interface ArchivingListProps {
+interface ArchivingCardProps {
   item: ArchivingListContent
   isMine?: boolean
 }
@@ -34,7 +34,7 @@ interface ArchivingListProps {
 /**
  * ArchivingCard
  */
-export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
+export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [isImageError, setIsImageError] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId } = item
@@ -60,7 +60,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingListProps) => {
   return (
     <Container
       onPress={() => {
-        navigation.navigate('ContentList', { id: 1, title: title })
+        navigation.navigate('ContentList', { id: archivingId, title: title })
       }}
     >
       <Shadow
