@@ -14,6 +14,7 @@ export const defaultImages: Assets = {
   blockComplete: require('@/assets/default/blockComplete.png'),
   homeBackground: require('@/assets/default/homeBackground.png'),
   recycleBin: require('@/assets/default/recycleBin.png'),
+  communityBackground: require('@/assets/default/communityBackground.png'),
 }
 
 export const defaultIcons: Assets = {
@@ -41,6 +42,10 @@ export const defaultIcons: Assets = {
   searchNormal: require('@/assets/icons/searchNormal.png'),
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
+  popup: require('@/assets/icons/popup.png'),
+  linkWhite: require('@/assets/icons/linkWhite.png'),
+  photoWhite: require('@/assets/icons/photoWhite.png'),
+  scrapWhite: require('@/assets/icons/scrapWhite.png'),
 }
 
 export const loginIcons: Assets = {

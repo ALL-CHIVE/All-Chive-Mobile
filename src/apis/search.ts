@@ -1,7 +1,7 @@
 import { KeywordResponse, SearchResponse } from '@/models/Search'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from './client'
 
 /**
  * 검색어를 검색합니다.

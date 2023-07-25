@@ -18,17 +18,20 @@ export const postArchiving = async ({
   publicStatus,
 }: PostArchivingParams) => {
   const accessToken = await getAccessToken()
-  const response = await client.post('/archivings', {
-    data: {
+  const response = await client.post(
+    '/archivings',
+    {
       title,
       imageUrl,
       category,
       publicStatus,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }
@@ -52,17 +55,20 @@ export const patchArchiving = async ({
   publicStatus,
 }: PatchArchivingParams) => {
   const accessToken = await getAccessToken()
-  const response = await client.patch(`/archivings/${archivingId}`, {
-    data: {
+  const response = await client.patch(
+    `/archivings/${archivingId}`,
+    {
       title,
       imageUrl,
       category,
       publicStatus,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }

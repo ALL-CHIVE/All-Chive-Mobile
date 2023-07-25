@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
-import { ListRenderItem, NativeScrollEvent } from 'react-native'
-import { useInfiniteQuery, useQueryClient } from 'react-query'
+import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { getHomeArchivingList } from '@/apis/archiving/archiving'
+import { getHomeArchivingList } from '@/apis/archiving'
+import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
-import { PopupMenu } from '@/models/PopupMenu'
-import {
-  ArchivingListContent,
-  MainArchivingListResponse,
-} from '@/models/archiving/MainArchivingList'
+import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
+import { Category } from '@/models/enums/Category'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
-import { CategoryState } from '@/state/CategoryState'
 
 import {
   NicknameText,
@@ -33,7 +30,8 @@ import {
   Blank,
   ArchivingCardList,
   Styles,
-} from './Home.style'
+  List,
+} from '../Main.style'
 
 const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
 const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
@@ -42,9 +40,16 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  * Home
  */
 export const Home = () => {
-  const currentCategory = useRecoilValue(CategoryState)
+  const [currentCategory, setCurrentCategory] = useState(Category.All)
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const queryClient = useQueryClient()
+
+  const {
+    data: profileData,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useQuery(['getUser'], () => getUser())
 
   const {
     data: archivingList,
@@ -53,7 +58,7 @@ export const Home = () => {
     isLoading,
     isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
-    ['getArchivingList', currentCategory],
+    ['getHomeArchivingList', currentCategory],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
     {
       /**
@@ -65,12 +70,12 @@ export const Home = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      queryClient.setQueryData(['getArchivingList', currentCategory], archivingList)
+      queryClient.setQueryData(['getHomeArchivingList', currentCategory], archivingList)
     }
   }, [currentCategory, archivingList, isLoading])
 
   /**
-   *
+   * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {
@@ -84,8 +89,15 @@ export const Home = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        {/* Profile Api 연동 */}
-        <ProfileImage source={defaultImages.profile} />
+        <ProfileImage
+          source={
+            isProfileImageError || !profileData?.imgUrl
+              ? defaultImages.profile
+              : { uri: profileData?.imgUrl }
+          }
+          onError={() => setIsProfileImageError(true)}
+          defaultSource={defaultImages.profile as ImageURISource}
+        />
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
@@ -98,23 +110,32 @@ export const Home = () => {
       >
         <Greeding>
           <>
-            {/* TODO: 이름, 컨텐츠 개수 연결 */}
-            <NicknameText>다카이브님</NicknameText>
-            <Title>{i18n.t('youHaveSavedArchives', { number: 10 })}</Title>
+            <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
+            <Title>
+              {i18n.t('youHaveSavedArchives', {
+                // TODO: 아카이빙 개수로 변경 필요
+                number: profileData ? profileData.imgCount + profileData.linkCount : 0,
+              })}
+            </Title>
           </>
           <BackgroundImage source={defaultImages.homeBackground} />
         </Greeding>
         <CategoryList
           currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
           options={allCategoryList}
         />
-        <ArchivingCardList
-          contentContainerStyle={Styles.flatList}
-          scrollEnabled={false}
-          numColumns={LIST_NUMS_COLUMNS}
-          renderItem={renderItem}
-          data={archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()}
-        />
+        <List>
+          <ArchivingCardList
+            contentContainerStyle={Styles.flatList}
+            scrollEnabled={false}
+            numColumns={LIST_NUMS_COLUMNS}
+            renderItem={renderItem}
+            data={archivingList?.pages
+              .map((page: MainArchivingListResponse) => page.content)
+              .flat()}
+          />
+        </List>
         <Blank />
       </ScrollContainer>
     </HomeContainer>
@@ -130,40 +151,13 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: Nati
 }
 
 /**
- *
- */
-const HandleFix = () => {
-  // TODO
-}
-
-/**
- *
- */
-const HandleRemove = () => {
-  // TODO
-}
-
-const PopupMenuList: PopupMenu[] = [
-  {
-    title: 'fix',
-    onClick: HandleFix,
-  },
-  { title: 'delete', onClick: HandleRemove },
-]
-
-/**
  * renderItem
  */
 const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
   return (
     <ArchivingCard
-      key={item.archivingId}
-      title={item.title}
-      day={item.createdAt}
-      popupMenuList={PopupMenuList}
-      imgCnt={item.imgCnt}
-      linkCnt={item.linkCnt}
-      scrapCnt={item.scrapCnt}
+      item={item}
+      isMine={true}
     />
   )
 }

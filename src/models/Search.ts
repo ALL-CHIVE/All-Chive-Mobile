@@ -1,5 +1,4 @@
-import { ArchivingListContent } from './archiving/MainArchivingList'
-
+import { ArchivingListContent } from './Archiving'
 export interface SearchResponse {
   data: {
     archivings: {

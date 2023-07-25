@@ -31,10 +31,7 @@ const DefaultHeader = ({ title, PopupMenuList }: DefaultHeaderProps) => {
       </HeaderLeft>
       <Title numberOfLines={1}>{title}</Title>
       <HeaderRight>
-        <Popup
-          icon=""
-          menuList={PopupMenuList}
-        />
+        <Popup menuList={PopupMenuList} />
       </HeaderRight>
     </Container>
   )

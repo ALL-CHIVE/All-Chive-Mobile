@@ -103,6 +103,8 @@
   "pleaseEnterSearchKeyword": "검색어를 입력해주세요",
   "doYouWantDeleteThisContent": "이 컨텐츠를 휴지통에\n버리시겠어요?",
   "doYouWantDeleteThisArchiving": "이 아카이빙을 휴지통에\n버리시겠어요?",
+  "userName": "{{nickname, string}}님",
+  "scrapArchiveYouWant": "원하는 아카이빙을\n스크랩 해보세요",
   "recentlySearchText": "최근 검색어",
   "allRemove": "전체 삭제"
 }
