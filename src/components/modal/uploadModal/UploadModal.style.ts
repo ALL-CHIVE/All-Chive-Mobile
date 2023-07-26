@@ -3,29 +3,29 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 
 export const Container = styled.View`
-  height: 250px;
-  width: 100%;
+  height: 245px;
+  width: 245px;
+  margin-bottom: 34px;
 `
 export const Styles = {
   linearGradient: css`
     height: 100%;
     width: 100%;
-    opacity: 0.8;
-    border-top-right-radius: 100px;
-    border-top-left-radius: 100px;
+    border-radius: 150px;
     align-items: center;
     justify-content: center;
     flex-direction: row;
   `,
+  uploadButton: css`
+    border-radius: 100px;
+  `,
 }
 
 export const LeftButton = styled.TouchableOpacity`
-  border-right-width: 1px;
-  border-right-color: ${colors.gray600};
-  height: 50%;
-  width: 150px;
+  position: absolute;
   align-items: center;
-  justify-content: center;
+  left: 17%;
+  top: 25%;
 `
 
 export const Icon = styled.Image`
@@ -33,8 +33,15 @@ export const Icon = styled.Image`
 `
 
 export const RightButton = styled.TouchableOpacity`
-  height: 100%;
-  width: 150px;
+  position: absolute;
   align-items: center;
+  right: 20%;
+  top: 25%;
+`
+
+export const UploadButton = styled.View`
+  width: 65px;
+  height: 65px;
   justify-content: center;
+  align-items: center;
 `

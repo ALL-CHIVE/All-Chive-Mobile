@@ -39,6 +39,7 @@ export const BottomTab = () => {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
+            display: `${showUpload ? 'none' : 'flex'}`,
             position: 'absolute',
             bottom: 40,
             height: 70,
