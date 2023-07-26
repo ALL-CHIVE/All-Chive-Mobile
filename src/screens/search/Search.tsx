@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
-import { getSearchLatest, postSearch } from '@/apis/search'
+import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
 import { defaultIcons } from '@/assets'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
@@ -31,17 +31,21 @@ const Search = () => {
   const [searchText, setSearchText] = useState('')
   const [searchType, setSearchType] = useState<'ALL' | 'MY' | 'COMMUNITY'>('ALL')
 
-  const { mutate: searchMutate, data: searchData } = useMutation(() =>
-    postSearch(searchType, searchText)
+  const { data: searchData } = useQuery(['getSearch'], () => getSearch(searchType, searchText))
+
+  const { data: searchRelation } = useQuery(['getSearchRelation'], () =>
+    getSearchRelation(searchText)
   )
 
   const { data: latestSearchData } = useQuery(['getSearchLatest'], () => getSearchLatest())
+
+  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest)
 
   /**
    * handleSearch
    */
   const handleSearch = () => {
-    searchMutate()
+    // searchMutate()
   }
 
   /**
@@ -49,14 +53,13 @@ const Search = () => {
    */
   const handleSelectItem = (item: string) => {
     setSearchText(item)
-    searchMutate()
   }
 
   /**
    * 선택한 최근 검색어를 삭제하는 함수
    */
-  const handleRemoveLatest = (item: string) => {
-    // TODO: 최근 검색어 삭제
+  const handleRemoveLatest = (item: number) => {
+    deleteLatestMutate(item)
   }
 
   /**
@@ -84,7 +87,7 @@ const Search = () => {
         />
       </RowView>
 
-      {latestSearchData !== undefined && !searchData && (
+      {latestSearchData !== undefined && !searchText && (
         <>
           <LatestContainer>
             <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
@@ -92,13 +95,12 @@ const Search = () => {
               <AllRemoveText>{i18n.t('allRemove')}</AllRemoveText>
             </TouchableOpacity>
           </LatestContainer>
-          {latestSearchData.keyword.map((item: string, index) => (
-            <LatestContainer key={index}>
-              {/* 추후 key를 item으로 변경할 예정(api 응답에서 중복 제거 기다리는 중) */}
-              <TouchableOpacity onPress={() => handleSelectItem(item)}>
-                <ItemText>{item}</ItemText>
+          {latestSearchData.keyword?.map((item) => (
+            <LatestContainer key={item.latestSearchId}>
+              <TouchableOpacity onPress={() => handleSelectItem(item.word)}>
+                <ItemText>{item.word}</ItemText>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleRemoveLatest(item)}>
+              <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
                 <SmallImage source={defaultIcons.grayCloseButton} />
               </TouchableOpacity>
             </LatestContainer>
@@ -107,7 +109,7 @@ const Search = () => {
       )}
 
       <TabContainer>
-        {searchData && searchData !== undefined && <SearchTab searchData={searchData} />}
+        {searchText && searchData !== undefined && <SearchTab searchData={searchData} />}
       </TabContainer>
     </Container>
   )
