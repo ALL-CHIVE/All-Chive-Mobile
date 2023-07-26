@@ -187,9 +187,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="Mypage"
           component={Mypage}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="MyAccount"

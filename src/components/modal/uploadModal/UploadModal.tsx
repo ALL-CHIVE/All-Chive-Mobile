@@ -25,7 +25,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
     <Container>
       <LinearGradient
         style={Styles.linearGradient}
-        colors={['rgba(255, 255, 255, 0.8)', colors.navbar]}
+        colors={[colors.white, colors.yellow600]}
       >
         <LeftButton
           onPress={() => {

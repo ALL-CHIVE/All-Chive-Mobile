@@ -1,12 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { Image, ImageURISource, TouchableOpacity } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import { useQuery } from 'react-query'
 
-import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { getUser } from '@/apis/user'
+import { defaultIcons, defaultImages } from '@/assets'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { colors } from '@/styles/colors'
 
-import { Footer, NavigationListContainer } from './Mypage.style'
+import { ProfileImage } from '../main/Main.style'
+
+import {
+  Container,
+  Footer,
+  HeaderContainer,
+  NavigationListContainer,
+  ProfileContainer,
+  Title,
+} from './Mypage.style'
 import { NavigationList } from './components/NavigationList'
 
 /**
@@ -15,17 +29,42 @@ import { NavigationList } from './components/NavigationList'
 export const Mypage = () => {
   const navigation = useNavigation<MainNavigationProp>()
 
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * LeftButtonHeader
-       */
-      header: () => <LeftButtonHeader title={i18n.t('mypage')} />,
-    })
-  })
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
+
+  const {
+    data: profileData,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useQuery(['getUser'], () => getUser())
 
   return (
     <>
+      <Container>
+        <LinearGradient
+          style={{ height: '100%' }}
+          colors={[colors.white, colors.yellow600]}
+        >
+          <HeaderContainer>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={defaultIcons.back} />
+            </TouchableOpacity>
+            <Title>{i18n.t('mypage')}</Title>
+          </HeaderContainer>
+
+          <ProfileContainer>
+            <ProfileImage
+              source={
+                isProfileImageError || !profileData?.imgUrl
+                  ? defaultImages.profile
+                  : { uri: profileData?.imgUrl }
+              }
+              onError={() => setIsProfileImageError(true)}
+              defaultSource={defaultImages.profile as ImageURISource}
+            />
+          </ProfileContainer>
+        </LinearGradient>
+      </Container>
+
       <NavigationListContainer>
         <NavigationList
           title={i18n.t('myAccount')}
