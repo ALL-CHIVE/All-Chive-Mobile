@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, TouchableOpacity } from 'react-native'
+import { Image, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { useQuery } from 'react-query'
 
@@ -11,14 +11,15 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
-import { ProfileImage } from '../main/Main.style'
-
 import {
   Container,
   Footer,
+  FooterText,
   HeaderContainer,
   NavigationListContainer,
+  NicknameText,
   ProfileContainer,
+  ProfileImage,
   Title,
 } from './Mypage.style'
 import { NavigationList } from './components/NavigationList'
@@ -37,8 +38,15 @@ export const Mypage = () => {
     isError: isProfileError,
   } = useQuery(['getUser'], () => getUser())
 
+  /**
+   *
+   */
+  const logout = () => {
+    // TODO: 로그아웃 처리
+  }
+
   return (
-    <>
+    <ScrollView>
       <Container>
         <LinearGradient
           style={{ height: '100%' }}
@@ -61,6 +69,7 @@ export const Mypage = () => {
               onError={() => setIsProfileImageError(true)}
               defaultSource={defaultImages.profile as ImageURISource}
             />
+            <NicknameText>{profileData?.nickname}</NicknameText>
           </ProfileContainer>
         </LinearGradient>
       </Container>
@@ -95,7 +104,13 @@ export const Mypage = () => {
           screen="RecycleBin"
         />
       </NavigationListContainer>
-      <Footer />
-    </>
+      <Footer>
+        <FooterText>{i18n.t('appVersion')}</FooterText>
+        <FooterText>{`   |   `}</FooterText>
+        <TouchableOpacity onPress={logout}>
+          <FooterText>{i18n.t('logout')}</FooterText>
+        </TouchableOpacity>
+      </Footer>
+    </ScrollView>
   )
 }

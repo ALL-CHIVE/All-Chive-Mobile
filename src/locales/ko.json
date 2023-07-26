@@ -112,5 +112,7 @@
   "blockManagement": "차단 관리",
   "termsOfService": "이용약관",
   "communityUsePolicy": "커뮤니티 이용 정책",
-  "recycleBin": "휴지통"
+  "recycleBin": "휴지통",
+  "appVersion": "앱 버전정보",
+  "logout": "로그아웃"
 }
