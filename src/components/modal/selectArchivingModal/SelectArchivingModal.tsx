@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { TouchableOpacity, Image } from 'react-native'
 import { ScrollView } from 'react-native'
@@ -6,11 +6,12 @@ import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 
+import { getArchivingList } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { Divider } from '@/components/divider/Divider'
 import i18n from '@/locales'
-import { ArchivingListResponse } from '@/models/archiving/ArchivingList'
+import { ArchivingListResponse } from '@/models/Archiving'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 
 import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
@@ -25,7 +26,6 @@ import {
   PlusButtonText,
   Title,
 } from './SelectArchivingModal.style'
-import { getArchivingList } from './apis/archivingList'
 
 interface SelectArchivingModalProps {
   onClose: () => void

@@ -15,6 +15,7 @@ import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
+import { postArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
@@ -39,7 +40,6 @@ import {
   TextInput,
   Title,
 } from '../ArchivingModal.style'
-import { postArchiving } from '../apis/archiving'
 
 interface CreateArchivingModalProps {
   onClose: () => void
