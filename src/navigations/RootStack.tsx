@@ -12,17 +12,25 @@ import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
+import { ArchivingManagement } from '@/screens/archivingManagement/ArchivingManagement'
+import { BlockManagement } from '@/screens/blockManagement/BlockManagement'
+import { CommunityUsePolicy } from '@/screens/communityUsePolicy/CommunityUsePolicy'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
 import { CreateTag } from '@/screens/createTag/CreateTag'
 import { ImageEdit } from '@/screens/edit/imageEdit/ImageEdit'
 import { LinkEdit } from '@/screens/edit/linkEdit/LinkEdit'
 import { Login } from '@/screens/login/Login'
+import { MyAccount } from '@/screens/myAccount/MyAccount'
+import { Mypage } from '@/screens/mypage/Mypage'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
+import { RecycleBin } from '@/screens/recycleBin/RecycleBin'
 import Report from '@/screens/report/Report'
 import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
+import { TagManagement } from '@/screens/tagManagement/TagManagement'
+import { TermsOfService } from '@/screens/termsOfService/TermsOfService'
 import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
 import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
@@ -45,6 +53,14 @@ export type RootStackParamList = {
   Search: undefined
   LinkEdit: undefined
   ImageEdit: undefined
+  Mypage: undefined
+  MyAccount: undefined
+  ArchivingManagement: undefined
+  TagManagement: undefined
+  BlockManagement: undefined
+  TermsOfService: undefined
+  CommunityUsePolicy: undefined
+  RecycleBin: undefined
 }
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
@@ -167,6 +183,41 @@ export const RootStack = () => {
         <Stack.Screen
           name="ImageEdit"
           component={ImageEdit}
+        />
+        <Stack.Screen
+          name="Mypage"
+          component={Mypage}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="MyAccount"
+          component={MyAccount}
+        />
+        <Stack.Screen
+          name="ArchivingManagement"
+          component={ArchivingManagement}
+        />
+        <Stack.Screen
+          name="TagManagement"
+          component={TagManagement}
+        />
+        <Stack.Screen
+          name="BlockManagement"
+          component={BlockManagement}
+        />
+        <Stack.Screen
+          name="TermsOfService"
+          component={TermsOfService}
+        />
+        <Stack.Screen
+          name="CommunityUsePolicy"
+          component={CommunityUsePolicy}
+        />
+        <Stack.Screen
+          name="RecycleBin"
+          component={RecycleBin}
         />
       </Stack.Navigator>
     </>

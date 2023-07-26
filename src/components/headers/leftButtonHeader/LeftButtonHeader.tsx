@@ -21,7 +21,6 @@ export const LeftButtonHeader = ({ title }: LeftButtonHeaderProps) => {
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>
-        {/* TODO: Icon 연결 */}
         <Image source={defaultIcons.back} />
       </HeaderLeft>
       <Title>{title}</Title>

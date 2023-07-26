@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -44,6 +45,7 @@ export const Home = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const queryClient = useQueryClient()
+  const navigation = useNavigation()
 
   const {
     data: profileData,
@@ -89,15 +91,17 @@ export const Home = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        <ProfileImage
-          source={
-            isProfileImageError || !profileData?.imgUrl
-              ? defaultImages.profile
-              : { uri: profileData?.imgUrl }
-          }
-          onError={() => setIsProfileImageError(true)}
-          defaultSource={defaultImages.profile as ImageURISource}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+          <ProfileImage
+            source={
+              isProfileImageError || !profileData?.imgUrl
+                ? defaultImages.profile
+                : { uri: profileData?.imgUrl }
+            }
+            onError={() => setIsProfileImageError(true)}
+            defaultSource={defaultImages.profile as ImageURISource}
+          />
+        </TouchableOpacity>
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
