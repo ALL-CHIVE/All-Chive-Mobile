@@ -191,6 +191,9 @@ export const RootStack = () => {
         <Stack.Screen
           name="MyAccount"
           component={MyAccount}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="ArchivingManagement"
