@@ -63,9 +63,12 @@ export const getSearchLatest = async () => {
 /**
  * 최근 검색어를 삭제합니다.
  */
-export const deleteSearchLatest = async (latestId: number) => {
+export const deleteSearchLatest = async (ids: number[]) => {
   const accessToken = await getAccessToken()
-  const response = await client.delete(`/searches/latest/${latestId}`, {
+  const response = await client.delete(`/searches/latest/`, {
+    data: {
+      ids,
+    },
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

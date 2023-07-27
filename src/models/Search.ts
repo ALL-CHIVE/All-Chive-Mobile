@@ -18,11 +18,11 @@ export interface SearchResponse {
 
 export interface KeywordResponse {
   data: {
-    keyword: Keyword[]
+    keywords: Keywords[]
   }
 }
 
-export interface Keyword {
+export interface Keywords {
   word: string
   latestSearchId: number
 }

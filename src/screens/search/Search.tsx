@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
@@ -39,7 +40,20 @@ const Search = () => {
 
   const { data: latestSearchData } = useQuery(['getSearchLatest'], () => getSearchLatest())
 
-  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest)
+  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      console.log('삭제 성공')
+    },
+    /**
+     *
+     */
+    onError: (error: AxiosError) => {
+      console.log(error)
+    },
+  })
 
   /**
    * handleSearch
@@ -59,14 +73,18 @@ const Search = () => {
    * 선택한 최근 검색어를 삭제하는 함수
    */
   const handleRemoveLatest = (item: number) => {
-    deleteLatestMutate(item)
+    deleteLatestMutate([item])
   }
 
   /**
    * 최근 검색어를 모두 삭제하는 함수
    */
   const handleRemoveAllLatest = () => {
-    // TODO: 최근 검색어 전체 삭제
+    if (latestSearchData === undefined) return
+    else {
+      const item = latestSearchData.keywords.map((item) => item.latestSearchId)
+      deleteLatestMutate(item)
+    }
   }
 
   return (
@@ -95,7 +113,7 @@ const Search = () => {
               <AllRemoveText>{i18n.t('allRemove')}</AllRemoveText>
             </TouchableOpacity>
           </LatestContainer>
-          {latestSearchData.keyword?.map((item) => (
+          {latestSearchData.keywords.map((item) => (
             <LatestContainer key={item.latestSearchId}>
               <TouchableOpacity onPress={() => handleSelectItem(item.word)}>
                 <ItemText>{item.word}</ItemText>
