@@ -1,4 +1,4 @@
-import { KeywordResponse, SearchResponse } from '@/models/Search'
+import { KeywordResponse, KeywordsResponse, SearchResponse } from '@/models/Search'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
@@ -43,7 +43,7 @@ export const getSearchRelation = async (word: string) => {
     },
   })
 
-  return data.data
+  return data.data.keyword
 }
 
 /**
@@ -51,7 +51,7 @@ export const getSearchRelation = async (word: string) => {
  */
 export const getSearchLatest = async () => {
   const accessToken = await getAccessToken()
-  const { data } = await client.get<KeywordResponse>(`/searches/latest`, {
+  const { data } = await client.get<KeywordsResponse>(`/searches/latest`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { AxiosError } from 'axios'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
@@ -20,6 +19,7 @@ import {
   LatestSearch,
   SmallImage,
   RowView,
+  RelationContainer,
 } from './Search.style'
 import { SearchTab } from './SearchTab'
 
@@ -31,6 +31,7 @@ const Search = () => {
 
   const [searchText, setSearchText] = useState('')
   const [searchType, setSearchType] = useState<'ALL' | 'MY' | 'COMMUNITY'>('ALL')
+  const [isFocus, setIsFocus] = useState(false)
 
   const { data: searchData } = useQuery(['getSearch'], () => getSearch(searchType, searchText))
 
@@ -40,33 +41,19 @@ const Search = () => {
 
   const { data: latestSearchData } = useQuery(['getSearchLatest'], () => getSearchLatest())
 
-  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest, {
-    /**
-     *
-     */
-    onSuccess: () => {
-      console.log('삭제 성공')
-    },
-    /**
-     *
-     */
-    onError: (error: AxiosError) => {
-      console.log(error)
-    },
-  })
+  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest)
 
   /**
    * handleSearch
    */
-  const handleSearch = () => {
-    // searchMutate()
-  }
+  const handleSearch = () => {}
 
   /**
    * 검색어를 선택했을 경우
    */
   const handleSelectItem = (item: string) => {
     setSearchText(item)
+    setIsFocus(false)
   }
 
   /**
@@ -102,6 +89,7 @@ const Search = () => {
           value={searchText}
           onChangeText={setSearchText}
           onSubmitEditing={handleSearch}
+          onFocus={() => setIsFocus(true)}
         />
       </RowView>
 
@@ -126,8 +114,26 @@ const Search = () => {
         </>
       )}
 
+      {searchRelation !== undefined && searchText && isFocus && (
+        <>
+          {searchRelation.map((item) => (
+            <RelationContainer key={item}>
+              <Image
+                source={defaultIcons.search}
+                style={{ marginRight: 12, marginTop: 5 }}
+              />
+              <TouchableOpacity onPress={() => handleSelectItem(item)}>
+                <ItemText>{item}</ItemText>
+              </TouchableOpacity>
+            </RelationContainer>
+          ))}
+        </>
+      )}
+
       <TabContainer>
-        {searchText && searchData !== undefined && <SearchTab searchData={searchData} />}
+        {searchText && searchData !== undefined && !isFocus && (
+          <SearchTab searchData={searchData} />
+        )}
       </TabContainer>
     </Container>
   )

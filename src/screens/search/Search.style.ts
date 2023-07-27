@@ -20,6 +20,13 @@ export const LatestContainer = styled.View`
   padding: 0px 25px;
 `
 
+export const RelationContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  padding: 0px 60px;
+  margin-bottom: 16px;
+`
+
 export const SmallImage = styled.Image`
   width: 9px;
   height: 9px;

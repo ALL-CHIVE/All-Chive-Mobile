@@ -18,6 +18,12 @@ export interface SearchResponse {
 
 export interface KeywordResponse {
   data: {
+    keyword: string[]
+  }
+}
+
+export interface KeywordsResponse {
+  data: {
     keywords: Keywords[]
   }
 }

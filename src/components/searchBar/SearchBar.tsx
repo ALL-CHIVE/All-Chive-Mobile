@@ -15,6 +15,7 @@ interface SearchBarProps {
   value: string
   onChangeText: (text: string) => void
   onSubmitEditing?: () => void
+  onFocus?: () => void
 }
 /**
  *
@@ -24,6 +25,7 @@ export const SearchBar = ({
   value,
   onChangeText,
   onSubmitEditing,
+  onFocus,
 }: SearchBarProps) => {
   return (
     <Container>
@@ -32,6 +34,7 @@ export const SearchBar = ({
         value={value}
         onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
+        onFocus={onFocus}
       />
       <SearchImage source={defaultIcons.search} />
       {value.length > 0 ? (
