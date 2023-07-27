@@ -14,6 +14,21 @@ export const ProfileImage = styled.Image`
   width: 110px;
   height: 110px;
   border-radius: 40px;
+  margin-bottom: 12px;
+`
+
+export const Button = styled.TouchableOpacity`
+  width: 83px;
+  height: 35px;
+  background-color: ${colors.mainYellow};
+  border-radius: 25px;
+  padding: 7px 29px;
+`
+
+export const ButtonText = styled.Text`
+  ${fonts.body2}
+  color: ${colors.gray500};
+  text-align: center;
 `
 
 export const InfoList = styled.View`
