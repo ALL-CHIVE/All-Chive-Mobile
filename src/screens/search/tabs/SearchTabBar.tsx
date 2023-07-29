@@ -2,7 +2,7 @@ import React from 'react'
 
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 
-import { TabBarWrapper, TabButton, TabText } from './Search.style'
+import { TabBarWrapper, TabButton, TabText } from '../Search.style'
 
 interface Route {
   key: string

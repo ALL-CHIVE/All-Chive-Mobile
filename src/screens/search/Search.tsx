@@ -8,6 +8,7 @@ import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } fro
 import { defaultIcons } from '@/assets'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
+import { SearchType } from '@/models/enums/SearchType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import {
@@ -21,7 +22,7 @@ import {
   RowView,
   RelationContainer,
 } from './Search.style'
-import { SearchTab } from './SearchTab'
+import { SearchTab } from './tabs/SearchTab'
 
 /**
  * Search
@@ -30,7 +31,7 @@ const Search = () => {
   const navigation = useNavigation<MainNavigationProp>()
 
   const [searchText, setSearchText] = useState('')
-  const [searchType, setSearchType] = useState<'ALL' | 'MY' | 'COMMUNITY'>('ALL')
+  const [searchType, setSearchType] = useState<SearchType>(SearchType.All)
   const [isFocus, setIsFocus] = useState(false)
 
   const { data: searchData } = useQuery(['getSearch'], () => getSearch(searchType, searchText))
@@ -46,7 +47,9 @@ const Search = () => {
   /**
    * handleSearch
    */
-  const handleSearch = () => {}
+  const handleSearch = () => {
+    // TODO: 검색 연결
+  }
 
   /**
    * 검색어를 선택했을 경우

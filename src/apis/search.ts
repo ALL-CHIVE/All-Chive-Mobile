@@ -1,4 +1,5 @@
 import { KeywordResponse, KeywordsResponse, SearchResponse } from '@/models/Search'
+import { SearchType } from '@/models/enums/SearchType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
@@ -7,7 +8,7 @@ import { client } from './client'
  * 검색어를 검색합니다.
  */
 export const getSearch = async (
-  type: 'ALL' | 'MY' | 'COMMUNITY',
+  type: SearchType,
   word: string,
   page?: number,
   size?: number,
