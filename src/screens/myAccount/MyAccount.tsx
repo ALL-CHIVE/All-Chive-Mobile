@@ -65,7 +65,7 @@ export const MyAccount = () => {
       header: () => (
         <LeftButtonHeader
           title={i18n.t('myAccount')}
-          rightButtonText={editMode ? '완료' : i18n.t('edit')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={() => setEditMode(!editMode)}
         />
       ),
@@ -155,17 +155,17 @@ export const MyAccount = () => {
 
         <InfoContainer>
           <RowView>
-            <InfoTitle>이름</InfoTitle>
+            <InfoTitle>{i18n.t('name')}</InfoTitle>
             <InfoText>{userInfoData?.name}</InfoText>
           </RowView>
           <Divider />
           <RowView>
-            <InfoTitle>이메일</InfoTitle>
+            <InfoTitle>{i18n.t('email')}</InfoTitle>
             <InfoText>{userInfoData?.email}</InfoText>
           </RowView>
           <Divider />
           <RowView>
-            <InfoTitle>닉네임</InfoTitle>
+            <InfoTitle>{i18n.t('nickName')}</InfoTitle>
             <InfoText>{userInfoData?.nickname}</InfoText>
             <PencilIcon>{editMode && <Image source={defaultIcons.pencil} />}</PencilIcon>
           </RowView>
@@ -186,7 +186,7 @@ export const MyAccount = () => {
       {editMode && (
         <Footer>
           <TouchableOpacity>
-            <FooterText>계정삭제</FooterText>
+            <FooterText>{i18n.t('deleteAccount')}</FooterText>
           </TouchableOpacity>
         </Footer>
       )}

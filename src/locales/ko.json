@@ -114,5 +114,8 @@
   "communityUsePolicy": "커뮤니티 이용 정책",
   "recycleBin": "휴지통",
   "appVersion": "앱 버전정보",
-  "logout": "로그아웃"
+  "logout": "로그아웃",
+  "name": "이름",
+  "email": "이메일",
+  "deleteAccount": "계정삭제"
 }
