@@ -31,13 +31,34 @@ export const ButtonText = styled.Text`
   text-align: center;
 `
 
-export const InfoList = styled.View`
+export const InfoContainer = styled.View`
+  padding: 70px 25px 0px 25px;
+`
+
+export const RowView = styled.View`
   flex-direction: row;
   margin: 5px 0px;
 `
 
-export const InfoContainer = styled.View`
-  padding: 70px 25px 0px 25px;
+export const PencilIcon = styled.TouchableOpacity`
+  width: 14px;
+  height: 15px;
+  position: absolute;
+  margin-top: 5px;
+  right: 0px;
+`
+
+export const Footer = styled.View`
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 103px;
+  background-color: ${colors.yellow100};
+`
+
+export const FooterText = styled.Text`
+  ${fonts.body3}
+  color: ${colors.gray300};
 `
 
 export const InfoText = styled.Text`

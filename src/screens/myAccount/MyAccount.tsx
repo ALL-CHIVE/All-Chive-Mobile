@@ -2,12 +2,19 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { ImageURISource, Linking, Platform } from 'react-native'
+import {
+  Image,
+  ImageURISource,
+  Linking,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getUserInfo } from '@/apis/user'
-import { defaultImages } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
@@ -26,9 +33,12 @@ import {
   InfoTitle,
   ProfileContainer,
   ProfileImage,
-  InfoList,
   Button,
   ButtonText,
+  PencilIcon,
+  RowView,
+  Footer,
+  FooterText,
 } from './MyAccount.style'
 
 /**
@@ -125,50 +135,61 @@ export const MyAccount = () => {
 
   return (
     <>
-      <ProfileContainer>
-        <ProfileImage
-          source={
-            isProfileImageError || !userInfoData?.imgUrl
-              ? defaultImages.profile
-              : { uri: userInfoData?.imgUrl }
-          }
-          onError={() => setIsProfileImageError(true)}
-          defaultSource={defaultImages.profile as ImageURISource}
+      <ScrollView>
+        <ProfileContainer>
+          <ProfileImage
+            source={
+              isProfileImageError || !userInfoData?.imgUrl
+                ? defaultImages.profile
+                : { uri: userInfoData?.imgUrl }
+            }
+            onError={() => setIsProfileImageError(true)}
+            defaultSource={defaultImages.profile as ImageURISource}
+          />
+          {editMode && (
+            <Button onPress={handleImageEdit}>
+              <ButtonText>{i18n.t('edit')}</ButtonText>
+            </Button>
+          )}
+        </ProfileContainer>
+
+        <InfoContainer>
+          <RowView>
+            <InfoTitle>이름</InfoTitle>
+            <InfoText>{userInfoData?.name}</InfoText>
+          </RowView>
+          <Divider />
+          <RowView>
+            <InfoTitle>이메일</InfoTitle>
+            <InfoText>{userInfoData?.email}</InfoText>
+          </RowView>
+          <Divider />
+          <RowView>
+            <InfoTitle>닉네임</InfoTitle>
+            <InfoText>{userInfoData?.nickname}</InfoText>
+            <PencilIcon>{editMode && <Image source={defaultIcons.pencil} />}</PencilIcon>
+          </RowView>
+          <Divider />
+        </InfoContainer>
+
+        <ActionSheet
+          ref={actionSheetRef}
+          title={i18n.t('setProfile')}
+          options={DefalutMenus()}
+          cancelButtonIndex={0}
+          tintColor={colors.gray600}
+          onPress={handleActionSheetMenu}
+          theme="ios"
         />
-        {editMode && (
-          <Button onPress={handleImageEdit}>
-            <ButtonText>{i18n.t('edit')}</ButtonText>
-          </Button>
-        )}
-      </ProfileContainer>
+      </ScrollView>
 
-      <InfoContainer>
-        <InfoList>
-          <InfoTitle>이름</InfoTitle>
-          <InfoText>{userInfoData?.name}</InfoText>
-        </InfoList>
-        <Divider />
-        <InfoList>
-          <InfoTitle>이메일</InfoTitle>
-          <InfoText>{userInfoData?.email}</InfoText>
-        </InfoList>
-        <Divider />
-        <InfoList>
-          <InfoTitle>닉네임</InfoTitle>
-          <InfoText>{userInfoData?.nickname}</InfoText>
-        </InfoList>
-        <Divider />
-      </InfoContainer>
-
-      <ActionSheet
-        ref={actionSheetRef}
-        title={i18n.t('setProfile')}
-        options={DefalutMenus()}
-        cancelButtonIndex={0}
-        tintColor={colors.gray600}
-        onPress={handleActionSheetMenu}
-        theme="ios"
-      />
+      {editMode && (
+        <Footer>
+          <TouchableOpacity>
+            <FooterText>계정삭제</FooterText>
+          </TouchableOpacity>
+        </Footer>
+      )}
     </>
   )
 }

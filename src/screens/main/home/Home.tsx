@@ -16,6 +16,7 @@ import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { Category } from '@/models/enums/Category'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 
@@ -45,7 +46,7 @@ export const Home = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const queryClient = useQueryClient()
-  const navigation = useNavigation()
+  const navigation = useNavigation<MainNavigationProp>()
 
   const {
     data: profileData,
