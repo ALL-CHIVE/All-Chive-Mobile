@@ -24,8 +24,8 @@ export const Styles = {
 export const LeftButton = styled.TouchableOpacity`
   position: absolute;
   align-items: center;
-  left: 17%;
-  top: 25%;
+  left: 47px;
+  top: 45px;
 `
 
 export const Icon = styled.Image`
@@ -35,8 +35,8 @@ export const Icon = styled.Image`
 export const RightButton = styled.TouchableOpacity`
   position: absolute;
   align-items: center;
-  right: 20%;
-  top: 25%;
+  right: 62px;
+  top: 45px;
 `
 
 export const UploadButton = styled.View`

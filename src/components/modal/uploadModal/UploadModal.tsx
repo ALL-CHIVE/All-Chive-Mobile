@@ -3,7 +3,6 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Image, Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { Shadow } from 'react-native-shadow-2'
 
 import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
