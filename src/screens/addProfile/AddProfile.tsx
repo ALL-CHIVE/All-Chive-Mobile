@@ -50,7 +50,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleComplete = async () => {
-    //TODO: 이미지 파일 업로드
     const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
 
     if (!imageUrl) {
@@ -116,7 +115,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                {/* TODO: 아이콘 연결 */}
                 <Image source={defaultIcons.grayCloseButton} />
               </ClearButton>
             </NicknameInputBox>
