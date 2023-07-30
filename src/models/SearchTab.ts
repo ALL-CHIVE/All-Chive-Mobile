@@ -1,6 +1,7 @@
 import { ArchivingListContent } from './Archiving'
-export interface SearchResponse {
-  data: {
+
+export interface SearchTabData {
+  searchData: {
     archivings: {
       content: ArchivingListContent[]
       page: number
@@ -14,21 +15,4 @@ export interface SearchResponse {
       hasNext: boolean
     }
   }
-}
-
-export interface KeywordResponse {
-  data: {
-    keyword: string[]
-  }
-}
-
-export interface KeywordsResponse {
-  data: {
-    keywords: Keywords[]
-  }
-}
-
-export interface Keywords {
-  word: string
-  latestSearchId: number
 }
