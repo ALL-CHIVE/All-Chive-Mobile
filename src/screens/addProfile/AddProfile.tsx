@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Image, View } from 'react-native'
+import { Image, ImageURISource, View } from 'react-native'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
@@ -13,6 +13,7 @@ import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { UploadProfileImage } from '@/services/ImageService'
 import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
@@ -50,12 +51,22 @@ const AddProfile = ({ route }: AddProfileProps) => {
    */
   const handleComplete = async () => {
     //TODO: 이미지 파일 업로드
-    const imageUrl = profileImage ? '' : ''
+    const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
+
+    if (!imageUrl) {
+      return
+    }
+
+    const profileImageUrl = await UploadProfileImage(imageUrl)
+
+    if (!profileImageUrl) {
+      return
+    }
 
     const isSucess = await signUp(
       route.params.type,
       idToken,
-      imageUrl,
+      profileImageUrl,
       nickname,
       route.params.categories
     )
