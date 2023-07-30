@@ -19,9 +19,9 @@ const s3 = new S3({
 })
 
 /**
- * 프로필 이미지 업로드 url 요청할 수 있는 api
+ * aws 이미지 업로드 url 요청할 수 있는 api
  */
-export const getUserImageUrl = async (key: string): Promise<string> => {
+export const getAwsImageUrl = async (key: string): Promise<string> => {
   const url = await s3.getSignedUrlPromise('putObject', {
     Bucket: Config.AWS_ASSET_BUCKET_STAGE,
     Key: key,
@@ -33,19 +33,19 @@ export const getUserImageUrl = async (key: string): Promise<string> => {
   return url
 }
 
-// /**
-//  * 프로필 이미지 업로드 url 요청할 수 있는 api
-//  */
-// export const getUserImageUrl = async (): Promise<ImageUrl> => {
-//   const accessToken = await getAccessToken()
-//   const { data } = await client.get(`/user/image`, {
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//   })
+/**
+ * 프로필 업로드 url 요청할 수 있는 api
+ */
+export const getUserImageUrl = async (): Promise<ImageUrl> => {
+  const accessToken = await getAccessToken()
+  const { data } = await client.get(`/user/image`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
 
-//   return data.data
-// }
+  return data.data
+}
 
 /**
  * 컨텐츠 이미지 업로드 url 요청할 수 있는 api

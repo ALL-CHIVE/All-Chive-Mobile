@@ -13,7 +13,7 @@ import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { UploadProfileImage } from '@/services/ImageService'
+import { uploadProfileImage } from '@/services/ImageService'
 import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
@@ -57,7 +57,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
       return
     }
 
-    const profileImageUrl = await UploadProfileImage(imageUrl)
+    const profileImageUrl = await uploadProfileImage(imageUrl)
 
     if (!profileImageUrl) {
       return
