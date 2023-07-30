@@ -117,5 +117,7 @@
   "logout": "로그아웃",
   "name": "이름",
   "email": "이메일",
-  "deleteAccount": "계정삭제"
+  "deleteAccount": "계정삭제",
+  "doYouWantWithdrawal": "이 계정을 삭제하시겠어요?",
+  "deletedAccountCannotRestore": "삭제한 계정은 복구할 수 없습니다."
 }

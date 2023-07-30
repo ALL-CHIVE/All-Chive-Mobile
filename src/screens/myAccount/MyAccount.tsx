@@ -10,11 +10,13 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
+import { deleteWithdrawal } from '@/apis/auth'
 import { getUserInfo } from '@/apis/user'
 import { defaultIcons, defaultImages } from '@/assets'
+import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
@@ -42,20 +44,38 @@ import {
 } from './MyAccount.style'
 
 /**
- *
+ * 마이페이지 '내 계정' 화면
  */
 export const MyAccount = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const actionSheetRef = useRef<ActionSheet>(null)
+
+  const [profileImage, setProfileImage] = useRecoilState(ProfileImageState)
+
   const [editMode, setEditMode] = useState(false)
   const [isProfileImageError, setIsProfileImageError] = useState(false)
-  const [profileImage, setProfileImage] = useRecoilState(ProfileImageState)
-  const actionSheetRef = useRef<ActionSheet>(null)
+  const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
 
   const {
     data: userInfoData,
     isLoading: isProfileLoading,
     isError: isProfileError,
   } = useQuery(['getUserInfo'], () => getUserInfo())
+
+  const { mutate: withdrawMutation } = useMutation(deleteWithdrawal, {
+    /**
+     * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
+     */
+    onSuccess: () => {
+      navigation.navigate('Login')
+    },
+    /**
+     *
+     */
+    onError: () => {
+      // 에러 화면 처리
+    },
+  })
 
   useEffect(() => {
     navigation.setOptions({
@@ -133,6 +153,13 @@ export const MyAccount = () => {
     }
   }
 
+  /**
+   * 회원탈퇴를 합니다.
+   */
+  const handleWithdraw = () => {
+    // TODO: 회원탈퇴
+  }
+
   return (
     <>
       <ScrollView>
@@ -181,11 +208,25 @@ export const MyAccount = () => {
           onPress={handleActionSheetMenu}
           theme="ios"
         />
+
+        <TwoButtonDialog
+          isVisible={isWithdrawDialogVisible}
+          title="doYouWantWithdrawal"
+          description="deletedAccountCannotRestore"
+          completeText="delete"
+          onCancel={() => {
+            setIsWithdrawDialogVisible(false)
+          }}
+          onComplete={() => {
+            setIsWithdrawDialogVisible(false)
+            handleWithdraw()
+          }}
+        />
       </ScrollView>
 
       {editMode && (
         <Footer>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsWithdrawDialogVisible(true)}>
             <FooterText>{i18n.t('deleteAccount')}</FooterText>
           </TouchableOpacity>
         </Footer>
