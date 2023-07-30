@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -98,7 +99,7 @@ export const Community = () => {
           source={
             isProfileImageError || !profileData?.imgUrl
               ? defaultImages.profile
-              : { uri: profileData?.imgUrl }
+              : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
           }
           onError={() => setIsProfileImageError(true)}
           defaultSource={defaultImages.profile as ImageURISource}
