@@ -1,7 +1,7 @@
 import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
-import { ArchivingListContent } from '@/models/archiving/MainArchivingList'
+import { ArchivingListContent } from '@/models/Archiving'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 

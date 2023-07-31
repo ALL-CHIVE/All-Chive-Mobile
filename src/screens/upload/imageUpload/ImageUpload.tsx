@@ -14,6 +14,7 @@ import {
 import { useMutation } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import { postContents } from '@/apis/content'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
@@ -42,7 +43,6 @@ import {
   TextInput,
   Title,
 } from '../Upload.style'
-import { postContents } from '../apis/postContents'
 
 /**
  *

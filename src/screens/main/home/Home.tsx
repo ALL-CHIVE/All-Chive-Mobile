@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -16,6 +17,7 @@ import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { Category } from '@/models/enums/Category'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 
@@ -45,6 +47,7 @@ export const Home = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const queryClient = useQueryClient()
+  const navigation = useNavigation<MainNavigationProp>()
 
   const {
     data: profileData,
@@ -90,15 +93,17 @@ export const Home = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        <ProfileImage
-          source={
-            isProfileImageError || !profileData?.imgUrl
-              ? defaultImages.profile
-              : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
-          }
-          onError={() => setIsProfileImageError(true)}
-          defaultSource={defaultImages.profile as ImageURISource}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+          <ProfileImage
+            source={
+              isProfileImageError || !profileData?.imgUrl
+                ? defaultImages.profile
+                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
+            }
+            onError={() => setIsProfileImageError(true)}
+            defaultSource={defaultImages.profile as ImageURISource}
+          />
+        </TouchableOpacity>
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
