@@ -1,27 +1,20 @@
-import { SignInType } from '@/models/enums/SignInType'
+import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
 
 /**
- * signUpUser
+ * 회원탈퇴를 합니다.
  */
-export const signUpUser = (
-  provider: SignInType,
-  idToken: string,
-  profileImgUrl: string,
-  nickname: string,
-  categories: string[]
-) => {
-  return client.post(`/auth/oauth/register/${provider}?idToken=${idToken}`, {
-    profileImgUrl,
-    nickname,
-    categories,
+export const deleteWithdrawal = async (appleAccessToken: string) => {
+  const accessToken = await getAccessToken()
+  const response = await client.delete(`/auth.withdrawal`, {
+    data: {
+      appleAccessToken,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
-}
 
-/**
- * postIdTokenLogin
- */
-export const postIdTokenLogin = (type: string, idToken: string) => {
-  return client.post(`/auth/oauth/login/${type}/idtoken?idToken=${idToken}`)
+  return response
 }

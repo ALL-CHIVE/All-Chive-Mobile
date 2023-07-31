@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -16,6 +17,7 @@ import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { Category } from '@/models/enums/Category'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 
@@ -40,6 +42,7 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  * Community
  */
 export const Community = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const [currentCategory, setCurrentCategory] = useState(Category.All)
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const allCategoryList = useRecoilValue(AllCategoryListState)
@@ -94,15 +97,17 @@ export const Community = () => {
         <SearchContainer style={{ flex: 1 }}>
           <SearchButton />
         </SearchContainer>
-        <ProfileImage
-          source={
-            isProfileImageError || !profileData?.imgUrl
-              ? defaultImages.profile
-              : { uri: profileData?.imgUrl }
-          }
-          onError={() => setIsProfileImageError(true)}
-          defaultSource={defaultImages.profile as ImageURISource}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+          <ProfileImage
+            source={
+              isProfileImageError || !profileData?.imgUrl
+                ? defaultImages.profile
+                : { uri: profileData?.imgUrl }
+            }
+            onError={() => setIsProfileImageError(true)}
+            defaultSource={defaultImages.profile as ImageURISource}
+          />
+        </TouchableOpacity>
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
