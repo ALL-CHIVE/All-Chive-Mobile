@@ -25,7 +25,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
     <Container>
       <LinearGradient
         style={Styles.linearGradient}
-        colors={[colors.white, colors.yellow600]}
+        colors={['rgba(255, 255, 255, 0.7)', colors.yellow600]}
       >
         <LinearGradient
           style={Styles.uploadButton}
