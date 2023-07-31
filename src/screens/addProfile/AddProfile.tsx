@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Image, View } from 'react-native'
+import { Image, ImageURISource, View } from 'react-native'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
@@ -13,6 +13,7 @@ import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { uploadProfileImage } from '@/services/ImageService'
 import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
@@ -49,13 +50,22 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleComplete = async () => {
-    //TODO: 이미지 파일 업로드
-    const imageUrl = profileImage ? '' : ''
+    const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
+
+    if (!imageUrl) {
+      return
+    }
+
+    const profileImageUrl = await uploadProfileImage(imageUrl)
+
+    if (!profileImageUrl) {
+      return
+    }
 
     const isSucess = await signUp(
       route.params.type,
       idToken,
-      imageUrl,
+      profileImageUrl,
       nickname,
       route.params.categories
     )
@@ -105,7 +115,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                {/* TODO: 아이콘 연결 */}
                 <Image source={defaultIcons.grayCloseButton} />
               </ClearButton>
             </NicknameInputBox>

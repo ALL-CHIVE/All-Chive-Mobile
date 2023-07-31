@@ -21,6 +21,7 @@ export const ProfileImage = styled.Image`
   margin-left: 12px;
   width: 41px;
   height: 41px;
+  border-radius: 40px;
 `
 
 export const ScrollContainer = styled.ScrollView``

@@ -24,19 +24,15 @@ export const signInWith = (type: SignInType) => {
  */
 const signInWithApple = async (): Promise<SignInResult | undefined> => {
   try {
-    const { user, fullName, email, identityToken } = await appleAuth.performRequest({
+    const { user, identityToken, authorizationCode } = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     })
 
     const credentialState = await appleAuth.getCredentialStateForUser(user)
 
-    // console.log(credentialState)
-
-    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
-      const data = [user, fullName, email, identityToken, credentialState]
-      console.log(JSON.stringify(data))
-      return getIsUser(SignInType.Apple, identityToken)
+    if (credentialState === appleAuth.State.AUTHORIZED && identityToken && authorizationCode) {
+      return getIsUser(SignInType.Apple, identityToken, authorizationCode)
     }
 
     return
@@ -69,7 +65,11 @@ const signInWithKakao = async (): Promise<SignInResult | undefined> => {
 /**
  * 유저인지 확인합니다.
  */
-const getIsUser = async (type: string, idToken: string): Promise<SignInResult | undefined> => {
+const getIsUser = async (
+  type: string,
+  idToken: string,
+  authorizationCode = ''
+): Promise<SignInResult | undefined> => {
   try {
     const response = await postIdTokenLogin(type, idToken)
 
@@ -79,6 +79,7 @@ const getIsUser = async (type: string, idToken: string): Promise<SignInResult | 
       return {
         canLogin: false,
         idToken,
+        authorizationCode,
       }
     } else {
       saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
@@ -88,6 +89,7 @@ const getIsUser = async (type: string, idToken: string): Promise<SignInResult | 
     }
   } catch (err) {
     //ignore
+    console.log(err)
     return
   }
 }
