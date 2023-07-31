@@ -32,7 +32,7 @@ const Report = () => {
       /**
        * header
        */
-      header: () => <LeftButtonHeader title={'신고하기'} />,
+      header: () => <LeftButtonHeader title={i18n.t('report')} />,
     })
   })
 

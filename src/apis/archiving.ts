@@ -1,4 +1,8 @@
-import { ContentByArchivingResponse, MainArchivingListResponse } from '@/models/Archiving'
+import {
+  ArchivingListResponse,
+  ContentByArchivingResponse,
+  MainArchivingListResponse,
+} from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
@@ -28,6 +32,41 @@ export const getCommunityArchivingList = async (
   return data.data
 }
 
+interface PostArchivingParams {
+  title: string
+  imageUrl: string
+  category: string
+  publicStatus: boolean
+}
+
+/**
+ * 아카이빙을 생성합니다.
+ */
+export const postArchiving = async ({
+  title,
+  imageUrl,
+  category,
+  publicStatus,
+}: PostArchivingParams) => {
+  const accessToken = await getAccessToken()
+  const response = await client.post(
+    '/archivings',
+    {
+      title,
+      imageUrl,
+      category,
+      publicStatus,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
+
+  return response
+}
+
 /**
  * 아카이빙을 삭제합니다.
  */
@@ -38,6 +77,43 @@ export const deleteArchiving = async (archivingId: number) => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
+
+  return response
+}
+
+interface PatchArchivingParams {
+  archivingId: number
+  title: string
+  imageUrl: string
+  category: string
+  publicStatus: boolean
+}
+
+/**
+ * 아카이빙을 수정합니다.
+ */
+export const patchArchiving = async ({
+  archivingId,
+  title,
+  imageUrl,
+  category,
+  publicStatus,
+}: PatchArchivingParams) => {
+  const accessToken = await getAccessToken()
+  const response = await client.patch(
+    `/archivings/${archivingId}`,
+    {
+      title,
+      imageUrl,
+      category,
+      publicStatus,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }
@@ -109,6 +185,20 @@ export const getScrapArchivingList = async (
       page,
       size,
     },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  return data.data
+}
+
+/**
+ * 사용 중인 주제 & 아카이빙 리스트를 가져옵니다. (컨텐츠 추가 시 사용)
+ */
+export const getArchivingList = async (): Promise<ArchivingListResponse> => {
+  const accessToken = await getAccessToken()
+  const { data } = await client.get('/archivings/lists', {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
