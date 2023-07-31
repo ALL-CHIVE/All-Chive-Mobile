@@ -36,7 +36,7 @@ export const Login = () => {
     if (signInResult.canLogin) {
       IsSignInState(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
-    } else if (!signInResult.canLogin && signInResult.idToken && signInResult.authorizationCode) {
+    } else if (!signInResult.canLogin && signInResult.idToken) {
       setIdTokenState(signInResult.idToken)
       // TODO: authorizationCode 전달
       // TODO: 이용약관 페이지 추가
