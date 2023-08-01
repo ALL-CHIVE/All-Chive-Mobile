@@ -20,6 +20,7 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
@@ -186,42 +187,49 @@ export const Upload = ({ route }: UploadProps) => {
       <Condition style={[contentName.length > 0 ? Styles.conditionComplete : null]}>
         {i18n.t('contentVerify')}
       </Condition>
-
-      {/* Link */}
-      <Title>{i18n.t('link')}</Title>
-      <TextInput
-        placeholder={i18n.t('placeHolderLink')}
-        value={link}
-        onChangeText={setLink}
-        onFocus={handleLinkFocus}
-        onBlur={handleLinkBlur}
-        style={[
-          linkFocus ? Styles.inputFocus : null,
-          !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
-        ]}
-      />
-      {/* TODO: Condition Icon 추가 */}
-      <Condition>{i18n.t('checkUrl')}</Condition>
-      {/* Image */}
-      <Title>{i18n.t('image')}</Title>
-      {image ? (
-        <TouchableOpacity onPress={handleUploadImage}>
-          <Image source={image} />
-        </TouchableOpacity>
-      ) : (
-        <PlusImageButton onPress={handleUploadImage}>
-          <Text>+</Text>
-        </PlusImageButton>
+      {route.params.type === ContentType.Link && (
+        <>
+          {/* Link */}
+          <Title>{i18n.t('link')}</Title>
+          <TextInput
+            placeholder={i18n.t('placeHolderLink')}
+            value={link}
+            onChangeText={setLink}
+            onFocus={handleLinkFocus}
+            onBlur={handleLinkBlur}
+            style={[
+              linkFocus ? Styles.inputFocus : null,
+              !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
+            ]}
+          />
+          {/* TODO: Condition Icon 추가 */}
+          <Condition>{i18n.t('checkUrl')}</Condition>
+        </>
       )}
-      <ActionSheet
-        ref={actionSheetRef}
-        title={i18n.t('uploadImage')}
-        options={ImageUploadMenus()}
-        cancelButtonIndex={0}
-        tintColor={colors.gray600}
-        onPress={handleActionSheetMenu}
-        theme="ios"
-      />
+      {route.params.type === ContentType.Image && (
+        <>
+          {/* Image */}
+          <Title>{i18n.t('image')}</Title>
+          {image ? (
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Image source={image} />
+            </TouchableOpacity>
+          ) : (
+            <PlusImageButton onPress={handleUploadImage}>
+              <Text>+</Text>
+            </PlusImageButton>
+          )}
+          <ActionSheet
+            ref={actionSheetRef}
+            title={i18n.t('uploadImage')}
+            options={ImageUploadMenus()}
+            cancelButtonIndex={0}
+            tintColor={colors.gray600}
+            onPress={handleActionSheetMenu}
+            theme="ios"
+          />
+        </>
+      )}
       <RowView>
         <Title>{i18n.t('tag')}</Title>
         <Text>{i18n.t('choice10')}</Text>
@@ -265,11 +273,15 @@ export const Upload = ({ route }: UploadProps) => {
           ]}
         />
       </KeyboardAvoidingView>
-      {/* TODO: 타입에 따른 분리 */}
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handlesubmit}
-        isDisabled={!archivingName || !contentName || !image || !link}
+        isDisabled={
+          !archivingName ||
+          !contentName ||
+          (route.params.type === ContentType.Image && !image) ||
+          (route.params.type === ContentType.Link && !link)
+        }
       />
     </Container>
   )
