@@ -21,6 +21,7 @@ const BottomSheet = ({ isVisible, onBackdropPress, onModalHide, children }: Bott
       style={Styles.modal}
       onBackdropPress={onBackdropPress}
       onModalHide={onModalHide}
+      backdropOpacity={0.4}
     >
       {children}
     </Modal>

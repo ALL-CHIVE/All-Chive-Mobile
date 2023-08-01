@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Text } from 'react-native'
+import { Image, Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { defaultIcons } from '@/assets'
@@ -9,7 +9,7 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
-import { Container, Icon, LeftButton, RightButton, Styles } from './UploadModal.style'
+import { Container, Icon, LeftButton, RightButton, Styles, UploadButton } from './UploadModal.style'
 
 interface UploadModalProps {
   onClose: () => void
@@ -25,8 +25,19 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
     <Container>
       <LinearGradient
         style={Styles.linearGradient}
-        colors={[colors.white, colors.yellow600]}
+        colors={['rgba(255, 255, 255, 0.7)', colors.yellow600]}
       >
+        <LinearGradient
+          style={Styles.uploadButton}
+          colors={[colors.yellow500, colors.mainYellow]}
+        >
+          <UploadButton>
+            <Image
+              source={defaultIcons.upload}
+              resizeMode="contain"
+            />
+          </UploadButton>
+        </LinearGradient>
         <LeftButton
           onPress={() => {
             onClose()
@@ -34,7 +45,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
           }}
         >
           <Icon source={defaultIcons.photo} />
-          <Text>{i18n.t('photo')}</Text>
+          <Text>{i18n.t('image')}</Text>
         </LeftButton>
         <RightButton
           onPress={() => {
