@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
+import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
@@ -31,8 +32,7 @@ import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { TagManagement } from '@/screens/tagManagement/TagManagement'
 import { TermsOfService } from '@/screens/termsOfService/TermsOfService'
-import { ImageUpload } from '@/screens/upload/imageUpload/ImageUpload'
-import { LinkUpload } from '@/screens/upload/linkUpload/LinkUpload'
+import { Upload } from '@/screens/upload/Upload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/signIn/SignInState'
 import { colors } from '@/styles/colors'
@@ -45,8 +45,7 @@ export type RootStackParamList = {
   BottomTab: BottomTabNavigationParams
   Login: undefined
   ContentList: { id: number; title: string }
-  LinkUpload: undefined
-  ImageUpload: undefined
+  Upload: { type: ContentType }
   CreateTag: undefined
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
@@ -147,12 +146,9 @@ export const RootStack = () => {
           }}
         />
         <Stack.Screen
-          name="LinkUpload"
-          component={LinkUpload}
-        />
-        <Stack.Screen
-          name="ImageUpload"
-          component={ImageUpload}
+          name="Upload"
+          component={Upload}
+          initialParams={{ type: ContentType.Image }}
         />
         <Stack.Screen
           name="CreateTag"

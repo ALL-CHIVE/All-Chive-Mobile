@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
@@ -41,7 +42,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
         <LeftButton
           onPress={() => {
             onClose()
-            navigate('ImageUpload')
+            navigate('Upload', { type: ContentType.Image })
           }}
         >
           <Icon source={defaultIcons.photo} />
@@ -50,7 +51,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
         <RightButton
           onPress={() => {
             onClose()
-            navigate('LinkUpload')
+            navigate('Upload', { type: ContentType.Link })
           }}
         >
           <Icon source={defaultIcons.link} />
