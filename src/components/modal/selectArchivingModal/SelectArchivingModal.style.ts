@@ -23,7 +23,7 @@ export const Title = styled.Text`
 export const CloseButton = styled.TouchableOpacity`
   position: absolute;
   top: 28px;
-  right: 0px;
+  right: 25px;
 `
 
 export const PlusButton = styled.TouchableOpacity`
@@ -31,7 +31,7 @@ export const PlusButton = styled.TouchableOpacity`
   height: 28px;
   position: absolute;
   top: 69px;
-  right: 0px;
+  right: 25px;
   padding: 5px 10px;
   border-radius: 30px;
   background-color: ${colors.yellow200};
@@ -51,6 +51,7 @@ export const CategoryText = styled.Text`
 
 export const ListContainer = styled.View`
   display: flex;
+  height: 400px;
   top: 90px;
 `
 
