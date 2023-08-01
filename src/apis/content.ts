@@ -1,10 +1,11 @@
 import { GetContentsResponse } from '@/models/Contents'
+import { ContentType } from '@/models/enums/ContentType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
 
 interface PostContentsParams {
-  contentType: 'link' | 'image'
+  contentType: ContentType
   archivingId: number
   title: string
   link?: string | ''
