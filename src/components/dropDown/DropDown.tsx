@@ -34,7 +34,7 @@ export const DropDown = () => {
               {allCategoryList.map((category) => (
                 <TouchableItem
                   key={category}
-                  onPress={() => onSelectCategory(i18n.t(`${category}`))}
+                  onPress={() => onSelectCategory(`${category}`)}
                 >
                   <Text>{i18n.t(`${category}`)}</Text>
                 </TouchableItem>
@@ -45,7 +45,9 @@ export const DropDown = () => {
           <Input
             editable={false}
             placeholder={
-              selectedCategory ? `${selectedCategory}` : `${i18n.t('noSelectCategory')}}`
+              selectedCategory
+                ? `${i18n.t(`${selectedCategory}`)}`
+                : `${i18n.t('noSelectCategory')}}`
             }
           />
         )}

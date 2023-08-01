@@ -61,13 +61,22 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   /**
    *
    */
-  const { mutate: postArchivingMutate } = useMutation(() =>
-    postArchiving({
-      title: name,
-      imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
-      category: selectedCategory,
-      publicStatus: publicStatus,
-    })
+  const { mutate: postArchivingMutate } = useMutation(
+    () =>
+      postArchiving({
+        title: name,
+        imageUrl: '',
+        category: selectedCategory,
+        publicStatus: publicStatus,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        onClose()
+      },
+    }
   )
 
   /**
