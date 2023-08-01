@@ -194,6 +194,9 @@ export const RootStack = () => {
         <Stack.Screen
           name="ArchivingManagement"
           component={ArchivingManagement}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="TagManagement"
