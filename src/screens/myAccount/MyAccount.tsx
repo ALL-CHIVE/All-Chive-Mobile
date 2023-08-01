@@ -2,14 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import {
-  Image,
-  ImageURISource,
-  Linking,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { Image, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
@@ -21,11 +14,8 @@ import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
-import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkAndRequestPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
+import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
 
@@ -103,53 +93,18 @@ export const MyAccount = () => {
    * handleActionSheetMenu
    */
   const handleActionSheetMenu = async (index: DefaultMenuType) => {
-    switch (index) {
-      case DefaultMenuType.selectDefaultImage: {
+    const selectedImage = await handleDefaultImageMenu(index)
+
+    if (!selectedImage) {
+      return
+    }
+
+    switch (selectedImage) {
+      case 'default':
         setProfileImage(null)
         break
-      }
-      case DefaultMenuType.selectFromPhotoLibrary: {
-        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowPhotoPermission',
-            Platform.select({
-              ios: 'photoPermissionGuideIOS',
-              android: 'photoPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const image = await handleImageSelect()
-        image && setProfileImage({ uri: image.path })
-        break
-      }
-      case DefaultMenuType.selectFromCamera: {
-        const permission = await checkAndRequestPermission(Permissions.Camera)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowCameraPermission',
-            Platform.select({
-              ios: 'cameraPermissionGuideIOS',
-              android: 'cameraPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const image = await handleCameraOpen()
-        image && setProfileImage({ uri: image.path })
-        break
-      }
+      default:
+        setProfileImage({ uri: selectedImage })
     }
   }
 

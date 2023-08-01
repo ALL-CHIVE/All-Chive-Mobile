@@ -5,7 +5,6 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import {
   ImageSourcePropType,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   ScrollView,
   Text,
@@ -21,13 +20,9 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
-import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { handleContentImageMenu } from '@/services/ActionSheetService'
-import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkAndRequestPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
+import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -152,11 +147,10 @@ export const Upload = ({ route }: UploadProps) => {
    * handleActionSheetMenu
    */
   const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
-    const selectImage = await handleContentImageMenu(index)
+    const selectedImage = await handleImageUploadMenu(index)
 
-    if (selectImage) {
-      console.log(selectImage)
-      setImage({ uri: selectImage })
+    if (selectedImage) {
+      setImage({ uri: selectedImage })
     }
   }
 
