@@ -64,10 +64,10 @@ export const ImageUpload = () => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { mutate } = useMutation(() =>
+  const { mutate: postContentsMutate } = useMutation(() =>
     postContents({
       contentType: 'image',
-      archivingId: 0,
+      archivingId: selectArchiving[0],
       title: contentName,
       imgUrl: '',
       tagIds: [],
@@ -80,7 +80,7 @@ export const ImageUpload = () => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving)
+    setArchivingName(selectArchiving[1])
   }
 
   /**

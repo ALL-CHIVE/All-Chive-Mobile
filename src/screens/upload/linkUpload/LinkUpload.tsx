@@ -46,15 +46,24 @@ export const LinkUpload = () => {
   const selectArchiving = useRecoilValue(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
-  const { mutate } = useMutation(() =>
-    postContents({
-      contentType: 'link',
-      archivingId: 0,
-      title: contentName,
-      link: link,
-      tagIds: [],
-      memo: memo,
-    })
+  const { mutate: postContentsMutate } = useMutation(
+    () =>
+      postContents({
+        contentType: 'link',
+        archivingId: selectArchiving[0],
+        title: contentName,
+        link: link,
+        tagIds: [],
+        memo: memo,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        navigation.navigate('BottomTab', { screen: 'Home' })
+      },
+    }
   )
 
   /**
@@ -62,7 +71,7 @@ export const LinkUpload = () => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving)
+    setArchivingName(selectArchiving[1])
   }
 
   /**
@@ -111,7 +120,7 @@ export const LinkUpload = () => {
    *
    */
   const handlesubmit = () => {
-    // TODO
+    postContentsMutate()
   }
 
   return (

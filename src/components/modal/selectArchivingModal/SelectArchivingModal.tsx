@@ -46,7 +46,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
   /**
    *
    */
-  const handleClickArchiving = (value: string) => {
+  const handleClickArchiving = (value: [number, string]) => {
     setSelectArchiving(value)
   }
 
@@ -89,7 +89,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                       <>
                         <TouchableOpacity
                           key={index}
-                          onPress={() => handleClickArchiving(item.title)}
+                          onPress={() => handleClickArchiving([item.archivingId, item.title])}
                         >
                           <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
                           <Divider />
