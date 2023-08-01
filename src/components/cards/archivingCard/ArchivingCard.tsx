@@ -6,7 +6,8 @@ import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
 import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving'
-import { defaultIcons } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
+import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -38,6 +39,7 @@ interface ArchivingCardProps {
 export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [isImageError, setIsImageError] = useState(false)
+  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving)
@@ -46,25 +48,32 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
   /**
    *
    */
-  const HandleFix = () => {
+  const handleFix = () => {
     // TODO
   }
 
   /**
    *
    */
-  const HandleRemove = () => {
+  const showDeleteDialog = () => {
+    setIsDeleteDialogVisible(true)
+  }
+
+  /**
+   *
+   */
+  const handleDelete = () => {
     deleteMutate(archivingId)
   }
 
   /**
    *
    */
-  const HandleScrap = () => {
+  const handleScrap = () => {
     scrapMutate()
   }
 
-  const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: HandleRemove }]
+  const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: showDeleteDialog }]
 
   return (
     <Container
@@ -96,7 +105,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
               <Popup menuList={popupMenuList} />
             </PopupContainer>
           ) : (
-            <Scrap onPress={HandleScrap}>
+            <Scrap onPress={handleScrap}>
               {markStatus ? (
                 <Image source={defaultIcons.scrapFill} />
               ) : (
@@ -114,6 +123,20 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
           </CountContainer>
         </Card>
       </Shadow>
+
+      <TwoButtonDialog
+        isVisible={isDeleteDialogVisible}
+        title="doYouWantDeleteThisArchiving"
+        imageUrl={defaultImages.recycleBin}
+        completeText="delete"
+        onCancel={() => {
+          setIsDeleteDialogVisible(false)
+        }}
+        onComplete={() => {
+          setIsDeleteDialogVisible(false)
+          handleDelete()
+        }}
+      />
     </Container>
   )
 }
