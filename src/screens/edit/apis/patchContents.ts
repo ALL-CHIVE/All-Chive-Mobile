@@ -1,9 +1,10 @@
 import { client } from '@/apis/client'
+import { ContentType } from '@/models/enums/ContentType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 interface PatchContentsParams {
   contentId: number
-  contentType: 'link' | 'image'
+  contentType: ContentType
   archivingId: number
   title: string
   link?: string | ''

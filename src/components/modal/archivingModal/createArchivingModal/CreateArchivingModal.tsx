@@ -1,16 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import {
-  Image,
-  ImageSourcePropType,
-  Linking,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -21,10 +12,7 @@ import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
-import { Permissions } from '@/models/enums/Permissions'
-import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkAndRequestPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleImageSelect } from '@/services/imagePicker'
+import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -95,53 +83,18 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const handleActionSheetMenu = async (index: DefaultMenuType) => {
-    switch (index) {
-      case DefaultMenuType.selectDefaultImage: {
+    const selectedImage = await handleDefaultImageMenu(index)
+
+    if (!selectedImage) {
+      return
+    }
+
+    switch (selectedImage) {
+      case 'default':
         setImage(defaultImages.thumbnail)
         break
-      }
-      case DefaultMenuType.selectFromPhotoLibrary: {
-        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowPhotoPermission',
-            Platform.select({
-              ios: 'photoPermissionGuideIOS',
-              android: 'photoPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleImageSelect()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
-      case DefaultMenuType.selectFromCamera: {
-        const permission = await checkAndRequestPermission(Permissions.Camera)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowCameraPermission',
-            Platform.select({
-              ios: 'cameraPermissionGuideIOS',
-              android: 'cameraPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleCameraOpen()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
+      default:
+        setImage({ uri: selectedImage })
     }
   }
 

@@ -1,7 +1,15 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { KeyboardAvoidingView, Platform, ScrollView, Text } from 'react-native'
+import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import {
+  ImageSourcePropType,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native'
 import { useMutation } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -11,9 +19,14 @@ import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseB
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
+import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
+import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
+import { colors } from '@/styles/colors'
 
 import {
   AddTagButton,
@@ -21,20 +34,27 @@ import {
   ArchivingSelect,
   Condition,
   Container,
+  Image,
+  PlusImageButton,
   RowView,
   Styles,
   TextInput,
   Title,
-} from '../Upload.style'
+} from './Upload.style'
+
+interface UploadProps {
+  route: RouteProp<RootStackParamList, 'Upload'>
+}
 
 /**
  *
  */
-export const LinkUpload = () => {
+export const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
+  const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
 
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
@@ -46,12 +66,15 @@ export const LinkUpload = () => {
   const selectArchiving = useRecoilValue(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
+  const actionSheetRef = useRef<ActionSheet>(null)
+
   const { mutate } = useMutation(() =>
     postContents({
-      contentType: 'link',
+      contentType: route.params.type,
       archivingId: 0,
       title: contentName,
       link: link,
+      imgUrl: '',
       tagIds: [],
       memo: memo,
     })
@@ -77,6 +100,13 @@ export const LinkUpload = () => {
    */
   const handleContentBlur = () => {
     setContentFocus(false)
+  }
+
+  /**
+   *
+   */
+  const handleUploadImage = () => {
+    actionSheetRef.current?.show()
   }
 
   /**
@@ -111,7 +141,18 @@ export const LinkUpload = () => {
    *
    */
   const handlesubmit = () => {
-    // TODO
+    // mutate()
+  }
+
+  /**
+   * handleActionSheetMenu
+   */
+  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
+    const selectedImage = await handleImageUploadMenu(index)
+
+    if (selectedImage) {
+      setImage({ uri: selectedImage })
+    }
   }
 
   return (
@@ -146,20 +187,49 @@ export const LinkUpload = () => {
       <Condition style={[contentName.length > 0 ? Styles.conditionComplete : null]}>
         {i18n.t('contentVerify')}
       </Condition>
-      <Title>{i18n.t('link')}</Title>
-      <TextInput
-        placeholder={i18n.t('placeHolderLink')}
-        value={link}
-        onChangeText={setLink}
-        onFocus={handleLinkFocus}
-        onBlur={handleLinkBlur}
-        style={[
-          linkFocus ? Styles.inputFocus : null,
-          !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
-        ]}
-      />
-      {/* TODO: Condition Icon 추가 */}
-      <Condition>{i18n.t('checkUrl')}</Condition>
+      {route.params.type === ContentType.Link && (
+        <>
+          {/* Link */}
+          <Title>{i18n.t('link')}</Title>
+          <TextInput
+            placeholder={i18n.t('placeHolderLink')}
+            value={link}
+            onChangeText={setLink}
+            onFocus={handleLinkFocus}
+            onBlur={handleLinkBlur}
+            style={[
+              linkFocus ? Styles.inputFocus : null,
+              !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
+            ]}
+          />
+          {/* TODO: Condition Icon 추가 */}
+          <Condition>{i18n.t('checkUrl')}</Condition>
+        </>
+      )}
+      {route.params.type === ContentType.Image && (
+        <>
+          {/* Image */}
+          <Title>{i18n.t('image')}</Title>
+          {image ? (
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Image source={image} />
+            </TouchableOpacity>
+          ) : (
+            <PlusImageButton onPress={handleUploadImage}>
+              <Text>+</Text>
+            </PlusImageButton>
+          )}
+          <ActionSheet
+            ref={actionSheetRef}
+            title={i18n.t('uploadImage')}
+            options={ImageUploadMenus()}
+            cancelButtonIndex={0}
+            tintColor={colors.gray600}
+            onPress={handleActionSheetMenu}
+            theme="ios"
+          />
+        </>
+      )}
       <RowView>
         <Title>{i18n.t('tag')}</Title>
         <Text>{i18n.t('choice10')}</Text>
@@ -206,7 +276,12 @@ export const LinkUpload = () => {
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handlesubmit}
-        isDisabled={!archivingName || !contentName || !link}
+        isDisabled={
+          !archivingName ||
+          !contentName ||
+          (route.params.type === ContentType.Image && !image) ||
+          (route.params.type === ContentType.Link && !link)
+        }
       />
     </Container>
   )

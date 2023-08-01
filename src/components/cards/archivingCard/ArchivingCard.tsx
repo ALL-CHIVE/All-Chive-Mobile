@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ImageURISource } from 'react-native'
+import { Image, ImageURISource, Text } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
-import { deleteArchiving } from '@/apis/archiving'
+import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
@@ -20,8 +20,9 @@ import {
   CountText,
   Day,
   Icon,
-  Image,
+  ArchivingImage,
   PopupContainer,
+  Scrap,
   Styles,
   Title,
 } from './ArchivingCard.style'
@@ -37,9 +38,10 @@ interface ArchivingCardProps {
 export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [isImageError, setIsImageError] = useState(false)
-  const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId } = item
+  const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving)
+  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId))
 
   /**
    *
@@ -53,6 +55,13 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
    */
   const HandleRemove = () => {
     deleteMutate(archivingId)
+  }
+
+  /**
+   *
+   */
+  const HandleScrap = () => {
+    scrapMutate()
   }
 
   const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: HandleRemove }]
@@ -70,7 +79,7 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
         style={Styles.shadow}
       >
         <Card>
-          <Image
+          <ArchivingImage
             source={isImageError || !imageUrl ? defaultIcons.upload : { uri: imageUrl }}
             onError={() => setIsImageError(true)}
             defaultSource={defaultIcons.upload as ImageURISource}
@@ -82,10 +91,18 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
             {title}
           </Title>
           <Day>{createdAt}</Day>
-          {isMine && (
+          {isMine ? (
             <PopupContainer>
               <Popup menuList={popupMenuList} />
             </PopupContainer>
+          ) : (
+            <Scrap onPress={HandleScrap}>
+              {markStatus ? (
+                <Image source={defaultIcons.scrapFill} />
+              ) : (
+                <Image source={defaultIcons.scrap} />
+              )}
+            </Scrap>
           )}
           <CountContainer>
             <Icon source={defaultIcons.photoWhite} />

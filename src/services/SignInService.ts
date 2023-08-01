@@ -115,7 +115,7 @@ export const signUp = async (
     }
   } catch (err) {
     //ignore
-    console.log(err.message)
+    console.log(err)
     return false
   }
 }
