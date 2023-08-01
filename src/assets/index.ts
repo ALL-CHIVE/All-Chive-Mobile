@@ -48,6 +48,8 @@ export const defaultIcons: Assets = {
   scrapWhite: require('@/assets/icons/scrapWhite.png'),
   rightButton: require('@/assets/icons/rightButton.png'),
   pencil: require('@/assets/icons/pencil.png'),
+  scrap: require('@/assets/icons/scrap.png'),
+  scrapFill: require('@/assets/icons/scrapFill.png'),
 }
 
 export const loginIcons: Assets = {

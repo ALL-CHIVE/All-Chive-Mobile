@@ -29,12 +29,13 @@ import {
   Title,
   ScrollContainer,
   SearchContainer,
-  BackgroundImage,
   Blank,
   ArchivingCardList,
   Styles,
   List,
 } from '../Main.style'
+
+import { BackgroundImage } from './Community.style'
 
 const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
 const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2

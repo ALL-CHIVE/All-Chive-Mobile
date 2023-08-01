@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import {
   ImageSourcePropType,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   ScrollView,
   Text,
@@ -21,11 +20,10 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
-import { Permissions } from '@/models/enums/Permissions'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkAndRequestPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
+import { RootStackParamList } from '@/navigations/RootStack'
+import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -42,21 +40,27 @@ import {
   Styles,
   TextInput,
   Title,
-} from '../Upload.style'
+} from './Upload.style'
+
+interface UploadProps {
+  route: RouteProp<RootStackParamList, 'Upload'>
+}
 
 /**
  *
  */
-export const ImageUpload = () => {
+export const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
+  const [link, setLink] = useState('')
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
 
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
 
   const [contentFocus, setContentFocus] = useState(false)
+  const [linkFocus, setLinkFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
   const selectArchiving = useRecoilValue(SelectArchivingState)
@@ -64,15 +68,25 @@ export const ImageUpload = () => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { mutate: postContentsMutate } = useMutation(() =>
-    postContents({
-      contentType: 'image',
-      archivingId: selectArchiving[0],
-      title: contentName,
-      imgUrl: '',
-      tagIds: [],
-      memo: memo,
-    })
+  const { mutate: postContentsMutate } = useMutation(
+    () =>
+      postContents({
+        contentType: route.params.type,
+        archivingId: selectArchiving[0],
+        title: contentName,
+        link: link,
+        imgUrl: '',
+        tagIds: [],
+        memo: memo,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        navigation.navigate('BottomTab', { screen: 'Home' })
+      },
+    }
   )
 
   /**
@@ -107,72 +121,15 @@ export const ImageUpload = () => {
   /**
    *
    */
-  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
-    switch (index) {
-      case ImageUploadMenuType.selectFromPhotoLibrary: {
-        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
+  const handleLinkFocus = () => {
+    setLinkFocus(true)
+  }
 
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowPhotoPermission',
-            Platform.select({
-              ios: 'photoPermissionGuideIOS',
-              android: 'photoPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleImageSelect()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
-      case ImageUploadMenuType.selectFromFile: {
-        const permission = await checkAndRequestPermission(Permissions.File)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowFilePermission',
-            Platform.select({
-              ios: 'filePermissionGuideIOS',
-              android: 'filePermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleFileOpen()
-        selectImage && setImage({ uri: selectImage.toString() })
-        break
-      }
-      case ImageUploadMenuType.selectFromCamera: {
-        const permission = await checkAndRequestPermission(Permissions.Camera)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowCameraPermission',
-            Platform.select({
-              ios: 'cameraPermissionGuideIOS',
-              android: 'cameraPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleCameraOpen()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
-    }
+  /**
+   *
+   */
+  const handleLinkBlur = () => {
+    setLinkFocus(false)
   }
 
   /**
@@ -194,6 +151,17 @@ export const ImageUpload = () => {
    */
   const handlesubmit = () => {
     // mutate()
+  }
+
+  /**
+   * handleActionSheetMenu
+   */
+  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
+    const selectedImage = await handleImageUploadMenu(index)
+
+    if (selectedImage) {
+      setImage({ uri: selectedImage })
+    }
   }
 
   return (
@@ -228,26 +196,49 @@ export const ImageUpload = () => {
       <Condition style={[contentName.length > 0 ? Styles.conditionComplete : null]}>
         {i18n.t('contentVerify')}
       </Condition>
-
-      <Title>{i18n.t('image')}</Title>
-      {image ? (
-        <TouchableOpacity onPress={handleUploadImage}>
-          <Image source={image} />
-        </TouchableOpacity>
-      ) : (
-        <PlusImageButton onPress={handleUploadImage}>
-          <Text>+</Text>
-        </PlusImageButton>
+      {route.params.type === ContentType.Link && (
+        <>
+          {/* Link */}
+          <Title>{i18n.t('link')}</Title>
+          <TextInput
+            placeholder={i18n.t('placeHolderLink')}
+            value={link}
+            onChangeText={setLink}
+            onFocus={handleLinkFocus}
+            onBlur={handleLinkBlur}
+            style={[
+              linkFocus ? Styles.inputFocus : null,
+              !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
+            ]}
+          />
+          {/* TODO: Condition Icon 추가 */}
+          <Condition>{i18n.t('checkUrl')}</Condition>
+        </>
       )}
-      <ActionSheet
-        ref={actionSheetRef}
-        title={i18n.t('uploadImage')}
-        options={ImageUploadMenus()}
-        cancelButtonIndex={0}
-        tintColor={colors.gray600}
-        onPress={handleActionSheetMenu}
-        theme="ios"
-      />
+      {route.params.type === ContentType.Image && (
+        <>
+          {/* Image */}
+          <Title>{i18n.t('image')}</Title>
+          {image ? (
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Image source={image} />
+            </TouchableOpacity>
+          ) : (
+            <PlusImageButton onPress={handleUploadImage}>
+              <Text>+</Text>
+            </PlusImageButton>
+          )}
+          <ActionSheet
+            ref={actionSheetRef}
+            title={i18n.t('uploadImage')}
+            options={ImageUploadMenus()}
+            cancelButtonIndex={0}
+            tintColor={colors.gray600}
+            onPress={handleActionSheetMenu}
+            theme="ios"
+          />
+        </>
+      )}
       <RowView>
         <Title>{i18n.t('tag')}</Title>
         <Text>{i18n.t('choice10')}</Text>
@@ -294,7 +285,12 @@ export const ImageUpload = () => {
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handlesubmit}
-        isDisabled={!archivingName || !contentName || !image}
+        isDisabled={
+          !archivingName ||
+          !contentName ||
+          (route.params.type === ContentType.Image && !image) ||
+          (route.params.type === ContentType.Link && !link)
+        }
       />
     </Container>
   )

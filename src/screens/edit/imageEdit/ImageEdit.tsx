@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native'
 import {
   ImageSourcePropType,
   KeyboardAvoidingView,
-  Linking,
   Platform,
   ScrollView,
   Text,
@@ -20,11 +19,8 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
-import { Permissions } from '@/models/enums/Permissions'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { createCancelConfirmAlert } from '@/services/Alert'
-import { checkAndRequestPermission } from '@/services/PermissionService'
-import { handleCameraOpen, handleFileOpen, handleImageSelect } from '@/services/imagePicker'
+import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -107,70 +103,10 @@ export const ImageEdit = () => {
    *
    */
   const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
-    switch (index) {
-      case ImageUploadMenuType.selectFromPhotoLibrary: {
-        const permission = await checkAndRequestPermission(Permissions.PhotoLibrary)
+    const selectedImage = await handleImageUploadMenu(index)
 
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowPhotoPermission',
-            Platform.select({
-              ios: 'photoPermissionGuideIOS',
-              android: 'photoPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleImageSelect()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
-      case ImageUploadMenuType.selectFromFile: {
-        const permission = await checkAndRequestPermission(Permissions.File)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowFilePermission',
-            Platform.select({
-              ios: 'filePermissionGuideIOS',
-              android: 'filePermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleFileOpen()
-        selectImage && setImage({ uri: selectImage.toString() })
-        break
-      }
-      case ImageUploadMenuType.selectFromCamera: {
-        const permission = await checkAndRequestPermission(Permissions.Camera)
-
-        if (permission === 'blocked' || permission === 'denied') {
-          createCancelConfirmAlert(
-            'pleaseAllowCameraPermission',
-            Platform.select({
-              ios: 'cameraPermissionGuideIOS',
-              android: 'cameraPermissionGuideAndroid',
-              default: '',
-            }),
-            () => Linking.openSettings()
-          )
-
-          return
-        }
-
-        const selectImage = await handleCameraOpen()
-        selectImage && setImage({ uri: selectImage.path })
-        break
-      }
+    if (selectedImage) {
+      setImage({ uri: selectedImage })
     }
   }
 

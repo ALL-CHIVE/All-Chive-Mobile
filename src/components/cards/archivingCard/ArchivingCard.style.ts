@@ -16,7 +16,7 @@ export const Card = styled.View`
   flex-direction: row;
 `
 
-export const Image = styled.Image`
+export const ArchivingImage = styled.Image`
   width: 97px;
   height: 90px;
   top: 9px;
@@ -69,3 +69,11 @@ export const Styles = {
     border-radius: 8px;
   `,
 }
+
+export const Scrap = styled.TouchableOpacity`
+  position: absolute;
+  right: 11px;
+  top: 13px;
+  padding: 5px;
+  color: ${colors.gray500};
+`
