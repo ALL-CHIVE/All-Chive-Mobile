@@ -62,6 +62,52 @@ export const getContents = async (contentId: number | undefined): Promise<GetCon
   return data.data
 }
 
+interface PatchContentsParams {
+  contentId: number
+  contentType: ContentType
+  archivingId: number
+  title: string
+  link?: string | ''
+  imgUrl?: string | ''
+  tagIds?: number[]
+  memo?: string
+}
+
+/**
+ * 컨텐츠를 수정합니다.
+ */
+export const patchContents = async ({
+  contentId,
+  contentType,
+  archivingId,
+  title,
+  link,
+  imgUrl,
+  tagIds,
+  memo,
+}: PatchContentsParams) => {
+  const accessToken = await getAccessToken()
+  const response = await client.patch(
+    `/contents/${contentId}`,
+    {
+      contentType,
+      archivingId,
+      title,
+      link,
+      imgUrl,
+      tagIds,
+      memo,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
+
+  return response
+}
+
 /**
  * 컨텐츠를 삭제합니다.
  */
