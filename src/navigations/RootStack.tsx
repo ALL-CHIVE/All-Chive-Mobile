@@ -19,8 +19,7 @@ import { CommunityUsePolicy } from '@/screens/communityUsePolicy/CommunityUsePol
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
 import { CreateTag } from '@/screens/createTag/CreateTag'
-import { ImageEdit } from '@/screens/edit/imageEdit/ImageEdit'
-import { LinkEdit } from '@/screens/edit/linkEdit/LinkEdit'
+import { Edit } from '@/screens/edit/Edit'
 import { Login } from '@/screens/login/Login'
 import { MyAccount } from '@/screens/myAccount/MyAccount'
 import { Mypage } from '@/screens/mypage/Mypage'
@@ -50,8 +49,7 @@ export type RootStackParamList = {
   ContentDetail: { id: number }
   Report: { id: number; type: ReportType }
   Search: undefined
-  LinkEdit: undefined
-  ImageEdit: undefined
+  Edit: { id: number; type: ContentType }
   Mypage: undefined
   MyAccount: undefined
   ArchivingManagement: undefined
@@ -162,6 +160,10 @@ export const RootStack = () => {
           }}
         />
         <Stack.Screen
+          name="Edit"
+          component={Edit}
+        />
+        <Stack.Screen
           name="Report"
           component={Report}
           options={{
@@ -171,14 +173,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="Search"
           component={Search}
-        />
-        <Stack.Screen
-          name="LinkEdit"
-          component={LinkEdit}
-        />
-        <Stack.Screen
-          name="ImageEdit"
-          component={ImageEdit}
         />
         <Stack.Screen
           name="Mypage"

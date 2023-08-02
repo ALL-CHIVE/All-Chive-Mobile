@@ -39,7 +39,7 @@ const ContentCard = ({
   const navigation = useNavigation<MainNavigationProp>()
 
   return (
-    <Container onPress={() => navigation.navigate('ContentDetail', { id: 123 })}>
+    <Container onPress={() => navigation.navigate('ContentDetail', { id: contentId })}>
       <Shadow
         startColor={colors.gray50}
         offset={[0, 0]}
