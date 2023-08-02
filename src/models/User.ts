@@ -11,4 +11,5 @@ export interface UserResponse {
   linkCount: number
   imgCount: number
   publicArchivingCount: number
+  archivingCount: number
 }

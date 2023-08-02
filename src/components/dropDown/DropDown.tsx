@@ -47,7 +47,7 @@ export const DropDown = () => {
             placeholder={
               selectedCategory
                 ? `${i18n.t(`${selectedCategory}`)}`
-                : `${i18n.t('noSelectCategory')}}`
+                : `${i18n.t('noSelectCategory')}`
             }
           />
         )}
