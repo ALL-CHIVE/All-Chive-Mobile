@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { AxiosError } from 'axios'
 import { ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -13,7 +12,6 @@ import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseB
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
-import { GetTagResponse } from '@/models/Tag'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 
@@ -40,11 +38,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
 
   const [openDialog, setOpenDialog] = useState(false)
 
-  const { mutate } = useMutation(() => postTag(searchText))
+  const { mutate: postTagMutate } = useMutation(() => postTag(searchText))
 
-  const { data: latestTagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () => getTag(true))
+  const { data: latestTagData } = useQuery(['getLatestTagData'], () => getTag(true))
 
-  const { data: tagData } = useQuery<GetTagResponse, AxiosError>(['tag'], () => getTag(false))
+  const { data: tagData } = useQuery(['getTagData', searchText], () => getTag(false))
 
   /**
    *
@@ -58,7 +56,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
    *
    */
   const handleCreateTag = () => {
-    // TODO: create tag (mutate)
+    postTagMutate()
   }
 
   /**
@@ -77,7 +75,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
   const handleUploadTag = () => {
     // TODO: upload tag & navigate to LinkUpload
     setSelectTag(selectTag)
-    navigation.navigate('LinkUpload')
+    navigation.goBack()
   }
 
   return (
@@ -108,7 +106,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
         onChangeText={handleSearch}
       />
 
-      {searchText.length > 0 && tagData?.tags.find((tag) => tag.name === searchText) ? (
+      {searchText.length > 0 && tagData && tagData?.find((tag) => tag.name === searchText) ? (
         <RowView>
           <ClickableTag
             tag={searchText}
@@ -121,7 +119,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
         </RowView>
       ) : null}
 
-      {searchText.length > 0 && !tagData?.tags.find((tag) => tag.name === searchText) ? (
+      {searchText.length > 0 && tagData && !tagData?.find((tag) => tag.name === searchText) ? (
         <>
           <Title>{`${i18n.t('notExistTag')}\n ${i18n.t('askCreateTag')}`}</Title>
           <PlusTagButton onPress={handleCreateTag}>
@@ -133,13 +131,13 @@ export const CreateTag = ({ navigation }: TagProps) => {
         <></>
       )}
 
-      {latestTagData && (
+      {latestTagData && latestTagData.length > 0 && (
         <>
           <Divider />
           <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
           <ScrollView>
             <RowView>
-              {latestTagData.tags.map((tag) => (
+              {latestTagData.map((tag) => (
                 <ClickableTag
                   key={tag.tagId}
                   tag={tag.name}

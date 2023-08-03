@@ -1,5 +1,7 @@
 export interface GetTagResponse {
-  tags: Tag[]
+  data: {
+    tags: Tag[]
+  }
 }
 
 export interface Tag {
