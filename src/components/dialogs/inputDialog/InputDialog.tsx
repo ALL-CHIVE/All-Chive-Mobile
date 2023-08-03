@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 
+import { Image } from 'react-native'
 import Modal from 'react-native-modal'
 
+import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
 
 import {
@@ -14,6 +16,8 @@ import {
   CompleteButton,
   CompleteButtonText,
   TextInput,
+  DeleteButton,
+  TextInputContainer,
 } from './InputDialog.style'
 
 interface InputDialogProps {
@@ -55,10 +59,17 @@ export const InputDialog = ({
     >
       <Container>
         <Title>{i18n.t(title)}</Title>
-        <TextInput
-          value={text}
-          onChangeText={setText}
-        />
+        <TextInputContainer>
+          <TextInput
+            value={text}
+            onChangeText={setText}
+          />
+          {text.length > 0 && (
+            <DeleteButton onPress={() => setText('')}>
+              <Image source={defaultIcons.grayCloseButton} />
+            </DeleteButton>
+          )}
+        </TextInputContainer>
         <Buttons>
           <CancelButton onPress={onCancel}>
             <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>

@@ -26,6 +26,10 @@ export const Title = styled.Text`
   margin-bottom: 23px;
 `
 
+export const TextInputContainer = styled.View`
+  display: flex;
+`
+
 export const TextInput = styled.TextInput`
   width: 229px;
   height: 37px;
@@ -34,6 +38,12 @@ export const TextInput = styled.TextInput`
   color: ${colors.mainBlack};
   padding: 7px 15px;
   border-radius: 6px;
+`
+
+export const DeleteButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 12px;
+  right: 12px;
 `
 
 export const Buttons = styled.View`
