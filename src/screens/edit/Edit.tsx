@@ -14,18 +14,17 @@ import {
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { getContents, patchContents } from '@/apis/content'
+import { getContentsInfo, patchContents } from '@/apis/content'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
-import { GetContentsResponse } from '@/models/Contents'
+import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
@@ -70,14 +69,15 @@ export const Edit = ({ route }: EditProps) => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { data: content } = useQuery<GetContentsResponse>(
-    queryKeys.contents,
-    () => getContents(route.params.id),
+  const { data: content } = useQuery<GetContentsInfoResponse>(
+    ['contentsInfo', route.params.id],
+    () => getContentsInfo(route.params.id),
     {
       /**
        *
        */
       onSuccess: (content) => {
+        setArchivingName(content.archivingTitle)
         setContentName(content.contentTitle)
         setLink(content.link)
         setMemo(content.contentMemo)
