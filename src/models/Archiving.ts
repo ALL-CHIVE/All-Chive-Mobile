@@ -3,6 +3,7 @@ export interface ArchivingListResponse {
 }
 
 export interface ArchivingItem {
+  archivingId: number
   title: string
   contentCnt: number
 }

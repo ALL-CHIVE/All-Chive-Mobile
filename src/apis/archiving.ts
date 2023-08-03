@@ -1,4 +1,5 @@
 import {
+  ArchivingListContent,
   ArchivingListResponse,
   ContentByArchivingResponse,
   MainArchivingListResponse,
@@ -65,6 +66,20 @@ export const postArchiving = async ({
   )
 
   return response
+}
+
+/**
+ * 아카이빙 정보 수정시 보여줄 정보를 가져옵니다.
+ */
+export const getArchivingData = async (archivingId: number): Promise<ArchivingListContent> => {
+  const accessToken = await getAccessToken()
+  const { data } = await client.get(`/archivings/${archivingId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  return data.data
 }
 
 /**

@@ -4,7 +4,7 @@ import { ScrollView, Text, TouchableOpacity } from 'react-native'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import i18n from '@/locales'
-import { AllCategoryListState } from '@/state/CategoryListState'
+import { CategoryListState } from '@/state/CategoryListState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 
 import { Container, DropDownModal, Input, TouchableItem } from './DropDown.style'
@@ -15,7 +15,7 @@ import { Container, DropDownModal, Input, TouchableItem } from './DropDown.style
 export const DropDown = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
-  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const categoryList = useRecoilValue(CategoryListState)
 
   /**
    *
@@ -31,10 +31,10 @@ export const DropDown = () => {
         {modalVisible ? (
           <DropDownModal>
             <ScrollView nestedScrollEnabled={true}>
-              {allCategoryList.map((category) => (
+              {categoryList.map((category) => (
                 <TouchableItem
                   key={category}
-                  onPress={() => onSelectCategory(i18n.t(`${category}`))}
+                  onPress={() => onSelectCategory(`${category}`)}
                 >
                   <Text>{i18n.t(`${category}`)}</Text>
                 </TouchableItem>
@@ -45,7 +45,9 @@ export const DropDown = () => {
           <Input
             editable={false}
             placeholder={
-              selectedCategory ? `${selectedCategory}` : `${i18n.t('noSelectCategory')}}`
+              selectedCategory
+                ? `${i18n.t(`${selectedCategory}`)}`
+                : `${i18n.t('noSelectCategory')}`
             }
           />
         )}

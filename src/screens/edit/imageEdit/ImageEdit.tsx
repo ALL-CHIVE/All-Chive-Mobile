@@ -75,7 +75,7 @@ export const ImageEdit = () => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving)
+    setArchivingName(selectArchiving[1])
   }
 
   /**

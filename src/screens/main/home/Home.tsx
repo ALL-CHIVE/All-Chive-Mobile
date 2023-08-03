@@ -119,8 +119,7 @@ export const Home = () => {
             <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
             <Title>
               {i18n.t('youHaveSavedArchives', {
-                // TODO: 아카이빙 개수로 변경 필요
-                number: profileData ? profileData.imgCount + profileData.linkCount : 0,
+                number: profileData ? profileData.archivingCount : 0,
               })}
             </Title>
           </>

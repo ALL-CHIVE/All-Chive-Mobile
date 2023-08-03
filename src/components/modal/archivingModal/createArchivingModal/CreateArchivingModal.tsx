@@ -4,7 +4,7 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { postArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
@@ -41,7 +41,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
-  const selectedCategory = useRecoilValue(SelectCategoryState)
+  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
 
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -49,13 +49,26 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   /**
    *
    */
-  const { mutate: postArchivingMutate } = useMutation(() =>
-    postArchiving({
-      title: name,
-      imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
-      category: selectedCategory,
-      publicStatus: publicStatus,
-    })
+  const { mutate: postArchivingMutate } = useMutation(
+    () =>
+      postArchiving({
+        title: name,
+        imageUrl: '',
+        category: selectedCategory,
+        publicStatus: publicStatus,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        setName('')
+        setImage('')
+        setSelectedCategory('')
+        setPublicStatus(false)
+        onClose()
+      },
+    }
   )
 
   /**

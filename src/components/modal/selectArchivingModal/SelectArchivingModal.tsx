@@ -46,7 +46,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
   /**
    *
    */
-  const handleClickArchiving = (value: string) => {
+  const handleClickArchiving = (value: [number, string]) => {
     setSelectArchiving(value)
   }
 
@@ -67,44 +67,48 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
         }}
       >
         <Container>
-          <ScrollView>
-            <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.grayCloseButton} />
-            </CloseButton>
-            <Title>{i18n.t('archiving')}</Title>
-            <PlusButton onPress={() => setCreateModal(true)}>
-              <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
-            </PlusButton>
-            <CreateArchivingModal
-              onClose={handleCloseModal}
-              isVisible={createModal}
-            />
-            <ListContainer>
+          <CloseButton onPress={onClose}>
+            <Image source={defaultIcons.grayCloseButton} />
+          </CloseButton>
+          <Title>{i18n.t('archiving')}</Title>
+          <PlusButton onPress={() => setCreateModal(true)}>
+            <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
+          </PlusButton>
+          <CreateArchivingModal
+            onClose={handleCloseModal}
+            isVisible={createModal}
+          />
+          <ListContainer>
+            <ScrollView>
               {archivingList &&
                 Object.keys(archivingList).map((category) => (
                   <>
-                    <CategoryText>{i18n.t(`${category}`)}</CategoryText>
-                    <Divider />
-                    {archivingList[category].map((item, index) => (
+                    {archivingList[category].length > 0 && (
                       <>
-                        <TouchableOpacity
-                          key={index}
-                          onPress={() => handleClickArchiving(item.title)}
-                        >
-                          <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
-                          <Divider />
-                        </TouchableOpacity>
+                        <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
+                        <Divider />
+                        {archivingList[category].map((item) => (
+                          <>
+                            <TouchableOpacity
+                              key={item.archivingId}
+                              onPress={() => handleClickArchiving([item.archivingId, item.title])}
+                            >
+                              <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
+                            </TouchableOpacity>
+                            <Divider />
+                          </>
+                        ))}
                       </>
-                    ))}
+                    )}
                   </>
                 ))}
-            </ListContainer>
-            <BoxButton
-              onPress={onClose}
-              textKey={i18n.t('confirm')}
-              isDisabled={!SelectArchivingState}
-            />
-          </ScrollView>
+            </ScrollView>
+          </ListContainer>
+          <BoxButton
+            onPress={onClose}
+            textKey={i18n.t('confirm')}
+            isDisabled={!SelectArchivingState}
+          />
         </Container>
       </Modal>
     </>
