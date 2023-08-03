@@ -33,7 +33,6 @@ export const Description = styled.Text`
 `
 
 export const Button = styled.TouchableOpacity`
-  width: 203px;
   height: 36px;
   background-color: ${colors.gray500};
   border-radius: 8px;
