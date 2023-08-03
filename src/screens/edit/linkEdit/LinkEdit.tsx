@@ -61,7 +61,7 @@ export const LinkEdit = () => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving[1])
+    setArchivingName(selectArchiving.title)
   }
 
   /**

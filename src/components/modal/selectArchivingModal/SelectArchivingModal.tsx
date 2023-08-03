@@ -1,30 +1,35 @@
 import React, { useState } from 'react'
 
-import { TouchableOpacity, Image } from 'react-native'
-import { ScrollView } from 'react-native'
+import { Image } from 'react-native'
 import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { getArchivingList } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { Divider } from '@/components/divider/Divider'
 import i18n from '@/locales'
 import { ArchivingListResponse } from '@/models/Archiving'
-import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
+import { SelectArchivingState, SelectedArchiving } from '@/state/upload/SelectArchivingState'
 
 import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
 
 import {
-  ArchivingText,
-  CategoryText,
+  ArchivingTitle as ArchivingTitle,
+  CategoryTitle,
   CloseButton,
-  Container,
+  ModalContainer,
+  Header,
   ListContainer,
-  PlusButton,
-  PlusButtonText,
+  AddArchivingButton,
+  AddArchivingText,
   Title,
+  Container,
+  ArchivingHeader,
+  ArchivingButton,
+  Styles,
 } from './SelectArchivingModal.style'
 
 interface SelectArchivingModalProps {
@@ -36,7 +41,7 @@ interface SelectArchivingModalProps {
  *
  */
 export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModalProps) => {
-  const setSelectArchiving = useSetRecoilState(SelectArchivingState)
+  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [createModal, setCreateModal] = useState(false)
 
   const { data: archivingList } = useQuery<ArchivingListResponse>(['getArchivingList'], () =>
@@ -46,7 +51,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
   /**
    *
    */
-  const handleClickArchiving = (value: [number, string]) => {
+  const handleClickArchiving = (value: SelectedArchiving) => {
     setSelectArchiving(value)
   }
 
@@ -61,56 +66,79 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
     <>
       <Modal
         isVisible={isVisible}
-        // backdropOpacity={0.5}
+        backdropOpacity={0.5}
+        onBackdropPress={onClose}
         style={{
           margin: 0,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
         }}
       >
-        <Container>
-          <CloseButton onPress={onClose}>
-            <Image source={defaultIcons.grayCloseButton} />
-          </CloseButton>
-          <Title>{i18n.t('archiving')}</Title>
-          <PlusButton onPress={() => setCreateModal(true)}>
-            <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
-          </PlusButton>
-          <CreateArchivingModal
-            onClose={handleCloseModal}
-            isVisible={createModal}
-          />
-          <ListContainer>
-            <ScrollView>
-              {archivingList &&
-                Object.keys(archivingList).map((category) => (
-                  <>
-                    {archivingList[category].length > 0 && (
-                      <>
-                        <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
-                        <Divider />
-                        {archivingList[category].map((item) => (
-                          <>
-                            <TouchableOpacity
-                              key={item.archivingId}
-                              onPress={() => handleClickArchiving([item.archivingId, item.title])}
-                            >
-                              <ArchivingText>{`ㄴ ${item.title}  ${item.contentCnt}`}</ArchivingText>
-                            </TouchableOpacity>
-                            <Divider />
-                          </>
-                        ))}
-                      </>
-                    )}
-                  </>
-                ))}
-            </ScrollView>
-          </ListContainer>
+        <ModalContainer>
+          <Header>
+            <CloseButton onPress={onClose}>
+              <Image source={defaultIcons.grayCloseButton} />
+            </CloseButton>
+          </Header>
+          <ArchivingHeader>
+            <Title>{i18n.t('archiving')}</Title>
+            <AddArchivingButton onPress={() => setCreateModal(true)}>
+              <AddArchivingText>{`+ ${i18n.t('addArchiving')}`}</AddArchivingText>
+            </AddArchivingButton>
+          </ArchivingHeader>
+          <DefaultScrollContainer>
+            <Container>
+              <ListContainer>
+                {archivingList &&
+                  Object.keys(archivingList).map((category) => (
+                    <>
+                      {archivingList[category].length > 0 && (
+                        <>
+                          {/* TODO: 서버에서 알맞게 전달하는지 확인 */}
+                          <CategoryTitle>{i18n.t(`${category}`)}</CategoryTitle>
+                          <Divider />
+                          {archivingList[category].map((item) => (
+                            <>
+                              <ArchivingButton
+                                key={item.archivingId}
+                                onPress={() =>
+                                  handleClickArchiving({ id: item.archivingId, title: item.title })
+                                }
+                              >
+                                <Image source={defaultIcons.leftProvider} />
+                                <ArchivingTitle
+                                  style={
+                                    item.archivingId === selectArchiving.id &&
+                                    Styles.SelectedArchiving
+                                  }
+                                >
+                                  {`${item.title}  ${item.contentCnt}`}
+                                </ArchivingTitle>
+                                {item.archivingId === selectArchiving.id && (
+                                  <Image source={defaultIcons.selectedIcon} />
+                                )}
+                              </ArchivingButton>
+                              <Divider />
+                            </>
+                          ))}
+                        </>
+                      )}
+                    </>
+                  ))}
+              </ListContainer>
+            </Container>
+          </DefaultScrollContainer>
           <BoxButton
             onPress={onClose}
             textKey={i18n.t('confirm')}
             isDisabled={!SelectArchivingState}
           />
-        </Container>
+        </ModalContainer>
       </Modal>
+      <CreateArchivingModal
+        onClose={handleCloseModal}
+        isVisible={createModal}
+      />
     </>
   )
 }

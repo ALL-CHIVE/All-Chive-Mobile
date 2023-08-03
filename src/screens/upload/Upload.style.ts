@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  height: 100%;
+  width: 375px;
   padding: 0 25px;
 `
 
@@ -21,6 +21,17 @@ export const ArchivingSelect = styled.TouchableOpacity`
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
   margin-top: 10px;
+  flex-direction: row;
+  align-items: center;
+`
+
+export const SelectArchivingText = styled.Text`
+  color: ${colors.gray100};
+`
+
+export const RightButton = styled.Image`
+  position: absolute;
+  right: 10px;
 `
 
 export const TextInput = styled.TextInput`
