@@ -8,10 +8,10 @@ interface PostContentsParams {
   contentType: ContentType
   archivingId: number
   title: string
-  link?: string | ''
-  imgUrl?: string | ''
-  tagIds?: number[]
-  memo?: string
+  link: string
+  imgUrl: string
+  tagIds: number[]
+  memo: string
 }
 
 /**
@@ -67,10 +67,10 @@ interface PatchContentsParams {
   contentType: ContentType
   archivingId: number
   title: string
-  link?: string | ''
-  imgUrl?: string | ''
-  tagIds?: number[]
-  memo?: string
+  link: string
+  imgUrl: string
+  tagIds: number[]
+  memo: string
 }
 
 /**
