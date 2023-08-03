@@ -21,6 +21,12 @@ export enum ReportMenuType {
   blockThisUser,
 }
 
+export enum EditDeleteMenuType {
+  cancel,
+  update,
+  remove,
+}
+
 /**
  * DefaultMenus 를 반환합니다.
  */
@@ -36,3 +42,9 @@ export const ImageUploadMenus = () =>
  * ReportMenus 를 반환합니다.
  */
 export const ReportMenus = () => GetAllKeys(ReportMenuType).map((key: string) => i18n.t(key))
+
+/**
+ * EditDeleteMenus 를 반환합니다.
+ */
+export const EditDeleteMenus = () =>
+  GetAllKeys(EditDeleteMenuType).map((key: string) => i18n.t(key))

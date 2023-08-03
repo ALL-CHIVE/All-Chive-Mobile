@@ -13,6 +13,7 @@ export const getBlockList = async (): Promise<BlockListResponse> => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
+
   return data.data
 }
 

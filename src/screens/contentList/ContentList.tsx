@@ -64,9 +64,9 @@ const ContentList = ({ route }: ContentListProps) => {
   })
 
   /**
-   * HandleEdit
+   * handleEdit
    */
-  const HandleEdit = () => {
+  const handleEdit = () => {
     // TODO: edit 로직 추가
     setEditModal(true)
   }
@@ -81,7 +81,7 @@ const ContentList = ({ route }: ContentListProps) => {
   /**
    *
    */
-  const HandleReport = () => {
+  const handleReport = () => {
     actionSheetRef.current?.show()
   }
 
@@ -101,10 +101,10 @@ const ContentList = ({ route }: ContentListProps) => {
 
   const PopupMenuList: PopupMenu[] = contentList?.isMine
     ? [
-        { title: 'update', onClick: HandleEdit },
+        { title: 'update', onClick: handleEdit },
         { title: 'remove', onClick: showDeleteDialog },
       ]
-    : [{ title: 'report', onClick: HandleReport }]
+    : [{ title: 'report', onClick: handleReport }]
 
   useEffect(() => {
     // getContentByArchiving(route.params.id).then((res) => setContentCard(res.contents.content))

@@ -68,16 +68,25 @@ export const Upload = ({ route }: UploadProps) => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { mutate } = useMutation(() =>
-    postContents({
-      contentType: route.params.type,
-      archivingId: 0,
-      title: contentName,
-      link: link,
-      imgUrl: '',
-      tagIds: [],
-      memo: memo,
-    })
+  const { mutate: postContentsMutate } = useMutation(
+    () =>
+      postContents({
+        contentType: route.params.type,
+        archivingId: selectArchiving[0],
+        title: contentName,
+        link: link,
+        imgUrl: '',
+        tagIds: [],
+        memo: memo,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        navigation.navigate('BottomTab', { screen: 'Home' })
+      },
+    }
   )
 
   /**
@@ -85,7 +94,7 @@ export const Upload = ({ route }: UploadProps) => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving)
+    setArchivingName(selectArchiving[1])
   }
 
   /**

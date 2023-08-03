@@ -3,10 +3,10 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
-import { useMutation } from 'react-query'
-import { useRecoilValue } from 'recoil'
+import { useMutation, useQuery } from 'react-query'
+import { useRecoilState } from 'recoil'
 
-import { patchArchiving } from '@/apis/archiving'
+import { getArchivingData, patchArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
@@ -46,12 +46,27 @@ export const EditArchivingModal = ({
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
-  const selectedCategory = useRecoilValue(SelectCategoryState)
+  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  // TODO: 현재 아카이빙 정보 가져오기
+  const { data: archivingData } = useQuery(
+    ['archiving', archivingId],
+    () => getArchivingData(archivingId),
+    {
+      /**
+       * onSuccess 시 데이터를 세팅합니다.
+       */
+      onSuccess: (data) => {
+        setName(data.title)
+        setImage({ uri: data.imageUrl })
+        setSelectedCategory(data.category)
+        setPublicStatus(data.markStatus)
+      },
+    }
+  )
+
   /**
    *
    */

@@ -105,7 +105,7 @@ export const Edit = ({ route }: EditProps) => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving)
+    setArchivingName(selectArchiving[1])
   }
 
   /**
