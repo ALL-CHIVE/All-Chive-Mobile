@@ -85,10 +85,10 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                   <>
                     {archivingList[category].length > 0 && (
                       <>
+                        <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
+                        <Divider />
                         {archivingList[category].map((item) => (
                           <>
-                            <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
-                            <Divider />
                             <TouchableOpacity
                               key={item.archivingId}
                               onPress={() => handleClickArchiving([item.archivingId, item.title])}

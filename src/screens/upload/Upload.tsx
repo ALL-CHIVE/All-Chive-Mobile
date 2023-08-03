@@ -65,6 +65,7 @@ export const Upload = ({ route }: UploadProps) => {
 
   const selectArchiving = useRecoilValue(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
+  console.log(selectArchiving)
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
