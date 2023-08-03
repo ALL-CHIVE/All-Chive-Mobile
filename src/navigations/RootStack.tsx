@@ -192,6 +192,9 @@ export const RootStack = () => {
         <Stack.Screen
           name="TagManagement"
           component={TagManagement}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="BlockManagement"
