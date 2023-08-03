@@ -2,13 +2,13 @@ import React from 'react'
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
+import { CustomTabBar } from '@/components/tabBar/customTabBar/CustomTabBar'
 import i18n from '@/locales'
 import { SearchTabData } from '@/models/SearchTab'
 
 import { AllTab } from './AllTab'
 import { ArchivingTab } from './ArchivingTab'
 import { CommunityTab } from './CommunityTab'
-import { SearchTabBar } from './SearchTabBar'
 
 /**
  * 검색 창 내부 탭
@@ -19,7 +19,7 @@ export const SearchTab = ({ searchData }: SearchTabData) => {
   return (
     <Tab.Navigator
       initialRouteName="AllTab"
-      tabBar={(props) => <SearchTabBar {...props} />}
+      tabBar={(props) => <CustomTabBar {...props} />}
     >
       <Tab.Screen
         name="AllTab"
