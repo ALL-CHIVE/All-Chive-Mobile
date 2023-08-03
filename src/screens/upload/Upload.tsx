@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { useMutation } from 'react-query'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { postContents } from '@/apis/content'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -63,7 +63,7 @@ export const Upload = ({ route }: UploadProps) => {
   const [linkFocus, setLinkFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
-  const selectArchiving = useRecoilValue(SelectArchivingState)
+  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -76,7 +76,7 @@ export const Upload = ({ route }: UploadProps) => {
         title: contentName,
         link: link,
         imgUrl: '',
-        tagIds: [],
+        tagIds: selectTag.map((tag) => tag.tagId),
         memo: memo,
       }),
     {
@@ -84,7 +84,15 @@ export const Upload = ({ route }: UploadProps) => {
        *
        */
       onSuccess: () => {
+        setSelectArchiving([-1, ''])
+        setSelectTag([])
         navigation.navigate('BottomTab', { screen: 'Home' })
+      },
+      /**
+       *
+       */
+      onError: () => {
+        // TODO: 에러 처리
       },
     }
   )
@@ -149,8 +157,16 @@ export const Upload = ({ route }: UploadProps) => {
   /**
    *
    */
+  const handleClose = () => {
+    setSelectTag([])
+    navigation.navigate('BottomTab', { screen: 'Home' })
+  }
+
+  /**
+   *
+   */
   const handlesubmit = () => {
-    // mutate()
+    postContentsMutate()
   }
 
   /**
@@ -168,7 +184,7 @@ export const Upload = ({ route }: UploadProps) => {
     <Container>
       <CloseButtonHeader
         title={i18n.t('upload')}
-        onClose={() => navigation.navigate('BottomTab', { screen: 'Home' })}
+        onClose={handleClose}
       />
       <Title>{i18n.t('archivingName')}</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>
@@ -251,8 +267,8 @@ export const Upload = ({ route }: UploadProps) => {
           {selectTag &&
             selectTag.map((tag) => (
               <GrayTag
-                key={tag}
-                tag={tag}
+                key={tag.tagId}
+                tag={tag.name}
                 onRemove={() => {
                   setSelectTag(selectTag.filter((item) => item !== tag))
                 }}

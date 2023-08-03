@@ -62,11 +62,17 @@ export const CreateTag = ({ navigation }: TagProps) => {
   /**
    *
    */
-  const handleSelectTag = (searchText: string) => {
+  const handleSelectTag = (value: { tagId: number; name: string }) => {
     if (selectTag.length >= 10) {
       setOpenDialog(true)
     }
-    setSelectTag([...selectTag, searchText])
+    setSelectTag([
+      ...selectTag,
+      {
+        name: searchText,
+        tagId: value.tagId,
+      },
+    ])
   }
 
   /**
@@ -90,8 +96,8 @@ export const CreateTag = ({ navigation }: TagProps) => {
           {selectTag &&
             selectTag.map((tag) => (
               <GrayTag
-                key={tag}
-                tag={tag}
+                key={tag.tagId}
+                tag={tag.name}
                 onRemove={() => {
                   setSelectTag(selectTag.filter((item) => item !== tag))
                 }}
@@ -111,8 +117,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
           <ClickableTag
             tag={searchText}
             onClick={() => {
-              if (!selectTag.includes(searchText)) {
-                handleSelectTag(searchText)
+              if (!selectTag.find((tag) => tag.name === searchText)) {
+                handleSelectTag({
+                  tagId: tagData.find((tag) => tag.name === searchText)?.tagId || 0,
+                  name: searchText,
+                })
               }
             }}
           />
@@ -142,8 +151,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
                   key={tag.tagId}
                   tag={tag.name}
                   onClick={() => {
-                    if (!selectTag.includes(searchText)) {
-                      handleSelectTag(searchText)
+                    if (!selectTag.find((tag) => tag.name === searchText)) {
+                      handleSelectTag({
+                        tagId: tag.tagId,
+                        name: tag.name,
+                      })
                     }
                   }}
                 />

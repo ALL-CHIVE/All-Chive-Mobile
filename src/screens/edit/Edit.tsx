@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { getContentsInfo, patchContents } from '@/apis/content'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -64,7 +64,7 @@ export const Edit = ({ route }: EditProps) => {
   const [linkFocus, setLinkFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
-  const selectArchiving = useRecoilValue(SelectArchivingState)
+  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -82,22 +82,43 @@ export const Edit = ({ route }: EditProps) => {
         setLink(content.link)
         setMemo(content.contentMemo)
         setImage(content.imgUrl ? { uri: content.imgUrl } : '')
-        setSelectTag(content.tagList.map((tag) => tag.name))
+        setSelectTag(
+          content.tagList.map((tag) => {
+            return { tagId: tag.tagId, name: tag.name }
+          })
+        )
       },
     }
   )
 
-  const { mutate } = useMutation(() =>
-    patchContents({
-      contentId: route.params.id,
-      contentType: route.params.type,
-      archivingId: 0,
-      title: contentName,
-      link: link,
-      imgUrl: '',
-      tagIds: [],
-      memo: memo,
-    })
+  const { mutate: patchContentsMutate } = useMutation(
+    () =>
+      patchContents({
+        contentId: route.params.id,
+        contentType: route.params.type,
+        archivingId: selectArchiving[0],
+        title: contentName,
+        link: link,
+        imgUrl: '',
+        tagIds: selectTag.map((tag) => tag.tagId),
+        memo: memo,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        setSelectArchiving([-1, ''])
+        setSelectTag([])
+        navigation.goBack()
+      },
+      /**
+       *
+       */
+      onError: () => {
+        // TODO: 에러 처리
+      },
+    }
   )
 
   /**
@@ -161,7 +182,7 @@ export const Edit = ({ route }: EditProps) => {
    *
    */
   const handlesubmit = () => {
-    // TODO
+    patchContentsMutate()
   }
 
   /**
@@ -260,8 +281,8 @@ export const Edit = ({ route }: EditProps) => {
           {selectTag &&
             selectTag.map((tag) => (
               <GrayTag
-                key={tag}
-                tag={tag}
+                key={tag.tagId}
+                tag={tag.name}
                 onRemove={() => {
                   setSelectTag(selectTag.filter((item) => item !== tag))
                 }}
