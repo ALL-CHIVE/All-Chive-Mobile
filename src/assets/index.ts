@@ -15,6 +15,8 @@ export const defaultImages: Assets = {
   homeBackground: require('@/assets/default/homeBackground.png'),
   recycleBin: require('@/assets/default/recycleBin.png'),
   communityBackground: require('@/assets/default/communityBackground.png'),
+  emptyItem: require('@/assets/default/emptyItem.png'),
+  unblockComplete: require('@/assets/default/unblockComplete.png'),
 }
 
 export const defaultIcons: Assets = {
