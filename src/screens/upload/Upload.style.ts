@@ -11,6 +11,8 @@ export const Container = styled.View`
 export const Title = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.gray600};
+  margin-top: 22px;
+  margin-bottom: 10px;
 `
 
 export const ArchivingSelect = styled.TouchableOpacity`
@@ -20,7 +22,6 @@ export const ArchivingSelect = styled.TouchableOpacity`
   background-color: ${colors.white};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
-  margin-top: 10px;
   flex-direction: row;
   align-items: center;
 `
@@ -36,28 +37,35 @@ export const RightButton = styled.Image`
 
 export const TextInput = styled.TextInput`
   width: 100%;
-  height: 38px;
+  min-height: 38px;
   border: 1px solid ${colors.gray100};
   background-color: ${colors.white};
   color: ${colors.gray600};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
-  margin-top: 10px;
 `
 
 export const Styles = {
-  inputFocus: css`
+  focused: css`
     border: 1px solid ${colors.yellow500};
   `,
-  inputWithValue: css`
+  clickedText: css`
+    color: ${colors.gray600};
+  `,
+  clicked: css`
     border: 1px solid ${colors.gray500};
+    color: ${colors.gray600};
   `,
   conditionComplete: css`
     color: ${colors.gray600};
   `,
 }
 
-export const Condition = styled.Text`
+export const Condition = styled.View`
+  flex-direction: row;
+`
+
+export const ConditionText = styled.Text`
   ${fonts.body4}
   color: ${colors.gray100};
 `
@@ -71,10 +79,22 @@ export const PlusImageButton = styled.TouchableOpacity`
   align-items: center;
 `
 
-export const Image = styled.Image`
+export const ContentImage = styled.Image`
   width: 78px;
   height: 78px;
   border-radius: 4px;
+`
+
+export const TagTitleContainer = styled.View`
+  margin-top: 22px;
+  margin-bottom: 10px;
+  flex-direction: row;
+`
+
+export const TagTitle = styled.Text`
+  ${fonts.subtitle2}
+  color: ${colors.gray600};
+  margin-right: 12px;
 `
 
 export const AddTagButton = styled.TouchableOpacity`
@@ -95,4 +115,5 @@ export const AddTagText = styled.Text`
 
 export const RowView = styled.View`
   flex-direction: row;
+  align-items: center;
 `
