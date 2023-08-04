@@ -18,6 +18,7 @@ import {
   TextInput,
   DeleteButton,
   TextInputContainer,
+  DisabledStyles,
 } from './InputDialog.style'
 
 interface InputDialogProps {
@@ -28,6 +29,8 @@ interface InputDialogProps {
   completeText: string
   onCancel: () => void
   onComplete: () => void
+  isDisabled?: boolean
+  placeholder?: string
 }
 
 /**
@@ -41,6 +44,8 @@ export const InputDialog = ({
   completeText,
   onCancel,
   onComplete,
+  isDisabled,
+  placeholder,
 }: InputDialogProps) => {
   const [isComplete, setIsComplete] = useState(false)
 
@@ -63,6 +68,7 @@ export const InputDialog = ({
           <TextInput
             value={text}
             onChangeText={setText}
+            placeholder={placeholder}
           />
           {text.length > 0 && (
             <DeleteButton onPress={() => setText('')}>
@@ -74,8 +80,14 @@ export const InputDialog = ({
           <CancelButton onPress={onCancel}>
             <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>
           </CancelButton>
-          <CompleteButton onPress={handleComplete}>
-            <CompleteButtonText>{i18n.t(completeText)}</CompleteButtonText>
+          <CompleteButton
+            onPress={handleComplete}
+            style={isDisabled && DisabledStyles.button}
+            disabled={isDisabled}
+          >
+            <CompleteButtonText style={isDisabled && DisabledStyles.text}>
+              {i18n.t(completeText)}
+            </CompleteButtonText>
           </CompleteButton>
         </Buttons>
       </Container>

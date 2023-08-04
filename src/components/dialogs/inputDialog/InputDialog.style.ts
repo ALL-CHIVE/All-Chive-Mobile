@@ -82,3 +82,12 @@ export const CompleteButtonText = styled.Text`
   ${fonts.btn1}
   color: ${colors.gray500};
 `
+
+export const DisabledStyles = {
+  button: css`
+    background-color: ${colors.gray50};
+  `,
+  text: css`
+    color: ${colors.gray300};
+  `,
+}

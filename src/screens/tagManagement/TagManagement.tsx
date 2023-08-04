@@ -121,6 +121,8 @@ export const TagManagement = () => {
           setIsCreateDialogVisible(false)
           handleCreate()
         }}
+        isDisabled={text.length === 0}
+        placeholder={i18n.t('placeHolderTag')}
       />
     </>
   )
