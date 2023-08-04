@@ -44,31 +44,13 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
 
-  // 추후삭제
-  const content = {
-    contentId: 0,
-    contentTitle: '컨텐츠 타이틀',
-    contentType: 'IMAGE',
-    contentMemo: '컨텐츠 메모',
-    link: '',
-    imgUrl: '',
-    contentCreatedAt: '2023.07.02',
-    tagList: [
-      {
-        tagId: 0,
-        name: 'UX/UI',
-      },
-    ],
-    isMine: true,
-  }
-
-  // const {
-  //   isLoading,
-  //   error,
-  //   data: content,
-  // } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
-  //   getContents(content?.contentId)
-  // )
+  const {
+    isLoading,
+    error,
+    data: content,
+  } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
+    getContents(route.params.id)
+  )
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
@@ -92,10 +74,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     // TODO: edit 로직 추가
     switch (content?.contentType) {
       case ContentType.Link:
-        navigation.navigate('LinkEdit')
+        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Link })
         break
       case ContentType.Image:
-        navigation.navigate('ImageEdit')
+        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Image })
         break
     }
   }
@@ -118,15 +100,18 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
    *
    */
   const handleDelete = () => {
-    deleteContentMutate(content.contentId)
+    if (content !== undefined) {
+      deleteContentMutate(content.contentId)
+    }
   }
 
-  const PopupMenuList: PopupMenu[] = content.isMine
-    ? [
-        { title: 'update', onClick: HandleEdit },
-        { title: 'remove', onClick: showDeleteDialog },
-      ]
-    : [{ title: 'report', onClick: HandleReport }]
+  const PopupMenuList: PopupMenu[] =
+    content && content.isMine
+      ? [
+          { title: 'update', onClick: HandleEdit },
+          { title: 'remove', onClick: showDeleteDialog },
+        ]
+      : [{ title: 'report', onClick: HandleReport }]
 
   useEffect(() => {
     navigation.setOptions({

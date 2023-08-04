@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { useNavigation } from '@react-navigation/native'
+import { RouteProp, useNavigation } from '@react-navigation/native'
 import {
+  Image,
   ImageSourcePropType,
   KeyboardAvoidingView,
   Platform,
@@ -10,16 +11,20 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
-import { useMutation } from 'react-query'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useMutation, useQuery } from 'react-query'
+import { useRecoilState } from 'recoil'
 
+import { getContentsInfo, patchContents } from '@/apis/content'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import i18n from '@/locales'
+import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
@@ -31,44 +36,90 @@ import {
   ArchivingSelect,
   Condition,
   Container,
-  Image,
   PlusImageButton,
   RowView,
   Styles,
   TextInput,
   Title,
-} from '../Edit.style'
+} from './Edit.style'
+
+interface EditProps {
+  route: RouteProp<RootStackParamList, 'Edit'>
+}
 
 /**
  *
  */
-export const ImageEdit = () => {
+export const Edit = ({ route }: EditProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
+  const [link, setLink] = useState('')
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
 
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
 
   const [contentFocus, setContentFocus] = useState(false)
+  const [linkFocus, setLinkFocus] = useState(false)
   const [memoFocus, setMemoFocus] = useState(false)
 
-  const selectArchiving = useRecoilValue(SelectArchivingState)
+  const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  // const { mutate } = useMutation(() =>
-  //   patchContents({
-  //     contentType: 'image',
-  //     archivingId: 0,
-  //     title: contentName,
-  //     imgUrl: '',
-  //     tagIds: [],
-  //     memo: memo,
-  //   })
-  // )
+  const { data: content } = useQuery<GetContentsInfoResponse>(
+    ['contentsInfo', route.params.id],
+    () => getContentsInfo(route.params.id),
+    {
+      /**
+       *
+       */
+      onSuccess: (content) => {
+        setArchivingName(content.archivingTitle)
+        setContentName(content.contentTitle)
+        setLink(content.link)
+        setMemo(content.contentMemo)
+        setImage(content.imgUrl ? { uri: content.imgUrl } : '')
+        setSelectTag(
+          content.tagList.map((tag) => {
+            return { tagId: tag.tagId, name: tag.name }
+          })
+        )
+      },
+    }
+  )
+
+  const { mutate: patchContentsMutate } = useMutation(
+    () =>
+      patchContents({
+        contentId: route.params.id,
+        contentType: route.params.type,
+        archivingId: selectArchiving[0],
+        title: contentName,
+        link: link,
+        imgUrl: '',
+        tagIds: selectTag.map((tag) => tag.tagId),
+        memo: memo,
+      }),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        setSelectArchiving([-1, ''])
+        setSelectTag([])
+        navigation.goBack()
+      },
+      /**
+       *
+       */
+      onError: () => {
+        // TODO: 에러 처리
+      },
+    }
+  )
 
   /**
    *
@@ -102,12 +153,15 @@ export const ImageEdit = () => {
   /**
    *
    */
-  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
-    const selectedImage = await handleImageUploadMenu(index)
+  const handleLinkFocus = () => {
+    setLinkFocus(true)
+  }
 
-    if (selectedImage) {
-      setImage({ uri: selectedImage })
-    }
+  /**
+   *
+   */
+  const handleLinkBlur = () => {
+    setLinkFocus(false)
   }
 
   /**
@@ -128,7 +182,18 @@ export const ImageEdit = () => {
    *
    */
   const handlesubmit = () => {
-    // mutate()
+    patchContentsMutate()
+  }
+
+  /**
+   * handleActionSheetMenu
+   */
+  const handleActionSheetMenu = async (index: ImageUploadMenuType) => {
+    const selectedImage = await handleImageUploadMenu(index)
+
+    if (selectedImage) {
+      setImage({ uri: selectedImage })
+    }
   }
 
   return (
@@ -163,26 +228,47 @@ export const ImageEdit = () => {
       <Condition style={[contentName.length > 0 ? Styles.conditionComplete : null]}>
         {i18n.t('contentVerify')}
       </Condition>
-
-      <Title>{i18n.t('image')}</Title>
-      {image ? (
-        <TouchableOpacity onPress={handleUploadImage}>
-          <Image source={image} />
-        </TouchableOpacity>
-      ) : (
-        <PlusImageButton onPress={handleUploadImage}>
-          <Text>+</Text>
-        </PlusImageButton>
+      {route.params.type === ContentType.Link && (
+        <>
+          <Title>{i18n.t('link')}</Title>
+          <TextInput
+            placeholder={i18n.t('placeHolderLink')}
+            value={link}
+            onChangeText={setLink}
+            onFocus={handleLinkFocus}
+            onBlur={handleLinkBlur}
+            style={[
+              linkFocus ? Styles.inputFocus : null,
+              !linkFocus && link.length > 0 ? Styles.inputWithValue : null,
+            ]}
+          />
+          {/* TODO: Condition Icon 추가 */}
+          <Condition>{i18n.t('checkUrl')}</Condition>
+        </>
       )}
-      <ActionSheet
-        ref={actionSheetRef}
-        title={i18n.t('uploadImage')}
-        options={ImageUploadMenus()}
-        cancelButtonIndex={0}
-        tintColor={colors.gray600}
-        onPress={handleActionSheetMenu}
-        theme="ios"
-      />
+      {route.params.type === ContentType.Image && (
+        <>
+          <Title>{i18n.t('image')}</Title>
+          {image ? (
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Image source={image} />
+            </TouchableOpacity>
+          ) : (
+            <PlusImageButton onPress={handleUploadImage}>
+              <Text>+</Text>
+            </PlusImageButton>
+          )}
+          <ActionSheet
+            ref={actionSheetRef}
+            title={i18n.t('uploadImage')}
+            options={ImageUploadMenus()}
+            cancelButtonIndex={0}
+            tintColor={colors.gray600}
+            onPress={handleActionSheetMenu}
+            theme="ios"
+          />
+        </>
+      )}
       <RowView>
         <Title>{i18n.t('tag')}</Title>
         <Text>{i18n.t('choice10')}</Text>
@@ -195,8 +281,8 @@ export const ImageEdit = () => {
           {selectTag &&
             selectTag.map((tag) => (
               <GrayTag
-                key={tag}
-                tag={tag}
+                key={tag.tagId}
+                tag={tag.name}
                 onRemove={() => {
                   setSelectTag(selectTag.filter((item) => item !== tag))
                 }}
@@ -229,7 +315,7 @@ export const ImageEdit = () => {
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handlesubmit}
-        isDisabled={!archivingName || !contentName || !image}
+        isDisabled={!archivingName || !contentName || !link}
       />
     </Container>
   )

@@ -1,3 +1,5 @@
 import { atom } from 'recoil'
 
-export const SelectTagState = atom<string[]>({ key: 'selectTagState', default: [] })
+import { Tag } from '@/models/Tag'
+
+export const SelectTagState = atom<Tag[]>({ key: 'selectTagState', default: [] })
