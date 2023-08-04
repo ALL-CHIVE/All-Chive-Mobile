@@ -59,7 +59,7 @@ const ContentCard = ({
             {tag && (
               <TagContainer>
                 <WhiteTag tag={tag} />
-                <WhiteTag tag={`+${tagCount}`} />
+                <WhiteTag tag={`+${tagCount - 1}`} />
               </TagContainer>
             )}
           </Information>
