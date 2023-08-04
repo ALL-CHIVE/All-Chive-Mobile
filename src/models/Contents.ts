@@ -9,6 +9,7 @@ export interface GetContentsResponse {
   imgUrl: string
   contentCreatedAt: string
   tagList: Tag[]
+  ownerId: number
   isMine: boolean
 }
 
