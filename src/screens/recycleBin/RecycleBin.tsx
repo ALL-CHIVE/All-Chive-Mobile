@@ -50,6 +50,7 @@ export const RecycleBin = () => {
       queryClient.invalidateQueries('recycleBinData')
       setIsCheckArchiving([])
       setIsCheckContent([])
+      setIsDeleteDialogVisible(false)
     },
   })
 
