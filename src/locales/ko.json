@@ -47,6 +47,7 @@
   "uploadImage": "이미지 업로드",
   "link": "링크",
   "placeHolderLink": "링크를 입력하세요",
+  "placeHolderTag": "ex) UX/UI",
   "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
   "tag": "태그",
   "addTag": "태그 추가",
@@ -129,5 +130,9 @@
   "numberOfsearchResult": "총 {{number, number}}개의 검색 결과",
   "numberOfRecycleItem": "총 {{number, number}}개",
   "myArchiving": "내 아카이빙",
+  "doYouWantDeleteThisTag": "이 태그를 삭제하시겠어요?",
+  "deleteTagsCannotBeRestored": "삭제한 태그는 복구할 수 없습니다.",
+  "createNewTag": "새 태그 만들기",
+  "register": "등록",
   "noAuthorBlocked": "차단한 작성자가 없습니다"
 }

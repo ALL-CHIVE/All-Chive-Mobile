@@ -9,5 +9,20 @@ export interface GetContentsResponse {
   imgUrl: string
   contentCreatedAt: string
   tagList: Tag[]
+  ownerId: number
+  isMine: boolean
+}
+
+export interface GetContentsInfoResponse {
+  archivingId: number
+  archivingTitle: string
+  contentId: number
+  contentTitle: string
+  contentType: string
+  contentMemo: string
+  link: string
+  imgUrl: string
+  contentCreatedAt: string
+  tagList: Tag[]
   isMine: boolean
 }

@@ -9,7 +9,7 @@ import { client } from './client'
 export const getTag = async (latest: boolean) => {
   const accessToken = await getAccessToken()
   const { data } = await client.get<GetTagResponse>('/tags', {
-    data: {
+    params: {
       latest,
     },
     headers: {
@@ -17,7 +17,7 @@ export const getTag = async (latest: boolean) => {
     },
   })
 
-  return data
+  return data.data.tags
 }
 
 /**
@@ -25,14 +25,17 @@ export const getTag = async (latest: boolean) => {
  */
 export const postTag = async (name: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.post('/tags', {
-    data: {
+  const response = await client.post(
+    '/tags',
+    {
       name,
     },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }
