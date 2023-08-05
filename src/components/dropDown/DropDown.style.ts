@@ -2,15 +2,20 @@ import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 
-export const Container = styled.View``
+export const Container = styled.TouchableOpacity``
 
-export const Input = styled.TextInput`
+export const CategoryContainer = styled.View`
   width: 100%;
   height: 38px;
   border: 1px solid ${colors.gray100};
   background-color: ${colors.white};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
+  justify-content: center;
+`
+
+export const CategoryTitle = styled.Text`
+  color: ${colors.gray100};
 `
 
 export const DropDownModal = styled.View`

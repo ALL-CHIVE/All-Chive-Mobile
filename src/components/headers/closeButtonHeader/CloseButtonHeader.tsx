@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { TouchableOpacity, Image } from 'react-native'
+import { Image } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 
-import { Container, Title } from './CloseButtonHeader.style'
+import { CloseButton, Container, Title } from './CloseButtonHeader.style'
 
 interface CloseButtonHeaderProps {
   title: string
@@ -18,9 +18,9 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
   return (
     <Container>
       <Title>{title}</Title>
-      <TouchableOpacity onPress={onClose}>
+      <CloseButton onPress={onClose}>
         <Image source={defaultIcons.grayCloseButton} />
-      </TouchableOpacity>
+      </CloseButton>
     </Container>
   )
 }

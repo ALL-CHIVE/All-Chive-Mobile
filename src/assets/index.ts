@@ -52,6 +52,11 @@ export const defaultIcons: Assets = {
   pencil: require('@/assets/icons/pencil.png'),
   scrap: require('@/assets/icons/scrap.png'),
   scrapFill: require('@/assets/icons/scrapFill.png'),
+  rightArrow: require('@/assets/icons/rightArrow.png'),
+  selectedIcon: require('@/assets/icons/selectedIcon.png'),
+  leftProvider: require('@/assets/icons/leftProvider.png'),
+  plus: require('@/assets/icons/plus.png'),
+  plusBlack: require('@/assets/icons/plusBlack.png'),
 }
 
 export const loginIcons: Assets = {

@@ -7,6 +7,7 @@ import {
 import { SafeAreaView } from 'react-native'
 import { useRecoilState } from 'recoil'
 
+import { canAuthSignIn } from '@/apis/auth'
 import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
@@ -78,7 +79,7 @@ export const RootStack = () => {
 
       if (res) {
         // TODO: 자동 로그인 API 연동
-        getHasAutoSignInSession().then((res) => {
+        canAuthSignIn().then((res) => {
           //TODO: 로그인 처리
           setIsSignIn(res)
           setIsLoading(false)
