@@ -21,6 +21,7 @@ import {
   SmallImage,
   RowView,
   RelationContainer,
+  BackButton,
 } from './Search.style'
 import { SearchTab } from './tabs/SearchTab'
 
@@ -80,13 +81,13 @@ const Search = () => {
   return (
     <Container>
       <RowView>
-        <TouchableOpacity
+        <BackButton
           onPress={() => {
             navigation.goBack()
           }}
         >
           <Image source={defaultIcons.back} />
-        </TouchableOpacity>
+        </BackButton>
         <SearchBar
           placeholder={i18n.t('pleaseEnterSearchKeyword')}
           value={searchText}

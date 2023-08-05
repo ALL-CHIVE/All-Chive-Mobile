@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Axios, AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import { ListRenderItem } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 

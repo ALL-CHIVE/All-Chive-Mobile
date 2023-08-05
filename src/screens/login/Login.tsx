@@ -10,6 +10,7 @@ import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
+import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState } from '@/state/signIn/UserState'
 
@@ -35,10 +36,10 @@ export const Login = () => {
 
     if (signInResult.canLogin) {
       IsSignInState(true)
+      setIsInstalled(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
     } else if (!signInResult.canLogin && signInResult.idToken) {
       setIdTokenState(signInResult.idToken)
-      // TODO: authorizationCode 전달
       // TODO: 이용약관 페이지 추가
       navigation.navigate('SelectCategory', { type })
     }

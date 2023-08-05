@@ -96,7 +96,7 @@ export const Edit = ({ route }: EditProps) => {
       patchContents({
         contentId: route.params.id,
         contentType: route.params.type,
-        archivingId: selectArchiving[0],
+        archivingId: selectArchiving.id,
         title: contentName,
         link: link,
         imgUrl: '',
@@ -108,7 +108,7 @@ export const Edit = ({ route }: EditProps) => {
        *
        */
       onSuccess: () => {
-        setSelectArchiving([-1, ''])
+        setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
         navigation.goBack()
       },
@@ -126,7 +126,7 @@ export const Edit = ({ route }: EditProps) => {
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
-    setArchivingName(selectArchiving[1])
+    setArchivingName(selectArchiving.title)
   }
 
   /**
@@ -181,6 +181,15 @@ export const Edit = ({ route }: EditProps) => {
   /**
    *
    */
+  const handleClose = () => {
+    setSelectArchiving({ id: -1, title: '' })
+    setSelectTag([])
+    navigation.goBack()
+  }
+
+  /**
+   *
+   */
   const handlesubmit = () => {
     patchContentsMutate()
   }
@@ -200,7 +209,7 @@ export const Edit = ({ route }: EditProps) => {
     <Container>
       <CloseButtonHeader
         title={i18n.t('update')}
-        onClose={() => navigation.goBack()}
+        onClose={handleClose}
       />
       <Title>{i18n.t('archivingName')}</Title>
       <ArchivingSelect onPress={() => setOpenArchivingModal(true)}>

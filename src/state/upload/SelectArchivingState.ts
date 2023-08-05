@@ -1,6 +1,11 @@
 import { atom } from 'recoil'
 
-export const SelectArchivingState = atom<[number, string]>({
+export interface SelectedArchiving {
+  id: number
+  title: string
+}
+
+export const SelectArchivingState = atom<SelectedArchiving>({
   key: 'selectArchivingState',
-  default: [-1, ''],
+  default: { id: -1, title: '' },
 })

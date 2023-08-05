@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 
-import { ScrollView } from 'react-native'
+import { Image, ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getTag, postTag } from '@/apis/tag'
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { SimpleDialog } from '@/components/dialogs/simpleDialog/SimpleDialog'
 import { Divider } from '@/components/divider/Divider'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
@@ -35,17 +38,14 @@ interface TagProps {
 export const CreateTag = ({ navigation }: TagProps) => {
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
   const [searchText, setSearchText] = useState('')
-
   const [openDialog, setOpenDialog] = useState(false)
 
   const { mutate: postTagMutate } = useMutation(() => postTag(searchText))
-
   const { data: latestTagData } = useQuery(['getLatestTagData'], () => getTag(true))
-
   const { data: tagData } = useQuery(['getTagData', searchText], () => getTag(false))
 
   /**
-   *
+   * handleSearch
    */
   const handleSearch = (text: string) => {
     setSearchText(text)
@@ -79,104 +79,102 @@ export const CreateTag = ({ navigation }: TagProps) => {
    *
    */
   const handleUploadTag = () => {
-    // TODO: upload tag & navigate to LinkUpload
     setSelectTag(selectTag)
     navigation.goBack()
   }
 
   return (
-    <Container>
+    <DefaultContainer>
       <CloseButtonHeader
         title={i18n.t('tag')}
         onClose={() => navigation.goBack()}
       />
-
-      <RowView>
-        <ScrollView horizontal={true}>
-          {selectTag &&
-            selectTag.map((tag) => (
-              <GrayTag
-                key={tag.tagId}
-                tag={tag.name}
-                onRemove={() => {
-                  setSelectTag(selectTag.filter((item) => item !== tag))
+      <DefaultScrollContainer>
+        <Container>
+          <RowView>
+            <ScrollView horizontal={true}>
+              {selectTag &&
+                selectTag.map((tag) => (
+                  <GrayTag
+                    key={tag.tagId}
+                    tag={tag.name}
+                    onRemove={() => {
+                      setSelectTag(selectTag.filter((item) => item !== tag))
+                    }}
+                  />
+                ))}
+            </ScrollView>
+          </RowView>
+          <SearchBar
+            placeholder={i18n.t('searchTag')}
+            value={searchText}
+            onChangeText={handleSearch}
+          />
+          {searchText.length > 0 && tagData && tagData?.find((tag) => tag.name === searchText) ? (
+            <RowView>
+              <ClickableTag
+                tag={searchText}
+                onClick={() => {
+                  if (!selectTag.find((tag) => tag.name === searchText)) {
+                    handleSelectTag({
+                      tagId: tagData.find((tag) => tag.name === searchText)?.tagId || 0,
+                      name: searchText,
+                    })
+                  }
                 }}
               />
-            ))}
-        </ScrollView>
-      </RowView>
-
-      <SearchBar
-        placeholder={i18n.t('searchTag')}
-        value={searchText}
-        onChangeText={handleSearch}
-      />
-
-      {searchText.length > 0 && tagData && tagData?.find((tag) => tag.name === searchText) ? (
-        <RowView>
-          <ClickableTag
-            tag={searchText}
-            onClick={() => {
-              if (!selectTag.find((tag) => tag.name === searchText)) {
-                handleSelectTag({
-                  tagId: tagData.find((tag) => tag.name === searchText)?.tagId || 0,
-                  name: searchText,
-                })
-              }
-            }}
-          />
-        </RowView>
-      ) : null}
-
-      {searchText.length > 0 && tagData && !tagData?.find((tag) => tag.name === searchText) ? (
-        <>
-          <Title>{`${i18n.t('notExistTag')}\n ${i18n.t('askCreateTag')}`}</Title>
-          <PlusTagButton onPress={handleCreateTag}>
-            {/* TODO: + Icon 추가 */}
-            <PlusTagText>{`+ ${i18n.t('createTag')}`}</PlusTagText>
-          </PlusTagButton>
-        </>
-      ) : (
-        <></>
-      )}
-
-      {latestTagData && latestTagData.length > 0 && (
-        <>
-          <Divider />
-          <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
-          <ScrollView>
-            <RowView>
-              {latestTagData.map((tag) => (
-                <ClickableTag
-                  key={tag.tagId}
-                  tag={tag.name}
-                  onClick={() => {
-                    if (!selectTag.find((tag) => tag.name === searchText)) {
-                      handleSelectTag({
-                        tagId: tag.tagId,
-                        name: tag.name,
-                      })
-                    }
-                  }}
-                />
-              ))}
             </RowView>
-          </ScrollView>
-        </>
-      )}
+          ) : null}
+          {searchText.length > 0 && tagData && !tagData?.find((tag) => tag.name === searchText) ? (
+            <>
+              <Title>{`${i18n.t('notExistTag')}\n ${i18n.t('askCreateTag')}`}</Title>
+              <PlusTagButton onPress={handleCreateTag}>
+                <Image source={defaultIcons.plusBlack} />
+                <PlusTagText>{`${i18n.t('createTag')}`}</PlusTagText>
+              </PlusTagButton>
+            </>
+          ) : (
+            <></>
+          )}
 
-      <SimpleDialog
-        isVisible={openDialog}
-        title={i18n.t('noMoreTag')}
-        completeText={i18n.t('confirm')}
-        onClose={() => setOpenDialog(false)}
-      />
+          {latestTagData && latestTagData.length > 0 && (
+            <>
+              <Divider />
+              <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
+              <ScrollView>
+                <RowView>
+                  {latestTagData.map((tag) => (
+                    <ClickableTag
+                      key={tag.tagId}
+                      tag={tag.name}
+                      onClick={() => {
+                        if (!selectTag.find((tag) => tag.name === searchText)) {
+                          handleSelectTag({
+                            tagId: tag.tagId,
+                            name: tag.name,
+                          })
+                        }
+                      }}
+                    />
+                  ))}
+                </RowView>
+              </ScrollView>
+            </>
+          )}
 
+          <SimpleDialog
+            isVisible={openDialog}
+            title={i18n.t('noMoreTag')}
+            completeText={i18n.t('confirm')}
+            onClose={() => setOpenDialog(false)}
+          />
+        </Container>
+      </DefaultScrollContainer>
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handleUploadTag}
         isDisabled={selectTag.length === 0}
       />
-    </Container>
+    </DefaultContainer>
   )
 }

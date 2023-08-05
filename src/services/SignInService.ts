@@ -123,7 +123,7 @@ export const signUp = async (
 /**
  * saveTokens
  */
-const saveTokens = (refreshToken: string, accessToken: string) => {
+export const saveTokens = (refreshToken: string, accessToken: string) => {
   setRefreshToken(refreshToken)
   setAccessToken(accessToken)
 }
