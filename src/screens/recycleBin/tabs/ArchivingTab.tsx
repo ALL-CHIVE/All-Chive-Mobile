@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Image, ScrollView, View } from 'react-native'
+import { useRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'
+import { CheckArchivingState } from '@/state/CheckState'
 
 import {
   CheckBox,
@@ -21,7 +23,7 @@ import {
  * 삭제된 아카이빙만 보여주는 탭
  */
 export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
-  const [isCheck, setIsCheck] = useState<number[]>([])
+  const [isCheck, setIsCheck] = useRecoilState(CheckArchivingState)
 
   /**
    * 체크박스 클릭을 핸들링합니다.
@@ -32,6 +34,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
       return
     } else {
       setIsCheck([...isCheck, item])
+      return
     }
   }
 

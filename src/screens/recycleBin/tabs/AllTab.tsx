@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Image, ListRenderItem, ScrollView, View } from 'react-native'
+import { useRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
@@ -8,6 +9,7 @@ import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'
 import { SimpleContent } from '@/models/SimpleContent'
+import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
 
 import {
   CheckBox,
@@ -25,8 +27,8 @@ import {
  * 전체 탭
  */
 export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) => {
-  const [isArchivingCheck, setIsArchivingCheck] = useState<number[]>([])
-  const [isContentCheck, setIsContentCheck] = useState<number[]>([])
+  const [isArchivingCheck, setIsArchivingCheck] = useRecoilState(CheckArchivingState)
+  const [isContentCheck, setIsContentCheck] = useRecoilState(CheckContentState)
 
   /**
    * 체크박스 클릭을 핸들링합니다.

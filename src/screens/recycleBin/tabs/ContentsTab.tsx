@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Image, ListRenderItem, ScrollView, View } from 'react-native'
+import { useRecoilState } from 'recoil'
 
 import { defaultIcons } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'
 import { SimpleContent } from '@/models/SimpleContent'
+import { CheckContentState } from '@/state/CheckState'
 
 import {
   CheckBox,
@@ -23,7 +25,7 @@ import {
  * 삭제된 컨텐츠만 보여주는 탭
  */
 export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
-  const [isCheck, setIsCheck] = useState<number[]>([])
+  const [isCheck, setIsCheck] = useRecoilState(CheckContentState)
 
   /**
    * 체크박스 클릭을 핸들링합니다.
