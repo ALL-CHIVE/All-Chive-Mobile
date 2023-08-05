@@ -5,12 +5,16 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   display: flex;
+  padding: 0px 25px;
 `
 
 export const RowView = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 0px 25px;
+`
+
+export const BackButton = styled.TouchableOpacity`
+  margin-right: 15px;
 `
 
 export const LatestContainer = styled.View`

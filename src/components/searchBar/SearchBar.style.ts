@@ -14,9 +14,7 @@ export const TextInput = styled.TextInput`
 `
 
 export const Container = styled.View`
-  position: relative;
-  width: 95%;
-  margin-left: 15px;
+  flex: 1;
 `
 
 export const SearchImage = styled.Image`
