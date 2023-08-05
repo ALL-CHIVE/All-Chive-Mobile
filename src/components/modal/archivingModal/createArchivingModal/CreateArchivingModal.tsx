@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageSourcePropType, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -20,14 +20,17 @@ import {
   CloseButton,
   Condition,
   Container,
+  Header,
   ModalTitle,
   NoticeText,
   PlusImageButton,
+  ScrollContainer,
   Styles,
   Switch,
   TextInput,
+  Thumbnail,
   Title,
-} from '../ArchivingModal.style'
+} from './CreateArchivingModal.style'
 
 interface CreateArchivingModalProps {
   onClose: () => void
@@ -43,7 +46,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
-
+  const [dropDownVisible, setDropDownVisible] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
 
   /**
@@ -129,16 +132,21 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     <>
       <Modal
         isVisible={isVisible}
-        // backdropOpacity={0.5}
+        backdropOpacity={0.5}
         style={{
           margin: 0,
         }}
       >
         <Container>
-          <ScrollView>
+          <Header>
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
+          </Header>
+          <ScrollContainer
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
             <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
@@ -148,10 +156,10 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
               onFocus={handleNameFocus}
               onBlur={handleNameBlur}
               maxLength={15}
-              style={[
-                nameFocus ? Styles.inputFocus : null,
-                !nameFocus && name.length > 0 ? Styles.inputWithValue : null,
-              ]}
+              style={
+                (nameFocus && Styles.inputFocus) ||
+                (!nameFocus && name.length > 0 && Styles.inputWithValue)
+              }
             />
             {/* TODO: Condition Icon 추가 */}
             <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
@@ -162,23 +170,13 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('thumbnail')}</Title>
             {image ? (
               <TouchableOpacity onPress={handleUploadImage}>
-                <Image source={image} />
+                <Thumbnail source={image} />
               </TouchableOpacity>
             ) : (
               <PlusImageButton onPress={handleUploadImage}>
-                {/* TODO: + icon으로 변경 */}
-                <Text>+</Text>
+                <Image source={defaultIcons.plus} />
               </PlusImageButton>
             )}
-            <ActionSheet
-              ref={actionSheetRef}
-              title={i18n.t('settingThumbnail')}
-              options={DefalutMenus()}
-              cancelButtonIndex={0}
-              tintColor={colors.gray600}
-              onPress={handleActionSheetMenu}
-              theme="ios"
-            />
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch
@@ -190,14 +188,23 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
               />
             </View>
             <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
-            <BoxButton
-              textKey={i18n.t('add')}
-              onPress={handleSubmit}
-              // isDisabled
-            />
-          </ScrollView>
+          </ScrollContainer>
+          <BoxButton
+            textKey={i18n.t('add')}
+            onPress={handleSubmit}
+            isDisabled={!name || !selectedCategory}
+          />
         </Container>
       </Modal>
+      <ActionSheet
+        ref={actionSheetRef}
+        title={i18n.t('settingThumbnail')}
+        options={DefalutMenus()}
+        cancelButtonIndex={0}
+        tintColor={colors.gray600}
+        onPress={handleActionSheetMenu}
+        theme="ios"
+      />
     </>
   )
 }

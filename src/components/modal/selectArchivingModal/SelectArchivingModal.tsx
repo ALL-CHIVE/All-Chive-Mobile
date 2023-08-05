@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -91,14 +91,14 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
               <ListContainer>
                 {archivingList &&
                   Object.keys(archivingList).map((category) => (
-                    <>
+                    <View key={category}>
                       {archivingList[category].length > 0 && (
                         <>
                           {/* TODO: 서버에서 알맞게 전달하는지 확인 */}
                           <CategoryTitle>{i18n.t(`${category}`)}</CategoryTitle>
                           <Divider />
                           {archivingList[category].map((item) => (
-                            <>
+                            <View key={item.archivingId}>
                               <ArchivingButton
                                 key={item.archivingId}
                                 onPress={() =>
@@ -119,11 +119,11 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                                 )}
                               </ArchivingButton>
                               <Divider />
-                            </>
+                            </View>
                           ))}
                         </>
                       )}
-                    </>
+                    </View>
                   ))}
               </ListContainer>
             </Container>
@@ -134,11 +134,11 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
             isDisabled={!SelectArchivingState}
           />
         </ModalContainer>
+        <CreateArchivingModal
+          onClose={handleCloseModal}
+          isVisible={createModal}
+        />
       </Modal>
-      <CreateArchivingModal
-        onClose={handleCloseModal}
-        isVisible={createModal}
-      />
     </>
   )
 }

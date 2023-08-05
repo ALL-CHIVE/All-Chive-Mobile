@@ -10,18 +10,29 @@ export const Container = styled.View`
   bottom: 0px;
   background-color: ${colors.white};
   border-radius: 20px 20px 0px 0px;
-  padding: 30px 25px;
+  align-items: center;
+`
+
+export const ScrollContainer = styled.ScrollView`
+  width: 375px;
+  padding: 0px 25px;
 `
 
 export const ModalTitle = styled.Text`
   ${fonts.title2}
   color: ${colors.mainBlack};
-  margin-top: 34px;
+`
+
+export const Header = styled.View`
+  margin-top: 28px;
+  width: 100%;
+  height: 34px;
 `
 
 export const CloseButton = styled.TouchableOpacity`
   position: absolute;
-  right: 0px;
+  top: 0px;
+  right: 26px;
 `
 
 export const Title = styled.Text`
@@ -67,7 +78,7 @@ export const PlusImageButton = styled.TouchableOpacity`
   align-items: center;
 `
 
-export const Image = styled.Image`
+export const Thumbnail = styled.Image`
   width: 78px;
   height: 78px;
   border-radius: 4px;
