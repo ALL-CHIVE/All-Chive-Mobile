@@ -94,3 +94,7 @@ export const NoticeText = styled.Text`
   ${fonts.body4}
   color: ${colors.gray200};
 `
+
+export const Bottom = styled.View`
+  padding-bottom: 150px;
+`

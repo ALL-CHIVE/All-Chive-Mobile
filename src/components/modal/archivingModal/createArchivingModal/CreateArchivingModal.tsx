@@ -17,6 +17,7 @@ import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
 import {
+  Bottom,
   CloseButton,
   Condition,
   Container,
@@ -188,6 +189,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
               />
             </View>
             <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
+            <Bottom />
           </ScrollContainer>
           <BoxButton
             textKey={i18n.t('add')}
