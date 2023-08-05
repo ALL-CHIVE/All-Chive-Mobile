@@ -6,7 +6,6 @@ import { fonts } from '@/styles/fonts'
 export const Container = styled.View`
   position: absolute;
   width: 100%;
-  height: 624px;
   bottom: 0px;
   background-color: ${colors.white};
   border-radius: 20px 20px 0px 0px;

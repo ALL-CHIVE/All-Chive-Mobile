@@ -1,7 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Image, ImageSourcePropType, TouchableOpacity, View } from 'react-native'
+import {
+  Dimensions,
+  Image,
+  ImageSourcePropType,
+  Keyboard,
+  KeyboardEvent,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -47,9 +55,33 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
-  const [dropDownVisible, setDropDownVisible] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
+  const [modalHight, setModalHeight] = useState(624)
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+
+    return () => {
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
+    }
+  }, [])
+
+  /**
+   *
+   */
+  const keyboardDidShow = (event: KeyboardEvent) => {
+    const keyboardHeight = event.endCoordinates.height
+    setModalHeight(Dimensions.get('window').height - keyboardHeight - 10)
+  }
+
+  /**
+   *
+   */
+  const keyboardDidHide = () => {
+    setModalHeight(624)
+  }
   /**
    *
    */
@@ -138,7 +170,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
           margin: 0,
         }}
       >
-        <Container>
+        <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.grayCloseButton} />

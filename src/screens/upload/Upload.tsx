@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation } from 'react-query'
 import { useRecoilState } from 'recoil'
 
@@ -162,12 +163,8 @@ export const Upload = ({ route }: UploadProps) => {
         onClose={handleClose}
       />
       <DefaultScrollContainer>
-        <Container>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'position' : 'position'}
-            keyboardVerticalOffset={200}
-            style={{ flex: 1 }}
-          >
+        <KeyboardAwareScrollView extraHeight={200}>
+          <Container>
             <Title style={{ marginTop: 0 }}>{i18n.t('archivingName')}</Title>
             <ArchivingSelect
               style={
@@ -278,8 +275,8 @@ export const Upload = ({ route }: UploadProps) => {
                 (lastFocused >= 3 && memo.length > 0 && Styles.clicked)
               }
             />
-          </KeyboardAvoidingView>
-        </Container>
+          </Container>
+        </KeyboardAwareScrollView>
       </DefaultScrollContainer>
       <BoxButton
         textKey={i18n.t('complete')}
