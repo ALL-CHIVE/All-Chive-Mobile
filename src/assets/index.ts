@@ -52,6 +52,7 @@ export const defaultIcons: Assets = {
   pencil: require('@/assets/icons/pencil.png'),
   scrap: require('@/assets/icons/scrap.png'),
   scrapFill: require('@/assets/icons/scrapFill.png'),
+  yellowCheck: require('@/assets/icons/yellowCheck.png'),
 }
 
 export const loginIcons: Assets = {
