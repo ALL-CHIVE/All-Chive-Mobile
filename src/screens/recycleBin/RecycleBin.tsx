@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, View } from 'react-native'
+import { Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getRecycles } from '@/apis/recycle'
+import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
 import { defaultImages } from '@/assets'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { RecyclesResponse } from '@/models/Recycle'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { CheckArchivingState, CheckContentState, CheckState } from '@/state/CheckState'
+import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -32,13 +32,35 @@ import { RecycleBinTab } from './tabs/RecycleBinTab'
  */
 export const RecycleBin = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
   const [isCheckArchiving, setIsCheckArchiving] = useRecoilState(CheckArchivingState)
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
-  const [isCheckState, setIsCheckState] = useRecoilState(CheckState)
 
   const { data: recycleData } = useQuery<RecyclesResponse>(['recycleBinData'], getRecycles)
+
+  const { mutate: deleteMutate } = useMutation(deleteRecycles, {
+    /**
+     * 삭제 성공 시 recycleBinData 쿼리를 리패치하고, 체크박스를 초기화합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries('recycleBinData')
+      setIsCheckArchiving([])
+      setIsCheckContent([])
+    },
+  })
+
+  const { mutate: restoreMutate } = useMutation(patchRecycles, {
+    /**
+     * 복구 성공 시 recycleBinData 쿼리를 리패치하고, 체크박스를 초기화합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries('recycleBinData')
+      setIsCheckArchiving([])
+      setIsCheckContent([])
+    },
+  })
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,7 +78,7 @@ export const RecycleBin = () => {
   })
 
   /**
-   *
+   * 편집 모드를 변경합니다.
    */
   const handleEditMode = () => {
     setEditMode(!editMode)
@@ -65,17 +87,23 @@ export const RecycleBin = () => {
   }
 
   /**
-   *
+   * 선택한 아카이빙 및 컨텐츠를 삭제합니다.
    */
   const handleDelete = () => {
-    // TODO: 삭제 API 호출
+    deleteMutate({
+      archivingIds: isCheckArchiving,
+      contentIds: isCheckContent,
+    })
   }
 
   /**
-   *
+   * 선택한 아카이빙 및 컨텐츠를 복구합니다.
    */
   const handleRestore = () => {
-    // TODO: 복원 API 호출
+    restoreMutate({
+      archivingIds: isCheckArchiving,
+      contentIds: isCheckContent,
+    })
   }
 
   return (
@@ -103,11 +131,7 @@ export const RecycleBin = () => {
                 }}
                 colors={[colors.white, colors.gray500]}
               >
-                <BottomButton
-                  onPress={() => {
-                    handleDelete
-                  }}
-                >
+                <BottomButton onPress={handleDelete}>
                   <BottomButtonText>{i18n.t('allDelete')}</BottomButtonText>
                 </BottomButton>
                 {isCheckArchiving.length > 0 || isCheckContent.length > 0 ? (
