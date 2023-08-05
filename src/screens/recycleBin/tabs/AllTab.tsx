@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { ListRenderItem, ScrollView } from 'react-native'
+import { Image, ListRenderItem, ScrollView, View } from 'react-native'
 
+import { defaultIcons } from '@/assets'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'
-import { RecyclesResponse } from '@/models/Recycle'
+import { RecycleBinTabProps } from '@/models/Recycle'
 import { SimpleContent } from '@/models/SimpleContent'
 
 import {
+  CheckBox,
   Container,
   ContentListContainer,
   GrayDivider,
@@ -16,12 +18,66 @@ import {
   TabItemCardContainer,
   TabItemContainer,
   Title,
+  YellowCheck,
 } from '../RecycleBin.style'
 
 /**
  * 전체 탭
  */
-export const AllTab = ({ contents, archivings }: RecyclesResponse) => {
+export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) => {
+  const [isArchivingCheck, setIsArchivingCheck] = useState<number[]>([])
+  const [isContentCheck, setIsContentCheck] = useState<number[]>([])
+
+  /**
+   * 체크박스 클릭을 핸들링합니다.
+   */
+  const handleCheck = (item: number, type: 'archiving' | 'content') => {
+    switch (type) {
+      case 'archiving':
+        if (isArchivingCheck.includes(item)) {
+          setIsArchivingCheck(isArchivingCheck.filter((id) => id !== item))
+          return
+        } else {
+          setIsArchivingCheck([...isArchivingCheck, item])
+        }
+        break
+      case 'content':
+        if (isContentCheck.includes(item)) {
+          setIsContentCheck(isContentCheck.filter((id) => id !== item))
+          return
+        } else {
+          setIsContentCheck([...isContentCheck, item])
+        }
+        break
+    }
+  }
+
+  /**
+   * ListRenderItem
+   */
+  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+    return (
+      <View>
+        <ContentCard
+          contentId={item.contentId}
+          contentTitle={item.contentTitle}
+          contentType={item.contentType}
+          contentCreatedAt={item.contentCreatedAt}
+          link={item.link}
+          imgUrl={item.imgUrl}
+          tag={item.tag}
+          tagCount={item.tagCount}
+        />
+        {editMode && <CheckBox onPress={() => handleCheck(item.contentId, 'content')} />}
+        {isContentCheck.includes(item.contentId) && (
+          <YellowCheck onPress={() => handleCheck(item.contentId, 'content')}>
+            <Image source={defaultIcons.yellowCheck} />
+          </YellowCheck>
+        )}
+      </View>
+    )
+  }
+
   return (
     <Container>
       <ScrollView>
@@ -33,11 +89,23 @@ export const AllTab = ({ contents, archivings }: RecyclesResponse) => {
           <TabItemCardContainer>
             {archivings !== undefined &&
               archivings.map((item) => (
-                <ArchivingCard
-                  key={item.archivingId}
-                  item={item}
-                  isMine={true}
-                />
+                <>
+                  <View>
+                    <ArchivingCard
+                      key={item.archivingId}
+                      item={item}
+                      isMine={true}
+                    />
+                    {editMode && (
+                      <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
+                    )}
+                    {isArchivingCheck.includes(item.archivingId) && (
+                      <YellowCheck onPress={() => handleCheck(item.archivingId, 'archiving')}>
+                        <Image source={defaultIcons.yellowCheck} />
+                      </YellowCheck>
+                    )}
+                  </View>
+                </>
               ))}
           </TabItemCardContainer>
         </TabItemContainer>
@@ -60,23 +128,5 @@ export const AllTab = ({ contents, archivings }: RecyclesResponse) => {
         </TabItemContainer>
       </ScrollView>
     </Container>
-  )
-}
-
-/**
- * ListRenderItem
- */
-const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
-  return (
-    <ContentCard
-      contentId={item.contentId}
-      contentTitle={item.contentTitle}
-      contentType={item.contentType}
-      contentCreatedAt={item.contentCreatedAt}
-      link={item.link}
-      imgUrl={item.imgUrl}
-      tag={item.tag}
-      tagCount={item.tagCount}
-    />
   )
 }

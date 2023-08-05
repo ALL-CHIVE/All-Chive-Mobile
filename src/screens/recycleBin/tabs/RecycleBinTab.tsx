@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { CustomTabBar } from '@/components/tabBar/customTabBar/CustomTabBar'
 import i18n from '@/locales'
-import { RecyclesResponse } from '@/models/Recycle'
+import { RecycleBinTabProps } from '@/models/Recycle'
 
 import { AllTab } from './AllTab'
 import { ArchivingTab } from './ArchivingTab'
@@ -13,7 +13,7 @@ import { ContentsTab } from './ContentsTab'
 /**
  * 휴지통 내부 탭
  */
-export const RecycleBinTab = ({ contents, archivings }: RecyclesResponse) => {
+export const RecycleBinTab = ({ contents, archivings, editMode }: RecycleBinTabProps) => {
   const Tab = createMaterialTopTabNavigator()
 
   return (
@@ -32,6 +32,7 @@ export const RecycleBinTab = ({ contents, archivings }: RecyclesResponse) => {
             {...props}
             contents={contents}
             archivings={archivings}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>
@@ -46,6 +47,7 @@ export const RecycleBinTab = ({ contents, archivings }: RecyclesResponse) => {
             contents={[]}
             {...props}
             archivings={archivings}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>
@@ -60,6 +62,7 @@ export const RecycleBinTab = ({ contents, archivings }: RecyclesResponse) => {
             contents={contents}
             archivings={[]}
             {...props}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>

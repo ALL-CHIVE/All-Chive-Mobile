@@ -63,3 +63,19 @@ export const ContentListContainer = styled(FlatList<SimpleContent>)`
   margin: auto;
   flex-direction: row;
 `
+
+export const CheckBox = styled.TouchableOpacity`
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 15px;
+  left: 14px;
+  border: 1px solid ${colors.gray500};
+  background-color: ${colors.white};
+`
+
+export const YellowCheck = styled.TouchableOpacity`
+  position: absolute;
+  top: 13px;
+  left: 14px;
+`

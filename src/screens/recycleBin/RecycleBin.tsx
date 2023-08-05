@@ -46,6 +46,7 @@ export const RecycleBin = () => {
           <RecycleBinTab
             contents={recycleData.contents}
             archivings={recycleData.archivings}
+            editMode={editMode}
           />
         </TabContainer>
       ) : (

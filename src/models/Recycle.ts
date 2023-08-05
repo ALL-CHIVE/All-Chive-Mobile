@@ -10,3 +10,9 @@ export interface DeleteRecyclesRequest {
   archivingIds: number[]
   contentIds: number[]
 }
+
+export interface RecycleBinTabProps {
+  contents: RecyclesResponse['contents']
+  archivings: RecyclesResponse['archivings']
+  editMode: boolean
+}

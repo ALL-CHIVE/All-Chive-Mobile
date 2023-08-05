@@ -1,23 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { ScrollView } from 'react-native'
+import { Image, ScrollView, View } from 'react-native'
 
+import { defaultIcons } from '@/assets'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import i18n from '@/locales'
-import { RecyclesResponse } from '@/models/Recycle'
+import { RecycleBinTabProps } from '@/models/Recycle'
 
 import {
+  CheckBox,
   Container,
   SearchDataText,
   TabItemCardContainer,
   TabItemContainer,
   Title,
+  YellowCheck,
 } from '../RecycleBin.style'
 
 /**
- * 내 아카이빙만 보여주는 탭
+ * 삭제된 아카이빙만 보여주는 탭
  */
-export const ArchivingTab = ({ archivings }: RecyclesResponse) => {
+export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
+  const [isCheck, setIsCheck] = useState<number[]>([])
+
+  /**
+   * 체크박스 클릭을 핸들링합니다.
+   */
+  const handleCheck = (item: number) => {
+    if (isCheck.includes(item)) {
+      setIsCheck(isCheck.filter((id) => id !== item))
+      return
+    } else {
+      setIsCheck([...isCheck, item])
+    }
+  }
+
   return (
     <Container>
       <TabItemContainer>
@@ -29,11 +46,21 @@ export const ArchivingTab = ({ archivings }: RecyclesResponse) => {
           <TabItemCardContainer>
             {archivings !== undefined &&
               archivings.map((item) => (
-                <ArchivingCard
-                  key={item.archivingId}
-                  item={item}
-                  isMine={true}
-                />
+                <>
+                  <View>
+                    <ArchivingCard
+                      key={item.archivingId}
+                      item={item}
+                      isMine={true}
+                    />
+                    {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
+                    {isCheck.includes(item.archivingId) && (
+                      <YellowCheck onPress={() => handleCheck(item.archivingId)}>
+                        <Image source={defaultIcons.yellowCheck} />
+                      </YellowCheck>
+                    )}
+                  </View>
+                </>
               ))}
           </TabItemCardContainer>
         </ScrollView>
