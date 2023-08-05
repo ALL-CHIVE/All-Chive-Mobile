@@ -39,6 +39,7 @@ import {
   ConditionText,
   Container,
   ContentImage,
+  MemoTextInput,
   PlusImageButton,
   RightButton,
   RowView,
@@ -265,7 +266,7 @@ export const Upload = ({ route }: UploadProps) => {
               <TagTitle>{i18n.t('memo')}</TagTitle>
               <AddTagText>{i18n.t('choice')}</AddTagText>
             </TagTitleContainer>
-            <TextInput
+            <MemoTextInput
               placeholder={i18n.t('placeHolderMemo')}
               value={memo}
               onChangeText={setMemo}
