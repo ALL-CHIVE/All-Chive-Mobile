@@ -79,3 +79,23 @@ export const YellowCheck = styled.TouchableOpacity`
   top: 13px;
   left: 14px;
 `
+
+export const BottomButtonContainer = styled.View`
+  position: absolute;
+  width: 100%;
+  height: 118px;
+  bottom: 0px;
+  opacity: 0.8;
+`
+
+export const BottomButton = styled.TouchableOpacity``
+
+export const BottomButtonTitle = styled.Text`
+  ${fonts.title2}
+  color: ${colors.mainBlack};
+`
+
+export const BottomButtonText = styled.Text`
+  ${fonts.subtitle2}
+  color: ${colors.gray500};
+`

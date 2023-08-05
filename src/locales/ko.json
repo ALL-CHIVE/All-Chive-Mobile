@@ -134,5 +134,9 @@
   "deleteTagsCannotBeRestored": "삭제한 태그는 복구할 수 없습니다.",
   "createNewTag": "새 태그 만들기",
   "register": "등록",
-  "noAuthorBlocked": "차단한 작성자가 없습니다"
+  "noAuthorBlocked": "차단한 작성자가 없습니다",
+  "selectItem": "항목선택",
+  "numberOfSelectItem": "{{number, number}}개 선택",
+  "allDelete": "모두 삭제",
+  "allRestore": "모두 복구"
 }
