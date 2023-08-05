@@ -134,6 +134,7 @@ export const Upload = ({ route }: UploadProps) => {
    *
    */
   const handleClose = () => {
+    setSelectArchiving({ id: -1, title: '' })
     setSelectTag([])
     navigation.navigate('BottomTab', { screen: 'Home' })
   }

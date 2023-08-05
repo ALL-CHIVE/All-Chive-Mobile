@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Image, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { getArchivingList } from '@/apis/archiving'
 import { defaultIcons } from '@/assets'
@@ -13,6 +13,7 @@ import { Divider } from '@/components/divider/Divider'
 import i18n from '@/locales'
 import { ArchivingListResponse } from '@/models/Archiving'
 import { SelectArchivingState, SelectedArchiving } from '@/state/upload/SelectArchivingState'
+import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 
 import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
 
@@ -42,6 +43,7 @@ interface SelectArchivingModalProps {
  */
 export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModalProps) => {
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
+  const setSelectCategory = useSetRecoilState(SelectCategoryState)
   const [createModal, setCreateModal] = useState(false)
 
   const { data: archivingList } = useQuery<ArchivingListResponse>(['getArchivingList'], () =>
@@ -59,6 +61,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
    *
    */
   const handleCloseModal = () => {
+    setSelectCategory('')
     setCreateModal(false)
   }
 
@@ -131,7 +134,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
           <BoxButton
             onPress={onClose}
             textKey={i18n.t('confirm')}
-            isDisabled={!SelectArchivingState}
+            isDisabled={selectArchiving.id === -1}
           />
         </ModalContainer>
         <CreateArchivingModal
