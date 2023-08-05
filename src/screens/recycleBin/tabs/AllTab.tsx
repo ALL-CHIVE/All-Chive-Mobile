@@ -71,7 +71,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
           tagCount={item.tagCount}
         />
         {editMode && <CheckBox onPress={() => handleCheck(item.contentId, 'content')} />}
-        {isContentCheck.includes(item.contentId) && (
+        {editMode && isContentCheck.includes(item.contentId) && (
           <YellowCheck onPress={() => handleCheck(item.contentId, 'content')}>
             <Image source={defaultIcons.yellowCheck} />
           </YellowCheck>
@@ -101,7 +101,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
                     {editMode && (
                       <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
                     )}
-                    {isArchivingCheck.includes(item.archivingId) && (
+                    {editMode && isArchivingCheck.includes(item.archivingId) && (
                       <YellowCheck onPress={() => handleCheck(item.archivingId, 'archiving')}>
                         <Image source={defaultIcons.yellowCheck} />
                       </YellowCheck>

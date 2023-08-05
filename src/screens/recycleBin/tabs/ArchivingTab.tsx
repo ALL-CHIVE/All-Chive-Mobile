@@ -57,7 +57,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
                       isMine={true}
                     />
                     {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
-                    {isCheck.includes(item.archivingId) && (
+                    {editMode && isCheck.includes(item.archivingId) && (
                       <YellowCheck onPress={() => handleCheck(item.archivingId)}>
                         <Image source={defaultIcons.yellowCheck} />
                       </YellowCheck>
