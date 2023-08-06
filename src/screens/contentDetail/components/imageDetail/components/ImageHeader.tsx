@@ -1,8 +1,10 @@
 import React from 'react'
 
-import { Text } from 'react-native'
+import { Image } from 'react-native'
 
-import { CloseButton, Container, Title } from './ImageHeader.style'
+import { defaultIcons } from '@/assets'
+
+import { CloseButton, Container, Header, Title } from './ImageHeader.style'
 
 interface ImageHeaderProps {
   title: string
@@ -14,13 +16,14 @@ interface ImageHeaderProps {
  */
 const ImageHeader = ({ title, onClose }: ImageHeaderProps) => {
   return (
-    <Container>
-      <Title>{title}</Title>
-      <CloseButton onPress={onClose}>
-        {/* TODO: link close icon */}
-        <Text>close</Text>
-      </CloseButton>
-    </Container>
+    <Header>
+      <Container>
+        <Title>{title}</Title>
+        <CloseButton onPress={onClose}>
+          <Image source={defaultIcons.grayCloseButton} />
+        </CloseButton>
+      </Container>
+    </Header>
   )
 }
 

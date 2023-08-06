@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import { Modal, Text, TouchableOpacity } from 'react-native'
-import ImageViewer from 'react-native-image-zoom-viewer'
+import ImageView from 'react-native-image-viewing'
 
-import { GetContentsResponse } from '@/models/contents/Contents'
+import { GetContentsResponse } from '@/models/Contents'
 import {
   Container,
   ImagePreview,
@@ -26,22 +26,20 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <ImagePreview source={{ uri: content.imgUrl }} />
       </TouchableOpacity>
-      <Modal
+
+      <ImageView
+        images={[{ uri: content.imgUrl }]}
+        FooterComponent={() => <Text></Text>}
+        HeaderComponent={() => (
+          <ImageHeader
+            title={content.contentTitle}
+            onClose={() => setModalVisible(false)}
+          />
+        )}
+        imageIndex={0}
         visible={isModalVisible}
-        transparent={true}
-      >
-        <ImageViewer
-          imageUrls={[{ url: content.imgUrl }]}
-          renderIndicator={(_currentIndex, _allSize) => <Text></Text>}
-          renderHeader={() => (
-            <ImageHeader
-              title={content.contentTitle}
-              onClose={() => setModalVisible(false)}
-            />
-          )}
-          failImageSource={{ url: 'fail_image_url' }}
-        />
-      </Modal>
+        onRequestClose={() => setModalVisible(false)}
+      />
     </Container>
   )
 }

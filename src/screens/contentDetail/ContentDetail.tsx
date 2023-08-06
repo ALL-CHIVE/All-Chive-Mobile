@@ -8,6 +8,8 @@ import { useMutation, useQuery } from 'react-query'
 
 import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
@@ -25,7 +27,14 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { queryKeys } from '@/queries/queryKeys'
 import { colors } from '@/styles/colors'
 
-import { ContentDetailView, PreviewContainer, SubTitle, TagList } from './ContentDetail.style'
+import {
+  Container,
+  ContentDetailView,
+  Day,
+  PreviewContainer,
+  SubTitle,
+  TagList,
+} from './ContentDetail.style'
 import ImageDetail from './components/imageDetail/ImageDetail'
 import LinkDetail from './components/linkDetail/LinkDetail'
 
@@ -129,34 +138,41 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     }
   }
 
+  if (!content) {
+    return <></>
+  }
+
   return (
     <>
-      <SafeAreaView>
+      <DefaultContainer>
         <DefaultHeader
-          title={content?.contentTitle}
+          title={content.contentTitle}
           PopupMenuList={PopupMenuList}
         />
-        <ScrollView>
-          {/* {isLoading && <Text>loading</Text>}
+        <DefaultScrollContainer>
+          <Container>
+            <Day>{content.contentCreatedAt}</Day>
+            {/* {isLoading && <Text>loading</Text>}
           {error && <Text>error</Text>} */}
-          {content && (
-            <ContentDetailView>
-              <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-              <SubTitle>{i18n.t('tag')}</SubTitle>
-              <TagList>
-                {content.tagList.map((tag) => (
-                  <WhiteTag
-                    key={tag.tagId}
-                    tag={tag.name}
-                  />
-                ))}
-              </TagList>
-              <SubTitle>{i18n.t('memo')}</SubTitle>
-              <Memo text={content.contentMemo} />
-            </ContentDetailView>
-          )}
-        </ScrollView>
-      </SafeAreaView>
+            {content && (
+              <ContentDetailView>
+                <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
+                <SubTitle>{i18n.t('tag')}</SubTitle>
+                <TagList>
+                  {content.tagList.map((tag) => (
+                    <WhiteTag
+                      key={tag.tagId}
+                      tag={tag.name}
+                    />
+                  ))}
+                </TagList>
+                <SubTitle>{i18n.t('memo')}</SubTitle>
+                <Memo text={content.contentMemo} />
+              </ContentDetailView>
+            )}
+          </Container>
+        </DefaultScrollContainer>
+      </DefaultContainer>
       <ActionSheet
         ref={actionSheetRef}
         options={ReportMenus()}
