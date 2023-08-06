@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, Text } from 'react-native'
+import { Image, ImageURISource } from 'react-native'
+import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
@@ -12,6 +13,7 @@ import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { defaultArchivingImageUrl } from '@/services/ImageService'
 import { colors } from '@/styles/colors'
 
 import {
@@ -89,7 +91,17 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
       >
         <Card>
           <ArchivingImage
-            source={isImageError || !imageUrl ? defaultIcons.upload : { uri: imageUrl }}
+            source={
+              isImageError || !imageUrl
+                ? defaultIcons.upload
+                : {
+                    uri:
+                      imageUrl === 'default' ||
+                      imageUrl === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` //TODO: 제거
+                        ? defaultArchivingImageUrl
+                        : imageUrl,
+                  }
+            }
             onError={() => setIsImageError(true)}
             defaultSource={defaultIcons.upload as ImageURISource}
           />

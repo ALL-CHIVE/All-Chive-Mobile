@@ -8,7 +8,7 @@ import uuid from 'react-native-uuid'
 
 import { getAwsImageUrl } from '@/apis/image'
 
-export const defaultImageUrl = `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/archivings/default.png`
+export const defaultArchivingImageUrl = `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/archivings/default.png`
 
 /**
  * 프로필 이미지 URL을 생성합니다.

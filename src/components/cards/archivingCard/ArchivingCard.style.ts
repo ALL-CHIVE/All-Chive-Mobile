@@ -21,6 +21,8 @@ export const ArchivingImage = styled.Image`
   height: 90px;
   top: 9px;
   left: 7px;
+  border-radius: 8px;
+  margin-right: 10px;
 `
 
 export const Title = styled.Text`
@@ -35,7 +37,7 @@ export const Day = styled.Text`
   ${fonts.body4};
   position: absolute;
   bottom: 10px;
-  left: 108px;
+  left: 118px;
   color: ${colors.gray300};
 `
 

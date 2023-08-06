@@ -21,7 +21,7 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
-import { defaultImageUrl, uploadArchivingImage } from '@/services/ImageService'
+import { defaultArchivingImageUrl, uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -142,7 +142,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     switch (selectedImage) {
       case 'default':
         setImageKey('default')
-        setImage({ uri: defaultImageUrl })
+        setImage({ uri: defaultArchivingImageUrl })
         break
       default:
         if (imageKey === 'default') {
