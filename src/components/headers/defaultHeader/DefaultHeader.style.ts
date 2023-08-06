@@ -23,6 +23,7 @@ export const Title = styled.Text`
   ${fonts.title2}
   flex: 1;
   text-align: center;
+  color: ${colors.mainBlack};
 `
 
 export const HeaderRight = styled.View`
