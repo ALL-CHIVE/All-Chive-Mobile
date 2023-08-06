@@ -5,6 +5,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import {
   Image,
   ImageSourcePropType,
+  ImageURISource,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -28,6 +29,8 @@ import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
+import { uploadContentImage } from '@/services/ImageService'
+import { getLinkImage } from '@/services/LinkService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -67,6 +70,7 @@ export const Upload = ({ route }: UploadProps) => {
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
 
   const [lastFocused, setLastFocused] = useState(-1)
   const [currentFocused, setCurrentFocused] = useState(-1)
@@ -83,7 +87,7 @@ export const Upload = ({ route }: UploadProps) => {
         archivingId: selectArchiving.id,
         title: contentName,
         link: link,
-        imgUrl: '',
+        imgUrl: imageUrl,
         tagIds: selectTag.map((tag) => tag.tagId),
         memo: memo,
       }),
@@ -142,7 +146,21 @@ export const Upload = ({ route }: UploadProps) => {
   /**
    *
    */
-  const handlesubmit = () => {
+  const handleSubmit = async () => {
+    switch (route.params.type) {
+      case ContentType.Link: {
+        const url = await getLinkImage(link)
+        setImageUrl(url)
+        break
+      }
+      case ContentType.Image: {
+        const imageUrl = (image as ImageURISource)?.uri ?? ''
+        const contentImageUrl = await uploadContentImage(imageUrl)
+        setImageUrl(contentImageUrl)
+        break
+      }
+    }
+
     postContentsMutate()
   }
 
@@ -281,7 +299,7 @@ export const Upload = ({ route }: UploadProps) => {
       </DefaultScrollContainer>
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={handlesubmit}
+        onPress={handleSubmit}
         isDisabled={
           !archivingName ||
           !contentName ||

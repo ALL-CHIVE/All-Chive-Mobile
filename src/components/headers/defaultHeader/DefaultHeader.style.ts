@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.SafeAreaView`
-  height: 80px;
+  height: 134px;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
@@ -13,6 +13,9 @@ export const Container = styled.SafeAreaView`
 
 export const HeaderLeft = styled.TouchableOpacity`
   margin: 0 24px;
+  width: 24px;
+  height: 24px;
+  justify-content: center;
 `
 
 export const Title = styled.Text`

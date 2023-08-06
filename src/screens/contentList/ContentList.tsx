@@ -9,6 +9,8 @@ import { useMutation, useQuery } from 'react-query'
 import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
 import { defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
@@ -145,16 +147,20 @@ const ContentList = ({ route }: ContentListProps) => {
 
   return (
     <>
-      <Container>
-        {contentList && (
-          <ContentListContainer
-            scrollEnabled={false}
-            data={contentCard}
-            numColumns={2}
-            renderItem={renderItem}
-          />
-        )}
-      </Container>
+      <DefaultContainer>
+        <DefaultScrollContainer>
+          <Container>
+            {contentList && (
+              <ContentListContainer
+                scrollEnabled={false}
+                data={contentCard}
+                numColumns={2}
+                renderItem={renderItem}
+              />
+            )}
+          </Container>
+        </DefaultScrollContainer>
+      </DefaultContainer>
       <EditArchivingModal
         archivingId={route.params.id}
         onClose={handleCloseModal}
@@ -217,6 +223,7 @@ const ContentList = ({ route }: ContentListProps) => {
 const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
   return (
     <ContentCard
+      key={item.contentId}
       contentId={item.contentId}
       contentTitle={item.contentTitle}
       contentType={item.contentType}
