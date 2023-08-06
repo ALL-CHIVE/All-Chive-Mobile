@@ -30,7 +30,7 @@ export const Type = styled.View`
   right: 10px;
   border-radius: 4px;
   padding: 2px 7px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.3);
 `
 
 export const TypeText = styled.Text`

@@ -113,26 +113,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         ]
       : [{ title: 'report', onClick: HandleReport }]
 
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * custom header
-       */
-      header: ({ options }) => (
-        <DefaultHeader
-          title={content?.contentTitle}
-          PopupMenuList={PopupMenuList}
-          options={options}
-        />
-      ),
-      title: content?.contentTitle,
-      /**
-       * popup
-       */
-      headerRight: () => <Popup menuList={PopupMenuList} />,
-    })
-  }, [])
-
   /**
    * handleActionSheetMenu
    */
@@ -152,6 +132,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   return (
     <>
       <SafeAreaView>
+        <DefaultHeader
+          title={content?.contentTitle}
+          PopupMenuList={PopupMenuList}
+        />
         <ScrollView>
           {/* {isLoading && <Text>loading</Text>}
           {error && <Text>error</Text>} */}

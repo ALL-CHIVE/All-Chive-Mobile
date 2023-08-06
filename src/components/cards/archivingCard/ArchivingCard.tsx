@@ -123,7 +123,6 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
           </CountContainer>
         </Card>
       </Shadow>
-
       <TwoButtonDialog
         isVisible={isDeleteDialogVisible}
         title="doYouWantDeleteThisArchiving"

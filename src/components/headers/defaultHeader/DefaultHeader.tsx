@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { Image } from 'react-native'
 
 import { defaultIcons } from '@/assets'
@@ -15,7 +13,6 @@ import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style
 interface DefaultHeaderProps {
   title: string | undefined
   PopupMenuList: PopupMenu[]
-  options: NativeStackNavigationOptions | BottomTabNavigationOptions
 }
 
 /**

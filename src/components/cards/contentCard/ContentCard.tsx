@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Shadow } from 'react-native-shadow-2'
 
+import { defaultImages } from '@/assets'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
 import { SimpleContent } from '@/models/SimpleContent'
@@ -48,9 +49,9 @@ const ContentCard = ({
       >
         <Card>
           <ImageContainer>
-            <Image source={{ uri: imgUrl }} />
+            <Image source={imgUrl ? { uri: imgUrl } : defaultImages.content} />
             <Type>
-              <TypeText>{i18n.t(contentType)}</TypeText>
+              <TypeText>{i18n.t(contentType.toLocaleLowerCase())}</TypeText>
             </Type>
           </ImageContainer>
           <Information>

@@ -111,22 +111,6 @@ const ContentList = ({ route }: ContentListProps) => {
   useEffect(() => {
     // getContentByArchiving(route.params.id).then((res) => setContentCard(res.contents.content))
     contentList?.contents && setContentCard(contentList.contents.content)
-    navigation.setOptions({
-      /**
-       * custom header
-       */
-      header: ({ options }) => (
-        <DefaultHeader
-          title={route.params.title}
-          PopupMenuList={PopupMenuList}
-          options={options}
-        />
-      ),
-      /**
-       * popup
-       */
-      headerRight: () => <Popup menuList={PopupMenuList} />,
-    })
   }, [])
 
   /**
@@ -148,6 +132,10 @@ const ContentList = ({ route }: ContentListProps) => {
   return (
     <>
       <DefaultContainer>
+        <DefaultHeader
+          title={route.params.title}
+          PopupMenuList={PopupMenuList}
+        />
         <DefaultScrollContainer>
           <Container>
             {contentList && (

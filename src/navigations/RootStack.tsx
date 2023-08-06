@@ -140,9 +140,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="ContentList"
           component={ContentList}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="Upload"
@@ -156,9 +153,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="ContentDetail"
           component={ContentDetail}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="Edit"
