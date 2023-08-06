@@ -10,7 +10,7 @@ export interface MetaData {
 export const getLinkImage = async (uri: string) => {
   try {
     const { data } = await fetchHtml(uri)
-    const meta = await parseHtml(data as string)
+    const meta = parseHtml(data as string)
     return meta['image']
   } catch (e) {
     console.log(e)
