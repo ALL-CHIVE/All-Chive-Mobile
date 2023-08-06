@@ -2,10 +2,13 @@
 
 import axios from 'axios'
 import { decode } from 'base64-arraybuffer'
+import Config from 'react-native-config'
 import fs from 'react-native-fs'
 import uuid from 'react-native-uuid'
 
 import { getAwsImageUrl } from '@/apis/image'
+
+export const defaultImageUrl = `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/archivings/default.png`
 
 /**
  * 프로필 이미지 URL을 생성합니다.

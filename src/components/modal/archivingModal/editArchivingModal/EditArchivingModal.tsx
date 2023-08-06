@@ -1,33 +1,47 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  ImageSourcePropType,
+  ImageURISource,
+  Keyboard,
+  KeyboardEvent,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import Config from 'react-native-config'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
+import { defaultImageUrl, uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
 import {
+  Bottom,
   CloseButton,
   Condition,
   Container,
+  Header,
   ModalTitle,
   NoticeText,
   PlusImageButton,
+  ScrollContainer,
   Styles,
   Switch,
   TextInput,
+  Thumbnail,
   Title,
-} from '../ArchivingModal.style'
+} from './EditArchivingModal.style'
 
 interface EditArchivingModalProps {
   archivingId: number
@@ -45,11 +59,36 @@ export const EditArchivingModal = ({
 }: EditArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
-  const [image, setImage] = useState<ImageSourcePropType | ''>('')
+  const [archivingImage, setArchivingImage] = useState<ImageSourcePropType>()
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
-
   const actionSheetRef = useRef<ActionSheet>(null)
+  const [modalHight, setModalHeight] = useState(624)
+  const [imageKey, setImageKey] = useState('')
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+
+    return () => {
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
+    }
+  }, [])
+
+  /**
+   *
+   */
+  const keyboardDidShow = (event: KeyboardEvent) => {
+    setModalHeight(event.endCoordinates.screenY - 10)
+  }
+
+  /**
+   *
+   */
+  const keyboardDidHide = () => {
+    setModalHeight(624)
+  }
 
   const { data: archivingData } = useQuery(
     ['archiving', archivingId],
@@ -60,7 +99,8 @@ export const EditArchivingModal = ({
        */
       onSuccess: (data) => {
         setName(data.title)
-        setImage({ uri: data.imageUrl })
+        setImageKey(data.imageUrl)
+        data.imageUrl && setArchivingImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.markStatus)
       },
@@ -75,7 +115,7 @@ export const EditArchivingModal = ({
       patchArchiving({
         archivingId: archivingId,
         title: name,
-        imageUrl: image ? image.toString() : defaultImages.thumbnail.toString(),
+        imageUrl: imageKey,
         category: selectedCategory,
         publicStatus: publicStatus,
       }),
@@ -123,10 +163,16 @@ export const EditArchivingModal = ({
 
     switch (selectedImage) {
       case 'default':
-        setImage(defaultImages.thumbnail)
+        setImageKey('default')
         break
       default:
-        setImage({ uri: selectedImage })
+        if (
+          imageKey === 'default' ||
+          imageKey === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` // TODO: 제거
+        ) {
+          setImageKey('')
+        }
+        setArchivingImage({ uri: selectedImage })
     }
   }
 
@@ -140,7 +186,13 @@ export const EditArchivingModal = ({
   /**
    *
    */
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (imageKey !== 'default') {
+      const imageUrl = (archivingImage as ImageURISource)?.uri ?? ''
+      const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
+      archivingImageUrl && setImageKey(archivingImageUrl)
+    }
+
     postArchivingMutate()
   }
 
@@ -148,16 +200,21 @@ export const EditArchivingModal = ({
     <>
       <Modal
         isVisible={isVisible}
-        // backdropOpacity={0.5}
+        backdropOpacity={0.5}
         style={{
           margin: 0,
         }}
       >
-        <Container>
-          <ScrollView>
+        <Container style={{ height: modalHight }}>
+          <Header>
             <CloseButton onPress={onClose}>
               <Image source={defaultIcons.grayCloseButton} />
             </CloseButton>
+          </Header>
+          <ScrollContainer
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
             <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
@@ -167,10 +224,10 @@ export const EditArchivingModal = ({
               onFocus={handleNameFocus}
               onBlur={handleNameBlur}
               maxLength={15}
-              style={[
-                nameFocus ? Styles.inputFocus : null,
-                !nameFocus && name.length > 0 ? Styles.inputWithValue : null,
-              ]}
+              style={
+                (nameFocus && Styles.inputFocus) ||
+                (!nameFocus && name.length > 0 && Styles.inputWithValue)
+              }
             />
             {/* TODO: Condition Icon 추가 */}
             <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
@@ -179,25 +236,22 @@ export const EditArchivingModal = ({
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
-            {image ? (
+            {archivingImage ? (
               <TouchableOpacity onPress={handleUploadImage}>
-                <Image source={image} />
+                <Thumbnail
+                  source={
+                    imageKey === 'default' ||
+                    imageKey === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` //TODO: 제거
+                      ? { uri: defaultImageUrl }
+                      : archivingImage
+                  }
+                />
               </TouchableOpacity>
             ) : (
               <PlusImageButton onPress={handleUploadImage}>
-                {/* TODO: + icon으로 변경 */}
-                <Text>+</Text>
+                <Image source={defaultIcons.plus} />
               </PlusImageButton>
             )}
-            <ActionSheet
-              ref={actionSheetRef}
-              title={i18n.t('settingThumbnail')}
-              options={DefalutMenus()}
-              cancelButtonIndex={0}
-              tintColor={colors.gray600}
-              onPress={handleActionSheetMenu}
-              theme="ios"
-            />
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch
@@ -209,14 +263,24 @@ export const EditArchivingModal = ({
               />
             </View>
             <NoticeText>{i18n.t('guideSettingPublic')}</NoticeText>
-            <BoxButton
-              textKey={i18n.t('confirm')}
-              onPress={handleSubmit}
-              // isDisabled
-            />
-          </ScrollView>
+            <Bottom />
+          </ScrollContainer>
+          <BoxButton
+            textKey={i18n.t('confirm')}
+            onPress={handleSubmit}
+            isDisabled={!name || !selectedCategory}
+          />
         </Container>
       </Modal>
+      <ActionSheet
+        ref={actionSheetRef}
+        title={i18n.t('settingThumbnail')}
+        options={DefalutMenus()}
+        cancelButtonIndex={0}
+        tintColor={colors.gray600}
+        onPress={handleActionSheetMenu}
+        theme="ios"
+      />
     </>
   )
 }

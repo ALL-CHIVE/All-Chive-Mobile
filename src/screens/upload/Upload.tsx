@@ -156,7 +156,7 @@ export const Upload = ({ route }: UploadProps) => {
       case ContentType.Image: {
         const imageUrl = (image as ImageURISource)?.uri ?? ''
         const contentImageUrl = await uploadContentImage(imageUrl)
-        setImageUrl(contentImageUrl)
+        contentImageUrl && setImageUrl(contentImageUrl)
         break
       }
     }

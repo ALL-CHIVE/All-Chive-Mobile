@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
-  Dimensions,
   Image,
   ImageSourcePropType,
+  ImageURISource,
   Keyboard,
   KeyboardEvent,
   TouchableOpacity,
@@ -21,6 +21,7 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
+import { defaultImageUrl, uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -52,7 +53,8 @@ interface CreateArchivingModalProps {
 export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
-  const [image, setImage] = useState<ImageSourcePropType | ''>('')
+  const [image, setImage] = useState<ImageSourcePropType>()
+  const [imageKey, setImageKey] = useState('')
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -72,8 +74,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    const keyboardHeight = event.endCoordinates.height
-    setModalHeight(Dimensions.get('window').height - keyboardHeight - 10)
+    setModalHeight(event.endCoordinates.screenY - 10)
   }
 
   /**
@@ -89,7 +90,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     () =>
       postArchiving({
         title: name,
-        imageUrl: '',
+        imageUrl: imageKey,
         category: selectedCategory,
         publicStatus: publicStatus,
       }),
@@ -99,7 +100,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
        */
       onSuccess: () => {
         setName('')
-        setImage('')
+        setImage(undefined)
         setSelectedCategory('')
         setPublicStatus(false)
         onClose()
@@ -140,9 +141,13 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
 
     switch (selectedImage) {
       case 'default':
-        setImage(defaultImages.thumbnail)
+        setImageKey('default')
+        setImage({ uri: defaultImageUrl })
         break
       default:
+        if (imageKey === 'default') {
+          setImageKey('')
+        }
         setImage({ uri: selectedImage })
     }
   }
@@ -157,7 +162,13 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   /**
    *
    */
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (imageKey !== 'default') {
+      const imageUrl = (image as ImageURISource)?.uri ?? ''
+      const newImageKey = await uploadArchivingImage(imageUrl, imageKey)
+      newImageKey && setImageKey(newImageKey)
+    }
+
     postArchivingMutate()
   }
 

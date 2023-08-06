@@ -58,10 +58,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
 
     const profileImageUrl = await uploadProfileImage(imageUrl)
 
-    if (!profileImageUrl) {
-      return
-    }
-
     const isSucess = await signUp(
       route.params.type,
       idToken,
