@@ -4,16 +4,16 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { CustomTabBar } from '@/components/tabBar/customTabBar/CustomTabBar'
 import i18n from '@/locales'
-import { SearchTabData } from '@/models/SearchTab'
+import { RecycleBinTabProps } from '@/models/Recycle'
 
 import { AllTab } from './AllTab'
 import { ArchivingTab } from './ArchivingTab'
-import { CommunityTab } from './CommunityTab'
+import { ContentsTab } from './ContentsTab'
 
 /**
- * 검색 창 내부 탭
+ * 휴지통 내부 탭
  */
-export const SearchTab = ({ searchData }: SearchTabData) => {
+export const RecycleBinTab = ({ contents, archivings, editMode }: RecycleBinTabProps) => {
   const Tab = createMaterialTopTabNavigator()
 
   return (
@@ -30,33 +30,39 @@ export const SearchTab = ({ searchData }: SearchTabData) => {
         {(props) => (
           <AllTab
             {...props}
-            searchData={searchData}
+            contents={contents}
+            archivings={archivings}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>
       <Tab.Screen
         name="ArchivingTab"
         options={{
-          tabBarLabel: `${i18n.t('myArchiving')}`,
+          tabBarLabel: `${i18n.t('archiving')}`,
         }}
       >
         {(props) => (
           <ArchivingTab
+            contents={[]}
             {...props}
-            searchData={searchData}
+            archivings={archivings}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>
       <Tab.Screen
-        name="CommunityTab"
+        name="ContentsTab"
         options={{
-          tabBarLabel: `${i18n.t('community')}`,
+          tabBarLabel: `${i18n.t('contents')}`,
         }}
       >
         {(props) => (
-          <CommunityTab
+          <ContentsTab
+            contents={contents}
+            archivings={[]}
             {...props}
-            searchData={searchData}
+            editMode={editMode}
           />
         )}
       </Tab.Screen>

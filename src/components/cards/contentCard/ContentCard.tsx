@@ -8,7 +8,6 @@ import { Shadow } from 'react-native-shadow-2'
 import { defaultImages } from '@/assets'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
-import { SimpleContent } from '@/models/SimpleContent'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
@@ -27,6 +26,18 @@ import {
   TagContainer,
 } from './ContentCard.style'
 
+interface ContentCardProps {
+  contentId: number
+  contentTitle: string
+  contentType: string
+  link: string
+  imgUrl: string
+  contentCreatedAt: string
+  tag: string
+  tagCount: number
+  isRecycle?: boolean
+}
+
 /**
  * ContentCard
  */
@@ -39,11 +50,25 @@ const ContentCard = ({
   contentCreatedAt,
   tag,
   tagCount,
-}: SimpleContent) => {
+  isRecycle,
+}: ContentCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   return (
-    <Container onPress={() => navigation.navigate('ContentDetail', { id: contentId })}>
+    <Container
+      {...(isRecycle
+        ? {
+            disabled: true,
+          }
+        : {
+            /**
+             * 휴지통에서의 컨텐츠 카드가 아닐 경우에만 onPress 이벤트를 추가합니다.
+             */
+            onPress: () => {
+              navigation.navigate('ContentDetail', { id: contentId })
+            },
+          })}
+    >
       <Shadow
         startColor={colors.gray50}
         offset={[0, 0]}

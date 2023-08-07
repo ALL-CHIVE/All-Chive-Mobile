@@ -2,7 +2,7 @@ import React from 'react'
 
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 
-import { TabBarWrapper, TabButton, TabText } from '../Search.style'
+import { TabBarWrapper, TabButton, TabText } from './CustomTabBar.style'
 
 interface Route {
   key: string
@@ -13,7 +13,7 @@ interface Route {
 /**
  * 커스텀 탭바
  */
-export const SearchTabBar = ({ state, descriptors, navigation }: MaterialTopTabBarProps) => {
+export const CustomTabBar = ({ state, descriptors, navigation }: MaterialTopTabBarProps) => {
   return (
     <TabBarWrapper>
       {state.routes.map((route: Route, index: number) => {
