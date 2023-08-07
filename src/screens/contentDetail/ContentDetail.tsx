@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Text, SafeAreaView, ScrollView } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteContents, getContents } from '@/apis/content'
@@ -14,7 +13,6 @@ import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import Memo from '@/components/memo/Memo'
-import Popup from '@/components/popup/Popup'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
@@ -58,12 +56,12 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     isLoading,
     error,
     data: content,
-  } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
+  } = useQuery<GetContentsResponse, AxiosError>(`${queryKeys.contents}${route.params.id}`, () =>
     getContents(route.params.id)
   )
 
   useEffect(() => {
-    queryClient.setQueryData(queryKeys.contents, content)
+    queryClient.setQueryData(`${queryKeys.contents}${route.params.id}`, content)
   }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {

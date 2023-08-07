@@ -30,7 +30,6 @@ const LinkDetail = ({ content }: LinkDetailProps) => {
   const [ogTags, setOgTags] = useState<MetaData | undefined>(undefined)
 
   useEffect(() => {
-    console.log(content.link)
     if (content.link) {
       getLinkOgTags(content.link).then((res) => {
         setOgTags(res)

@@ -22,6 +22,7 @@ export const PreviewContainer = styled.View`
 export const TagList = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 10px;
 `
 
 export const SubTitle = styled.Text`
