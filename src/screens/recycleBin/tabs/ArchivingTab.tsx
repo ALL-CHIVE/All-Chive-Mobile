@@ -55,6 +55,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
                       key={item.archivingId}
                       item={item}
                       isMine={true}
+                      isRecycle={true}
                     />
                     {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
                     {editMode && isCheck.includes(item.archivingId) && (

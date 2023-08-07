@@ -54,6 +54,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
           imgUrl={item.imgUrl}
           tag={item.tag}
           tagCount={item.tagCount}
+          isRecycle={true}
         />
         {editMode && <CheckBox onPress={() => handleCheck(item.contentId)} />}
         {editMode && isCheck.includes(item.contentId) && (

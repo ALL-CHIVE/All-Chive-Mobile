@@ -69,6 +69,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
           imgUrl={item.imgUrl}
           tag={item.tag}
           tagCount={item.tagCount}
+          isRecycle={true}
         />
         {editMode && <CheckBox onPress={() => handleCheck(item.contentId, 'content')} />}
         {editMode && isContentCheck.includes(item.contentId) && (
@@ -97,6 +98,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
                       key={item.archivingId}
                       item={item}
                       isMine={true}
+                      isRecycle={true}
                     />
                     {editMode && (
                       <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
@@ -114,7 +116,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
         <GrayDivider />
         <TabItemContainer>
           <SearchDataText>
-            {i18n.t('numberOfsearchResult', { number: contents.length })}
+            {i18n.t('numberOfRecycleItem', { number: contents.length })}
           </SearchDataText>
           <Title>{i18n.t('contents')}</Title>
           <TabItemCardContainer>
