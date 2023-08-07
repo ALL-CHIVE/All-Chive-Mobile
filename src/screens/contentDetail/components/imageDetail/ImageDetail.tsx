@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
-import { Modal, Text, TouchableOpacity } from 'react-native'
+import { ImageURISource, Modal, Text, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import ImageView from 'react-native-image-viewing'
 
+import { defaultImages } from '@/assets'
 import { GetContentsResponse } from '@/models/Contents'
 import {
   Container,
@@ -21,15 +22,28 @@ interface ImageDetailProps {
  */
 const ImageDetail = ({ content }: ImageDetailProps) => {
   const [isModalVisible, setModalVisible] = useState(false)
+  const [isImageError, setIsImageError] = useState(false)
 
   return (
     <Container>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <ImagePreview source={{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }} />
+        <ImagePreview
+          source={
+            isImageError
+              ? defaultImages.content
+              : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }
+          }
+          onError={() => setIsImageError(true)}
+          defaultSource={defaultImages.content as ImageURISource}
+        />
       </TouchableOpacity>
 
       <ImageView
-        images={[{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }]}
+        images={[
+          isImageError
+            ? (defaultImages.content as ImageURISource)
+            : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` },
+        ]}
         FooterComponent={() => <Text></Text>}
         HeaderComponent={() => (
           <ImageHeader

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Platform, Linking } from 'react-native'
+import { Platform, Linking, ImageURISource } from 'react-native'
 import { InAppBrowser, InAppBrowserOptions } from 'react-native-inappbrowser-reborn'
 import { InAppBrowseriOSOptions } from 'react-native-inappbrowser-reborn'
 import { InAppBrowserAndroidOptions } from 'react-native-inappbrowser-reborn'
@@ -28,6 +28,7 @@ interface LinkDetailProps {
  */
 const LinkDetail = ({ content }: LinkDetailProps) => {
   const [ogTags, setOgTags] = useState<MetaData | undefined>(undefined)
+  const [isImageError, setIsImageError] = useState(false)
 
   useEffect(() => {
     if (content.link) {
@@ -70,7 +71,13 @@ const LinkDetail = ({ content }: LinkDetailProps) => {
   return (
     <Container onPress={() => openInappBrowser()}>
       <LinkPreview
-        source={ogTags && ogTags['image'] ? { uri: ogTags['image'] } : defaultImages.content}
+        source={
+          !isImageError && ogTags && ogTags['image']
+            ? { uri: ogTags['image'] }
+            : defaultImages.content
+        }
+        onError={() => setIsImageError(true)}
+        defaultSource={defaultImages.content as ImageURISource}
       />
       <TextContainer>
         <Title numberOfLines={1}>
