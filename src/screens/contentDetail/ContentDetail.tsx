@@ -4,7 +4,7 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { Text, SafeAreaView, ScrollView } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
@@ -52,6 +52,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const queryClient = useQueryClient()
 
   const {
     isLoading,
@@ -60,6 +61,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
     getContents(route.params.id)
   )
+
+  useEffect(() => {
+    queryClient.setQueryData(queryKeys.contents, content)
+  }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**

@@ -24,7 +24,7 @@ export const getLinkImage = async (uri: string) => {
 export const getLinkOgTags = async (uri: string) => {
   try {
     const { data } = await fetchHtml(uri)
-    const meta = await parseHtml(data as string)
+    const meta = parseHtml(data as string)
     return meta
   } catch (e) {
     console.log(e)

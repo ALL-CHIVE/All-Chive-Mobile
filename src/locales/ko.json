@@ -131,5 +131,7 @@
   "deleteTagsCannotBeRestored": "삭제한 태그는 복구할 수 없습니다.",
   "createNewTag": "새 태그 만들기",
   "register": "등록",
-  "noAuthorBlocked": "차단한 작성자가 없습니다"
+  "noAuthorBlocked": "차단한 작성자가 없습니다",
+  "noTitle": "제목을 불러올 수 없습니다",
+  "noDescription": "설명을 불러올 수 없습니다"
 }
