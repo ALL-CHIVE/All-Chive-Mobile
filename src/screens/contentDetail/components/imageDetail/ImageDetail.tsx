@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { Modal, Text, TouchableOpacity } from 'react-native'
+import Config from 'react-native-config'
 import ImageView from 'react-native-image-viewing'
 
 import { GetContentsResponse } from '@/models/Contents'
@@ -24,11 +25,11 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
   return (
     <Container>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <ImagePreview source={{ uri: content.imgUrl }} />
+        <ImagePreview source={{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }} />
       </TouchableOpacity>
 
       <ImageView
-        images={[{ uri: content.imgUrl }]}
+        images={[{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }]}
         FooterComponent={() => <Text></Text>}
         HeaderComponent={() => (
           <ImageHeader
