@@ -21,7 +21,7 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
-import { defaultArchivingImageUrl, uploadArchivingImage } from '@/services/ImageService'
+import { uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -33,7 +33,6 @@ import {
   Header,
   ModalTitle,
   NoticeText,
-  PlusImageButton,
   ScrollContainer,
   Styles,
   Switch,
@@ -141,13 +140,9 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
 
     switch (selectedImage) {
       case 'default':
-        setImageKey('default')
-        setImage({ uri: defaultArchivingImageUrl })
+        setImage(undefined)
         break
       default:
-        if (imageKey === 'default') {
-          setImageKey('')
-        }
         setImage({ uri: selectedImage })
     }
   }
@@ -163,10 +158,11 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const handleSubmit = async () => {
-    if (imageKey !== 'default') {
-      const imageUrl = (image as ImageURISource)?.uri ?? ''
-      const newImageKey = await uploadArchivingImage(imageUrl, imageKey)
-      newImageKey && setImageKey(newImageKey)
+    const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+    if (imageUrl) {
+      const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
+      archivingImageUrl && setImageKey(archivingImageUrl)
     }
 
     postArchivingMutate()
@@ -212,15 +208,12 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
-            {image ? (
-              <TouchableOpacity onPress={handleUploadImage}>
-                <Thumbnail source={image} />
-              </TouchableOpacity>
-            ) : (
-              <PlusImageButton onPress={handleUploadImage}>
-                <Image source={defaultIcons.plus} />
-              </PlusImageButton>
-            )}
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Thumbnail
+                source={image ? image : defaultImages.thumbnail}
+                defaultSource={defaultImages.thumbnail as ImageURISource}
+              />
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch

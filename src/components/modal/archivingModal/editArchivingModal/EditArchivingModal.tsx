@@ -16,13 +16,13 @@ import { useMutation, useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
-import { defaultIcons } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
-import { defaultArchivingImageUrl, uploadArchivingImage } from '@/services/ImageService'
+import { uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -34,7 +34,6 @@ import {
   Header,
   ModalTitle,
   NoticeText,
-  PlusImageButton,
   ScrollContainer,
   Styles,
   Switch,
@@ -59,7 +58,7 @@ export const EditArchivingModal = ({
 }: EditArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
-  const [archivingImage, setArchivingImage] = useState<ImageSourcePropType>()
+  const [image, setImage] = useState<ImageSourcePropType>()
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -100,7 +99,7 @@ export const EditArchivingModal = ({
       onSuccess: (data) => {
         setName(data.title)
         setImageKey(data.imageUrl)
-        data.imageUrl && setArchivingImage({ uri: data.imageUrl })
+        data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${data.imageUrl}` })
         setSelectedCategory(data.category)
         setPublicStatus(data.markStatus)
       },
@@ -115,7 +114,7 @@ export const EditArchivingModal = ({
       patchArchiving({
         archivingId: archivingId,
         title: name,
-        imageUrl: imageKey,
+        imageUrl: image ? imageKey : '',
         category: selectedCategory,
         publicStatus: publicStatus,
       }),
@@ -163,16 +162,10 @@ export const EditArchivingModal = ({
 
     switch (selectedImage) {
       case 'default':
-        setImageKey('default')
+        setImage(undefined)
         break
       default:
-        if (
-          imageKey === 'default' ||
-          imageKey === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` // TODO: 제거
-        ) {
-          setImageKey('')
-        }
-        setArchivingImage({ uri: selectedImage })
+        setImage({ uri: selectedImage })
     }
   }
 
@@ -187,8 +180,9 @@ export const EditArchivingModal = ({
    *
    */
   const handleSubmit = async () => {
-    if (imageKey !== 'default') {
-      const imageUrl = (archivingImage as ImageURISource)?.uri ?? ''
+    const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+    if (imageUrl) {
       const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
@@ -236,22 +230,12 @@ export const EditArchivingModal = ({
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
-            {archivingImage ? (
-              <TouchableOpacity onPress={handleUploadImage}>
-                <Thumbnail
-                  source={
-                    imageKey === 'default' ||
-                    imageKey === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` //TODO: 제거
-                      ? { uri: defaultArchivingImageUrl }
-                      : archivingImage
-                  }
-                />
-              </TouchableOpacity>
-            ) : (
-              <PlusImageButton onPress={handleUploadImage}>
-                <Image source={defaultIcons.plus} />
-              </PlusImageButton>
-            )}
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Thumbnail
+                source={image ? image : defaultImages.thumbnail}
+                defaultSource={defaultImages.thumbnail as ImageURISource}
+              />
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch

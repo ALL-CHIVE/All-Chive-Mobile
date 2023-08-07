@@ -13,7 +13,6 @@ import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { defaultArchivingImageUrl } from '@/services/ImageService'
 import { colors } from '@/styles/colors'
 
 import {
@@ -93,17 +92,11 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
           <ArchivingImage
             source={
               isImageError || !imageUrl
-                ? defaultIcons.upload
-                : {
-                    uri:
-                      imageUrl === 'default' ||
-                      imageUrl === `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/default` //TODO: 제거
-                        ? defaultArchivingImageUrl
-                        : imageUrl,
-                  }
+                ? defaultImages.thumbnail
+                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imageUrl}` }
             }
             onError={() => setIsImageError(true)}
-            defaultSource={defaultIcons.upload as ImageURISource}
+            defaultSource={defaultImages.thumbnail as ImageURISource}
           />
           <Title
             numberOfLines={2}
