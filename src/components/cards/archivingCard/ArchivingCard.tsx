@@ -31,12 +31,13 @@ import {
 interface ArchivingCardProps {
   item: ArchivingListContent
   isMine?: boolean
+  isRecycle?: boolean
 }
 
 /**
  * ArchivingCard
  */
-export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
+export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const [isImageError, setIsImageError] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
@@ -77,9 +78,18 @@ export const ArchivingCard = ({ item, isMine }: ArchivingCardProps) => {
 
   return (
     <Container
-      onPress={() => {
-        navigation.navigate('ContentList', { id: archivingId, title: title })
-      }}
+      {...(isRecycle
+        ? {
+            disabled: true,
+          }
+        : {
+            /**
+             * 휴지통에서의 아카이빙 카드가 아닐 경우에만 onPress 이벤트를 추가합니다.
+             */
+            onPress: () => {
+              navigation.navigate('ContentList', { id: archivingId, title: title })
+            },
+          })}
     >
       <Shadow
         startColor={colors.gray50}

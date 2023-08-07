@@ -218,6 +218,9 @@ export const RootStack = () => {
         <Stack.Screen
           name="RecycleBin"
           component={RecycleBin}
+          options={{
+            headerShown: true,
+          }}
         />
       </Stack.Navigator>
     </>
