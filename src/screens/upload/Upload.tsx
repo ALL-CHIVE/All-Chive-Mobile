@@ -135,7 +135,7 @@ export const Upload = ({ route }: UploadProps) => {
   }
 
   /**
-   *
+   * 업로드를 종료합니다.
    */
   const handleClose = () => {
     setSelectArchiving({ id: -1, title: '' })
@@ -144,7 +144,7 @@ export const Upload = ({ route }: UploadProps) => {
   }
 
   /**
-   *
+   * 완료 액션
    */
   const handleSubmit = async () => {
     switch (route.params.type) {
