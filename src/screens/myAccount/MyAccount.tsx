@@ -117,7 +117,10 @@ export const MyAccount = () => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <ProfileContainer>
           <ProfileImage
             source={

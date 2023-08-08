@@ -46,7 +46,10 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {archivingListData &&
           Object.keys(archivingListData).map((category) => (
             <>

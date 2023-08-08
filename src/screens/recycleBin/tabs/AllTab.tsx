@@ -83,7 +83,10 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
 
   return (
     <Container>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <TabItemContainer>
           <SearchDataText>
             {i18n.t('numberOfRecycleItem', { number: archivings.length })}

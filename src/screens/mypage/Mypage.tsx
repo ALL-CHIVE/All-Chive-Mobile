@@ -46,7 +46,10 @@ export const Mypage = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
       <Container>
         <LinearGradient
           style={{ height: '100%' }}
