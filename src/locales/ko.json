@@ -141,5 +141,6 @@
   "numberOfSelectItem": "{{number, number}}개 선택",
   "allDelete": "모두 삭제",
   "allRestore": "모두 복구",
-  "persistentDeleteWarning": "선택한 컨텐츠가 영구적으로 삭제됩니다.\n이 동작은 취소할 수 없습니다."
+  "persistentDeleteWarning": "선택한 컨텐츠가 영구적으로 삭제됩니다.\n이 동작은 취소할 수 없습니다.",
+  "scrap": "스크랩"
 }

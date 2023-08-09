@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
+import {
+  ImageURISource,
+  ListRenderItem,
+  NativeScrollEvent,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { getCommunityArchivingList } from '@/apis/archiving'
+import { getCommunityArchivingList, getScrapArchivingList } from '@/apis/archiving'
 import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
@@ -35,7 +41,7 @@ import {
   List,
 } from '../Main.style'
 
-import { BackgroundImage } from './Community.style'
+import { BackgroundImage, Menu, MenuButton, MenuText, SelectedStyle } from './Community.style'
 
 const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
 const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
@@ -74,22 +80,60 @@ export const Community = () => {
     }
   )
 
-  useEffect(() => {
-    if (!isLoading) {
-      queryClient.setQueryData(['getCommunityArchivingList', currentCategory], archivingList)
+  const {
+    data: scrapArchivingList,
+    fetchNextPage: fetchScrapNextPage,
+    hasNextPage: hasScrapNextPage,
+    isLoading: isScrapLoading,
+    isError: isScrapError,
+  } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
+    ['getScrapArchivingList', currentCategory],
+    ({ pageParam = 0 }) => getScrapArchivingList(currentCategory, pageParam, PAGE_LIMIT),
+    {
+      /**
+       * getNextPageParam
+       */
+      getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
     }
-  }, [currentCategory, archivingList, isLoading])
+  )
+
+  useEffect(() => {
+    switch (currentCommunityMenu) {
+      case CommunityMenuType.Community:
+        if (!isLoading) {
+          queryClient.setQueryData(['getCommunityArchivingList', currentCategory], archivingList)
+        }
+        break
+      case CommunityMenuType.Scrap:
+        if (!isScrapLoading) {
+          queryClient.setQueryData(['getScrapArchivingList', currentCategory], scrapArchivingList)
+        }
+        break
+    }
+  }, [currentCommunityMenu, currentCategory, archivingList, isLoading])
 
   /**
    * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
-    if (hasNextPage) {
-      fetchNextPage()
+    switch (currentCommunityMenu) {
+      case CommunityMenuType.Community:
+        if (hasNextPage) {
+          fetchNextPage()
+        }
+        break
+      case CommunityMenuType.Scrap:
+        if (hasScrapNextPage) {
+          fetchScrapNextPage()
+        }
+        break
     }
   }
 
-  if (isError) {
+  if (
+    (currentCommunityMenu === CommunityMenuType.Community && isError) ||
+    (currentCommunityMenu === CommunityMenuType.Scrap && isScrapError)
+  ) {
     return <>Error!</>
   }
 
@@ -113,7 +157,7 @@ export const Community = () => {
       </Header>
       <ScrollContainer
         showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[1]}
+        stickyHeaderIndices={[2]}
         onScrollEndDrag={({ nativeEvent }) => {
           if (isCloseToBottom(nativeEvent)) {
             onEndReached()
@@ -126,6 +170,28 @@ export const Community = () => {
           </>
           <BackgroundImage source={defaultImages.communityBackground} />
         </Greeding>
+        <Menu>
+          <MenuButton
+            style={currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuButton}
+            onPress={() => setCurrentCommunityMenu(CommunityMenuType.Community)}
+          >
+            <MenuText
+              style={currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuText}
+            >
+              {i18n.t('community')}
+            </MenuText>
+          </MenuButton>
+          <MenuButton
+            style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuButton}
+            onPress={() => setCurrentCommunityMenu(CommunityMenuType.Scrap)}
+          >
+            <MenuText
+              style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuText}
+            >
+              {i18n.t('scrap')}
+            </MenuText>
+          </MenuButton>
+        </Menu>
         <CategoryList
           currentCategory={currentCategory}
           setCurrentCategory={setCurrentCategory}
@@ -137,9 +203,13 @@ export const Community = () => {
             scrollEnabled={false}
             numColumns={LIST_NUMS_COLUMNS}
             renderItem={renderItem}
-            data={archivingList?.pages
-              .map((page: MainArchivingListResponse) => page.content)
-              .flat()}
+            data={
+              currentCommunityMenu === CommunityMenuType.Community
+                ? archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+                : scrapArchivingList?.pages
+                    .map((page: MainArchivingListResponse) => page.content)
+                    .flat()
+            }
           />
         </List>
         <Blank />
