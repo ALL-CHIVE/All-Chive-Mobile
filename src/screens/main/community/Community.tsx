@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import {
-  ImageURISource,
-  ListRenderItem,
-  NativeScrollEvent,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -19,6 +13,7 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
@@ -197,21 +192,38 @@ export const Community = () => {
           setCurrentCategory={setCurrentCategory}
           options={allCategoryList}
         />
-        <List>
-          <ArchivingCardList
-            contentContainerStyle={Styles.flatList}
-            scrollEnabled={false}
-            numColumns={LIST_NUMS_COLUMNS}
-            renderItem={renderItem}
-            data={
+        {(currentCommunityMenu === CommunityMenuType.Community &&
+          !archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+            .length) ||
+        (currentCommunityMenu === CommunityMenuType.Scrap &&
+          !scrapArchivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+            .length) ? (
+          <EmptyItem
+            textKey={
               currentCommunityMenu === CommunityMenuType.Community
-                ? archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
-                : scrapArchivingList?.pages
-                    .map((page: MainArchivingListResponse) => page.content)
-                    .flat()
+                ? 'noCommunityArchiving'
+                : 'noScrapArchiving'
             }
           />
-        </List>
+        ) : (
+          <List>
+            <ArchivingCardList
+              contentContainerStyle={Styles.flatList}
+              scrollEnabled={false}
+              numColumns={LIST_NUMS_COLUMNS}
+              renderItem={renderItem}
+              data={
+                currentCommunityMenu === CommunityMenuType.Community
+                  ? archivingList?.pages
+                      .map((page: MainArchivingListResponse) => page.content)
+                      .flat()
+                  : scrapArchivingList?.pages
+                      .map((page: MainArchivingListResponse) => page.content)
+                      .flat()
+              }
+            />
+          </List>
+        )}
         <Blank />
       </ScrollContainer>
     </HomeContainer>

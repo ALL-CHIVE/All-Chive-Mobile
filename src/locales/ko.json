@@ -142,5 +142,8 @@
   "allDelete": "모두 삭제",
   "allRestore": "모두 복구",
   "persistentDeleteWarning": "선택한 컨텐츠가 영구적으로 삭제됩니다.\n이 동작은 취소할 수 없습니다.",
-  "scrap": "스크랩"
+  "scrap": "스크랩",
+  "noScrapArchiving": "스크랩한 아카이빙이 없어요!",
+  "noCommunityArchiving": "아직 커뮤니티 아카이빙이 없어요!",
+  "noHomeArchiving": "아직 내 아카이빙이 비어있어요!"
 }
