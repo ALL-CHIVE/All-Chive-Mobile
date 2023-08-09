@@ -79,3 +79,10 @@ export const Scrap = styled.TouchableOpacity`
   padding: 5px;
   color: ${colors.gray500};
 `
+
+export const Pin = styled.TouchableOpacity`
+  position: absolute;
+  right: 8px;
+  top: 25px;
+  padding: 5px;
+`

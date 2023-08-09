@@ -6,7 +6,7 @@ import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
-import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving'
+import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
@@ -27,6 +27,7 @@ import {
   Scrap,
   Styles,
   Title,
+  Pin,
 } from './ArchivingCard.style'
 
 interface ArchivingCardProps {
@@ -47,6 +48,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving)
   const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(isMark, archivingId))
+  const { mutate: pinMutate } = useMutation(() => patchPinArchiving(isMark, archivingId))
 
   /**
    *
@@ -74,6 +76,14 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
    */
   const handleScrap = () => {
     scrapMutate()
+    setIsMark((prev) => !prev)
+  }
+
+  /**
+   *
+   */
+  const handlePin = () => {
+    pinMutate()
     setIsMark((prev) => !prev)
   }
 
@@ -118,9 +128,21 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
           </Title>
           <Day>{createdAt}</Day>
           {isMine ? (
-            <PopupContainer>
-              <Popup menuList={popupMenuList} />
-            </PopupContainer>
+            <>
+              <PopupContainer>
+                <Popup menuList={popupMenuList} />
+              </PopupContainer>
+              <Pin onPress={handlePin}>
+                {isMark ? (
+                  <Image source={defaultIcons.pinFill} />
+                ) : (
+                  <Image
+                    style={{ width: 16, height: 16 }}
+                    source={defaultIcons.pin}
+                  />
+                )}
+              </Pin>
+            </>
           ) : (
             <Scrap onPress={handleScrap}>
               {isMark ? (
