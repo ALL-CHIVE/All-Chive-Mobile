@@ -6,10 +6,7 @@ import {
   Image,
   ImageSourcePropType,
   ImageURISource,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
-  Text,
   TouchableOpacity,
 } from 'react-native'
 import Config from 'react-native-config'

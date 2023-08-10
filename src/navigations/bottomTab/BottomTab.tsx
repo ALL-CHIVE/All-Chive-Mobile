@@ -100,7 +100,7 @@ export const BottomTab = () => {
       </UploadButtonContainer>
       <BottomSheet
         isVisible={showUpload}
-        onBackdropPress={() => setShowUpload(false)}
+        onClose={() => setShowUpload(false)}
         onModalHide={() => null}
       >
         <UploadModal onClose={() => setShowUpload(false)} />
