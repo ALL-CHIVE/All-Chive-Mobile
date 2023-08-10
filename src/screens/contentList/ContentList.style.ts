@@ -7,4 +7,5 @@ export const ContentListContainer = styled(FlatList<SimpleContent>)``
 
 export const ScrollContainer = styled.ScrollView`
   padding: 0px 20px;
+  width: 100%;
 `
