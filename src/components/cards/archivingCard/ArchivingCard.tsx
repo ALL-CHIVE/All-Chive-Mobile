@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, Text } from 'react-native'
+import { Image, ImageURISource } from 'react-native'
+import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation } from 'react-query'
 
@@ -99,9 +100,13 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
       >
         <Card>
           <ArchivingImage
-            source={isImageError || !imageUrl ? defaultIcons.upload : { uri: imageUrl }}
+            source={
+              isImageError || !imageUrl
+                ? defaultImages.thumbnail
+                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imageUrl}` }
+            }
             onError={() => setIsImageError(true)}
-            defaultSource={defaultIcons.upload as ImageURISource}
+            defaultSource={defaultImages.thumbnail as ImageURISource}
           />
           <Title
             numberOfLines={2}
@@ -133,7 +138,6 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
           </CountContainer>
         </Card>
       </Shadow>
-
       <TwoButtonDialog
         isVisible={isDeleteDialogVisible}
         title="doYouWantDeleteThisArchiving"

@@ -28,7 +28,10 @@ export const ArchivingTab = ({ searchData }: SearchTabData) => {
 
   return (
     <TabItemContainer>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <SearchDataText>
           {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
         </SearchDataText>

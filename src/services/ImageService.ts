@@ -1,5 +1,3 @@
-//TODO: 이미지 업로드 구현
-
 import axios from 'axios'
 import { decode } from 'base64-arraybuffer'
 import fs from 'react-native-fs'

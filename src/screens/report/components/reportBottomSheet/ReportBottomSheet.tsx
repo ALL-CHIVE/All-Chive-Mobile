@@ -21,7 +21,10 @@ const ReportBottomSheet = ({ title, onClick }: ReportBottomSheetProps) => {
 
   return (
     <Container>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <Title>{i18n.t(title)}</Title>
         <InputBox
           maxLength={300}

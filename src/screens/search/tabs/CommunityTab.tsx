@@ -14,7 +14,10 @@ import { SearchDataText, TabArchivingCardContainer, TabItemContainer, Title } fr
 export const CommunityTab = ({ searchData }: SearchTabData) => {
   return (
     <TabItemContainer>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         <SearchDataText>
           {i18n.t('numberOfsearchResult', { number: searchData.community.content.length })}
         </SearchDataText>

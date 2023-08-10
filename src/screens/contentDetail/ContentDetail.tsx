@@ -3,16 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Text, SafeAreaView, ScrollView } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import Memo from '@/components/memo/Memo'
-import Popup from '@/components/popup/Popup'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
@@ -25,7 +25,14 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { queryKeys } from '@/queries/queryKeys'
 import { colors } from '@/styles/colors'
 
-import { ContentDetailView, PreviewContainer, SubTitle, TagList } from './ContentDetail.style'
+import {
+  Container,
+  ContentDetailView,
+  Day,
+  PreviewContainer,
+  SubTitle,
+  TagList,
+} from './ContentDetail.style'
 import ImageDetail from './components/imageDetail/ImageDetail'
 import LinkDetail from './components/linkDetail/LinkDetail'
 
@@ -43,14 +50,19 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const queryClient = useQueryClient()
 
   const {
     isLoading,
     error,
     data: content,
-  } = useQuery<GetContentsResponse, AxiosError>(queryKeys.contents, () =>
+  } = useQuery<GetContentsResponse, AxiosError>(`${queryKeys.contents}${route.params.id}`, () =>
     getContents(route.params.id)
   )
+
+  useEffect(() => {
+    queryClient.setQueryData(`${queryKeys.contents}${route.params.id}`, content)
+  }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
@@ -113,26 +125,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         ]
       : [{ title: 'report', onClick: HandleReport }]
 
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * custom header
-       */
-      header: ({ options }) => (
-        <DefaultHeader
-          title={content?.contentTitle}
-          PopupMenuList={PopupMenuList}
-          options={options}
-        />
-      ),
-      title: content?.contentTitle,
-      /**
-       * popup
-       */
-      headerRight: () => <Popup menuList={PopupMenuList} />,
-    })
-  }, [])
-
   /**
    * handleActionSheetMenu
    */
@@ -149,30 +141,41 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     }
   }
 
+  if (!content) {
+    return <></>
+  }
+
   return (
     <>
-      <SafeAreaView>
-        <ScrollView>
-          {/* {isLoading && <Text>loading</Text>}
+      <DefaultContainer>
+        <DefaultHeader
+          title={content.contentTitle}
+          PopupMenuList={PopupMenuList}
+        />
+        <DefaultScrollContainer>
+          <Container>
+            <Day>{content.contentCreatedAt}</Day>
+            {/* {isLoading && <Text>loading</Text>}
           {error && <Text>error</Text>} */}
-          {content && (
-            <ContentDetailView>
-              <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-              <SubTitle>{i18n.t('tag')}</SubTitle>
-              <TagList>
-                {content.tagList.map((tag) => (
-                  <WhiteTag
-                    key={tag.tagId}
-                    tag={tag.name}
-                  />
-                ))}
-              </TagList>
-              <SubTitle>{i18n.t('memo')}</SubTitle>
-              <Memo text={content.contentMemo} />
-            </ContentDetailView>
-          )}
-        </ScrollView>
-      </SafeAreaView>
+            {content && (
+              <ContentDetailView>
+                <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
+                <SubTitle>{i18n.t('tag')}</SubTitle>
+                <TagList>
+                  {content.tagList.map((tag) => (
+                    <WhiteTag
+                      key={tag.tagId}
+                      tag={tag.name}
+                    />
+                  ))}
+                </TagList>
+                <SubTitle>{i18n.t('memo')}</SubTitle>
+                <Memo text={content.contentMemo} />
+              </ContentDetailView>
+            )}
+          </Container>
+        </DefaultScrollContainer>
+      </DefaultContainer>
       <ActionSheet
         ref={actionSheetRef}
         options={ReportMenus()}

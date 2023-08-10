@@ -6,22 +6,32 @@ import { fonts } from '@/styles/fonts'
 export const Container = styled.View`
   position: absolute;
   width: 100%;
-  height: 624px;
   bottom: 0px;
   background-color: ${colors.white};
   border-radius: 20px 20px 0px 0px;
-  padding: 30px 25px;
+  align-items: center;
+`
+
+export const ScrollContainer = styled.ScrollView`
+  width: 375px;
+  padding: 0px 25px;
+`
+
+export const Header = styled.View`
+  margin-top: 28px;
+  width: 100%;
+  height: 34px;
+`
+
+export const CloseButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 0px;
+  right: 26px;
 `
 
 export const ModalTitle = styled.Text`
   ${fonts.title2}
   color: ${colors.mainBlack};
-  margin-top: 34px;
-`
-
-export const CloseButton = styled.TouchableOpacity`
-  position: absolute;
-  right: 0px;
 `
 
 export const Title = styled.Text`
@@ -58,16 +68,7 @@ export const Condition = styled.Text`
   color: ${colors.gray100};
 `
 
-export const PlusImageButton = styled.TouchableOpacity`
-  width: 78px;
-  height: 78px;
-  border-radius: 4px;
-  background-color: ${colors.gray100};
-  justify-content: center;
-  align-items: center;
-`
-
-export const Image = styled.Image`
+export const Thumbnail = styled.Image`
   width: 78px;
   height: 78px;
   border-radius: 4px;
@@ -82,4 +83,8 @@ export const Switch = styled.Switch`
 export const NoticeText = styled.Text`
   ${fonts.body4}
   color: ${colors.gray200};
+`
+
+export const Bottom = styled.View`
+  padding-bottom: 150px;
 `

@@ -3,17 +3,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ListRenderItem } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { ListRenderItem, NativeScrollEvent } from 'react-native'
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
 import { defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
-import Popup from '@/components/popup/Popup'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -24,28 +24,43 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { colors } from '@/styles/colors'
 
-import { Container, ContentListContainer } from './ContentList.style'
+import { ContentListContainer, ScrollContainer } from './ContentList.style'
 
 interface ContentListProps {
   route: RouteProp<RootStackParamList, 'ContentList'>
 }
+
+const PAGE_LIMIT = 10
 
 /**
  * ContentList
  */
 const ContentList = ({ route }: ContentListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const [contentCard, setContentCard] = useState<SimpleContent[] | null>(null)
   const [editModal, setEditModal] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
 
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const queryClient = useQueryClient()
 
-  const { data: contentList } = useQuery<ContentByArchivingResponse, AxiosError>(
-    ['contentByArchiving', route.params.id],
-    () => getContentByArchiving(route.params.id)
+  const {
+    data: contentList,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery<ContentByArchivingResponse, AxiosError>(
+    [`contentByArchiving${route.params.id}`, route.params.id],
+    ({ pageParam = 0 }) => getContentByArchiving(route.params.id, pageParam, PAGE_LIMIT),
+    {
+      /**
+       * getNextPageParam
+       */
+      getNextPageParam: (lastPage) =>
+        lastPage.contents.hasNext ? lastPage.contents.page + 1 : undefined,
+    }
   )
 
   const { mutate: deleteArchivingMutate } = useMutation(deleteArchiving, {
@@ -96,10 +111,10 @@ const ContentList = ({ route }: ContentListProps) => {
    *
    */
   const handleDelete = () => {
-    contentList && deleteArchivingMutate(contentList.archivingId)
+    contentList && deleteArchivingMutate(contentList.pages[0].archivingId)
   }
 
-  const PopupMenuList: PopupMenu[] = contentList?.isMine
+  const PopupMenuList: PopupMenu[] = contentList?.pages[0].isMine
     ? [
         { title: 'update', onClick: handleEdit },
         { title: 'remove', onClick: showDeleteDialog },
@@ -107,25 +122,19 @@ const ContentList = ({ route }: ContentListProps) => {
     : [{ title: 'report', onClick: handleReport }]
 
   useEffect(() => {
-    // getContentByArchiving(route.params.id).then((res) => setContentCard(res.contents.content))
-    contentList?.contents && setContentCard(contentList.contents.content)
-    navigation.setOptions({
-      /**
-       * custom header
-       */
-      header: ({ options }) => (
-        <DefaultHeader
-          title={route.params.title}
-          PopupMenuList={PopupMenuList}
-          options={options}
-        />
-      ),
-      /**
-       * popup
-       */
-      headerRight: () => <Popup menuList={PopupMenuList} />,
-    })
-  }, [])
+    if (!isLoading) {
+      queryClient.setQueryData(['contentByArchiving', route.params.id], contentList)
+    }
+  }, [contentList, isLoading])
+
+  /**
+   * 무한스크롤 요청입니다.
+   */
+  const onEndReached = () => {
+    if (hasNextPage) {
+      fetchNextPage()
+    }
+  }
 
   /**
    * handleActionSheetMenu
@@ -143,18 +152,37 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
+  if (isError) {
+    return <>Error!</>
+  }
+
   return (
     <>
-      <Container>
-        {contentList && (
-          <ContentListContainer
-            scrollEnabled={false}
-            data={contentCard}
-            numColumns={2}
-            renderItem={renderItem}
-          />
-        )}
-      </Container>
+      <DefaultContainer>
+        <DefaultHeader
+          title={route.params.title}
+          PopupMenuList={PopupMenuList}
+        />
+        <ScrollContainer
+          showsVerticalScrollIndicator={false}
+          onScrollEndDrag={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              onEndReached()
+            }
+          }}
+        >
+          {contentList && (
+            <ContentListContainer
+              scrollEnabled={false}
+              data={contentList.pages
+                .map((page: ContentByArchivingResponse) => page.contents.content)
+                .flat()}
+              numColumns={2}
+              renderItem={renderItem}
+            />
+          )}
+        </ScrollContainer>
+      </DefaultContainer>
       <EditArchivingModal
         archivingId={route.params.id}
         onClose={handleCloseModal}
@@ -217,6 +245,7 @@ const ContentList = ({ route }: ContentListProps) => {
 const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
   return (
     <ContentCard
+      key={item.contentId}
       contentId={item.contentId}
       contentTitle={item.contentTitle}
       contentType={item.contentType}
@@ -230,3 +259,11 @@ const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
 }
 
 export default ContentList
+
+/**
+ * isCloseToBottom
+ */
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
+  const paddingToBottom = 600
+  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
+}

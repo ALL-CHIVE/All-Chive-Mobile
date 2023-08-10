@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 
-import { Modal, Text, TouchableOpacity } from 'react-native'
-import ImageViewer from 'react-native-image-zoom-viewer'
+import { ImageURISource, Modal, Text, TouchableOpacity } from 'react-native'
+import Config from 'react-native-config'
+import ImageView from 'react-native-image-viewing'
 
-import { GetContentsResponse } from '@/models/contents/Contents'
+import { defaultImages } from '@/assets'
+import { GetContentsResponse } from '@/models/Contents'
 import {
   Container,
   ImagePreview,
@@ -20,28 +22,39 @@ interface ImageDetailProps {
  */
 const ImageDetail = ({ content }: ImageDetailProps) => {
   const [isModalVisible, setModalVisible] = useState(false)
+  const [isImageError, setIsImageError] = useState(false)
 
   return (
     <Container>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <ImagePreview source={{ uri: content.imgUrl }} />
-      </TouchableOpacity>
-      <Modal
-        visible={isModalVisible}
-        transparent={true}
-      >
-        <ImageViewer
-          imageUrls={[{ url: content.imgUrl }]}
-          renderIndicator={(_currentIndex, _allSize) => <Text></Text>}
-          renderHeader={() => (
-            <ImageHeader
-              title={content.contentTitle}
-              onClose={() => setModalVisible(false)}
-            />
-          )}
-          failImageSource={{ url: 'fail_image_url' }}
+        <ImagePreview
+          source={
+            isImageError
+              ? defaultImages.content
+              : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }
+          }
+          onError={() => setIsImageError(true)}
+          defaultSource={defaultImages.content as ImageURISource}
         />
-      </Modal>
+      </TouchableOpacity>
+
+      <ImageView
+        images={[
+          isImageError
+            ? (defaultImages.content as ImageURISource)
+            : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` },
+        ]}
+        FooterComponent={() => <Text></Text>}
+        HeaderComponent={() => (
+          <ImageHeader
+            title={content.contentTitle}
+            onClose={() => setModalVisible(false)}
+          />
+        )}
+        imageIndex={0}
+        visible={isModalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      />
     </Container>
   )
 }

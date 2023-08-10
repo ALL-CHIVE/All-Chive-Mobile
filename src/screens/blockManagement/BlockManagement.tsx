@@ -61,7 +61,10 @@ export const BlockManagement = () => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {blockUserData?.users && blockUserData.users.length > 0 ? (
           blockUserData.users.map((user) => (
             <>

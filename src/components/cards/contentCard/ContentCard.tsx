@@ -1,10 +1,14 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { ImageURISource } from 'react-native/types'
+import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 
+import { defaultImages } from '@/assets'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
+import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
@@ -73,9 +77,21 @@ const ContentCard = ({
       >
         <Card>
           <ImageContainer>
-            <Image source={{ uri: imgUrl }} />
+            <Image
+              source={
+                !imgUrl
+                  ? defaultImages.content
+                  : {
+                      uri:
+                        contentType === ContentType.Link
+                          ? imgUrl
+                          : `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imgUrl}`,
+                    }
+              }
+              defaultSource={defaultImages.content as ImageURISource}
+            />
             <Type>
-              <TypeText>{i18n.t(contentType)}</TypeText>
+              <TypeText>{i18n.t(contentType.toLocaleLowerCase())}</TypeText>
             </Type>
           </ImageContainer>
           <Information>

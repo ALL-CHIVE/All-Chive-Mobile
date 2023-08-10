@@ -108,6 +108,7 @@ export const TagTitle = styled.Text`
 `
 
 export const AddTagButton = styled.TouchableOpacity`
+  width: 85px;
   height: 29px;
   border-radius: 30px;
   background-color: ${colors.gray100};

@@ -41,7 +41,10 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <TabItemContainer>
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
           <SearchDataText>
             {i18n.t('numberOfRecycleItem', { number: archivings.length })}
           </SearchDataText>

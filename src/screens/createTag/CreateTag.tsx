@@ -92,7 +92,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
       <DefaultScrollContainer>
         <Container>
           <RowView>
-            <ScrollView horizontal={true}>
+            <ScrollView
+              horizontal={true}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
               {selectTag &&
                 selectTag.map((tag) => (
                   <GrayTag
@@ -141,7 +145,10 @@ export const CreateTag = ({ navigation }: TagProps) => {
             <>
               <Divider />
               <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
-              <ScrollView>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+              >
                 <RowView>
                   {latestTagData.map((tag) => (
                     <ClickableTag

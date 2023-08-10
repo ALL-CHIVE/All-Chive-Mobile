@@ -1,10 +1,9 @@
 import React from 'react'
 
-import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
-import { Text } from 'react-native'
+import { Image } from 'react-native'
 
+import { defaultIcons } from '@/assets'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -14,7 +13,6 @@ import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style
 interface DefaultHeaderProps {
   title: string | undefined
   PopupMenuList: PopupMenu[]
-  options: NativeStackNavigationOptions | BottomTabNavigationOptions
 }
 
 /**
@@ -26,8 +24,7 @@ const DefaultHeader = ({ title, PopupMenuList }: DefaultHeaderProps) => {
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>
-        {/* TODO: Icon 연결 */}
-        <Text>back</Text>
+        <Image source={defaultIcons.back} />
       </HeaderLeft>
       <Title numberOfLines={1}>{title}</Title>
       <HeaderRight>

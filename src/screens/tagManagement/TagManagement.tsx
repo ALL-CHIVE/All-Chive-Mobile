@@ -69,7 +69,10 @@ export const TagManagement = () => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {tagData && editMode
           ? tagData?.map((tag) => (
               <>

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
-  Dimensions,
   Image,
   ImageSourcePropType,
+  ImageURISource,
   Keyboard,
   KeyboardEvent,
   TouchableOpacity,
@@ -21,6 +21,7 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
+import { uploadArchivingImage } from '@/services/ImageService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -32,7 +33,6 @@ import {
   Header,
   ModalTitle,
   NoticeText,
-  PlusImageButton,
   ScrollContainer,
   Styles,
   Switch,
@@ -52,7 +52,8 @@ interface CreateArchivingModalProps {
 export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
-  const [image, setImage] = useState<ImageSourcePropType | ''>('')
+  const [image, setImage] = useState<ImageSourcePropType>()
+  const [imageKey, setImageKey] = useState('')
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
@@ -72,8 +73,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    const keyboardHeight = event.endCoordinates.height
-    setModalHeight(Dimensions.get('window').height - keyboardHeight - 10)
+    setModalHeight(event.endCoordinates.screenY - 10)
   }
 
   /**
@@ -89,7 +89,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     () =>
       postArchiving({
         title: name,
-        imageUrl: '',
+        imageUrl: imageKey,
         category: selectedCategory,
         publicStatus: publicStatus,
       }),
@@ -99,7 +99,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
        */
       onSuccess: () => {
         setName('')
-        setImage('')
+        setImage(undefined)
         setSelectedCategory('')
         setPublicStatus(false)
         onClose()
@@ -140,7 +140,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
 
     switch (selectedImage) {
       case 'default':
-        setImage(defaultImages.thumbnail)
+        setImage(undefined)
         break
       default:
         setImage({ uri: selectedImage })
@@ -157,7 +157,14 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   /**
    *
    */
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+    if (imageUrl) {
+      const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
+      archivingImageUrl && setImageKey(archivingImageUrl)
+    }
+
     postArchivingMutate()
   }
 
@@ -201,15 +208,12 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
-            {image ? (
-              <TouchableOpacity onPress={handleUploadImage}>
-                <Thumbnail source={image} />
-              </TouchableOpacity>
-            ) : (
-              <PlusImageButton onPress={handleUploadImage}>
-                <Image source={defaultIcons.plus} />
-              </PlusImageButton>
-            )}
+            <TouchableOpacity onPress={handleUploadImage}>
+              <Thumbnail
+                source={image ? image : defaultImages.thumbnail}
+                defaultSource={defaultImages.thumbnail as ImageURISource}
+              />
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch

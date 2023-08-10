@@ -17,13 +17,13 @@ export const defaultImages: Assets = {
   communityBackground: require('@/assets/default/communityBackground.png'),
   emptyItem: require('@/assets/default/emptyItem.png'),
   unblockComplete: require('@/assets/default/unblockComplete.png'),
+  content: require('@/assets/default/content.png'),
 }
 
 export const defaultIcons: Assets = {
   firstIndicator: require('@/assets/icons/firstIndicator.png'),
   secondIndicator: require('@/assets/icons/secondIndicator.png'),
   check: require('@/assets/icons/check.png'),
-  archiving: require('@/assets/icons/archiving.png'),
   archivingFocus: require('@/assets/icons/archiving_focus.png'),
   community: require('@/assets/icons/community.png'),
   // communityFocus: require('@/assets/icons/community_focus.png'),

@@ -69,7 +69,10 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <TabItemContainer>
-        <ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
           <SearchDataText>
             {i18n.t('numberOfRecycleItem', { number: contents.length })}
           </SearchDataText>
