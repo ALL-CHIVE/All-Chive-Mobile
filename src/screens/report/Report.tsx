@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { View } from 'react-native'
 
 import { defaultImages } from '@/assets'
 import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import RadioButton from '@/components/buttons/radioButton/RadioButton'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import reportMenuConfig from '@/configs/reportMenuConfig.json'
@@ -26,15 +27,6 @@ const Report = () => {
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
   const [isVisibleBottomSheet, setIsVisibleBottomSheet] = useState(false)
   const [isDialogVisible, setIsDialogVisible] = useState(false)
-
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * header
-       */
-      header: () => <LeftButtonHeader title={i18n.t('report')} />,
-    })
-  })
 
   /**
    * 라디오 버튼 클릭 동작
@@ -72,26 +64,42 @@ const Report = () => {
   }
 
   return (
-    <View>
-      <Container>
-        <Title>{i18n.t('selectReportReason')}</Title>
-        <Menu>
-          {reportMenus.map((menu) => (
-            <RadioButton
-              key={menu.id}
-              id={menu.id}
-              selected={menu.id === selectedMenu}
-              message={menu.message}
-              onClick={handleClickRadioButton}
-            />
-          ))}
-        </Menu>
-        <BoxButton
-          textKey="complete"
-          isDisabled={!selectedMenu}
-          onPress={onCompleteReport}
+    <DefaultContainer>
+      <LeftButtonHeader title={i18n.t('report')} />
+      <DefaultScrollContainer>
+        <Container>
+          <Title>{i18n.t('selectReportReason')}</Title>
+          <Menu>
+            {reportMenus.map((menu) => (
+              <RadioButton
+                key={menu.id}
+                id={menu.id}
+                selected={menu.id === selectedMenu}
+                message={menu.message}
+                onClick={handleClickRadioButton}
+              />
+            ))}
+          </Menu>
+        </Container>
+      </DefaultScrollContainer>
+      <BoxButton
+        textKey="complete"
+        isDisabled={!selectedMenu}
+        onPress={onCompleteReport}
+      />
+      <BottomSheet
+        isVisible={isVisibleBottomSheet}
+        onBackdropPress={() => setIsVisibleBottomSheet(false)}
+        onModalHide={() => undefined}
+      >
+        <ReportBottomSheet
+          title="reportEtcDescription"
+          onClick={(text: string) => {
+            handleCompleteBottomSheet(text)
+            setIsDialogVisible(true)
+          }}
         />
-      </Container>
+      </BottomSheet>
       <DefaultDialog
         isVisible={isDialogVisible}
         title="reportComplete"
@@ -103,17 +111,7 @@ const Report = () => {
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
-      <BottomSheet
-        isVisible={isVisibleBottomSheet}
-        onBackdropPress={() => setIsVisibleBottomSheet(false)}
-        onModalHide={() => setIsDialogVisible(true)}
-      >
-        <ReportBottomSheet
-          title="reportEtcDescription"
-          onClick={handleCompleteBottomSheet}
-        ></ReportBottomSheet>
-      </BottomSheet>
-    </View>
+    </DefaultContainer>
   )
 }
 

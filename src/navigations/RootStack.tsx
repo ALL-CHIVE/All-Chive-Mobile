@@ -8,7 +8,6 @@ import { SafeAreaView } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import { canAuthSignIn } from '@/apis/auth'
-import { getHasAutoSignInSession } from '@/apis/fakeServerApis'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'
@@ -161,9 +160,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="Report"
           component={Report}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="Search"
