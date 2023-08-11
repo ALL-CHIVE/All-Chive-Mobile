@@ -114,12 +114,12 @@ const ContentList = ({ route }: ContentListProps) => {
     contentList && deleteArchivingMutate(contentList.pages[0].archivingId)
   }
 
-  const PopupMenuList: PopupMenu[] = contentList?.pages[0].isMine
-    ? [
+  const PopupMenuList = contentList?.pages[0].isMine
+    ? ([
         { title: 'update', onClick: handleEdit },
         { title: 'remove', onClick: showDeleteDialog },
-      ]
-    : [{ title: 'report', onClick: handleReport }]
+      ] as PopupMenu[])
+    : undefined
 
   useEffect(() => {
     if (!isLoading) {
@@ -162,6 +162,7 @@ const ContentList = ({ route }: ContentListProps) => {
         <DefaultHeader
           title={route.params.title}
           PopupMenuList={PopupMenuList}
+          onRightClick={handleReport}
         />
         <ScrollContainer
           showsVerticalScrollIndicator={false}
