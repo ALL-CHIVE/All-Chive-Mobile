@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Image } from 'react-native'
+import { Image, Keyboard, KeyboardEvent } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -20,9 +20,34 @@ interface ReportBottomSheetProps {
  */
 const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) => {
   const [text, setText] = useState('')
+  const [modalHight, setModalHeight] = useState(380)
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+
+    return () => {
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
+    }
+  }, [])
+
+  /**
+   *
+   */
+  const keyboardDidShow = (event: KeyboardEvent) => {
+    setModalHeight(event.endCoordinates.screenY - 10)
+  }
+
+  /**
+   *
+   */
+  const keyboardDidHide = () => {
+    setModalHeight(380)
+  }
 
   return (
-    <Container>
+    <Container style={{ height: modalHight }}>
       <Header>
         <CloseButton onPress={onClose}>
           <Image source={defaultIcons.grayCloseButton} />
