@@ -38,14 +38,14 @@ const PAGE_LIMIT = 10
  */
 const ContentList = ({ route }: ContentListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const [editModal, setEditModal] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
+  const queryClient = useQueryClient()
 
+  const [editModal, setEditModal] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
-  const queryClient = useQueryClient()
 
   const {
     data: contentList,
@@ -85,7 +85,7 @@ const ContentList = ({ route }: ContentListProps) => {
     () => postBlock(contentList?.pages[0].ownerId ?? -1),
     {
       /**
-       *
+       * postBlockMutate 성공 시 차단 완료 다이얼로그를 띄웁니다.
        */
       onSuccess: (response) => {
         setOwnerNickname(response.nickname)
@@ -255,6 +255,7 @@ const ContentList = ({ route }: ContentListProps) => {
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
+          queryClient.invalidateQueries(['getCommunityArchivingList', 'ALL'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
