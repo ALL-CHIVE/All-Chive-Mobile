@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useQuery } from 'react-query'
 
 import { getBlockList } from '@/apis/block'
-import { defaultImages } from '@/assets'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import { ImageContainer, SubTitleText } from './BlockManagement.style'
 import { BlockList } from './components/BlockList'
 
 /**
@@ -47,10 +46,7 @@ export const BlockManagement = () => {
             </>
           ))
         ) : (
-          <ImageContainer>
-            <Image source={defaultImages.emptyItem} />
-            <SubTitleText>{i18n.t('noAuthorBlocked')}</SubTitleText>
-          </ImageContainer>
+          <EmptyItem textKey="noAuthorBlocked" />
         )}
       </ScrollView>
     </>

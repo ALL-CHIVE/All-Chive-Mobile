@@ -1,27 +1,59 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { ScrollView } from 'react-native'
+import { Image, Keyboard, KeyboardEvent } from 'react-native'
 
+import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'
 
-import { Container, Title } from './ReportBottomSheet.style'
+import { CloseButton, Container, Header, ScrollContainer, Title } from './ReportBottomSheet.style'
 
 interface ReportBottomSheetProps {
   title: string
   onClick: (text: string) => void
+  onClose: () => void
 }
 
 /**
  * ReportBottomSheet
  */
-const ReportBottomSheet = ({ title, onClick }: ReportBottomSheetProps) => {
+const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) => {
   const [text, setText] = useState('')
+  const [modalHight, setModalHeight] = useState(380)
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+
+    return () => {
+      keyboardDidShowListener.remove()
+      keyboardDidHideListener.remove()
+    }
+  }, [])
+
+  /**
+   *
+   */
+  const keyboardDidShow = (event: KeyboardEvent) => {
+    setModalHeight(event.endCoordinates.screenY - 10)
+  }
+
+  /**
+   *
+   */
+  const keyboardDidHide = () => {
+    setModalHeight(380)
+  }
 
   return (
-    <Container>
-      <ScrollView
+    <Container style={{ height: modalHight }}>
+      <Header>
+        <CloseButton onPress={onClose}>
+          <Image source={defaultIcons.grayCloseButton} />
+        </CloseButton>
+      </Header>
+      <ScrollContainer
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
@@ -31,11 +63,12 @@ const ReportBottomSheet = ({ title, onClick }: ReportBottomSheetProps) => {
           text={text}
           setText={setText}
         />
-        <BoxButton
-          textKey="complete"
-          onPress={() => onClick(text)}
-        />
-      </ScrollView>
+      </ScrollContainer>
+      <BoxButton
+        textKey="complete"
+        onPress={() => onClick(text)}
+        isDisabled={!text}
+      />
     </Container>
   )
 }

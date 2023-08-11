@@ -48,17 +48,6 @@ export const GrayDivider = styled.View`
   background-color: ${colors.gray50};
 `
 
-export const ImageContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-`
-
-export const SubTitleText = styled.Text`
-  ${fonts.subtitle2}
-  color: ${colors.gray600};
-  margin-top: 23px;
-`
-
 export const ContentListContainer = styled(FlatList<SimpleContent>)`
   margin: auto;
   flex-direction: row;

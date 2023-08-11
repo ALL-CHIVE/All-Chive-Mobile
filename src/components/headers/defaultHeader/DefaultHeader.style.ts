@@ -29,3 +29,7 @@ export const Title = styled.Text`
 export const HeaderRight = styled.View`
   margin: 0 24px;
 `
+
+export const RightButton = styled.TouchableOpacity`
+  padding: 12px 8px;
+`

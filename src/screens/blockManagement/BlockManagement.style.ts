@@ -39,20 +39,9 @@ export const Text = styled.Text`
   color: ${colors.mainBlack};
 `
 
-export const SubTitleText = styled.Text`
-  ${fonts.subtitle2}
-  color: ${colors.gray600};
-  margin-top: 23px;
-`
-
 export const GrayDivider = styled.View`
   width: 100%;
   height: 1px;
   background-color: ${colors.gray50};
   margin: 0px 25px;
-`
-
-export const ImageContainer = styled.View`
-  justify-content: center;
-  align-items: center;
 `

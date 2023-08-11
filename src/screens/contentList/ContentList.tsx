@@ -7,6 +7,7 @@ import { ListRenderItem, NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
+import { postBlock } from '@/apis/block'
 import { defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -43,6 +44,7 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const [ownerNickname, setOwnerNickname] = useState('')
   const queryClient = useQueryClient()
 
   const {
@@ -78,6 +80,25 @@ const ContentList = ({ route }: ContentListProps) => {
       // console.log(error)
     },
   })
+
+  const { mutate: postBlockMutate } = useMutation(
+    () => postBlock(contentList?.pages[0].ownerId ?? -1),
+    {
+      /**
+       *
+       */
+      onSuccess: (response) => {
+        setOwnerNickname(response.nickname)
+        setIsBlockCompleteDialogVisible(true)
+      },
+      /**
+       *
+       */
+      onError: () => {
+        //ignore
+      },
+    }
+  )
 
   /**
    * handleEdit
@@ -115,12 +136,12 @@ const ContentList = ({ route }: ContentListProps) => {
     contentList && deleteArchivingMutate(contentList.pages[0].archivingId)
   }
 
-  const PopupMenuList: PopupMenu[] = contentList?.pages[0].isMine
-    ? [
+  const PopupMenuList = contentList?.pages[0].isMine
+    ? ([
         { title: 'update', onClick: handleEdit },
         { title: 'remove', onClick: showDeleteDialog },
-      ]
-    : [{ title: 'report', onClick: handleReport }]
+      ] as PopupMenu[])
+    : undefined
 
   useEffect(() => {
     if (!isLoading) {
@@ -163,6 +184,7 @@ const ContentList = ({ route }: ContentListProps) => {
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
+          onRightClick={handleReport}
         />
         <ScrollContainer
           showsVerticalScrollIndicator={false}
@@ -222,14 +244,14 @@ const ContentList = ({ route }: ContentListProps) => {
           setIsBlockDialogVisible(false)
         }}
         onClose={(isComplete: boolean) => {
-          isComplete && setIsBlockCompleteDialogVisible(true)
+          isComplete && postBlockMutate()
         }}
       />
       <DefaultDialog
         isVisible={isBlockCompleteDialogVisible}
-        title={i18n.t('blockComplete', { nickname: '다카이브' })}
+        title={i18n.t('blockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.blockComplete}
-        description={i18n.t('youCannotSeeBlockUserContents', { nickname: '다카이브' })}
+        description={i18n.t('youCannotSeeBlockUserContents', { nickname: ownerNickname })}
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)

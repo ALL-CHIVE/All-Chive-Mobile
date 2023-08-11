@@ -6,7 +6,7 @@ import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving'
+import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
@@ -27,6 +27,7 @@ import {
   Scrap,
   Styles,
   Title,
+  Pin,
 } from './ArchivingCard.style'
 
 interface ArchivingCardProps {
@@ -45,6 +46,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
   const [isImageError, setIsImageError] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
+  const [isMark, setIsMark] = useState(markStatus)
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving, {
     /**
@@ -55,7 +57,8 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
     },
   })
 
-  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId))
+  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(isMark, archivingId))
+  const { mutate: pinMutate } = useMutation(() => patchPinArchiving(isMark, archivingId))
 
   /**
    *
@@ -83,6 +86,15 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
    */
   const handleScrap = () => {
     scrapMutate()
+    setIsMark((prev) => !prev)
+  }
+
+  /**
+   *
+   */
+  const handlePin = () => {
+    pinMutate()
+    setIsMark((prev) => !prev)
   }
 
   const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: showDeleteDialog }]
@@ -126,12 +138,24 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
           </Title>
           <Day>{createdAt}</Day>
           {isMine ? (
-            <PopupContainer>
-              <Popup menuList={popupMenuList} />
-            </PopupContainer>
+            <>
+              <PopupContainer>
+                <Popup menuList={popupMenuList} />
+              </PopupContainer>
+              <Pin onPress={handlePin}>
+                {isMark ? (
+                  <Image source={defaultIcons.pinFill} />
+                ) : (
+                  <Image
+                    style={{ width: 16, height: 16 }}
+                    source={defaultIcons.pin}
+                  />
+                )}
+              </Pin>
+            </>
           ) : (
             <Scrap onPress={handleScrap}>
-              {markStatus ? (
+              {isMark ? (
                 <Image source={defaultIcons.scrapFill} />
               ) : (
                 <Image source={defaultIcons.scrap} />

@@ -1,4 +1,4 @@
 export enum ReportType {
-  Content = 'content',
-  Archiving = 'archiving',
+  Content = 'CONTENT',
+  Archiving = 'ARCHIVING',
 }

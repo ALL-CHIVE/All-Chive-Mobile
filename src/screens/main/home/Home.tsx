@@ -13,6 +13,7 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
@@ -130,17 +131,22 @@ export const Home = () => {
           setCurrentCategory={setCurrentCategory}
           options={allCategoryList}
         />
-        <List>
-          <ArchivingCardList
-            contentContainerStyle={Styles.flatList}
-            scrollEnabled={false}
-            numColumns={LIST_NUMS_COLUMNS}
-            renderItem={renderItem}
-            data={archivingList?.pages
-              .map((page: MainArchivingListResponse) => page.content)
-              .flat()}
-          />
-        </List>
+        {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+          .length ? (
+          <EmptyItem textKey="noHomeArchiving" />
+        ) : (
+          <List>
+            <ArchivingCardList
+              contentContainerStyle={Styles.flatList}
+              scrollEnabled={false}
+              numColumns={LIST_NUMS_COLUMNS}
+              renderItem={renderItem}
+              data={archivingList?.pages
+                .map((page: MainArchivingListResponse) => page.content)
+                .flat()}
+            />
+          </List>
+        )}
         <Blank />
       </ScrollContainer>
     </HomeContainer>

@@ -117,13 +117,13 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     }
   }
 
-  const PopupMenuList: PopupMenu[] =
+  const PopupMenuList =
     content && content.isMine
-      ? [
+      ? ([
           { title: 'update', onClick: HandleEdit },
           { title: 'remove', onClick: showDeleteDialog },
-        ]
-      : [{ title: 'report', onClick: HandleReport }]
+        ] as PopupMenu[])
+      : undefined
 
   /**
    * handleActionSheetMenu
@@ -151,6 +151,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         <DefaultHeader
           title={content.contentTitle}
           PopupMenuList={PopupMenuList}
+          onRightClick={HandleReport}
         />
         <DefaultScrollContainer>
           <Container>
