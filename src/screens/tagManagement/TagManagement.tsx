@@ -19,6 +19,7 @@ import {
   TagListContainer,
   Text,
 } from './TagManagement.style'
+import { TagList } from './components/TagList'
 
 /**
  * 마이페이지 '태그 관리'
@@ -28,14 +29,11 @@ export const TagManagement = () => {
 
   const [editMode, setEditMode] = useState(false)
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
-  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [text, setText] = useState('')
 
   const { data: tagData } = useQuery(['getTagData'], () => getTag(false))
 
   const { mutate: postTagMutate } = useMutation(postTag)
-
-  const { mutate: deleteTagMutate } = useMutation(deleteTag)
 
   useEffect(() => {
     navigation.setOptions({
@@ -60,13 +58,6 @@ export const TagManagement = () => {
     // getTag 리패치 필요
   }
 
-  /**
-   * 선택한 tag를 삭제합니다.
-   */
-  const handleDelete = (tagId: number) => {
-    deleteTagMutate(tagId)
-  }
-
   return (
     <>
       <ScrollView
@@ -76,34 +67,20 @@ export const TagManagement = () => {
         {tagData && editMode
           ? tagData?.map((tag) => (
               <>
-                <TagListContainer key={tag.tagId}>
-                  <Text>{tag.name}</Text>
-                  <DeleteButton onPress={() => setIsDeleteDialogVisible(true)}>
-                    <ButtonText>{i18n.t('delete')}</ButtonText>
-                  </DeleteButton>
-                </TagListContainer>
-                <GrayDivider />
-                <TwoButtonDialog
-                  isVisible={isDeleteDialogVisible}
-                  title="doYouWantDeleteThisTag"
-                  description="deleteTagsCannotBeRestored"
-                  completeText="delete"
-                  onCancel={() => {
-                    setIsDeleteDialogVisible(false)
-                  }}
-                  onComplete={() => {
-                    setIsDeleteDialogVisible(false)
-                    handleDelete(tag.tagId)
-                  }}
+                <TagList
+                  id={tag.tagId}
+                  name={tag.name}
+                  editMode={true}
                 />
               </>
             ))
           : tagData?.map((tag) => (
               <>
-                <TagListContainer key={tag.tagId}>
-                  <Text>{tag.name}</Text>
-                </TagListContainer>
-                <GrayDivider />
+                <TagList
+                  id={tag.tagId}
+                  name={tag.name}
+                  editMode={false}
+                />
               </>
             ))}
 
