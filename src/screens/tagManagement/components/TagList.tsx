@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { deleteTag } from '@/apis/tag'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
@@ -24,9 +24,18 @@ interface TagListProps {
  * 태그 관리 리스트
  */
 export const TagList = ({ id, name, editMode }: TagListProps) => {
+  const queryClient = useQueryClient()
+
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
 
-  const { mutate: deleteTagMutate } = useMutation(deleteTag)
+  const { mutate: deleteTagMutate } = useMutation(deleteTag, {
+    /**
+     * deleteTag 성공 시 getTagData를 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries('getTagData')
+    },
+  })
 
   /**
    * 선택한 tag를 삭제합니다.

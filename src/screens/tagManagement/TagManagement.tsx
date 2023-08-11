@@ -2,23 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { deleteTag, getTag, postTag } from '@/apis/tag'
+import { getTag, postTag } from '@/apis/tag'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
-import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import {
-  ButtonText,
-  DeleteButton,
-  GrayDivider,
-  PlusButton,
-  TagListContainer,
-  Text,
-} from './TagManagement.style'
+import { ButtonText, PlusButton } from './TagManagement.style'
 import { TagList } from './components/TagList'
 
 /**
@@ -26,6 +18,7 @@ import { TagList } from './components/TagList'
  */
 export const TagManagement = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
@@ -33,7 +26,15 @@ export const TagManagement = () => {
 
   const { data: tagData } = useQuery(['getTagData'], () => getTag(false))
 
-  const { mutate: postTagMutate } = useMutation(postTag)
+  const { mutate: postTagMutate } = useMutation(postTag, {
+    /**
+     * postTag 성공 시 input 내 text를 초기화하고, getTagData를 리패치합니다.
+     */
+    onSuccess: () => {
+      setText('')
+      queryClient.invalidateQueries('getTagData')
+    },
+  })
 
   useEffect(() => {
     navigation.setOptions({
@@ -55,7 +56,6 @@ export const TagManagement = () => {
    */
   const handleCreate = () => {
     postTagMutate(text)
-    // getTag 리패치 필요
   }
 
   return (
