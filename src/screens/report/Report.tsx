@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
 
 import { postReport } from '@/apis/report'
 import { defaultImages } from '@/assets'
@@ -32,14 +34,16 @@ const Report = ({ route }: ReportProps) => {
   const reportMenus = reportMenuConfig as ReportMenu[]
   const [selectedMenu, setSelectedMenu] = useState<string | null>(null)
   const [isVisibleBottomSheet, setIsVisibleBottomSheet] = useState(false)
-  const [isDialogVisible, setIsDialogVisible] = useState(false)
+  const [isSuccessDialogVisible, setIsSuccessDialogVisible] = useState(false)
+  const [isFailDialogVisible, setIsFailDialogVisible] = useState(false)
+  const [text, setText] = useState<string>()
 
   /**
    * 라디오 버튼 클릭 동작
    */
   const handleClickRadioButton = (id: string) => {
     setSelectedMenu(id)
-    if (id === 'etc') {
+    if (id === 'ETC') {
       setIsVisibleBottomSheet(true)
     }
   }
@@ -49,7 +53,7 @@ const Report = ({ route }: ReportProps) => {
    */
   const handleCompleteBottomSheet = (text: string) => {
     setIsVisibleBottomSheet(false)
-    submitReport(text)
+    setText(text)
   }
 
   /**
@@ -65,18 +69,44 @@ const Report = ({ route }: ReportProps) => {
    */
   const onCompleteReport = () => {
     submitReport()
-    setIsDialogVisible(true)
   }
+
+  const { mutate: postReportMutate } = useMutation(
+    (text?: string) =>
+      postReport(route.params.type, text ?? '', selectedMenu ?? '', route.params.id),
+    {
+      /**
+       *
+       */
+      onError: (e: AxiosError) => {
+        setText(undefined)
+
+        if (!e.response) {
+          return
+        }
+
+        switch (e.response.status) {
+          case 400:
+            setIsFailDialogVisible(true)
+            return
+        }
+      },
+
+      /**
+       *
+       */
+      onSuccess: () => {
+        setIsSuccessDialogVisible(true)
+        setText(undefined)
+      },
+    }
+  )
 
   /**
    * 서버로 신고 정보를 전달
    */
   const submitReport = async (text?: string) => {
-    try {
-      await postReport(route.params.type, text ?? '', selectedMenu ?? '', route.params.id)
-    } catch (e) {
-      //ignore
-    }
+    postReportMutate(text)
   }
 
   return (
@@ -106,7 +136,7 @@ const Report = ({ route }: ReportProps) => {
       <BottomSheet
         isVisible={isVisibleBottomSheet}
         onClose={handleCancelButtomSheet}
-        onModalHide={() => selectedMenu && setIsDialogVisible(true)}
+        onModalHide={() => selectedMenu && submitReport(text)}
       >
         <ReportBottomSheet
           title="reportEtcDescription"
@@ -115,13 +145,24 @@ const Report = ({ route }: ReportProps) => {
         />
       </BottomSheet>
       <DefaultDialog
-        isVisible={isDialogVisible}
+        isVisible={isSuccessDialogVisible}
         title="reportComplete"
         imageUrl={defaultImages.reportComplete}
         description="reviewReasonForReport"
         buttonText="backToCommunity"
         onClick={() => {
-          setIsDialogVisible(false)
+          setIsSuccessDialogVisible(false)
+          navigation.navigate('BottomTab', { screen: 'Community' })
+        }}
+      />
+      <DefaultDialog
+        isVisible={isFailDialogVisible}
+        title="alreadyReported"
+        imageUrl={defaultImages.reportComplete}
+        description="pleaseWaitReporting"
+        buttonText="confirm"
+        onClick={() => {
+          setIsSuccessDialogVisible(false)
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />

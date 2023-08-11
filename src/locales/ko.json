@@ -145,5 +145,7 @@
   "scrap": "스크랩",
   "noScrapArchiving": "스크랩한 아카이빙이 없어요!",
   "noCommunityArchiving": "아직 커뮤니티 아카이빙이 없어요!",
-  "noHomeArchiving": "아직 내 아카이빙이 비어있어요!"
+  "noHomeArchiving": "아직 내 아카이빙이 비어있어요!",
+  "alreadyReported": "이미 신고한 게시물이에요!",
+  "pleaseWaitReporting": "신고 사유가 검토 중이니 기다려주세요!"
 }
