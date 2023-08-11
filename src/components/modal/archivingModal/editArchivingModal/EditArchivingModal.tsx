@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Config from 'react-native-config'
 import Modal from 'react-native-modal'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
@@ -56,14 +56,17 @@ export const EditArchivingModal = ({
   onClose,
   isVisible,
 }: EditArchivingModalProps) => {
+  const queryClient = useQueryClient()
+  const actionSheetRef = useRef<ActionSheet>(null)
+
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
-  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
-  const actionSheetRef = useRef<ActionSheet>(null)
   const [modalHight, setModalHeight] = useState(624)
   const [imageKey, setImageKey] = useState('')
+
+  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
@@ -109,7 +112,7 @@ export const EditArchivingModal = ({
   /**
    *
    */
-  const { mutate: postArchivingMutate } = useMutation(
+  const { mutate: patchArchivingMutate } = useMutation(
     () =>
       patchArchiving({
         archivingId: archivingId,
@@ -120,11 +123,14 @@ export const EditArchivingModal = ({
       }),
     {
       /**
-       *
+       * patchArchivingMutate 성공 시 홈 화면과 해당 아카이빙 화면을 리패치합니다.
+       * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
        */
       onSuccess: () => {
+        queryClient.invalidateQueries([`contentByArchiving${archivingId}`, archivingId])
+        queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
+        queryClient.invalidateQueries(['archivingList'])
         onClose()
-        // 리패치 필요
       },
     }
   )
@@ -187,7 +193,7 @@ export const EditArchivingModal = ({
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
 
-    postArchivingMutate()
+    patchArchivingMutate()
   }
 
   return (

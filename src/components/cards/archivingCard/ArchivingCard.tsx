@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Image, ImageURISource } from 'react-native'
 import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
@@ -39,12 +39,22 @@ interface ArchivingCardProps {
  * ArchivingCard
  */
 export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) => {
+  const queryClient = useQueryClient()
   const navigation = useNavigation<MainNavigationProp>()
+
   const [isImageError, setIsImageError] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
 
-  const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving)
+  const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving, {
+    /**
+     * deleteMutate 성공 시 홈 화면을 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getHomeArchivingList', item.category])
+    },
+  })
+
   const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId))
 
   /**

@@ -65,9 +65,10 @@ const ContentList = ({ route }: ContentListProps) => {
 
   const { mutate: deleteArchivingMutate } = useMutation(deleteArchiving, {
     /**
-     *
+     * deleteArchivingMutate 성공 시 홈 화면 리패치 후 홈 화면으로 이동합니다.
      */
     onSuccess: () => {
+      queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
     /**
@@ -160,7 +161,7 @@ const ContentList = ({ route }: ContentListProps) => {
     <>
       <DefaultContainer>
         <DefaultHeader
-          title={route.params.title}
+          title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
         />
         <ScrollContainer

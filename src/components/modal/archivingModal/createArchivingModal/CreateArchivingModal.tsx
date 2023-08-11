@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 import Modal from 'react-native-modal'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { postArchiving } from '@/apis/archiving'
@@ -50,6 +50,8 @@ interface CreateArchivingModalProps {
  *
  */
 export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
+  const queryClient = useQueryClient()
+
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
@@ -95,13 +97,17 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
       }),
     {
       /**
-       *
+       * postArchivingMutate 성공 시 해당 Modal의 data를 초기화하고,
+       * SelectArchivingModal의 getArchivingList를 리패치합니다.
+       * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
        */
       onSuccess: () => {
         setName('')
         setImage(undefined)
         setSelectedCategory('')
         setPublicStatus(false)
+        queryClient.invalidateQueries(['getArchivingList'])
+        queryClient.invalidateQueries(['archivingList'])
         onClose()
       },
     }

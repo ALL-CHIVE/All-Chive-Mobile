@@ -6,15 +6,12 @@ import {
   Image,
   ImageSourcePropType,
   ImageURISource,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
-  Text,
   TouchableOpacity,
 } from 'react-native'
 import Config from 'react-native-config'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getContentsInfo, patchContents } from '@/apis/content'
@@ -31,6 +28,7 @@ import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionShee
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
@@ -63,10 +61,12 @@ interface EditProps {
 }
 
 /**
- *
+ * 컨텐츠 수정 페이지
  */
 export const Edit = ({ route }: EditProps) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
+
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
@@ -128,11 +128,17 @@ export const Edit = ({ route }: EditProps) => {
       }),
     {
       /**
-       * 편집 성공
+       * patchContentsMutate 성공 시 recoil state를 초기화하고,
+       * C
        */
       onSuccess: () => {
         setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
+        queryClient.invalidateQueries([`${queryKeys.contents}${route.params.id}`])
+        queryClient.invalidateQueries([
+          `contentByArchiving${selectArchiving.id}`,
+          selectArchiving.id,
+        ])
         navigation.goBack()
       },
       /**

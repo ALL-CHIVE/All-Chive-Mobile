@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Image, ScrollView } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getTag, postTag } from '@/apis/tag'
@@ -33,14 +33,25 @@ interface TagProps {
 }
 
 /**
- *
+ * 태그 화면
  */
 export const CreateTag = ({ navigation }: TagProps) => {
+  const queryClient = useQueryClient()
+
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
+
   const [searchText, setSearchText] = useState('')
   const [openDialog, setOpenDialog] = useState(false)
 
-  const { mutate: postTagMutate } = useMutation(() => postTag(searchText))
+  const { mutate: postTagMutate } = useMutation(() => postTag(searchText), {
+    /**
+     * postTagMutate 성공 시 getTagData를 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getTagData', searchText])
+    },
+  })
+
   const { data: latestTagData } = useQuery(['getLatestTagData'], () => getTag(true))
   const { data: tagData } = useQuery(['getTagData', searchText], () => getTag(false))
 
