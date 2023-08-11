@@ -1,3 +1,4 @@
+import { ReportType } from '@/models/enums/ReportType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
@@ -6,7 +7,7 @@ import { client } from './client'
  *
  */
 export const postReport = async (
-  type: 'CONTENT' | 'ARCHIVING',
+  type: ReportType,
   reason: string,
   reportedType: string,
   id: number

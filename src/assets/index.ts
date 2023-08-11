@@ -58,6 +58,8 @@ export const defaultIcons: Assets = {
   leftProvider: require('@/assets/icons/leftProvider.png'),
   plus: require('@/assets/icons/plus.png'),
   plusBlack: require('@/assets/icons/plusBlack.png'),
+  pin: require('@/assets/icons/pin.png'),
+  pinFill: require('@/assets/icons/pinFill.png'),
 }
 
 export const loginIcons: Assets = {

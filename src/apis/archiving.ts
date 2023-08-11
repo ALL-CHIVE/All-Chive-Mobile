@@ -138,11 +138,15 @@ export const patchArchiving = async ({
  */
 export const patchScrapArchiving = async (cancel: boolean, archivingId: number) => {
   const accessToken = await getAccessToken()
-  const response = await client.patch(`/archivings/${archivingId}/scrap?cancel=${cancel}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+  const response = await client.patch(
+    `/archivings/${archivingId}/scrap?cancel=${cancel}`,
+    { cancel, archivingId },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }
@@ -152,11 +156,15 @@ export const patchScrapArchiving = async (cancel: boolean, archivingId: number) 
  */
 export const patchPinArchiving = async (cancel: boolean, archivingId: number) => {
   const accessToken = await getAccessToken()
-  const response = await client.patch(`/archivings/${archivingId}/pin?cancel=${cancel}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+  const response = await client.patch(
+    `/archivings/${archivingId}/pin?cancel=${cancel}`,
+    { cancel, archivingId },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
 
   return response
 }

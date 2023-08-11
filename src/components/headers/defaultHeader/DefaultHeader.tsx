@@ -8,17 +8,18 @@ import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import { Container, HeaderLeft, HeaderRight, Title } from './DefaultHeader.style'
+import { Container, HeaderLeft, HeaderRight, RightButton, Title } from './DefaultHeader.style'
 
 interface DefaultHeaderProps {
   title: string | undefined
-  PopupMenuList: PopupMenu[]
+  PopupMenuList: PopupMenu[] | undefined
+  onRightClick?: () => void
 }
 
 /**
  * DefaultHeader
  */
-const DefaultHeader = ({ title, PopupMenuList }: DefaultHeaderProps) => {
+const DefaultHeader = ({ title, PopupMenuList, onRightClick }: DefaultHeaderProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   return (
@@ -28,7 +29,13 @@ const DefaultHeader = ({ title, PopupMenuList }: DefaultHeaderProps) => {
       </HeaderLeft>
       <Title numberOfLines={1}>{title}</Title>
       <HeaderRight>
-        <Popup menuList={PopupMenuList} />
+        {PopupMenuList ? (
+          <Popup menuList={PopupMenuList} />
+        ) : (
+          <RightButton onPress={onRightClick}>
+            <Image source={defaultIcons.popup} />
+          </RightButton>
+        )}
       </HeaderRight>
     </Container>
   )

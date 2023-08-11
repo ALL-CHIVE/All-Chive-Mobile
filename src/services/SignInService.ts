@@ -36,10 +36,8 @@ const signInWithApple = async (): Promise<SignInResult | undefined> => {
     }
 
     return
-    // 서버로 data 전송 로직 추가
   } catch (err) {
     // console.log(err)
-
     return
   }
 }

@@ -5,13 +5,14 @@ import { fonts } from '@/styles/fonts'
 
 export const Css = {
   modal: css`
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   `,
 }
 
 export const Container = styled.View`
   background-color: ${colors.white};
+  min-width: 277px;
   opacity: 0.9;
   padding: 30px;
   border-radius: 8px;
@@ -33,6 +34,7 @@ export const Description = styled.Text`
 `
 
 export const Button = styled.TouchableOpacity`
+  min-width: 197px;
   height: 36px;
   background-color: ${colors.gray500};
   border-radius: 8px;

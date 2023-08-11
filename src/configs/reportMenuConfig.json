@@ -1,34 +1,34 @@
 [
   {
-    "id": "spam",
+    "id": "SPAM",
     "message": "reportSpam"
   },
   {
-    "id": "obsceneContent",
+    "id": "OBSCENE",
     "message": "reportObsceneContent"
   },
   {
-    "id": "personalInfo",
+    "id": "PERSONAL_INFO",
     "message": "reportPersonalInfomation"
   },
   {
-    "id": "copyrightInfringement",
+    "id": "INTELLECTUAL_PROPERTY",
     "message": "reportCopyrightInfringement"
   },
   {
-    "id": "violenceContent",
+    "id": "VIOLENCE",
     "message": "reportViolenceContent"
   },
   {
-    "id": "illegalInfomation",
+    "id": "ILLEGAL_INFO",
     "message": "reportIllegalInfomation"
   },
   {
-    "id": "phishingLink",
+    "id": "FRAUD",
     "message": "reportPhishingLink"
   },
   {
-    "id": "etc",
+    "id": "ETC",
     "message": "reportEtc"
   }
 ]

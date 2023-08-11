@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
-import { defaultImages } from '@/assets'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { RecyclesResponse } from '@/models/Recycle'
@@ -22,8 +21,6 @@ import {
   BottomButtonText,
   BottomButtonTitle,
   Container,
-  ImageContainer,
-  SubTitleText,
   TabContainer,
 } from './RecycleBin.style'
 import { RecycleBinTab } from './tabs/RecycleBinTab'
@@ -174,12 +171,7 @@ export const RecycleBin = () => {
           />
         </>
       ) : (
-        <>
-          <ImageContainer>
-            <Image source={defaultImages.emptyItem} />
-            <SubTitleText>{i18n.t('emptyRecycleBin')}</SubTitleText>
-          </ImageContainer>
-        </>
+        <EmptyItem textKey="emptyRecycleBin" />
       )}
     </Container>
   )

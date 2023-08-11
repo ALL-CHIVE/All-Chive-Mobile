@@ -4,12 +4,25 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
+  width: 100%;
   background-color: ${colors.white};
-  height: 380px;
   border-radius: 20px 20px 0px 0px;
   align-items: center;
-  padding: 10% 0;
 `
+
+export const Header = styled.View`
+  margin-top: 28px;
+  width: 100%;
+  height: 34px;
+`
+
+export const CloseButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 0px;
+  right: 26px;
+`
+
+export const ScrollContainer = styled.ScrollView``
 
 export const Title = styled.Text`
   ${fonts.subtitle2}

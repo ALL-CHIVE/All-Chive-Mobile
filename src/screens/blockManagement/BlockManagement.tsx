@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useMutation, useQuery } from 'react-query'
 
 import { deleteBlock, getBlockList } from '@/apis/block'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -16,8 +17,6 @@ import {
   ButtonText,
   UnblockButton,
   GrayDivider,
-  ImageContainer,
-  SubTitleText,
   ListContainer,
   Text,
 } from './BlockManagement.style'
@@ -100,10 +99,7 @@ export const BlockManagement = () => {
             </>
           ))
         ) : (
-          <ImageContainer>
-            <Image source={defaultImages.emptyItem} />
-            <SubTitleText>{i18n.t('noAuthorBlocked')}</SubTitleText>
-          </ImageContainer>
+          <EmptyItem textKey="noAuthorBlocked" />
         )}
       </ScrollView>
     </>
