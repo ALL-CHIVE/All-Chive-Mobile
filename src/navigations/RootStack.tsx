@@ -23,6 +23,7 @@ import { Edit } from '@/screens/edit/Edit'
 import { Login } from '@/screens/login/Login'
 import { MyAccount } from '@/screens/myAccount/MyAccount'
 import { Mypage } from '@/screens/mypage/Mypage'
+import { Notice } from '@/screens/notice/Notice'
 import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
 import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
 import { RecycleBin } from '@/screens/recycleBin/RecycleBin'
@@ -57,6 +58,7 @@ export type RootStackParamList = {
   BlockManagement: undefined
   TermsOfService: undefined
   CommunityUsePolicy: undefined
+  Notice: undefined
   RecycleBin: undefined
 }
 
@@ -204,6 +206,13 @@ export const RootStack = () => {
         <Stack.Screen
           name="CommunityUsePolicy"
           component={CommunityUsePolicy}
+        />
+        <Stack.Screen
+          name="Notice"
+          component={Notice}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen
           name="RecycleBin"

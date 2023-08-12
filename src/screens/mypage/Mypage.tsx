@@ -98,10 +98,16 @@ export const Mypage = () => {
           title={i18n.t('termsOfService')}
           screen="TermsOfService"
         />
+        <NavigationList title={i18n.t('privacyPolicy')} />
         <NavigationList
           title={i18n.t('communityUsePolicy')}
           screen="CommunityUsePolicy"
         />
+        <NavigationList
+          title={i18n.t('notice')}
+          screen="Notice"
+        />
+        <NavigationList title={i18n.t('customerService')} />
         <NavigationList
           title={i18n.t('recycleBin')}
           screen="RecycleBin"
