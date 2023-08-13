@@ -5,7 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   height: 100px;
-  width: 375px;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;

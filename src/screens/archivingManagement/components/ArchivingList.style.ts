@@ -11,17 +11,23 @@ export const Container = styled.View`
 export const CategoryContainer = styled.View`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`
+
+export const CategoryCount = styled.Text`
+  color: ${colors.mainBlack};
+  ${fonts.subtitle2}
+  margin-left: 8px;
 `
 
 export const CategoryBox = styled.View`
-  display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  width: 67px;
   height: 25px;
-  margin-bottom: 10px;
   background-color: ${colors.mainYellow};
+  padding: 0px 15px;
 `
 
 export const CategoryText = styled.Text`

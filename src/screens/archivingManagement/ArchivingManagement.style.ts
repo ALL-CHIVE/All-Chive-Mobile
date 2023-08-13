@@ -3,6 +3,10 @@ import styled from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
+export const ScrollContainer = styled.ScrollView`
+  width: 100%;
+`
+
 export const PlusButton = styled.TouchableOpacity`
   width: 100px;
   height: 28px;
@@ -22,4 +26,8 @@ export const WhiteDivider = styled.View`
   width: 100%;
   height: 12px;
   background-color: ${colors.white};
+`
+
+export const Bottom = styled.View`
+  padding-bottom: 150px;
 `

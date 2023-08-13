@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { AxiosError } from 'axios'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -17,6 +18,7 @@ import {
   ArchivingContainer,
   CategoryBox,
   CategoryContainer,
+  CategoryCount,
   CategoryText,
   Container,
   GrayText,
@@ -44,6 +46,14 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['archivingList'])
+      queryClient.invalidateQueries(['getUser'])
+    },
+
+    /**
+     *
+     */
+    onError: (e: AxiosError) => {
+      console.log(e.response?.data)
     },
   })
 
@@ -89,18 +99,17 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
     <Container>
       <CategoryContainer>
         <CategoryBox>
-          <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
+          <CategoryText>{i18n.t(`${category}`)}</CategoryText>
         </CategoryBox>
+        <CategoryCount>{archivingListData.length}</CategoryCount>
       </CategoryContainer>
       {archivingListData.map((item) => (
-        <>
-          <ArchivingContainer>
-            <GrayText>{`${item.title}  ${item.contentCnt}`}</GrayText>
-            <TouchableOpacity onPress={() => handleActionSheet(item.archivingId)}>
-              <Image source={defaultIcons.popup} />
-            </TouchableOpacity>
-          </ArchivingContainer>
-        </>
+        <ArchivingContainer key={item.archivingId}>
+          <GrayText>{`${item.title}  ${item.contentCnt}`}</GrayText>
+          <TouchableOpacity onPress={() => handleActionSheet(item.archivingId)}>
+            <Image source={defaultIcons.popup} />
+          </TouchableOpacity>
+        </ArchivingContainer>
       ))}
       <EditArchivingModal
         archivingId={currentArchivingId}

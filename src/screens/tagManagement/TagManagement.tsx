@@ -36,21 +36,6 @@ export const TagManagement = () => {
     },
   })
 
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * header
-       */
-      header: () => (
-        <LeftButtonHeader
-          title={i18n.t('tagManagement')}
-          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-          rightButtonClick={() => setEditMode(!editMode)}
-        />
-      ),
-    })
-  })
-
   /**
    * 새로운 태그를 생성합니다.
    */
@@ -64,6 +49,11 @@ export const TagManagement = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
+        <LeftButtonHeader
+          title={i18n.t('tagManagement')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={() => setEditMode(!editMode)}
+        />
         {tagData && editMode
           ? tagData?.map((tag) => (
               <>

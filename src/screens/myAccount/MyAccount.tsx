@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity } from 'react-native'
+import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
@@ -175,11 +175,13 @@ export const MyAccount = () => {
 
   return (
     <DefaultContainer>
-      <LeftButtonHeader
-        title={i18n.t('myAccount')}
-        rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-        rightButtonClick={handleRightButton}
-      />
+      <View style={{ maxWidth: 375 }}>
+        <LeftButtonHeader
+          title={i18n.t('myAccount')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={handleRightButton}
+        />
+      </View>
       <DefaultScrollContainer>
         <Container>
           <ProfileContainer>
