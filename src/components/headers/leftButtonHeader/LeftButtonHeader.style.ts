@@ -10,11 +10,11 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-around;
   background-color: ${colors.white};
+  padding: 0px 25px;
 `
 
 export const HeaderLeft = styled.TouchableOpacity`
-  flex: 1;
-  left: 20px;
+  width: 30px;
 `
 
 export const Title = styled.Text`
@@ -23,9 +23,11 @@ export const Title = styled.Text`
   text-align: center;
   color: ${colors.mainBlack};
 `
+export const RightButton = styled.TouchableOpacity`
+  width: 30px;
+`
 
 export const RightButtonText = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.gray500};
-  right: 20px;
 `
