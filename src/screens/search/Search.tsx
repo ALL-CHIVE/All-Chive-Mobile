@@ -35,12 +35,16 @@ const Search = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.All)
   const [isFocus, setIsFocus] = useState(false)
 
-  const { data: searchData } = useQuery(['getSearch'], () => getSearch(searchType, searchText), {
-    enabled: searchText !== '' && !isFocus,
-  })
+  const { data: searchData } = useQuery(
+    ['getSearch', searchText],
+    () => getSearch(searchType, searchText),
+    {
+      enabled: searchText !== '' && !isFocus,
+    }
+  )
 
   const { data: searchRelation } = useQuery(
-    ['getSearchRelation'],
+    ['getSearchRelation', searchText],
     () => getSearchRelation(searchText),
     {
       enabled: searchText !== '' && isFocus,
@@ -57,7 +61,10 @@ const Search = () => {
    * handleSearch
    */
   const handleSearch = () => {
-    // TODO: 검색 연결
+    if (searchText === '') return
+    else {
+      setIsFocus(false)
+    }
   }
 
   /**
