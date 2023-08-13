@@ -172,30 +172,18 @@ export const RootStack = () => {
         <Stack.Screen
           name="MyAccount"
           component={MyAccount}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="ArchivingManagement"
           component={ArchivingManagement}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="TagManagement"
           component={TagManagement}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="BlockManagement"
           component={BlockManagement}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="TermsOfService"
@@ -208,9 +196,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="RecycleBin"
           component={RecycleBin}
-          options={{
-            headerShown: true,
-          }}
         />
       </Stack.Navigator>
     </>
