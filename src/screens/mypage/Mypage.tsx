@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { Image, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
+import Config from 'react-native-config'
 import LinearGradient from 'react-native-linear-gradient'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery } from 'react-query'
@@ -97,7 +98,7 @@ export const Mypage = () => {
                   source={
                     isProfileImageError || !profileData?.imgUrl
                       ? defaultImages.profile
-                      : { uri: profileData?.imgUrl }
+                      : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
                   }
                   onError={() => setIsProfileImageError(true)}
                   defaultSource={defaultImages.profile as ImageURISource}

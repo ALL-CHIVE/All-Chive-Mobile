@@ -34,7 +34,7 @@ export const Title = styled.Text`
 export const ProfileImage = styled.Image`
   width: 110px;
   height: 110px;
-  border-radius: 40px;
+  border-radius: 70px;
 `
 
 export const NicknameText = styled.Text`
