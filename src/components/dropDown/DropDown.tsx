@@ -39,9 +39,11 @@ export const DropDown = () => {
     >
       {isVisible ? (
         <DropDownModal>
-          <ScrollView nestedScrollEnabled={true}>
+          <ScrollView
+            nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
+          >
             {categoryList.map((category) => (
               <TouchableItem
                 key={category}

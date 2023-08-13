@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { Image, TouchableOpacity } from 'react-native'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
@@ -32,12 +32,20 @@ interface ArchivingListProps {
  */
 export const ArchivingList = ({ category, archivingListData }: ArchivingListProps) => {
   const actionSheetRef = useRef<ActionSheet>(null)
+  const queryClient = useQueryClient()
 
   const [isEditModalVisible, setIsEditModalVisible] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [currentArchivingId, setCurrentArchivingId] = useState<number>(-1)
 
-  const { mutate: deleteMutate } = useMutation(deleteArchiving)
+  const { mutate: deleteMutate } = useMutation(deleteArchiving, {
+    /**
+     * deleteMutate 성공 시 아카이빙 관리 페이지의 아카이빙 리스트를 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['archivingList'])
+    },
+  })
 
   /**
    * 미트볼 버튼 클릭시 작동

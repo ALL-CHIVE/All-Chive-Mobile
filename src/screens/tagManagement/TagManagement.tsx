@@ -2,40 +2,39 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { deleteTag, getTag, postTag } from '@/apis/tag'
+import { getTag, postTag } from '@/apis/tag'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
-import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import {
-  ButtonText,
-  DeleteButton,
-  GrayDivider,
-  PlusButton,
-  TagListContainer,
-  Text,
-} from './TagManagement.style'
+import { ButtonText, PlusButton } from './TagManagement.style'
+import { TagList } from './components/TagList'
 
 /**
  * 마이페이지 '태그 관리'
  */
 export const TagManagement = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
-  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [text, setText] = useState('')
 
   const { data: tagData } = useQuery(['getTagData'], () => getTag(false))
 
-  const { mutate: postTagMutate } = useMutation(postTag)
-
-  const { mutate: deleteTagMutate } = useMutation(deleteTag)
+  const { mutate: postTagMutate } = useMutation(postTag, {
+    /**
+     * postTag 성공 시 input 내 text를 초기화하고, getTagData를 리패치합니다.
+     */
+    onSuccess: () => {
+      setText('')
+      queryClient.invalidateQueries('getTagData')
+    },
+  })
 
   useEffect(() => {
     navigation.setOptions({
@@ -57,14 +56,6 @@ export const TagManagement = () => {
    */
   const handleCreate = () => {
     postTagMutate(text)
-    // getTag 리패치 필요
-  }
-
-  /**
-   * 선택한 tag를 삭제합니다.
-   */
-  const handleDelete = (tagId: number) => {
-    deleteTagMutate(tagId)
   }
 
   return (
@@ -76,34 +67,20 @@ export const TagManagement = () => {
         {tagData && editMode
           ? tagData?.map((tag) => (
               <>
-                <TagListContainer key={tag.tagId}>
-                  <Text>{tag.name}</Text>
-                  <DeleteButton onPress={() => setIsDeleteDialogVisible(true)}>
-                    <ButtonText>{i18n.t('delete')}</ButtonText>
-                  </DeleteButton>
-                </TagListContainer>
-                <GrayDivider />
-                <TwoButtonDialog
-                  isVisible={isDeleteDialogVisible}
-                  title="doYouWantDeleteThisTag"
-                  description="deleteTagsCannotBeRestored"
-                  completeText="delete"
-                  onCancel={() => {
-                    setIsDeleteDialogVisible(false)
-                  }}
-                  onComplete={() => {
-                    setIsDeleteDialogVisible(false)
-                    handleDelete(tag.tagId)
-                  }}
+                <TagList
+                  id={tag.tagId}
+                  name={tag.name}
+                  editMode={true}
                 />
               </>
             ))
           : tagData?.map((tag) => (
               <>
-                <TagListContainer key={tag.tagId}>
-                  <Text>{tag.name}</Text>
-                </TagListContainer>
-                <GrayDivider />
+                <TagList
+                  id={tag.tagId}
+                  name={tag.name}
+                  editMode={false}
+                />
               </>
             ))}
 

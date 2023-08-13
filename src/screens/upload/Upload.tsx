@@ -6,13 +6,11 @@ import {
   Image,
   ImageSourcePropType,
   ImageURISource,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { postContents } from '@/apis/content'
@@ -64,6 +62,8 @@ interface UploadProps {
  */
 export const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
+
   const [archivingName, setArchivingName] = useState('')
   const [contentName, setContentName] = useState('')
   const [link, setLink] = useState('')
@@ -93,11 +93,13 @@ export const Upload = ({ route }: UploadProps) => {
       }),
     {
       /**
-       *
+       * postContentsMutate 성공 시 recoil state를 초기화하고,
+       * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
        */
       onSuccess: () => {
         setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
+        queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
         navigation.navigate('BottomTab', { screen: 'Home' })
       },
       /**
