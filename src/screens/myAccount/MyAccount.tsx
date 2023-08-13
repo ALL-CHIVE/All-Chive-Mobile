@@ -21,6 +21,7 @@ import DefaultScrollContainer from '@/components/containers/defaultScrollContain
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -57,6 +58,7 @@ export const MyAccount = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
+  const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
 
   const {
     data: userInfoData,
@@ -87,6 +89,7 @@ export const MyAccount = () => {
        *
        */
       onSuccess: () => {
+        //TODO: 리패치
         console.log('success')
       },
       /**
@@ -162,9 +165,19 @@ export const MyAccount = () => {
   }
 
   /**
+   * handleNicknameChange
+   */
+  const handleNicknameChange = (nickname: string) => {
+    setNickname(nickname)
+    setIsNicknameEditModalVisible(false)
+  }
+
+  /**
    *
    */
-  const handleEditNickname = () => {}
+  const handleEditNickname = () => {
+    setIsNicknameEditModalVisible(true)
+  }
 
   return (
     <DefaultContainer>
@@ -200,7 +213,7 @@ export const MyAccount = () => {
             <Divider />
             <RowView>
               <InfoTitle>{i18n.t('nickName')}</InfoTitle>
-              <InfoText>{userInfoData?.nickname}</InfoText>
+              <InfoText>{nickname}</InfoText>
               <PencilIcon onPress={handleEditNickname}>
                 {editMode && <Image source={defaultIcons.pencil} />}
               </PencilIcon>
@@ -238,6 +251,11 @@ export const MyAccount = () => {
           </TouchableOpacity>
         </Footer>
       )}
+      <NicknameEditModal
+        isVisible={isNicknameEditModalVisible}
+        onCancle={() => setIsNicknameEditModalVisible(false)}
+        onSuccess={handleNicknameChange}
+      />
     </DefaultContainer>
   )
 }
