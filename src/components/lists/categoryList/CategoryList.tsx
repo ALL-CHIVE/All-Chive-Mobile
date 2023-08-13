@@ -6,8 +6,8 @@ import { Category } from '@/models/enums/Category'
 import { Button, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
 
 interface CategoryListProps {
-  currentCategory: Category
-  setCurrentCategory: React.Dispatch<React.SetStateAction<Category>>
+  currentCategory: Category | string
+  setCurrentCategory: React.Dispatch<React.SetStateAction<Category | string>>
   options: Category[]
 }
 

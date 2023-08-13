@@ -13,7 +13,7 @@ import {
 import Config from 'react-native-config'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
@@ -23,6 +23,7 @@ import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
+import { CategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -67,6 +68,7 @@ export const EditArchivingModal = ({
   const [imageKey, setImageKey] = useState('')
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
+  const currentCategory = useRecoilValue(CategoryState)
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
@@ -128,7 +130,7 @@ export const EditArchivingModal = ({
        */
       onSuccess: () => {
         queryClient.invalidateQueries([`contentByArchiving${archivingId}`, archivingId])
-        queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
+        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         queryClient.invalidateQueries(['archivingList'])
         onClose()
       },

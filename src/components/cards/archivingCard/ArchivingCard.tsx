@@ -5,6 +5,7 @@ import { Image, ImageURISource } from 'react-native'
 import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'
+import { useRecoilValue } from 'recoil'
 
 import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
@@ -13,6 +14,7 @@ import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { CategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -48,12 +50,14 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
   const [isMark, setIsMark] = useState(markStatus)
 
+  const currentCategory = useRecoilValue(CategoryState)
+
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving, {
     /**
      * deleteMutate 성공 시 홈 화면을 리패치합니다.
      */
     onSuccess: () => {
-      queryClient.invalidateQueries(['getHomeArchivingList', item.category])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
     },
   })
 
