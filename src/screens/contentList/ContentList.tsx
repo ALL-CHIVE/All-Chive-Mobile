@@ -38,14 +38,14 @@ const PAGE_LIMIT = 10
  */
 const ContentList = ({ route }: ContentListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const [editModal, setEditModal] = useState(false)
   const actionSheetRef = useRef<ActionSheet>(null)
+  const queryClient = useQueryClient()
 
+  const [editModal, setEditModal] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
-  const queryClient = useQueryClient()
 
   const {
     data: contentList,
@@ -67,9 +67,10 @@ const ContentList = ({ route }: ContentListProps) => {
 
   const { mutate: deleteArchivingMutate } = useMutation(deleteArchiving, {
     /**
-     *
+     * deleteArchivingMutate 성공 시 홈 화면 리패치 후 홈 화면으로 이동합니다.
      */
     onSuccess: () => {
+      queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
     /**
@@ -84,7 +85,7 @@ const ContentList = ({ route }: ContentListProps) => {
     () => postBlock(contentList?.pages[0].ownerId ?? -1),
     {
       /**
-       *
+       * postBlockMutate 성공 시 차단 완료 다이얼로그를 띄웁니다.
        */
       onSuccess: (response) => {
         setOwnerNickname(response.nickname)
@@ -181,7 +182,7 @@ const ContentList = ({ route }: ContentListProps) => {
     <>
       <DefaultContainer>
         <DefaultHeader
-          title={route.params.title}
+          title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={handleReport}
         />
@@ -254,6 +255,7 @@ const ContentList = ({ route }: ContentListProps) => {
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
+          queryClient.invalidateQueries(['getCommunityArchivingList', 'ALL'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
