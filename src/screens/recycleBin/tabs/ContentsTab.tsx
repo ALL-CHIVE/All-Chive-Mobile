@@ -11,15 +11,15 @@ import { SimpleContent } from '@/models/SimpleContent'
 import { CheckContentState } from '@/state/CheckState'
 
 import {
-  CheckBox,
-  Container,
-  ContentListContainer,
-  SearchDataText,
-  TabItemCardContainer,
   TabItemContainer,
+  SearchDataText,
+  CheckBox,
+  ContentListContainer,
+  TabItemCardContainer,
   Title,
   YellowCheck,
-} from '../RecycleBin.style'
+  Container,
+} from './Tab.style'
 
 /**
  * 삭제된 컨텐츠만 보여주는 탭

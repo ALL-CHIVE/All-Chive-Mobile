@@ -10,14 +10,14 @@ import { RecycleBinTabProps } from '@/models/Recycle'
 import { CheckArchivingState } from '@/state/CheckState'
 
 import {
+  TabItemContainer,
+  SearchDataText,
   CheckBox,
   Container,
-  SearchDataText,
   TabItemCardContainer,
-  TabItemContainer,
   Title,
   YellowCheck,
-} from '../RecycleBin.style'
+} from './Tab.style'
 
 /**
  * 삭제된 아카이빙만 보여주는 탭
