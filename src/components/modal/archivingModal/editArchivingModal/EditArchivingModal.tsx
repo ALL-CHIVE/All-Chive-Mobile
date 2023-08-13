@@ -78,7 +78,7 @@ export const EditArchivingModal = ({
       keyboardDidShowListener.remove()
       keyboardDidHideListener.remove()
     }
-  }, [])
+  }, [isVisible])
 
   /**
    *
@@ -107,6 +107,13 @@ export const EditArchivingModal = ({
         data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${data.imageUrl}` })
         setSelectedCategory(data.category)
         setPublicStatus(data.markStatus)
+      },
+
+      /**
+       *
+       */
+      onError: () => {
+        console.log('edit error')
       },
     }
   )

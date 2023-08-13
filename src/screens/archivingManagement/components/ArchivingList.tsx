@@ -53,6 +53,7 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
      *
      */
     onError: (e: AxiosError) => {
+      console.log('delete error')
       console.log(e.response?.data)
     },
   })
@@ -111,11 +112,13 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
           </TouchableOpacity>
         </ArchivingContainer>
       ))}
-      <EditArchivingModal
-        archivingId={currentArchivingId}
-        onClose={handleCloseEditModal}
-        isVisible={isEditModalVisible}
-      />
+      {isEditModalVisible && (
+        <EditArchivingModal
+          archivingId={currentArchivingId}
+          onClose={handleCloseEditModal}
+          isVisible={isEditModalVisible}
+        />
+      )}
       <TwoButtonDialog
         isVisible={isDeleteDialogVisible}
         title="doYouWantDeleteThisArchiving"

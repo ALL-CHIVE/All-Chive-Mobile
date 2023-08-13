@@ -22,12 +22,6 @@ export const PlusButtonText = styled.Text`
   text-align: center;
 `
 
-export const WhiteDivider = styled.View`
-  width: 100%;
-  height: 12px;
-  background-color: ${colors.white};
-`
-
 export const Bottom = styled.View`
   padding-bottom: 150px;
 `

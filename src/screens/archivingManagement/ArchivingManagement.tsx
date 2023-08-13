@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
+import { View } from 'react-native'
 import { useQuery } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
@@ -8,29 +9,28 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import {
-  Bottom,
-  PlusButton,
-  PlusButtonText,
-  ScrollContainer,
-  WhiteDivider,
-} from './ArchivingManagement.style'
+import { Bottom, PlusButton, PlusButtonText, ScrollContainer } from './ArchivingManagement.style'
 import { ArchivingList } from './components/ArchivingList'
 
 /**
  * 아카이빙 관리
  */
 export const ArchivingManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
-
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
 
-  const { data: archivingListData } = useQuery('archivingList', () => getArchivingList())
+  const { data: archivingListData } = useQuery('archivingList', () => getArchivingList(), {
+    /**
+     *
+     */
+    onError: (e: AxiosError) => {
+      console.log('archiving managent error')
+      console.log(e.response?.data)
+    },
+  })
 
   /**
-   *
+   * 생성 모달을 종료합니다.
    */
   const handleCloseCreateModal = () => {
     setIsCreateModalVisible(false)
@@ -44,19 +44,16 @@ export const ArchivingManagement = () => {
         showsHorizontalScrollIndicator={false}
       >
         {archivingListData &&
-          Object.keys(archivingListData).map((category) => (
-            <>
-              {archivingListData[category].length > 0 && (
-                <>
-                  <ArchivingList
-                    category={category}
-                    archivingListData={archivingListData[category]}
-                  />
-                  <WhiteDivider />
-                </>
-              )}
-            </>
-          ))}
+          Object.keys(archivingListData).map(
+            (category) =>
+              archivingListData[category].length > 0 && (
+                <ArchivingList
+                  key={category}
+                  category={category}
+                  archivingListData={archivingListData[category]}
+                />
+              )
+          )}
         <PlusButton onPress={() => setIsCreateModalVisible(true)}>
           <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
         </PlusButton>

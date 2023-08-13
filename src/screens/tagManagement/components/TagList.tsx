@@ -6,24 +6,18 @@ import { deleteTag } from '@/apis/tag'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import i18n from '@/locales'
 
-import {
-  ButtonText,
-  DeleteButton,
-  GrayDivider,
-  TagListContainer,
-  Text,
-} from '../TagManagement.style'
+import { ButtonText, DeleteButton, TagListContainer, Text } from '../TagManagement.style'
 
 interface TagListProps {
   id: number
-  name: string
+  tag: string
   editMode: boolean
 }
 
 /**
  * 태그 관리 리스트
  */
-export const TagList = ({ id, name, editMode }: TagListProps) => {
+export const TagList = ({ id, tag, editMode }: TagListProps) => {
   const queryClient = useQueryClient()
 
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
@@ -46,37 +40,27 @@ export const TagList = ({ id, name, editMode }: TagListProps) => {
 
   return (
     <>
-      {editMode ? (
-        <>
-          <TagListContainer key={id}>
-            <Text>{name}</Text>
-            <DeleteButton onPress={() => setIsDeleteDialogVisible(true)}>
-              <ButtonText>{i18n.t('delete')}</ButtonText>
-            </DeleteButton>
-          </TagListContainer>
-          <GrayDivider />
-          <TwoButtonDialog
-            isVisible={isDeleteDialogVisible}
-            title="doYouWantDeleteThisTag"
-            description="deleteTagsCannotBeRestored"
-            completeText="delete"
-            onCancel={() => {
-              setIsDeleteDialogVisible(false)
-            }}
-            onComplete={() => {
-              setIsDeleteDialogVisible(false)
-              handleDelete(id)
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <TagListContainer key={id}>
-            <Text>{name}</Text>
-          </TagListContainer>
-          <GrayDivider />
-        </>
-      )}
+      <TagListContainer key={id}>
+        <Text>{tag}</Text>
+        {editMode && (
+          <DeleteButton onPress={() => setIsDeleteDialogVisible(true)}>
+            <ButtonText>{i18n.t('delete')}</ButtonText>
+          </DeleteButton>
+        )}
+      </TagListContainer>
+      <TwoButtonDialog
+        isVisible={isDeleteDialogVisible}
+        title="doYouWantDeleteThisTag"
+        description="deleteTagsCannotBeRestored"
+        completeText="delete"
+        onCancel={() => {
+          setIsDeleteDialogVisible(false)
+        }}
+        onComplete={() => {
+          setIsDeleteDialogVisible(false)
+          handleDelete(id)
+        }}
+      />
     </>
   )
 }

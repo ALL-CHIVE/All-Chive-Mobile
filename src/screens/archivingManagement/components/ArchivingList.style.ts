@@ -6,6 +6,7 @@ import { fonts } from '@/styles/fonts'
 export const Container = styled.View`
   background-color: ${colors.yellow100};
   padding: 20px 25px;
+  margin-bottom: 12px;
 `
 
 export const CategoryContainer = styled.View`

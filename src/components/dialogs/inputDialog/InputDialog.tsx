@@ -68,6 +68,7 @@ export const InputDialog = ({
           <TextInput
             value={text}
             onChangeText={setText}
+            maxLength={15}
             placeholder={placeholder}
           />
           {text.length > 0 && (
