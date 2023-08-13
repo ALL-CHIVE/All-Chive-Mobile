@@ -2,16 +2,9 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import {
-  Image,
-  ImageSourcePropType,
-  ImageURISource,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
-import { useMutation, useQuery } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth'
 import { getUserInfo, postUserInfo } from '@/apis/user'
@@ -27,7 +20,6 @@ import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadProfileImage } from '@/services/ImageService'
-import { ProfileImageState } from '@/state/ProfileImageState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -49,6 +41,8 @@ import {
  * 마이페이지 '내 계정' 화면
  */
 export const MyAccount = () => {
+  const queryClient = useQueryClient()
+
   const navigation = useNavigation<MainNavigationProp>()
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -89,7 +83,7 @@ export const MyAccount = () => {
        *
        */
       onSuccess: () => {
-        //TODO: 리패치
+        queryClient.invalidateQueries(['getUser'])
         console.log('success')
       },
       /**
