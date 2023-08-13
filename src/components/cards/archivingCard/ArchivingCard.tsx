@@ -58,6 +58,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      queryClient.invalidateQueries(['getUser'])
     },
   })
 

@@ -108,6 +108,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         setPublicStatus(false)
         queryClient.invalidateQueries(['getArchivingList'])
         queryClient.invalidateQueries(['archivingList'])
+        queryClient.invalidateQueries(['getUser'])
         onClose()
       },
     }
