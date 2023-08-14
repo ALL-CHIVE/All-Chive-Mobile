@@ -123,6 +123,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
           <SearchBar
             placeholder={i18n.t('searchTag')}
             value={searchText}
+            maxLength={20}
             onChangeText={handleSearch}
           />
           {searchText.length > 0 && tagData && tagData?.find((tag) => tag.name === searchText) ? (

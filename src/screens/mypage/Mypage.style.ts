@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const ScrollContainer = styled.ScrollView`
-  width: 375px;
+  width: 100%;
 `
 
 export const MyPageContainer = styled.View`

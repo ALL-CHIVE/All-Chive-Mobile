@@ -24,12 +24,11 @@ export const RecycleBinTab = ({ contents, archivings, editMode }: RecycleBinTabP
       <Tab.Screen
         name="AllTab"
         options={{
-          tabBarLabel: `${i18n.t('ALL')}`,
+          tabBarLabel: `${i18n.t('ALL')} ${contents.length + archivings.length}`,
         }}
       >
-        {(props) => (
+        {() => (
           <AllTab
-            {...props}
             contents={contents}
             archivings={archivings}
             editMode={editMode}
@@ -39,7 +38,7 @@ export const RecycleBinTab = ({ contents, archivings, editMode }: RecycleBinTabP
       <Tab.Screen
         name="ArchivingTab"
         options={{
-          tabBarLabel: `${i18n.t('archiving')}`,
+          tabBarLabel: `${i18n.t('archiving')} ${archivings.length}`,
         }}
       >
         {(props) => (
@@ -54,7 +53,7 @@ export const RecycleBinTab = ({ contents, archivings, editMode }: RecycleBinTabP
       <Tab.Screen
         name="ContentsTab"
         options={{
-          tabBarLabel: `${i18n.t('contents')}`,
+          tabBarLabel: `${i18n.t('contents')} ${contents.length}`,
         }}
       >
         {(props) => (

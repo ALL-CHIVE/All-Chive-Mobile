@@ -16,6 +16,7 @@ interface SearchBarProps {
   onChangeText: (text: string) => void
   onSubmitEditing?: () => void
   onFocus?: () => void
+  maxLength?: number
 }
 /**
  *
@@ -26,6 +27,7 @@ export const SearchBar = ({
   onChangeText,
   onSubmitEditing,
   onFocus,
+  maxLength,
 }: SearchBarProps) => {
   return (
     <Container>
@@ -35,6 +37,7 @@ export const SearchBar = ({
         onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
         onFocus={onFocus}
+        maxLength={maxLength}
       />
       <SearchImage source={defaultIcons.search} />
       {value.length > 0 ? (

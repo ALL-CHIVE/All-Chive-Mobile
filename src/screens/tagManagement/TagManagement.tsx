@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { ScrollView } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import { ButtonText, PlusButton } from './TagManagement.style'
+import { ButtonText, PlusButton, ScrollContainer } from './TagManagement.style'
 import { TagList } from './components/TagList'
 
 /**
  * 마이페이지 '태그 관리'
  */
 export const TagManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
@@ -38,21 +35,6 @@ export const TagManagement = () => {
     },
   })
 
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * header
-       */
-      header: () => (
-        <LeftButtonHeader
-          title={i18n.t('tagManagement')}
-          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-          rightButtonClick={() => setEditMode(!editMode)}
-        />
-      ),
-    })
-  })
-
   /**
    * 새로운 태그를 생성합니다.
    */
@@ -69,34 +51,29 @@ export const TagManagement = () => {
           queryClient.invalidateQueries(['getTagData'])
         }}
       />
-      <ScrollView
+      <DefaultContainer>
+        <LeftButtonHeader
+          title={i18n.t('tagManagement')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={() => setEditMode((prev) => !prev)}
+        />
+        <ScrollContainer
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {tagData && editMode
-          ? tagData?.map((tag) => (
-              <>
-                <TagList
-                  id={tag.tagId}
-                  name={tag.name}
-                  editMode={true}
-                />
-              </>
-            ))
-          : tagData?.map((tag) => (
-              <>
-                <TagList
-                  id={tag.tagId}
-                  name={tag.name}
-                  editMode={false}
-                />
-              </>
-            ))}
-
+        {tagData &&
+          tagData.map((tag) => (
+            <TagList
+              key={tag.tagId}
+              id={tag.tagId}
+              tag={tag.name}
+              editMode={editMode}
+            />
+          ))}
         <PlusButton onPress={() => setIsCreateDialogVisible(true)}>
           <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
         </PlusButton>
-      </ScrollView>
+      </ScrollContainer>
       <InputDialog
         isVisible={isCreateDialogVisible}
         title="createNewTag"
@@ -113,6 +90,7 @@ export const TagManagement = () => {
         isDisabled={text.length === 0}
         placeholder={i18n.t('placeHolderTag')}
       />
-    </>
+    </DefaultContainer>
+  </>
   )
 }

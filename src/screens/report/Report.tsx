@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { View } from 'react-native'
 import { useMutation } from 'react-query'
 
 import { postReport } from '@/apis/report'
@@ -111,7 +112,9 @@ const Report = ({ route }: ReportProps) => {
 
   return (
     <DefaultContainer>
-      <LeftButtonHeader title={i18n.t('report')} />
+      <View style={{ width: 375 }}>
+        <LeftButtonHeader title={i18n.t('report')} />
+      </View>
       <DefaultScrollContainer>
         <Container>
           <Title>{i18n.t('selectReportReason')}</Title>

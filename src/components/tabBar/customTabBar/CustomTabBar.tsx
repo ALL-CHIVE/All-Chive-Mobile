@@ -2,7 +2,7 @@ import React from 'react'
 
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 
-import { TabBarWrapper, TabButton, TabText } from './CustomTabBar.style'
+import { Container, TabBarWrapper, TabButton, TabText } from './CustomTabBar.style'
 
 interface Route {
   key: string
@@ -15,35 +15,37 @@ interface Route {
  */
 export const CustomTabBar = ({ state, descriptors, navigation }: MaterialTopTabBarProps) => {
   return (
-    <TabBarWrapper>
-      {state.routes.map((route: Route, index: number) => {
-        const { options } = descriptors[route.key]
-        const label = options.tabBarLabel
-        const isFocused = state.index === index
-        /**
-         *
-         */
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          })
+    <Container>
+      <TabBarWrapper>
+        {state.routes.map((route: Route, index: number) => {
+          const { options } = descriptors[route.key]
+          const label = options.tabBarLabel
+          const isFocused = state.index === index
+          /**
+           *
+           */
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            })
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name)
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name)
+            }
           }
-        }
-        return (
-          <TabButton
-            isFocused={isFocused}
-            onPress={onPress}
-            key={index}
-          >
-            <TabText isFocused={isFocused}>{label?.toString()}</TabText>
-          </TabButton>
-        )
-      })}
-    </TabBarWrapper>
+          return (
+            <TabButton
+              isFocused={isFocused}
+              onPress={onPress}
+              key={index}
+            >
+              <TabText isFocused={isFocused}>{label?.toString()}</TabText>
+            </TabButton>
+          )
+        })}
+      </TabBarWrapper>
+    </Container>
   )
 }

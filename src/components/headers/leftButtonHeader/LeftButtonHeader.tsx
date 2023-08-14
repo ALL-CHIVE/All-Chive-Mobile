@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -36,10 +36,12 @@ export const LeftButtonHeader = ({
         <Image source={defaultIcons.back} />
       </HeaderLeft>
       <Title>{title}</Title>
-      {rightButtonText && (
+      {rightButtonText ? (
         <RightButton onPress={rightButtonClick}>
           <RightButtonText>{rightButtonText}</RightButtonText>
         </RightButton>
+      ) : (
+        <View style={{ width: 30 }} />
       )}
     </Container>
   )

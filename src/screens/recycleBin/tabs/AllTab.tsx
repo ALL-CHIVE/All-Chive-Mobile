@@ -12,16 +12,17 @@ import { SimpleContent } from '@/models/SimpleContent'
 import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
 
 import {
-  CheckBox,
   Container,
+  TabItemContainer,
+  SearchDataText,
+  CheckBox,
   ContentListContainer,
   GrayDivider,
-  SearchDataText,
   TabItemCardContainer,
-  TabItemContainer,
   Title,
   YellowCheck,
-} from '../RecycleBin.style'
+  Header,
+} from './Tab.style'
 
 /**
  * 전체 탭
@@ -59,7 +60,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
    */
   const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
     return (
-      <View>
+      <>
         <ContentCard
           contentId={item.contentId}
           contentTitle={item.contentTitle}
@@ -77,7 +78,7 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
             <Image source={defaultIcons.yellowCheck} />
           </YellowCheck>
         )}
-      </View>
+      </>
     )
   }
 
@@ -88,42 +89,47 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
         showsHorizontalScrollIndicator={false}
       >
         <TabItemContainer>
-          <SearchDataText>
-            {i18n.t('numberOfRecycleItem', { number: archivings.length })}
-          </SearchDataText>
-          <Title>{i18n.t('archiving')}</Title>
+          <Header>
+            <SearchDataText>
+              {i18n.t('numberOfRecycleItem', { number: archivings.length })}
+            </SearchDataText>
+            <Title>{i18n.t('archiving')}</Title>
+          </Header>
           <TabItemCardContainer>
-            {archivings !== undefined &&
+            {archivings &&
               archivings.map((item) => (
-                <>
-                  <View>
-                    <ArchivingCard
-                      key={item.archivingId}
-                      item={item}
-                      isMine={true}
-                      isRecycle={true}
-                    />
-                    {editMode && (
-                      <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
-                    )}
-                    {editMode && isArchivingCheck.includes(item.archivingId) && (
-                      <YellowCheck onPress={() => handleCheck(item.archivingId, 'archiving')}>
-                        <Image source={defaultIcons.yellowCheck} />
-                      </YellowCheck>
-                    )}
-                  </View>
-                </>
+                <View
+                  key={item.archivingId}
+                  style={{ alignItems: 'center' }}
+                >
+                  <ArchivingCard
+                    key={item.archivingId}
+                    item={item}
+                    isMine={true}
+                    isRecycle={true}
+                  />
+                  {editMode && (
+                    <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
+                  )}
+                  {editMode && isArchivingCheck.includes(item.archivingId) && (
+                    <YellowCheck onPress={() => handleCheck(item.archivingId, 'archiving')}>
+                      <Image source={defaultIcons.yellowCheck} />
+                    </YellowCheck>
+                  )}
+                </View>
               ))}
           </TabItemCardContainer>
         </TabItemContainer>
         <GrayDivider />
         <TabItemContainer>
-          <SearchDataText>
-            {i18n.t('numberOfRecycleItem', { number: contents.length })}
-          </SearchDataText>
-          <Title>{i18n.t('contents')}</Title>
+          <Header>
+            <SearchDataText>
+              {i18n.t('numberOfRecycleItem', { number: contents.length })}
+            </SearchDataText>
+            <Title>{i18n.t('contents')}</Title>
+          </Header>
           <TabItemCardContainer>
-            {contents !== undefined && (
+            {contents && (
               <ContentListContainer
                 scrollEnabled={false}
                 data={contents}
