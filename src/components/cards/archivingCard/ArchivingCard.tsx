@@ -14,7 +14,7 @@ import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { CategoryState } from '@/state/CategoryState'
+import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -48,7 +48,9 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
   const [isImageError, setIsImageError] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
+
   const currentCategory = useRecoilValue(CategoryState)
+  const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving, {
     /**
@@ -60,7 +62,14 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
     },
   })
 
-  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId))
+  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId), {
+    /**
+     * scrapMutate 성공 시, communityCurrentCategory를 업데이트 합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+    },
+  })
   const { mutate: pinMutate } = useMutation(() => patchPinArchiving(markStatus, archivingId), {
     /**
      * pinMutate 성공 시, currentCategory를 업데이트 합니다.
