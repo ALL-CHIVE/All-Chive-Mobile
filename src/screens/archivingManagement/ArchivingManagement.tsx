@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 
 import { AxiosError } from 'axios'
-import { ScrollView, View } from 'react-native'
-import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { RouteProp, useNavigation } from '@react-navigation/native'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
@@ -20,22 +18,20 @@ import { ArchivingList } from './components/ArchivingList'
  * 아카이빙 관리
  */
 export const ArchivingManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
-  
+
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
 
   const {
     data: archivingListData,
     isLoading,
-    isError
+    isError,
   } = useQuery('archivingList', () => getArchivingList(), {
     /**
      *
      */
     onError: (e: AxiosError) => {
-      console.log('archiving managent error')
-      console.log(e.response?.data)
+      // console.log(e.response?.data)
     },
   })
 
@@ -56,32 +52,32 @@ export const ArchivingManagement = () => {
         }}
       />
       <DefaultContainer>
-      <LeftButtonHeader title={i18n.t('archivingManagement')} />
-      <ScrollContainer
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {archivingListData &&
-          Object.keys(archivingListData).map(
-            (category) =>
-              archivingListData[category].length > 0 && (
-                <ArchivingList
-                  key={category}
-                  category={category}
-                  archivingListData={archivingListData[category]}
-                />
-              )
-          )}
-        <PlusButton onPress={() => setIsCreateModalVisible(true)}>
-          <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
-        </PlusButton>
-        <Bottom />
-      </ScrollContainer>
-      <CreateArchivingModal
-        onClose={handleCloseCreateModal}
-        isVisible={isCreateModalVisible}
-      />
-    </DefaultContainer>
-  </>
+        <LeftButtonHeader title={i18n.t('archivingManagement')} />
+        <ScrollContainer
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {archivingListData &&
+            Object.keys(archivingListData).map(
+              (category) =>
+                archivingListData[category].length > 0 && (
+                  <ArchivingList
+                    key={category}
+                    category={category}
+                    archivingListData={archivingListData[category]}
+                  />
+                )
+            )}
+          <PlusButton onPress={() => setIsCreateModalVisible(true)}>
+            <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
+          </PlusButton>
+          <Bottom />
+        </ScrollContainer>
+        <CreateArchivingModal
+          onClose={handleCloseCreateModal}
+          isVisible={isCreateModalVisible}
+        />
+      </DefaultContainer>
+    </>
   )
 }

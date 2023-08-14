@@ -112,12 +112,12 @@ export const EditArchivingModal = ({
       setSelectedCategory(data.category)
       setPublicStatus(data.markStatus)
     },
-      
+
     /**
      *
      */
     onError: () => {
-      console.log('edit error')
+      // console.log('edit error')
     },
   })
 
