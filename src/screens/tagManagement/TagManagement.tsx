@@ -5,8 +5,10 @@ import { ScrollView } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
@@ -24,7 +26,7 @@ export const TagManagement = () => {
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
   const [text, setText] = useState('')
 
-  const { data: tagData } = useQuery(['getTagData'], () => getTag(false))
+  const { data: tagData, isLoading, isError } = useQuery(['getTagData'], () => getTag(false))
 
   const { mutate: postTagMutate } = useMutation(postTag, {
     /**
@@ -60,6 +62,13 @@ export const TagManagement = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isLoading}
+        onClick={() => {
+          queryClient.invalidateQueries(['getTagData'])
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

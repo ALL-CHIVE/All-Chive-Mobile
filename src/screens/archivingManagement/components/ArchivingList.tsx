@@ -93,14 +93,12 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
         </CategoryBox>
       </CategoryContainer>
       {archivingListData.map((item) => (
-        <>
-          <ArchivingContainer>
-            <GrayText>{`${item.title}  ${item.contentCnt}`}</GrayText>
-            <TouchableOpacity onPress={() => handleActionSheet(item.archivingId)}>
-              <Image source={defaultIcons.popup} />
-            </TouchableOpacity>
-          </ArchivingContainer>
-        </>
+        <ArchivingContainer key={item.archivingId}>
+          <GrayText>{`${item.title}  ${item.contentCnt}`}</GrayText>
+          <TouchableOpacity onPress={() => handleActionSheet(item.archivingId)}>
+            <Image source={defaultIcons.popup} />
+          </TouchableOpacity>
+        </ArchivingContainer>
       ))}
       <EditArchivingModal
         archivingId={currentArchivingId}

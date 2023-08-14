@@ -33,7 +33,6 @@ export const canAuthSignIn = async () => {
     saveTokens(tokens.refreshToken, tokens.accessToken)
     return true
   } catch (error) {
-    console.log(error)
     return false
   }
 }
@@ -43,7 +42,6 @@ export const canAuthSignIn = async () => {
  */
 export const logout = async () => {
   const accessToken = await getAccessToken()
-  console.log(accessToken)
   const response = await client.post(
     `/auth/logout`,
     {},

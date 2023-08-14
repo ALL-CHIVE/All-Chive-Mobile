@@ -115,7 +115,11 @@
   "tagManagement": "태그 관리",
   "blockManagement": "차단 관리",
   "termsOfService": "이용약관",
+  "privacyPolicy": "개인정보 처리방침",
   "communityUsePolicy": "커뮤니티 이용 정책",
+  "notice": "공지사항",
+  "emptyNotice": "공지사항이 없습니다",
+  "customerService": "고객센터",
   "recycleBin": "휴지통",
   "emptyRecycleBin": "휴지통 비어있습니다",
   "appVersion": "앱 버전정보",
@@ -147,5 +151,11 @@
   "noCommunityArchiving": "아직 커뮤니티 아카이빙이 없어요!",
   "noHomeArchiving": "아직 내 아카이빙이 비어있어요!",
   "alreadyReported": "이미 신고한 게시물이에요!",
-  "pleaseWaitReporting": "신고 사유가 검토 중이니 기다려주세요!"
+  "pleaseWaitReporting": "신고 사유가 검토 중이니 기다려주세요!",
+  "loading": "로딩중",
+  "pleaseWait": "잠시만 기다려주세요!",
+  "temporaryError": "일시적인 오류에요",
+  "couldntGetInformation": "정보를 불러오지 못 했어요",
+  "pleaseRetryLittleWhile": "잠시 후에 다시 시도해주세요!",
+  "retry": "다시 시도하기"
 }
