@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getCommunityArchivingList, getScrapArchivingList } from '@/apis/archiving'
 import { getUser } from '@/apis/user'
@@ -17,11 +17,11 @@ import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
-import { Category } from '@/models/enums/Category'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
+import { CommunityCategoryState } from '@/state/CategoryState'
 
 import {
   Header,
@@ -45,12 +45,14 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  * Community
  */
 export const Community = () => {
-  const navigation = useNavigation<MainNavigationProp>()
-  const [currentCategory, setCurrentCategory] = useState(Category.All)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
-  const allCategoryList = useRecoilValue(AllCategoryListState)
-  const [currentCommunityMenu, setCurrentCommunityMenu] = useState(CommunityMenuType.Community)
   const queryClient = useQueryClient()
+  const navigation = useNavigation<MainNavigationProp>()
+
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
+  const [currentCommunityMenu, setCurrentCommunityMenu] = useState(CommunityMenuType.Community)
+
+  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
 
   const {
     data: profileData,
