@@ -50,4 +50,5 @@ export interface ArchivingListContent {
   linkCnt: number
   scrapCnt: number
   markStatus: boolean
+  publicStatus: boolean
 }
