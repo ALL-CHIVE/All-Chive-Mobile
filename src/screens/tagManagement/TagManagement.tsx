@@ -46,7 +46,7 @@ export const TagManagement = () => {
     <>
       {isLoading && <Loading />}
       <ErrorDialog
-        isVisible={isLoading}
+        isVisible={isError}
         onClick={() => {
           queryClient.invalidateQueries(['getTagData'])
         }}
