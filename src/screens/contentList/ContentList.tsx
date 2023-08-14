@@ -73,12 +73,6 @@ const ContentList = ({ route }: ContentListProps) => {
       queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
-    /**
-     *
-     */
-    onError: (error: AxiosError) => {
-      // console.log(error)
-    },
   })
 
   const { mutate: postBlockMutate } = useMutation(

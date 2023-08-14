@@ -73,12 +73,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     onSuccess: () => {
       navigation.goBack()
     },
-    /**
-     *
-     */
-    onError: (error: AxiosError) => {
-      // console.log(error)
-    },
   })
 
   /**

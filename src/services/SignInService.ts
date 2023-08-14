@@ -37,7 +37,6 @@ const signInWithApple = async (): Promise<SignInResult | undefined> => {
 
     return
   } catch (err) {
-    // console.log(err)
     return
   }
 }
@@ -87,7 +86,6 @@ const getIsUser = async (
     }
   } catch (err) {
     //ignore
-    console.log(err)
     return
   }
 }
@@ -113,7 +111,6 @@ export const signUp = async (
     }
   } catch (err) {
     //ignore
-    console.log(err)
     return false
   }
 }
