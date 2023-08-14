@@ -10,8 +10,10 @@ import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
+import { Loading } from '@/components/loading/Loading'
 import Memo from '@/components/memo/Memo'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
@@ -46,15 +48,15 @@ interface ContentDetailProps {
 const ContentDetail = ({ route }: ContentDetailProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const actionSheetRef = useRef<ActionSheet>(null)
+  const queryClient = useQueryClient()
 
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
-  const queryClient = useQueryClient()
 
   const {
     isLoading,
-    error,
+    isError,
     data: content,
   } = useQuery<GetContentsResponse, AxiosError>(`${queryKeys.contents}${route.params.id}`, () =>
     getContents(route.params.id)
@@ -147,6 +149,14 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(`${queryKeys.contents}${route.params.id}`)
+        }}
+      />
+
       <DefaultContainer>
         <DefaultHeader
           title={content.contentTitle}
