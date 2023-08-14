@@ -13,7 +13,7 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
-import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
@@ -94,22 +94,14 @@ export const Home = () => {
   return (
     <>
       {isProfileLoading || isLoading ? <Loading /> : <></>}
-      <DefaultDialog
+      <ErrorDialog
         isVisible={isProfileError}
-        title={i18n.t('couldntGetInformation')}
-        imageUrl={defaultImages.error}
-        description={i18n.t('pleaseRetryLittleWhile')}
-        buttonText={i18n.t('retry')}
         onClick={() => {
           queryClient.invalidateQueries(['getUser'])
         }}
       />
-      <DefaultDialog
+      <ErrorDialog
         isVisible={isError}
-        title={i18n.t('couldntGetInformation')}
-        imageUrl={defaultImages.error}
-        description={i18n.t('pleaseRetryLittleWhile')}
-        buttonText={i18n.t('retry')}
         onClick={() => {
           queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         }}

@@ -13,8 +13,10 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
@@ -135,100 +137,126 @@ export const Community = () => {
   }
 
   return (
-    <HomeContainer>
-      <Header>
-        <SearchContainer style={{ flex: 1 }}>
-          <SearchButton />
-        </SearchContainer>
-        <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
-          <ProfileImage
-            source={
-              isProfileImageError || !profileData?.imgUrl
-                ? defaultImages.profile
-                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
-            }
-            onError={() => setIsProfileImageError(true)}
-            defaultSource={defaultImages.profile as ImageURISource}
-          />
-        </TouchableOpacity>
-      </Header>
-      <ScrollContainer
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[2]}
-        onScrollEndDrag={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            onEndReached()
-          }
+    <>
+      {isProfileLoading || isLoading || isScrapLoading ? <Loading /> : <></>}
+      <ErrorDialog
+        isVisible={isProfileError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getUser'])
         }}
-      >
-        <Greeding>
-          <>
-            <Title>{i18n.t('scrapArchiveYouWant')}</Title>
-          </>
-          <BackgroundImage source={defaultImages.communityBackground} />
-        </Greeding>
-        <Menu>
-          <MenuButton
-            style={currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuButton}
-            onPress={() => setCurrentCommunityMenu(CommunityMenuType.Community)}
-          >
-            <MenuText
-              style={currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuText}
-            >
-              {i18n.t('community')}
-            </MenuText>
-          </MenuButton>
-          <MenuButton
-            style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuButton}
-            onPress={() => setCurrentCommunityMenu(CommunityMenuType.Scrap)}
-          >
-            <MenuText
-              style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuText}
-            >
-              {i18n.t('scrap')}
-            </MenuText>
-          </MenuButton>
-        </Menu>
-        <CategoryList
-          currentCategory={currentCategory}
-          setCurrentCategory={setCurrentCategory}
-          options={allCategoryList}
-        />
-        {(currentCommunityMenu === CommunityMenuType.Community &&
-          !archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
-            .length) ||
-        (currentCommunityMenu === CommunityMenuType.Scrap &&
-          !scrapArchivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
-            .length) ? (
-          <EmptyItem
-            textKey={
-              currentCommunityMenu === CommunityMenuType.Community
-                ? 'noCommunityArchiving'
-                : 'noScrapArchiving'
+      />
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getCommunityArchivingList', currentCategory])
+        }}
+      />
+      <ErrorDialog
+        isVisible={isScrapError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
+        }}
+      />
+
+      <HomeContainer>
+        <Header>
+          <SearchContainer style={{ flex: 1 }}>
+            <SearchButton />
+          </SearchContainer>
+          <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+            <ProfileImage
+              source={
+                isProfileImageError || !profileData?.imgUrl
+                  ? defaultImages.profile
+                  : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
+              }
+              onError={() => setIsProfileImageError(true)}
+              defaultSource={defaultImages.profile as ImageURISource}
+            />
+          </TouchableOpacity>
+        </Header>
+        <ScrollContainer
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[2]}
+          onScrollEndDrag={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              onEndReached()
             }
+          }}
+        >
+          <Greeding>
+            <>
+              <Title>{i18n.t('scrapArchiveYouWant')}</Title>
+            </>
+            <BackgroundImage source={defaultImages.communityBackground} />
+          </Greeding>
+          <Menu>
+            <MenuButton
+              style={
+                currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuButton
+              }
+              onPress={() => setCurrentCommunityMenu(CommunityMenuType.Community)}
+            >
+              <MenuText
+                style={
+                  currentCommunityMenu === CommunityMenuType.Community && SelectedStyle.menuText
+                }
+              >
+                {i18n.t('community')}
+              </MenuText>
+            </MenuButton>
+            <MenuButton
+              style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuButton}
+              onPress={() => setCurrentCommunityMenu(CommunityMenuType.Scrap)}
+            >
+              <MenuText
+                style={currentCommunityMenu === CommunityMenuType.Scrap && SelectedStyle.menuText}
+              >
+                {i18n.t('scrap')}
+              </MenuText>
+            </MenuButton>
+          </Menu>
+          <CategoryList
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            options={allCategoryList}
           />
-        ) : (
-          <List>
-            <ArchivingCardList
-              contentContainerStyle={Styles.flatList}
-              scrollEnabled={false}
-              numColumns={LIST_NUMS_COLUMNS}
-              renderItem={renderItem}
-              data={
+          {(currentCommunityMenu === CommunityMenuType.Community &&
+            !archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+              .length) ||
+          (currentCommunityMenu === CommunityMenuType.Scrap &&
+            !scrapArchivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+              .length) ? (
+            <EmptyItem
+              textKey={
                 currentCommunityMenu === CommunityMenuType.Community
-                  ? archivingList?.pages
-                      .map((page: MainArchivingListResponse) => page.content)
-                      .flat()
-                  : scrapArchivingList?.pages
-                      .map((page: MainArchivingListResponse) => page.content)
-                      .flat()
+                  ? 'noCommunityArchiving'
+                  : 'noScrapArchiving'
               }
             />
-          </List>
-        )}
-        <Blank />
-      </ScrollContainer>
-    </HomeContainer>
+          ) : (
+            <List>
+              <ArchivingCardList
+                contentContainerStyle={Styles.flatList}
+                scrollEnabled={false}
+                numColumns={LIST_NUMS_COLUMNS}
+                renderItem={renderItem}
+                data={
+                  currentCommunityMenu === CommunityMenuType.Community
+                    ? archivingList?.pages
+                        .map((page: MainArchivingListResponse) => page.content)
+                        .flat()
+                    : scrapArchivingList?.pages
+                        .map((page: MainArchivingListResponse) => page.content)
+                        .flat()
+                }
+              />
+            </List>
+          )}
+          <Blank />
+        </ScrollContainer>
+      </HomeContainer>
+    </>
   )
 }
 
