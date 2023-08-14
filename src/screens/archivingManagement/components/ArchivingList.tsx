@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { AxiosError } from 'axios'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -17,6 +18,7 @@ import {
   ArchivingContainer,
   CategoryBox,
   CategoryContainer,
+  CategoryCount,
   CategoryText,
   Container,
   GrayText,
@@ -44,7 +46,13 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['archivingList'])
+      queryClient.invalidateQueries(['getUser'])
     },
+
+    /**
+     *
+     */
+    onError: (e: AxiosError) => {},
   })
 
   /**
@@ -89,8 +97,9 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
     <Container>
       <CategoryContainer>
         <CategoryBox>
-          <CategoryText>{i18n.t(`${category.toUpperCase()}`)}</CategoryText>
+          <CategoryText>{i18n.t(`${category}`)}</CategoryText>
         </CategoryBox>
+        <CategoryCount>{archivingListData.length}</CategoryCount>
       </CategoryContainer>
       {archivingListData.map((item) => (
         <ArchivingContainer key={item.archivingId}>
@@ -100,11 +109,13 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
           </TouchableOpacity>
         </ArchivingContainer>
       ))}
-      <EditArchivingModal
-        archivingId={currentArchivingId}
-        onClose={handleCloseEditModal}
-        isVisible={isEditModalVisible}
-      />
+      {isEditModalVisible && (
+        <EditArchivingModal
+          archivingId={currentArchivingId}
+          onClose={handleCloseEditModal}
+          isVisible={isEditModalVisible}
+        />
+      )}
       <TwoButtonDialog
         isVisible={isDeleteDialogVisible}
         title="doYouWantDeleteThisArchiving"

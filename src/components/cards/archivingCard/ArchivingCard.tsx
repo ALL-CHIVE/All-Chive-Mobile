@@ -150,7 +150,9 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
             {title}
           </Title>
           <Day>{createdAt}</Day>
-          {isMine ? (
+          {isRecycle ? (
+            <></>
+          ) : isMine ? (
             <>
               <PopupContainer>
                 <Popup menuList={popupMenuList} />

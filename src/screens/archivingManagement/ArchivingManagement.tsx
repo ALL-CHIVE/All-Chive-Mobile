@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { RouteProp, useNavigation } from '@react-navigation/native'
-import { ScrollView } from 'react-native'
+import { AxiosError } from 'axios'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
 
-import { PlusButton, PlusButtonText, WhiteDivider } from './ArchivingManagement.style'
+import { Bottom, PlusButton, PlusButtonText, ScrollContainer } from './ArchivingManagement.style'
 import { ArchivingList } from './components/ArchivingList'
-
-interface ArchivingManagementProps {
-  route: RouteProp<RootStackParamList, 'ArchivingManagement'>
-}
 
 /**
  * 아카이빙 관리
  */
-export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
-  const navigation = useNavigation<MainNavigationProp>()
+export const ArchivingManagement = () => {
   const queryClient = useQueryClient()
 
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
@@ -33,19 +26,15 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
     data: archivingListData,
     isLoading,
     isError,
-  } = useQuery(['archivingList'], () => getArchivingList())
-
-  useEffect(() => {
-    navigation.setOptions({
-      /**
-       * header
-       */
-      header: () => <LeftButtonHeader title={i18n.t('archivingManagement')} />,
-    })
+  } = useQuery('archivingList', () => getArchivingList(), {
+    /**
+     *
+     */
+    onError: (e: AxiosError) => {},
   })
 
   /**
-   *
+   * 생성 모달을 종료합니다.
    */
   const handleCloseCreateModal = () => {
     setIsCreateModalVisible(false)
@@ -60,32 +49,33 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
           queryClient.invalidateQueries(['archivingList'])
         }}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {archivingListData &&
-          Object.keys(archivingListData).map((category) => (
-            <React.Fragment key={category}>
-              {archivingListData[category].length > 0 && (
-                <>
+      <DefaultContainer>
+        <LeftButtonHeader title={i18n.t('archivingManagement')} />
+        <ScrollContainer
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {archivingListData &&
+            Object.keys(archivingListData).map(
+              (category) =>
+                archivingListData[category].length > 0 && (
                   <ArchivingList
+                    key={category}
                     category={category}
                     archivingListData={archivingListData[category]}
                   />
-                  <WhiteDivider />
-                </>
-              )}
-            </React.Fragment>
-          ))}
-        <PlusButton onPress={() => setIsCreateModalVisible(true)}>
-          <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
-        </PlusButton>
-      </ScrollView>
-      <CreateArchivingModal
-        onClose={handleCloseCreateModal}
-        isVisible={isCreateModalVisible}
-      />
+                )
+            )}
+          <PlusButton onPress={() => setIsCreateModalVisible(true)}>
+            <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
+          </PlusButton>
+          <Bottom />
+        </ScrollContainer>
+        <CreateArchivingModal
+          onClose={handleCloseCreateModal}
+          isVisible={isCreateModalVisible}
+        />
+      </DefaultContainer>
     </>
   )
 }

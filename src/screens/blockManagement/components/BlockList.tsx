@@ -12,19 +12,14 @@ import i18n from '@/locales'
 import { UserData } from '@/models/Block'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
-import {
-  ButtonText,
-  GrayDivider,
-  ListContainer,
-  Text,
-  UnblockButton,
-} from '../BlockManagement.style'
+import { ButtonText, ListContainer, Text, UnblockButton } from '../BlockManagement.style'
 
 /**
  * 차단 관리 리스트
  */
 export const BlockList = ({ nickname, id }: UserData) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const [ownerNickname, setOwnerNickname] = useState('')
 
   const [isUnblockDialogVisible, setIsUnblockDialogVisible] = useState(false)
   const [isUnblockCompleteDialogVisible, setIsUnblockCompleteDialogVisible] = useState(false)
@@ -33,7 +28,15 @@ export const BlockList = ({ nickname, id }: UserData) => {
     /**
      *
      */
-    onSuccess: () => {
+    onSuccess: (response) => {
+      setOwnerNickname(response.nickname)
+      setIsUnblockCompleteDialogVisible(true)
+    },
+
+    /**
+     *
+     */
+    onError: () => {
       setIsUnblockCompleteDialogVisible(true)
     },
   })
@@ -53,7 +56,6 @@ export const BlockList = ({ nickname, id }: UserData) => {
           <ButtonText>{`${i18n.t('block')} ${i18n.t('unblock')}`}</ButtonText>
         </UnblockButton>
       </ListContainer>
-      <GrayDivider />
       <TwoButtonDialog
         isVisible={isUnblockDialogVisible}
         title={i18n.t('doYouWantUnblockThisUser', { nickname: nickname })}
@@ -63,12 +65,12 @@ export const BlockList = ({ nickname, id }: UserData) => {
         }}
         onComplete={() => {
           setIsUnblockDialogVisible(false)
-          handleUnblock(id)
         }}
+        onClose={(isComlete: boolean) => isComlete && handleUnblock(id)}
       />
       <DefaultDialog
         isVisible={isUnblockCompleteDialogVisible}
-        title={i18n.t('unblockComplete', { nickname: nickname })}
+        title={i18n.t('unblockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.unblockComplete}
         buttonText="backToMypage"
         onClick={() => {
