@@ -35,13 +35,25 @@ const Search = () => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.All)
   const [isFocus, setIsFocus] = useState(false)
 
-  const { data: searchData } = useQuery(['getSearch'], () => getSearch(searchType, searchText))
-
-  const { data: searchRelation } = useQuery(['getSearchRelation'], () =>
-    getSearchRelation(searchText)
+  const { data: searchData } = useQuery(
+    ['getSearch', searchText],
+    () => getSearch(searchType, searchText),
+    {
+      enabled: searchText !== '' && !isFocus,
+    }
   )
 
-  const { data: latestSearchData } = useQuery(['getSearchLatest'], () => getSearchLatest())
+  const { data: searchRelation } = useQuery(
+    ['getSearchRelation', searchText],
+    () => getSearchRelation(searchText),
+    {
+      enabled: searchText !== '' && isFocus,
+    }
+  )
+
+  const { data: latestSearchData } = useQuery(['getSearchLatest'], () => getSearchLatest(), {
+    enabled: searchText === '',
+  })
 
   const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest)
 
@@ -49,7 +61,10 @@ const Search = () => {
    * handleSearch
    */
   const handleSearch = () => {
-    // TODO: 검색 연결
+    if (searchText === '') return
+    else {
+      setIsFocus(false)
+    }
   }
 
   /**

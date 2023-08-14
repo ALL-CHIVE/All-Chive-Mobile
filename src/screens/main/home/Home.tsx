@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getHomeArchivingList } from '@/apis/archiving'
 import { getUser } from '@/apis/user'
@@ -17,10 +17,10 @@ import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
-import { Category } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
+import { CategoryState } from '@/state/CategoryState'
 
 import {
   NicknameText,
@@ -44,11 +44,12 @@ const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
  * Home
  */
 export const Home = () => {
-  const [currentCategory, setCurrentCategory] = useState(Category.All)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
-  const allCategoryList = useRecoilValue(AllCategoryListState)
-  const queryClient = useQueryClient()
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
+
+  const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
+  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
 
   const {
     data: profileData,

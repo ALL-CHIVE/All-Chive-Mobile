@@ -19,7 +19,7 @@ interface ArchivingManagementProps {
 }
 
 /**
- *
+ * 아카이빙 관리
  */
 export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
   const navigation = useNavigation<MainNavigationProp>()
