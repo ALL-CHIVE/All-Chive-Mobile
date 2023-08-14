@@ -21,6 +21,7 @@ import {
   TabItemCardContainer,
   Title,
   YellowCheck,
+  Header,
 } from './Tab.style'
 
 /**
@@ -88,14 +89,19 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
         showsHorizontalScrollIndicator={false}
       >
         <TabItemContainer>
-          <SearchDataText>
-            {i18n.t('numberOfRecycleItem', { number: archivings.length })}
-          </SearchDataText>
-          <Title>{i18n.t('archiving')}</Title>
+          <Header>
+            <SearchDataText>
+              {i18n.t('numberOfRecycleItem', { number: archivings.length })}
+            </SearchDataText>
+            <Title>{i18n.t('archiving')}</Title>
+          </Header>
           <TabItemCardContainer>
             {archivings &&
               archivings.map((item) => (
-                <View key={item.archivingId}>
+                <View
+                  key={item.archivingId}
+                  style={{ alignItems: 'center' }}
+                >
                   <ArchivingCard
                     key={item.archivingId}
                     item={item}
@@ -116,10 +122,12 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
         </TabItemContainer>
         <GrayDivider />
         <TabItemContainer>
-          <SearchDataText>
-            {i18n.t('numberOfRecycleItem', { number: contents.length })}
-          </SearchDataText>
-          <Title>{i18n.t('contents')}</Title>
+          <Header>
+            <SearchDataText>
+              {i18n.t('numberOfRecycleItem', { number: contents.length })}
+            </SearchDataText>
+            <Title>{i18n.t('contents')}</Title>
+          </Header>
           <TabItemCardContainer>
             {contents && (
               <ContentListContainer

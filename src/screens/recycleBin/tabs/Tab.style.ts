@@ -15,6 +15,10 @@ export const TabItemContainer = styled.View`
   padding: 0px 25px;
 `
 
+export const Header = styled.View`
+  width: 100%;
+`
+
 export const SearchDataText = styled.Text`
   ${fonts.body2}
   color: ${colors.gray300};
@@ -39,8 +43,7 @@ export const GrayDivider = styled.View`
 `
 
 export const ContentListContainer = styled(FlatList<SimpleContent>)`
-  margin: auto;
-  flex-direction: row;
+  width: 336px;
 `
 
 export const CheckBox = styled.TouchableOpacity`

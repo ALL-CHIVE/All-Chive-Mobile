@@ -46,6 +46,14 @@ export const RecycleBin = () => {
       setIsCheckContent([])
       setIsDeleteDialogVisible(false)
     },
+
+    /**
+     *
+     */
+    onError: () => {
+      console.log('remove error')
+      setIsDeleteDialogVisible(false)
+    },
   })
 
   const { mutate: restoreMutate } = useMutation(patchRecycles, {
@@ -103,7 +111,7 @@ export const RecycleBin = () => {
         rightButtonClick={handleEditMode}
       />
       <Container>
-        {recycleData ? (
+        {recycleData && (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
           <RecycleBinTab
             contents={recycleData.contents}
             archivings={recycleData.archivings}

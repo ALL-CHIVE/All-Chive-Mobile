@@ -68,17 +68,17 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
 
   return (
     <Container>
-      <TabItemContainer>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <TabItemContainer>
           <SearchDataText>
             {i18n.t('numberOfRecycleItem', { number: contents.length })}
           </SearchDataText>
           <Title>{i18n.t('contents')}</Title>
           <TabItemCardContainer>
-            {contents !== undefined && (
+            {contents && (
               <ContentListContainer
                 scrollEnabled={false}
                 data={contents}
@@ -87,8 +87,8 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
               />
             )}
           </TabItemCardContainer>
-        </ScrollView>
-      </TabItemContainer>
+        </TabItemContainer>
+      </ScrollView>
     </Container>
   )
 }

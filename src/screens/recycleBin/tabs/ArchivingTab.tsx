@@ -17,6 +17,7 @@ import {
   TabItemCardContainer,
   Title,
   YellowCheck,
+  Header,
 } from './Tab.style'
 
 /**
@@ -40,15 +41,17 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
 
   return (
     <Container>
-      <TabItemContainer>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          <SearchDataText>
-            {i18n.t('numberOfRecycleItem', { number: archivings.length })}
-          </SearchDataText>
-          <Title>{i18n.t('archiving')}</Title>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <TabItemContainer>
+          <Header>
+            <SearchDataText>
+              {i18n.t('numberOfRecycleItem', { number: archivings.length })}
+            </SearchDataText>
+            <Title>{i18n.t('archiving')}</Title>
+          </Header>
           <TabItemCardContainer>
             {archivings !== undefined &&
               archivings.map((item) => (
@@ -70,8 +73,8 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
                 </>
               ))}
           </TabItemCardContainer>
-        </ScrollView>
-      </TabItemContainer>
+        </TabItemContainer>
+      </ScrollView>
     </Container>
   )
 }
