@@ -29,6 +29,7 @@ export const CategoryList = ({
   return (
     <ScrollContainer
       horizontal={true}
+      showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >
       {options.map((option, index) => (

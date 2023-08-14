@@ -37,3 +37,22 @@ export const canAuthSignIn = async () => {
     return false
   }
 }
+
+/**
+ * 로그아웃합니다.
+ */
+export const logout = async () => {
+  const accessToken = await getAccessToken()
+  console.log(accessToken)
+  const response = await client.post(
+    `/auth/logout`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  )
+
+  return response
+}
