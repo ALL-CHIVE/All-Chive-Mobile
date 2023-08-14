@@ -13,7 +13,6 @@ export const getLinkImage = async (uri: string) => {
     const meta = parseHtml(data as string)
     return meta['image']
   } catch (e) {
-    console.log(e)
     return ''
   }
 }
@@ -27,7 +26,6 @@ export const getLinkOgTags = async (uri: string) => {
     const meta = parseHtml(data as string)
     return meta
   } catch (e) {
-    console.log(e)
     return
   }
 }

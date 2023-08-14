@@ -18,7 +18,9 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { DropDown } from '@/components/dropDown/DropDown'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
@@ -94,29 +96,30 @@ export const EditArchivingModal = ({
     setModalHeight(624)
   }
 
-  const { data: archivingData } = useQuery(
-    ['archiving', archivingId],
-    () => getArchivingData(archivingId),
-    {
-      /**
-       * onSuccess 시 데이터를 세팅합니다.
-       */
-      onSuccess: (data) => {
-        setName(data.title)
-        setImageKey(data.imageUrl)
-        data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${data.imageUrl}` })
-        setSelectedCategory(data.category)
-        setPublicStatus(data.markStatus)
-      },
-
-      /**
-       *
-       */
-      onError: () => {
-        console.log('edit error')
-      },
-    }
-  )
+  const {
+    data: archivingData,
+    isLoading,
+    isError,
+  } = useQuery(['archiving', archivingId], () => getArchivingData(archivingId), {
+    enabled: isVisible && archivingId !== -1,
+    /**
+     * onSuccess 시 데이터를 세팅합니다.
+     */
+    onSuccess: (data) => {
+      setName(data.title)
+      setImageKey(data.imageUrl)
+      data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${data.imageUrl}` })
+      setSelectedCategory(data.category)
+      setPublicStatus(data.markStatus)
+    },
+      
+    /**
+     *
+     */
+    onError: () => {
+      console.log('edit error')
+    },
+  })
 
   /**
    *
@@ -207,6 +210,13 @@ export const EditArchivingModal = ({
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['archiving', archivingId])
+        }}
+      />
       <Modal
         isVisible={isVisible}
         backdropOpacity={0.5}

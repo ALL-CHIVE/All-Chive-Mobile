@@ -1,11 +1,14 @@
 import React from 'react'
 
-import { useQuery } from 'react-query'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { ScrollView } from 'react-native'
+import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block'
-import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 
 import { ScrollContainer } from './BlockManagement.style'
@@ -17,9 +20,24 @@ import { BlockList } from './components/BlockList'
  */
 export const BlockManagement = () => {
   const { data: blockUserData } = useQuery(['getBlockList'], () => getBlockList())
+  const queryClient = useQueryClient()
+
+  const {
+    data: blockUserData,
+    isLoading,
+    isError,
+  } = useQuery(['getBlockList'], () => getBlockList())
 
   return (
-    <DefaultContainer>
+    <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getBlockList'])
+        }}
+      />
+       <DefaultContainer>
       <LeftButtonHeader title={i18n.t('blockManagement')} />
       <ScrollContainer
         showsVerticalScrollIndicator={false}
@@ -38,5 +56,6 @@ export const BlockManagement = () => {
         )}
       </ScrollContainer>
     </DefaultContainer>
+  </>
   )
 }

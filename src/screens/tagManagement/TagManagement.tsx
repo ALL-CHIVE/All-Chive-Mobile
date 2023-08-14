@@ -4,8 +4,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 
 import { ButtonText, PlusButton, ScrollContainer } from './TagManagement.style'
@@ -21,7 +23,7 @@ export const TagManagement = () => {
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
   const [text, setText] = useState('')
 
-  const { data: tagData } = useQuery(['getTagData'], () => getTag(false))
+  const { data: tagData, isLoading, isError } = useQuery(['getTagData'], () => getTag(false))
 
   const { mutate: postTagMutate } = useMutation(postTag, {
     /**
@@ -41,13 +43,21 @@ export const TagManagement = () => {
   }
 
   return (
-    <DefaultContainer>
-      <LeftButtonHeader
-        title={i18n.t('tagManagement')}
-        rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-        rightButtonClick={() => setEditMode((prev) => !prev)}
+    <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isLoading}
+        onClick={() => {
+          queryClient.invalidateQueries(['getTagData'])
+        }}
       />
-      <ScrollContainer
+      <DefaultContainer>
+        <LeftButtonHeader
+          title={i18n.t('tagManagement')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={() => setEditMode((prev) => !prev)}
+        />
+        <ScrollContainer
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
@@ -81,5 +91,6 @@ export const TagManagement = () => {
         placeholder={i18n.t('placeHolderTag')}
       />
     </DefaultContainer>
+  </>
   )
 }

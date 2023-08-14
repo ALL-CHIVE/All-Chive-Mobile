@@ -11,9 +11,11 @@ import { getUserInfo, postUserInfo } from '@/apis/user'
 import { defaultIcons, defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
@@ -41,10 +43,9 @@ import {
  * 마이페이지 '내 계정' 화면
  */
 export const MyAccount = () => {
-  const queryClient = useQueryClient()
-
   const navigation = useNavigation<MainNavigationProp>()
   const actionSheetRef = useRef<ActionSheet>(null)
+  const queryClient = useQueryClient()
 
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
   const [profileImageKey, setProfileImageKey] = useState<string>('')
@@ -84,13 +85,6 @@ export const MyAccount = () => {
        */
       onSuccess: () => {
         queryClient.invalidateQueries(['getUser'])
-        console.log('success')
-      },
-      /**
-       *
-       */
-      onError: (e) => {
-        console.log(e)
       },
     }
   )
@@ -101,12 +95,6 @@ export const MyAccount = () => {
      */
     onSuccess: () => {
       navigation.navigate('Login')
-    },
-    /**
-     *
-     */
-    onError: () => {
-      // 에러 화면 처리
     },
   })
 
@@ -174,84 +162,93 @@ export const MyAccount = () => {
   }
 
   return (
-    <DefaultContainer>
-      <View style={{ maxWidth: 375 }}>
-        <LeftButtonHeader
-          title={i18n.t('myAccount')}
-          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-          rightButtonClick={handleRightButton}
+    <>
+      {isProfileLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isProfileError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getUserInfo'])
+        }}
+      />
+      <DefaultContainer>
+        <View style={{ maxWidth: 375 }}>
+          <LeftButtonHeader
+            title={i18n.t('myAccount')}
+            rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+            rightButtonClick={handleRightButton}
+          />
+        </View>
+        <DefaultScrollContainer>
+          <Container>
+            <ProfileContainer>
+              <ProfileImage
+                source={isProfileImageError || !profileImage ? defaultImages.profile : profileImage}
+                onError={() => setIsProfileImageError(true)}
+                defaultSource={defaultImages.profile as ImageURISource}
+              />
+              {editMode && (
+                <Button onPress={handleImageEdit}>
+                  <ButtonText>{i18n.t('edit')}</ButtonText>
+                </Button>
+              )}
+            </ProfileContainer>
+            <InfoContainer>
+              <RowView>
+                <InfoTitle>{i18n.t('name')}</InfoTitle>
+                <InfoText>{userInfoData?.name}</InfoText>
+              </RowView>
+              <Divider />
+              <RowView>
+                <InfoTitle>{i18n.t('email')}</InfoTitle>
+                <InfoText>{userInfoData?.email}</InfoText>
+              </RowView>
+              <Divider />
+              <RowView>
+                <InfoTitle>{i18n.t('nickName')}</InfoTitle>
+                <InfoText>{nickname}</InfoText>
+                <PencilIcon onPress={handleEditNickname}>
+                  {editMode && <Image source={defaultIcons.pencil} />}
+                </PencilIcon>
+              </RowView>
+              <Divider />
+            </InfoContainer>
+          </Container>
+        </DefaultScrollContainer>
+        <TwoButtonDialog
+          isVisible={isWithdrawDialogVisible}
+          title="doYouWantWithdrawal"
+          description="deletedAccountCannotRestore"
+          completeText="delete"
+          onCancel={() => {
+            setIsWithdrawDialogVisible(false)
+          }}
+          onComplete={() => {
+            setIsWithdrawDialogVisible(false)
+            handleWithdraw()
+          }}
         />
-      </View>
-      <DefaultScrollContainer>
-        <Container>
-          <ProfileContainer>
-            <ProfileImage
-              source={isProfileImageError || !profileImage ? defaultImages.profile : profileImage}
-              onError={() => setIsProfileImageError(true)}
-              defaultSource={defaultImages.profile as ImageURISource}
-            />
-            {editMode && (
-              <Button onPress={handleImageEdit}>
-                <ButtonText>{i18n.t('edit')}</ButtonText>
-              </Button>
-            )}
-          </ProfileContainer>
-          <InfoContainer>
-            <RowView>
-              <InfoTitle>{i18n.t('name')}</InfoTitle>
-              <InfoText>{userInfoData?.name}</InfoText>
-            </RowView>
-            <Divider />
-            <RowView>
-              <InfoTitle>{i18n.t('email')}</InfoTitle>
-              <InfoText>{userInfoData?.email}</InfoText>
-            </RowView>
-            <Divider />
-            <RowView>
-              <InfoTitle>{i18n.t('nickName')}</InfoTitle>
-              <InfoText>{nickname}</InfoText>
-              <PencilIcon onPress={handleEditNickname}>
-                {editMode && <Image source={defaultIcons.pencil} />}
-              </PencilIcon>
-            </RowView>
-            <Divider />
-          </InfoContainer>
-        </Container>
-      </DefaultScrollContainer>
-      <TwoButtonDialog
-        isVisible={isWithdrawDialogVisible}
-        title="doYouWantWithdrawal"
-        description="deletedAccountCannotRestore"
-        completeText="delete"
-        onCancel={() => {
-          setIsWithdrawDialogVisible(false)
-        }}
-        onComplete={() => {
-          setIsWithdrawDialogVisible(false)
-          handleWithdraw()
-        }}
-      />
-      <ActionSheet
-        ref={actionSheetRef}
-        title={i18n.t('setProfile')}
-        options={DefalutMenus()}
-        cancelButtonIndex={0}
-        tintColor={colors.gray600}
-        onPress={handleActionSheetMenu}
-        theme="ios"
-      />
-      {editMode && (
-        <Footer>
-          <TouchableOpacity onPress={() => setIsWithdrawDialogVisible(true)}>
-            <FooterText>{i18n.t('deleteAccount')}</FooterText>
-          </TouchableOpacity>
-        </Footer>
-      )}
-      <NicknameEditModal
-        isVisible={isNicknameEditModalVisible}
-        onCancle={() => setIsNicknameEditModalVisible(false)}
-        onSuccess={handleNicknameChange}
-      />
-    </DefaultContainer>
+        <ActionSheet
+          ref={actionSheetRef}
+          title={i18n.t('setProfile')}
+          options={DefalutMenus()}
+          cancelButtonIndex={0}
+          tintColor={colors.gray600}
+          onPress={handleActionSheetMenu}
+          theme="ios"
+        />
+        {editMode && (
+          <Footer>
+            <TouchableOpacity onPress={() => setIsWithdrawDialogVisible(true)}>
+              <FooterText>{i18n.t('deleteAccount')}</FooterText>
+            </TouchableOpacity>
+          </Footer>
+        )}
+        <NicknameEditModal
+          isVisible={isNicknameEditModalVisible}
+          onCancle={() => setIsNicknameEditModalVisible(false)}
+          onSuccess={handleNicknameChange}
+        />
+      </DefaultContainer>
+    </>
   )
 }

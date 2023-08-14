@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 
 import { AxiosError } from 'axios'
-import { View } from 'react-native'
-import { useQuery } from 'react-query'
+import { ScrollView, View } from 'react-native'
+import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { RouteProp, useNavigation } from '@react-navigation/native'
+import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
-import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
 import i18n from '@/locales'
 
@@ -17,9 +20,16 @@ import { ArchivingList } from './components/ArchivingList'
  * 아카이빙 관리
  */
 export const ArchivingManagement = () => {
+  const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
+  
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
 
-  const { data: archivingListData } = useQuery('archivingList', () => getArchivingList(), {
+  const {
+    data: archivingListData,
+    isLoading,
+    isError
+  } = useQuery('archivingList', () => getArchivingList(), {
     /**
      *
      */
@@ -37,7 +47,15 @@ export const ArchivingManagement = () => {
   }
 
   return (
-    <DefaultContainer>
+    <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['archivingList'])
+        }}
+      />
+      <DefaultContainer>
       <LeftButtonHeader title={i18n.t('archivingManagement')} />
       <ScrollContainer
         showsVerticalScrollIndicator={false}
@@ -64,5 +82,6 @@ export const ArchivingManagement = () => {
         isVisible={isCreateModalVisible}
       />
     </DefaultContainer>
+  </>
   )
 }
