@@ -27,10 +27,12 @@ import { colors } from '@/styles/colors'
 
 import {
   Bottom,
+  CameraIcon,
   CloseButton,
   Condition,
   Container,
   Header,
+  ImageButton,
   ModalTitle,
   NoticeText,
   ScrollContainer,
@@ -215,12 +217,13 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
-            <TouchableOpacity onPress={handleUploadImage}>
+            <ImageButton onPress={handleUploadImage}>
               <Thumbnail
                 source={image ? image : defaultImages.thumbnail}
                 defaultSource={defaultImages.thumbnail as ImageURISource}
               />
-            </TouchableOpacity>
+              <CameraIcon source={defaultIcons.camera} />
+            </ImageButton>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
               <Switch
