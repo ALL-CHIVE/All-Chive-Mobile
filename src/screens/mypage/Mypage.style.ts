@@ -3,20 +3,25 @@ import styled from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.View`
-  height: 250px;
+export const ScrollContainer = styled.ScrollView`
+  width: 375px;
 `
 
-export const ProfileContainer = styled.View`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+export const MyPageContainer = styled.View`
+  height: 270px;
+  border-radius: 0px 0px 20px 20px;
+  overflow: hidden;
 `
 
 export const HeaderContainer = styled.View`
   flex-direction: row;
-  padding: 24px;
+  padding: 25px;
+`
+
+export const ProfileContainer = styled.View`
+  margin-top: 6px;
+  align-items: center;
+  justify-content: center;
 `
 
 export const Title = styled.Text`
@@ -29,7 +34,7 @@ export const Title = styled.Text`
 export const ProfileImage = styled.Image`
   width: 110px;
   height: 110px;
-  border-radius: 40px;
+  border-radius: 70px;
 `
 
 export const NicknameText = styled.Text`
@@ -39,8 +44,6 @@ export const NicknameText = styled.Text`
 `
 
 export const NavigationListContainer = styled.View`
-  display: flex;
-  width: 100%;
   padding: 30px 24px 0px 24px;
 `
 

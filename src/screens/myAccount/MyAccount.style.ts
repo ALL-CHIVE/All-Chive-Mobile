@@ -3,9 +3,11 @@ import styled from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
+export const Container = styled.View`
+  padding: 0px 25px;
+`
+
 export const ProfileContainer = styled.View`
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 `
@@ -13,7 +15,7 @@ export const ProfileContainer = styled.View`
 export const ProfileImage = styled.Image`
   width: 110px;
   height: 110px;
-  border-radius: 40px;
+  border-radius: 70px;
   margin-bottom: 12px;
 `
 
@@ -32,7 +34,7 @@ export const ButtonText = styled.Text`
 `
 
 export const InfoContainer = styled.View`
-  padding: 70px 25px 0px 25px;
+  margin-top: 70px;
 `
 
 export const RowView = styled.View`
@@ -51,7 +53,7 @@ export const PencilIcon = styled.TouchableOpacity`
 export const Footer = styled.View`
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 375px;
   height: 103px;
   background-color: ${colors.yellow100};
 `
