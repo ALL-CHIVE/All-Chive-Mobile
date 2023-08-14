@@ -101,6 +101,7 @@ export const EditArchivingModal = ({
     isLoading,
     isError,
   } = useQuery(['archiving', archivingId], () => getArchivingData(archivingId), {
+    enabled: isVisible && archivingId !== -1,
     /**
      * onSuccess 시 데이터를 세팅합니다.
      */

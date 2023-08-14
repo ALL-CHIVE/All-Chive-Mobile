@@ -33,7 +33,7 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
     data: archivingListData,
     isLoading,
     isError,
-  } = useQuery('archivingList', () => getArchivingList())
+  } = useQuery(['archivingList'], () => getArchivingList())
 
   useEffect(() => {
     navigation.setOptions({
@@ -66,7 +66,7 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
       >
         {archivingListData &&
           Object.keys(archivingListData).map((category) => (
-            <>
+            <React.Fragment key={category}>
               {archivingListData[category].length > 0 && (
                 <>
                   <ArchivingList
@@ -76,7 +76,7 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
                   <WhiteDivider />
                 </>
               )}
-            </>
+            </React.Fragment>
           ))}
         <PlusButton onPress={() => setIsCreateModalVisible(true)}>
           <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
