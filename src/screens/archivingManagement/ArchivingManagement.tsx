@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -23,10 +25,15 @@ interface ArchivingManagementProps {
  */
 export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
 
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
 
-  const { data: archivingListData } = useQuery('archivingList', () => getArchivingList())
+  const {
+    data: archivingListData,
+    isLoading,
+    isError,
+  } = useQuery('archivingList', () => getArchivingList())
 
   useEffect(() => {
     navigation.setOptions({
@@ -46,6 +53,13 @@ export const ArchivingManagement = ({ route }: ArchivingManagementProps) => {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['archivingList'])
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}

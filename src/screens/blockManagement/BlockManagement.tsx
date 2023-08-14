@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ScrollView } from 'react-native'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
@@ -18,8 +20,13 @@ import { BlockList } from './components/BlockList'
  */
 export const BlockManagement = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const queryClient = useQueryClient()
 
-  const { data: blockUserData } = useQuery(['getBlockList'], () => getBlockList())
+  const {
+    data: blockUserData,
+    isLoading,
+    isError,
+  } = useQuery(['getBlockList'], () => getBlockList())
 
   useEffect(() => {
     navigation.setOptions({
@@ -32,6 +39,13 @@ export const BlockManagement = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getBlockList'])
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
