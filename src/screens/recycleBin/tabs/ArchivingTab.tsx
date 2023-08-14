@@ -52,22 +52,19 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
           <TabItemCardContainer>
             {archivings !== undefined &&
               archivings.map((item) => (
-                <>
-                  <View>
-                    <ArchivingCard
-                      key={item.archivingId}
-                      item={item}
-                      isMine={true}
-                      isRecycle={true}
-                    />
-                    {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
-                    {editMode && isCheck.includes(item.archivingId) && (
-                      <YellowCheck onPress={() => handleCheck(item.archivingId)}>
-                        <Image source={defaultIcons.yellowCheck} />
-                      </YellowCheck>
-                    )}
-                  </View>
-                </>
+                <View key={item.archivingId}>
+                  <ArchivingCard
+                    item={item}
+                    isMine={true}
+                    isRecycle={true}
+                  />
+                  {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
+                  {editMode && isCheck.includes(item.archivingId) && (
+                    <YellowCheck onPress={() => handleCheck(item.archivingId)}>
+                      <Image source={defaultIcons.yellowCheck} />
+                    </YellowCheck>
+                  )}
+                </View>
               ))}
           </TabItemCardContainer>
         </ScrollView>

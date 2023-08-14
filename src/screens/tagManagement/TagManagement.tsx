@@ -75,22 +75,20 @@ export const TagManagement = () => {
       >
         {tagData && editMode
           ? tagData?.map((tag) => (
-              <>
-                <TagList
-                  id={tag.tagId}
-                  name={tag.name}
-                  editMode={true}
-                />
-              </>
+              <TagList
+                key={tag.tagId}
+                id={tag.tagId}
+                name={tag.name}
+                editMode={true}
+              />
             ))
           : tagData?.map((tag) => (
-              <>
-                <TagList
-                  id={tag.tagId}
-                  name={tag.name}
-                  editMode={false}
-                />
-              </>
+              <TagList
+                key={tag.tagId}
+                id={tag.tagId}
+                name={tag.name}
+                editMode={false}
+              />
             ))}
 
         <PlusButton onPress={() => setIsCreateDialogVisible(true)}>

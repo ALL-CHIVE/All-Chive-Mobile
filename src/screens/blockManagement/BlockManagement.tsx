@@ -52,12 +52,11 @@ export const BlockManagement = () => {
       >
         {blockUserData?.users && blockUserData.users.length > 0 ? (
           blockUserData.users.map((user) => (
-            <>
-              <BlockList
-                nickname={user.nickname}
-                id={user.id}
-              />
-            </>
+            <BlockList
+              key={user.id}
+              nickname={user.nickname}
+              id={user.id}
+            />
           ))
         ) : (
           <EmptyItem textKey="noAuthorBlocked" />
