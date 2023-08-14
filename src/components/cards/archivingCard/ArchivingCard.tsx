@@ -48,8 +48,6 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
   const [isImageError, setIsImageError] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const { title, createdAt, imageUrl, imgCnt, linkCnt, scrapCnt, archivingId, markStatus } = item
-  const [isMark, setIsMark] = useState(markStatus)
-
   const currentCategory = useRecoilValue(CategoryState)
 
   const { mutate: deleteMutate } = useMutation('deleteArchiving', deleteArchiving, {
@@ -62,8 +60,15 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
     },
   })
 
-  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(isMark, archivingId))
-  const { mutate: pinMutate } = useMutation(() => patchPinArchiving(isMark, archivingId))
+  const { mutate: scrapMutate } = useMutation(() => patchScrapArchiving(markStatus, archivingId))
+  const { mutate: pinMutate } = useMutation(() => patchPinArchiving(markStatus, archivingId), {
+    /**
+     * pinMutate 성공 시, currentCategory를 업데이트 합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+    },
+  })
 
   /**
    *
@@ -91,7 +96,6 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
    */
   const handleScrap = () => {
     scrapMutate()
-    setIsMark((prev) => !prev)
   }
 
   /**
@@ -99,7 +103,6 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
    */
   const handlePin = () => {
     pinMutate()
-    setIsMark((prev) => !prev)
   }
 
   const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: showDeleteDialog }]
@@ -148,7 +151,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
                 <Popup menuList={popupMenuList} />
               </PopupContainer>
               <Pin onPress={handlePin}>
-                {isMark ? (
+                {markStatus ? (
                   <Image source={defaultIcons.pinFill} />
                 ) : (
                   <Image
@@ -160,7 +163,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
             </>
           ) : (
             <Scrap onPress={handleScrap}>
-              {isMark ? (
+              {markStatus ? (
                 <Image source={defaultIcons.scrapFill} />
               ) : (
                 <Image source={defaultIcons.scrap} />
