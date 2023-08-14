@@ -13,8 +13,10 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
+import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -90,67 +92,91 @@ export const Home = () => {
   }
 
   return (
-    <HomeContainer>
-      <Header>
-        <SearchContainer style={{ flex: 1 }}>
-          <SearchButton />
-        </SearchContainer>
-        <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
-          <ProfileImage
-            source={
-              isProfileImageError || !profileData?.imgUrl
-                ? defaultImages.profile
-                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
-            }
-            onError={() => setIsProfileImageError(true)}
-            defaultSource={defaultImages.profile as ImageURISource}
-          />
-        </TouchableOpacity>
-      </Header>
-      <ScrollContainer
-        showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[1]}
-        onScrollEndDrag={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            onEndReached()
-          }
+    <>
+      {isProfileLoading || isLoading ? <Loading /> : <></>}
+      <DefaultDialog
+        isVisible={isProfileError}
+        title={i18n.t('couldntGetInformation')}
+        imageUrl={defaultImages.error}
+        description={i18n.t('pleaseRetryLittleWhile')}
+        buttonText={i18n.t('retry')}
+        onClick={() => {
+          queryClient.invalidateQueries(['getUser'])
         }}
-      >
-        <Greeding>
-          <>
-            <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
-            <Title>
-              {i18n.t('youHaveSavedArchives', {
-                number: profileData ? profileData.archivingCount : 0,
-              })}
-            </Title>
-          </>
-          <BackgroundImage source={defaultImages.homeBackground} />
-        </Greeding>
-        <CategoryList
-          currentCategory={currentCategory}
-          setCurrentCategory={setCurrentCategory}
-          options={allCategoryList}
-        />
-        {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
-          .length ? (
-          <EmptyItem textKey="noHomeArchiving" />
-        ) : (
-          <List>
-            <ArchivingCardList
-              contentContainerStyle={Styles.flatList}
-              scrollEnabled={false}
-              numColumns={LIST_NUMS_COLUMNS}
-              renderItem={renderItem}
-              data={archivingList?.pages
-                .map((page: MainArchivingListResponse) => page.content)
-                .flat()}
+      />
+      <DefaultDialog
+        isVisible={isError}
+        title={i18n.t('couldntGetInformation')}
+        imageUrl={defaultImages.error}
+        description={i18n.t('pleaseRetryLittleWhile')}
+        buttonText={i18n.t('retry')}
+        onClick={() => {
+          queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+        }}
+      />
+
+      <HomeContainer>
+        <Header>
+          <SearchContainer style={{ flex: 1 }}>
+            <SearchButton />
+          </SearchContainer>
+          <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+            <ProfileImage
+              source={
+                isProfileImageError || !profileData?.imgUrl
+                  ? defaultImages.profile
+                  : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${profileData.imgUrl}` }
+              }
+              onError={() => setIsProfileImageError(true)}
+              defaultSource={defaultImages.profile as ImageURISource}
             />
-          </List>
-        )}
-        <Blank />
-      </ScrollContainer>
-    </HomeContainer>
+          </TouchableOpacity>
+        </Header>
+        <ScrollContainer
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[1]}
+          onScrollEndDrag={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              onEndReached()
+            }
+          }}
+        >
+          <Greeding>
+            <>
+              <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
+              <Title>
+                {i18n.t('youHaveSavedArchives', {
+                  number: profileData ? profileData.archivingCount : 0,
+                })}
+              </Title>
+            </>
+            <BackgroundImage source={defaultImages.homeBackground} />
+          </Greeding>
+          <CategoryList
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            options={allCategoryList}
+          />
+          {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
+            .length ? (
+            <EmptyItem textKey="noHomeArchiving" />
+          ) : (
+            <List>
+              <ArchivingCardList
+                contentContainerStyle={Styles.flatList}
+                scrollEnabled={false}
+                numColumns={LIST_NUMS_COLUMNS}
+                renderItem={renderItem}
+                data={archivingList?.pages
+                  .map((page: MainArchivingListResponse) => page.content)
+                  .flat()}
+              />
+            </List>
+          )}
+          <Blank />
+        </ScrollContainer>
+      </HomeContainer>
+    </>
   )
 }
 
