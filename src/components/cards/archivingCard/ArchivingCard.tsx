@@ -82,13 +82,6 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
   /**
    *
    */
-  const handleFix = () => {
-    // TODO
-  }
-
-  /**
-   *
-   */
   const showDeleteDialog = () => {
     setIsDeleteDialogVisible(true)
   }
@@ -114,7 +107,10 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
     pinMutate()
   }
 
-  const popupMenuList: PopupMenu[] = [{ title: 'delete', onClick: showDeleteDialog }]
+  const popupMenuList: PopupMenu[] = [
+    markStatus ? { title: 'unblock', onClick: handlePin } : { title: 'fix', onClick: handlePin },
+    { title: 'delete', onClick: showDeleteDialog },
+  ]
 
   return (
     <Container
@@ -159,16 +155,13 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
               <PopupContainer>
                 <Popup menuList={popupMenuList} />
               </PopupContainer>
-              <Pin onPress={handlePin}>
-                {markStatus ? (
+              {markStatus ? (
+                <Pin>
                   <Image source={defaultIcons.pinFill} />
-                ) : (
-                  <Image
-                    style={{ width: 16, height: 16 }}
-                    source={defaultIcons.pin}
-                  />
-                )}
-              </Pin>
+                </Pin>
+              ) : (
+                <></>
+              )}
             </>
           ) : (
             <Scrap onPress={handleScrap}>

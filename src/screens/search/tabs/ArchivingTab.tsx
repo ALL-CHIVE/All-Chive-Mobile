@@ -12,20 +12,6 @@ import { SearchDataText, TabArchivingCardContainer, TabItemContainer, Title } fr
  * 내 아카이빙만 보여주는 탭
  */
 export const ArchivingTab = ({ searchData }: SearchTabData) => {
-  /**
-   *
-   */
-  const HandleFix = () => {
-    // TODO: 아카이빙 고정 연결
-  }
-
-  /**
-   *
-   */
-  const HandleRemove = () => {
-    // TODO: 아카이빙 삭제 연결
-  }
-
   return (
     <TabItemContainer>
       <ScrollView

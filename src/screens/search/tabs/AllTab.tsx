@@ -18,20 +18,6 @@ import {
  * 전체 탭
  */
 export const AllTab = ({ searchData }: SearchTabData) => {
-  /**
-   *
-   */
-  const HandleFix = () => {
-    // TODO: 아카이빙 고정 연결
-  }
-
-  /**
-   *
-   */
-  const HandleRemove = () => {
-    // TODO: 아카이빙 삭제 연결
-  }
-
   return (
     <TabItemContainer>
       <ScrollView
