@@ -118,9 +118,7 @@ export const EditArchivingModal = ({
     /**
      *
      */
-    onError: () => {
-      // console.log('edit error')
-    },
+    onError: () => {},
   })
 
   /**

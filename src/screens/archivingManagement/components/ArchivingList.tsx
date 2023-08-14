@@ -52,10 +52,7 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
     /**
      *
      */
-    onError: (e: AxiosError) => {
-      console.log('delete error')
-      console.log(e.response?.data)
-    },
+    onError: (e: AxiosError) => {},
   })
 
   /**

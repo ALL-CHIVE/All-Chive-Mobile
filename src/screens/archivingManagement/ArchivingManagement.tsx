@@ -30,9 +30,7 @@ export const ArchivingManagement = () => {
     /**
      *
      */
-    onError: (e: AxiosError) => {
-      // console.log(e.response?.data)
-    },
+    onError: (e: AxiosError) => {},
   })
 
   /**

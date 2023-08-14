@@ -51,7 +51,6 @@ export const RecycleBin = () => {
      *
      */
     onError: () => {
-      console.log('remove error')
       setIsDeleteDialogVisible(false)
     },
   })
