@@ -16,7 +16,7 @@ interface HomeContainerProps {
 const HomeContainer = ({ children }: HomeContainerProps) => {
   return (
     <LinearGradient
-      style={{ height: Dimensions.get('window').height, position: 'relative' }}
+      style={{ height: Dimensions.get('window').height }}
       colors={[colors.yellow200, colors.white]}
     >
       <SafeAreaView>{children}</SafeAreaView>
