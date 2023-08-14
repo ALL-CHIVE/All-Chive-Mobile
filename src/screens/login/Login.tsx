@@ -38,6 +38,8 @@ export const Login = () => {
      * 로그인 성공 시
      */
     onSuccess: (data) => {
+      setEnabled(false)
+
       if (!data) {
         return
       }
