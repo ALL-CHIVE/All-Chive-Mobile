@@ -79,9 +79,7 @@ export const RootStack = () => {
       setIsInstalled(res)
 
       if (res) {
-        // TODO: 자동 로그인 API 연동
         canAuthSignIn().then((res) => {
-          //TODO: 로그인 처리
           setIsSignIn(res)
           setIsLoading(false)
         })
