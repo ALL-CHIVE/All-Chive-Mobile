@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image, ScrollView, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
@@ -21,7 +21,7 @@ import {
   TabContainer,
   LatestSearch,
   SmallImage,
-  RowView,
+  Header,
   RelationContainer,
   BackButton,
 } from './Search.style'
@@ -123,7 +123,7 @@ const Search = () => {
       />
 
       <Container>
-        <RowView>
+        <Header>
           <BackButton
             onPress={() => {
               navigation.goBack()
@@ -138,9 +138,9 @@ const Search = () => {
             onSubmitEditing={handleSearch}
             onFocus={() => setIsFocus(true)}
           />
-        </RowView>
+        </Header>
 
-        {latestSearchData !== undefined && !searchText && (
+        {latestSearchData && latestSearchData.keywords.length > 0 && !searchText && (
           <>
             <LatestContainer>
               <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
@@ -161,7 +161,7 @@ const Search = () => {
           </>
         )}
 
-        {searchRelation !== undefined && searchText && isFocus && (
+        {searchRelation && searchRelation.length > 0 && searchText && isFocus && (
           <>
             {searchRelation.map((item) => (
               <RelationContainer key={item}>
@@ -176,11 +176,8 @@ const Search = () => {
             ))}
           </>
         )}
-
         <TabContainer>
-          {searchText && searchData !== undefined && !isFocus && (
-            <SearchTab searchData={searchData} />
-          )}
+          {searchText && searchData && !isFocus && <SearchTab searchData={searchData} />}
         </TabContainer>
       </Container>
     </>
