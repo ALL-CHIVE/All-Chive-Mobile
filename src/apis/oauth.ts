@@ -8,15 +8,19 @@ import { client } from './client'
 export const signUpUser = (
   provider: SignInType,
   idToken: string,
+  oauthAccessToken: string,
   profileImgUrl: string,
   nickname: string,
   categories: string[]
 ) => {
-  return client.post(`/auth/oauth/register/${provider}?idToken=${idToken}`, {
-    profileImgUrl,
-    nickname,
-    categories,
-  })
+  return client.post(
+    `/auth/oauth/register/${provider}?idToken=${idToken}&oauthAccessToken=${oauthAccessToken}`,
+    {
+      profileImgUrl,
+      nickname,
+      categories,
+    }
+  )
 }
 
 /**

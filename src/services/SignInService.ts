@@ -24,15 +24,15 @@ export const signInWith = (type: SignInType) => {
  */
 const signInWithApple = async (): Promise<SignInResult | undefined> => {
   try {
-    const { user, identityToken, authorizationCode } = await appleAuth.performRequest({
+    const { user, identityToken } = await appleAuth.performRequest({
       requestedOperation: appleAuth.Operation.LOGIN,
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     })
 
     const credentialState = await appleAuth.getCredentialStateForUser(user)
 
-    if (credentialState === appleAuth.State.AUTHORIZED && identityToken && authorizationCode) {
-      return getIsUser(SignInType.Apple, identityToken, authorizationCode)
+    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
+      return getIsUser(SignInType.Apple, identityToken, '')
     }
 
     return
@@ -49,7 +49,7 @@ const signInWithKakao = async (): Promise<SignInResult | undefined> => {
     const data = await login()
 
     if (data) {
-      return getIsUser(SignInType.Kakao, data['idToken'])
+      return getIsUser(SignInType.Kakao, data['idToken'], data['accessToken'])
     }
 
     return
@@ -65,7 +65,7 @@ const signInWithKakao = async (): Promise<SignInResult | undefined> => {
 const getIsUser = async (
   type: string,
   idToken: string,
-  authorizationCode = ''
+  accessToken: string
 ): Promise<SignInResult | undefined> => {
   try {
     const response = await postIdTokenLogin(type, idToken)
@@ -76,7 +76,7 @@ const getIsUser = async (
       return {
         canLogin: false,
         idToken,
-        authorizationCode,
+        accessToken,
       }
     } else {
       saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
@@ -96,12 +96,20 @@ const getIsUser = async (
 export const signUp = async (
   provider: SignInType,
   idToken: string,
+  accessToken: string,
   profileImgUrl: string,
   nickname: string,
   categories: string[]
 ) => {
   try {
-    const response = await signUpUser(provider, idToken, profileImgUrl, nickname, categories)
+    const response = await signUpUser(
+      provider,
+      idToken,
+      accessToken,
+      profileImgUrl,
+      nickname,
+      categories
+    )
 
     if (!response?.data?.data) {
       return false

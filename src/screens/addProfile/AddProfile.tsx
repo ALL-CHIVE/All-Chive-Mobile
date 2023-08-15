@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Image, ImageURISource, View } from 'react-native'
+import { useQuery } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
+import { checkNicknameValid } from '@/apis/user'
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -19,7 +21,7 @@ import { signUp } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { SignInState } from '@/state/signIn/SignInState'
-import { IdTokenState } from '@/state/signIn/UserState'
+import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
 
 import {
   BodyText,
@@ -45,6 +47,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
   const idToken = useRecoilValue(IdTokenState)
+  const ThirdpartyAccessToken = useRecoilValue(ThirdpartyAccessTokenState)
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
@@ -52,15 +55,12 @@ const AddProfile = ({ route }: AddProfileProps) => {
   const handleComplete = async () => {
     const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
 
-    if (!imageUrl) {
-      return
-    }
-
     const profileImageUrl = await uploadProfileImage(imageUrl)
 
     const isSucess = await signUp(
       route.params.type,
       idToken,
+      ThirdpartyAccessToken,
       profileImageUrl,
       nickname,
       route.params.categories
@@ -74,7 +74,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
   }
 
   // TODO: 닉네임 체크 500 error
-  // const { data, isLoading } = useQuery(['nickname', nickname], () => checkNicknameValid(nickname))
+  const { data, isLoading } = useQuery(['nickname', nickname], () => checkNicknameValid(nickname))
 
   /**
    * handleChangeNickname

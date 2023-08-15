@@ -15,7 +15,7 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/signIn/SignInState'
-import { IdTokenState } from '@/state/signIn/UserState'
+import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
 
 import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.style'
 
@@ -27,6 +27,7 @@ export const Login = () => {
   const queryClient = useQueryClient()
 
   const setIdTokenState = useSetRecoilState(IdTokenState)
+  const setThirdpartyAccessTokenState = useSetRecoilState(ThirdpartyAccessTokenState)
   const IsSignInState = useSetRecoilState(SignInState)
 
   const [type, setType] = useState<SignInType>(SignInType.Kakao)
@@ -49,6 +50,7 @@ export const Login = () => {
         navigation.navigate('BottomTab', { screen: 'Home' })
       } else if (!data.canLogin && data.idToken) {
         setIdTokenState(data.idToken)
+        setThirdpartyAccessTokenState(data.accessToken ?? '')
         // TODO: 이용약관 페이지 추가
         navigation.navigate('SelectCategory', { type })
       }
