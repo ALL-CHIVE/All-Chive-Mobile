@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 
 import { defaultIcons } from '@/assets'
 import i18n from '@/locales'
-import { checkNickname } from '@/services/NicknameChecker'
+import { checkNickname } from '@/services/StringChecker'
 
 import {
   Button,
