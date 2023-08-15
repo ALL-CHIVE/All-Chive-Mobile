@@ -5,6 +5,7 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
 import { useRecoilState } from 'recoil'
 
 import { canAuthSignIn } from '@/apis/auth'
@@ -76,6 +77,7 @@ export const RootStack = () => {
 
   useEffect(() => {
     checkIsInstalled().then((res) => {
+      SplashScreen.hide()
       setIsInstalled(res)
 
       if (res) {
