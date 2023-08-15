@@ -68,6 +68,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+      queryClient.invalidateQueries(['getPopularArchivings'])
     },
   })
   const { mutate: pinMutate } = useMutation(() => patchPinArchiving(markStatus, archivingId), {

@@ -250,6 +250,7 @@ const ContentList = ({ route }: ContentListProps) => {
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
           queryClient.invalidateQueries(['getCommunityArchivingList', 'ALL'])
+          queryClient.invalidateQueries(['getPopularArchivings'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />

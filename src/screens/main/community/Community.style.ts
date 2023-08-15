@@ -6,7 +6,12 @@ import { fonts } from '@/styles/fonts'
 export const BackgroundImage = styled.Image`
   position: absolute;
   right: 0px;
-  top: 14px;
+  top: 0px;
+`
+
+export const PopularContainer = styled.ScrollView`
+  flex-direction: row;
+  margin-top: 80px;
 `
 
 export const Menu = styled.View`
