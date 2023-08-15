@@ -142,6 +142,9 @@ export const EditArchivingModal = ({
         queryClient.invalidateQueries([`contentByArchiving`, archivingId])
         queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         queryClient.invalidateQueries(['archivingList'])
+        queryClient.invalidateQueries(['getCommunityArchivingList'])
+        queryClient.invalidateQueries(['getScrapArchivingList'])
+        queryClient.invalidateQueries(['getPopularArchivings'])
         onClose()
       },
     }

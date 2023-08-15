@@ -40,7 +40,6 @@ export const DropDown = () => {
       {isVisible ? (
         <DropDownModal>
           <ScrollView
-            nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
