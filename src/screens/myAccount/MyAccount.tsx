@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
+import { AxiosError } from 'axios'
 import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -19,9 +20,11 @@ import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
+import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadProfileImage } from '@/services/ImageService'
+import { getAppleAuthCode } from '@/services/SignInService'
 import { colors } from '@/styles/colors'
 
 import {
@@ -96,6 +99,13 @@ export const MyAccount = () => {
     onSuccess: () => {
       navigation.navigate('Login')
     },
+
+    /**
+     *
+     */
+    onError: (e: AxiosError) => {
+      console.log(e.response?.data)
+    },
   })
 
   /**
@@ -127,8 +137,16 @@ export const MyAccount = () => {
   /**
    * 회원탈퇴를 합니다.
    */
-  const handleWithdraw = () => {
-    // TODO: 회원탈퇴
+  const handleWithdraw = async () => {
+    switch (userInfoData?.oauthProvider) {
+      case SignInType.Kakao:
+        withdrawMutation('')
+        break
+      case SignInType.Apple: {
+        const authCode = await getAppleAuthCode()
+        withdrawMutation(authCode)
+      }
+    }
   }
 
   /**

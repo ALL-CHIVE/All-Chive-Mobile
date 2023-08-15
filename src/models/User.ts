@@ -1,8 +1,11 @@
+import { SignInType } from './enums/SignInType'
+
 export interface UserInfoResponse {
   imgUrl: string
   email: string
   name: string
   nickname: string
+  oauthProvider: SignInType
 }
 
 export interface UserResponse {

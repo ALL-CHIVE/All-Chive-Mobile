@@ -42,6 +42,22 @@ const signInWithApple = async (): Promise<SignInResult | undefined> => {
 }
 
 /**
+ * 애플 AuthCode를 반환합니다.
+ */
+export const getAppleAuthCode = async () => {
+  try {
+    const { authorizationCode } = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.REFRESH,
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    })
+
+    return authorizationCode ?? ''
+  } catch (err) {
+    return ''
+  }
+}
+
+/**
  * signInWithKakao
  */
 const signInWithKakao = async (): Promise<SignInResult | undefined> => {
