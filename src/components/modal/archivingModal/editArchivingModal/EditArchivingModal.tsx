@@ -112,7 +112,7 @@ export const EditArchivingModal = ({
       setImageKey(data.imageUrl)
       data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${data.imageUrl}` })
       setSelectedCategory(data.category)
-      setPublicStatus(data.markStatus)
+      setPublicStatus(data.publicStatus)
     },
 
     /**

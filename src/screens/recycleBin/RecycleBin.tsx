@@ -6,9 +6,11 @@ import { useRecoilState } from 'recoil'
 
 import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { RecyclesResponse } from '@/models/Recycle'
 import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
@@ -34,7 +36,11 @@ export const RecycleBin = () => {
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
 
-  const { data: recycleData } = useQuery<RecyclesResponse>(['recycleBinData'], getRecycles)
+  const {
+    data: recycleData,
+    isLoading,
+    isError,
+  } = useQuery<RecyclesResponse>(['recycleBinData'], getRecycles)
 
   const { mutate: deleteMutate } = useMutation(deleteRecycles, {
     /**
@@ -103,65 +109,74 @@ export const RecycleBin = () => {
   }
 
   return (
-    <DefaultContainer>
-      <LeftButtonHeader
-        title={i18n.t('recycleBin')}
-        rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-        rightButtonClick={handleEditMode}
+    <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries('recycleBinData')
+        }}
       />
-      <Container>
-        {recycleData && (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
-          <RecycleBinTab
-            contents={recycleData.contents}
-            archivings={recycleData.archivings}
-            editMode={editMode}
-          />
-        ) : (
-          <EmptyItem textKey="emptyRecycleBin" />
+      <DefaultContainer>
+        <LeftButtonHeader
+          title={i18n.t('recycleBin')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={handleEditMode}
+        />
+        <Container>
+          {recycleData && (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
+            <RecycleBinTab
+              contents={recycleData.contents}
+              archivings={recycleData.archivings}
+              editMode={editMode}
+            />
+          ) : (
+            <EmptyItem textKey="emptyRecycleBin" />
+          )}
+        </Container>
+        {editMode && (
+          <BottomButtonContainer>
+            <LinearGradient
+              style={{
+                width: '100%',
+                height: '100%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 24,
+              }}
+              colors={[colors.white, colors.gray500]}
+            >
+              <BottomButton onPress={handleDeleteDialog}>
+                <BottomButtonText>{i18n.t('allDelete')}</BottomButtonText>
+              </BottomButton>
+              {isCheckArchiving.length > 0 || isCheckContent.length > 0 ? (
+                <>
+                  <BottomButtonTitle>
+                    {i18n.t('numberOfSelectItem', {
+                      number: isCheckArchiving.length + isCheckContent.length,
+                    })}
+                  </BottomButtonTitle>
+                </>
+              ) : (
+                <>
+                  <BottomButtonTitle>{i18n.t('selectItem')}</BottomButtonTitle>
+                </>
+              )}
+              <BottomButton onPress={handleRestore}>
+                <BottomButtonText>{i18n.t('allRestore')}</BottomButtonText>
+              </BottomButton>
+            </LinearGradient>
+          </BottomButtonContainer>
         )}
-      </Container>
-      {editMode && (
-        <BottomButtonContainer>
-          <LinearGradient
-            style={{
-              width: '100%',
-              height: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 24,
-            }}
-            colors={[colors.white, colors.gray500]}
-          >
-            <BottomButton onPress={handleDeleteDialog}>
-              <BottomButtonText>{i18n.t('allDelete')}</BottomButtonText>
-            </BottomButton>
-            {isCheckArchiving.length > 0 || isCheckContent.length > 0 ? (
-              <>
-                <BottomButtonTitle>
-                  {i18n.t('numberOfSelectItem', {
-                    number: isCheckArchiving.length + isCheckContent.length,
-                  })}
-                </BottomButtonTitle>
-              </>
-            ) : (
-              <>
-                <BottomButtonTitle>{i18n.t('selectItem')}</BottomButtonTitle>
-              </>
-            )}
-            <BottomButton onPress={handleRestore}>
-              <BottomButtonText>{i18n.t('allRestore')}</BottomButtonText>
-            </BottomButton>
-          </LinearGradient>
-        </BottomButtonContainer>
-      )}
-      <TwoButtonDialog
-        isVisible={isDeleteDialogVisible}
-        title="persistentDeleteWarning"
-        completeText={i18n.t('delete')}
-        onCancel={() => setIsDeleteDialogVisible(false)}
-        onComplete={handleDelete}
-      />
-    </DefaultContainer>
+        <TwoButtonDialog
+          isVisible={isDeleteDialogVisible}
+          title="persistentDeleteWarning"
+          completeText={i18n.t('delete')}
+          onCancel={() => setIsDeleteDialogVisible(false)}
+          onComplete={handleDelete}
+        />
+      </DefaultContainer>
+    </>
   )
 }

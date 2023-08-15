@@ -80,7 +80,7 @@ export const Scrap = styled.TouchableOpacity`
   color: ${colors.gray500};
 `
 
-export const Pin = styled.TouchableOpacity`
+export const Pin = styled.View`
   position: absolute;
   right: 8px;
   top: 25px;

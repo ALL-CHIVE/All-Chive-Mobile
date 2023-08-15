@@ -46,7 +46,7 @@ export const TagManagement = () => {
     <>
       {isLoading && <Loading />}
       <ErrorDialog
-        isVisible={isLoading}
+        isVisible={isError}
         onClick={() => {
           queryClient.invalidateQueries(['getTagData'])
         }}
@@ -58,39 +58,39 @@ export const TagManagement = () => {
           rightButtonClick={() => setEditMode((prev) => !prev)}
         />
         <ScrollContainer
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        {tagData &&
-          tagData.map((tag) => (
-            <TagList
-              key={tag.tagId}
-              id={tag.tagId}
-              tag={tag.name}
-              editMode={editMode}
-            />
-          ))}
-        <PlusButton onPress={() => setIsCreateDialogVisible(true)}>
-          <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
-        </PlusButton>
-      </ScrollContainer>
-      <InputDialog
-        isVisible={isCreateDialogVisible}
-        title="createNewTag"
-        text={text}
-        setText={setText}
-        completeText="register"
-        onCancel={() => {
-          setIsCreateDialogVisible(false)
-        }}
-        onComplete={() => {
-          setIsCreateDialogVisible(false)
-          handleCreate()
-        }}
-        isDisabled={text.length === 0}
-        placeholder={i18n.t('placeHolderTag')}
-      />
-    </DefaultContainer>
-  </>
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+          {tagData &&
+            tagData.map((tag) => (
+              <TagList
+                key={tag.tagId}
+                id={tag.tagId}
+                tag={tag.name}
+                editMode={editMode}
+              />
+            ))}
+          <PlusButton onPress={() => setIsCreateDialogVisible(true)}>
+            <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
+          </PlusButton>
+        </ScrollContainer>
+        <InputDialog
+          isVisible={isCreateDialogVisible}
+          title="createNewTag"
+          text={text}
+          setText={setText}
+          completeText="register"
+          onCancel={() => {
+            setIsCreateDialogVisible(false)
+          }}
+          onComplete={() => {
+            setIsCreateDialogVisible(false)
+            handleCreate()
+          }}
+          isDisabled={text.length === 0}
+          placeholder={i18n.t('placeHolderTag')}
+        />
+      </DefaultContainer>
+    </>
   )
 }

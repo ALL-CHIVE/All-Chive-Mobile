@@ -139,7 +139,10 @@ export const Mypage = () => {
               title={i18n.t('notice')}
               screen="Notice"
             />
-            <NavigationList title={i18n.t('customerService')} />
+            <NavigationList
+              title={i18n.t('customerService')}
+              url="https://allchive.channel.io/"
+            />
             <NavigationList
               title={i18n.t('recycleBin')}
               screen="RecycleBin"

@@ -62,7 +62,7 @@ export const BottomTab = () => {
              */
             tabBarIcon: ({ focused }) => (
               <TabIcon
-                icon={defaultIcons.archivingFocus}
+                icon={focused ? defaultIcons.archivingFocus : defaultIcons.archiving}
                 text="archiving"
               />
             ),
@@ -77,7 +77,7 @@ export const BottomTab = () => {
              */
             tabBarIcon: ({ focused }) => (
               <TabIcon
-                icon={defaultIcons.community}
+                icon={focused ? defaultIcons.communityFocus : defaultIcons.community}
                 text="community"
               />
             ),
