@@ -9,10 +9,7 @@ import { client } from './client'
  */
 export const deleteWithdrawal = async (appleAccessToken: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.delete(`/auth/withdrawal`, {
-    data: {
-      appleAccessToken,
-    },
+  const response = await client.delete(`/auth/withdrawal?appleCode=${appleAccessToken}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
