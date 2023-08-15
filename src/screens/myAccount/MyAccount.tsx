@@ -99,13 +99,6 @@ export const MyAccount = () => {
     onSuccess: () => {
       navigation.navigate('Login')
     },
-
-    /**
-     *
-     */
-    onError: (e: AxiosError) => {
-      console.log(e.response?.data)
-    },
   })
 
   /**
