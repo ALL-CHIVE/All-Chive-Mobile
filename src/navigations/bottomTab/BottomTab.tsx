@@ -60,18 +60,12 @@ export const BottomTab = () => {
             /**
              *
              */
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <TabIcon
-                  icon={defaultIcons.archivingFocus}
-                  text="archiving"
-                />
-              ) : (
-                <TabIcon
-                  icon={defaultIcons.archiving}
-                  text="archiving"
-                />
-              ),
+            tabBarIcon: ({ focused }) => (
+              <TabIcon
+                icon={focused ? defaultIcons.archivingFocus : defaultIcons.archiving}
+                text="archiving"
+              />
+            ),
           }}
         />
         <BottomTabNavigator.Screen
@@ -81,18 +75,12 @@ export const BottomTab = () => {
             /**
              *
              */
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <TabIcon
-                  icon={defaultIcons.communityFocus}
-                  text="community"
-                />
-              ) : (
-                <TabIcon
-                  icon={defaultIcons.community}
-                  text="community"
-                />
-              ),
+            tabBarIcon: ({ focused }) => (
+              <TabIcon
+                icon={focused ? defaultIcons.communityFocus : defaultIcons.community}
+                text="community"
+              />
+            ),
           }}
         />
       </BottomTabNavigator.Navigator>

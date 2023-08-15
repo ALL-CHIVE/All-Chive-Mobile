@@ -157,12 +157,10 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
               <PopupContainer>
                 <Popup menuList={popupMenuList} />
               </PopupContainer>
-              {markStatus ? (
+              {markStatus && (
                 <Pin>
                   <Image source={defaultIcons.pinFill} />
                 </Pin>
-              ) : (
-                <></>
               )}
             </>
           ) : (
