@@ -7,9 +7,9 @@ import { client } from './client'
 /**
  * 회원탈퇴를 합니다.
  */
-export const deleteWithdrawal = async (appleAccessToken: string) => {
+export const deleteWithdrawal = async (appleCode: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.delete(`/auth/withdrawal?appleCode=${appleAccessToken}`, {
+  const response = await client.delete(`/auth/withdrawal?appleCode=${appleCode}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
