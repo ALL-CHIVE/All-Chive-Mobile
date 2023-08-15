@@ -264,7 +264,11 @@ export const Upload = ({ route }: UploadProps) => {
               <AddTagText>{i18n.t('choice10')}</AddTagText>
             </TagTitleContainer>
             <RowView>
-              <ScrollView horizontal={true}>
+              <ScrollView
+                horizontal={true}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+              >
                 <AddTagButton onPress={() => navigation.navigate('CreateTag')}>
                   <AddTagText>{`+ ${i18n.t('addTag')}`}</AddTagText>
                 </AddTagButton>
