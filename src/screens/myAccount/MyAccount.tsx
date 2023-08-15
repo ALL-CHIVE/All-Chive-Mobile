@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { AxiosError } from 'axios'
 import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
