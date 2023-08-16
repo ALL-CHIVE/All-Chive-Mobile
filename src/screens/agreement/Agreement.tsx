@@ -7,6 +7,7 @@ import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
+import { marketing, privacy, terms } from '@/const/Const'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
@@ -79,16 +80,14 @@ export const Agreement = ({ route }: AgreementProps) => {
   const handleOpenBrowser = (key: string) => {
     switch (key) {
       case 'terms':
-        openInappBrowser(
-          'https://important-rotate-7df.notion.site/f7b9451a12594e2d8aa2c23d2334e75d?pvs=4'
-        )
+        openInappBrowser(terms)
         break
       case 'privacy':
-        openInappBrowser(
-          'https://important-rotate-7df.notion.site/d150313b80bc402f95acd12b037f368f?pvs=4'
-        )
+        openInappBrowser(privacy)
         break
-      // TODO: case 'marketing':
+      case 'marketing':
+        openInappBrowser(marketing)
+        break
     }
   }
 

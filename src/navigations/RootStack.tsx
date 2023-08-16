@@ -17,7 +17,6 @@ import AddProfile from '@/screens/addProfile/AddProfile'
 import { Agreement } from '@/screens/agreement/Agreement'
 import { ArchivingManagement } from '@/screens/archivingManagement/ArchivingManagement'
 import { BlockManagement } from '@/screens/blockManagement/BlockManagement'
-import { CommunityUsePolicy } from '@/screens/communityUsePolicy/CommunityUsePolicy'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
 import { CreateTag } from '@/screens/createTag/CreateTag'
@@ -33,7 +32,6 @@ import Report from '@/screens/report/Report'
 import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { TagManagement } from '@/screens/tagManagement/TagManagement'
-import { TermsOfService } from '@/screens/termsOfService/TermsOfService'
 import { Upload } from '@/screens/upload/Upload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/signIn/SignInState'
@@ -59,8 +57,6 @@ export type RootStackParamList = {
   ArchivingManagement: undefined
   TagManagement: undefined
   BlockManagement: undefined
-  TermsOfService: undefined
-  CommunityUsePolicy: undefined
   Notice: undefined
   RecycleBin: undefined
 }
@@ -194,14 +190,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="BlockManagement"
           component={BlockManagement}
-        />
-        <Stack.Screen
-          name="TermsOfService"
-          component={TermsOfService}
-        />
-        <Stack.Screen
-          name="CommunityUsePolicy"
-          component={CommunityUsePolicy}
         />
         <Stack.Screen
           name="Notice"

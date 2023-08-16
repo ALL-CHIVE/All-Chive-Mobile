@@ -13,6 +13,7 @@ import { defaultIcons, defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
+import { community, customerService, privacy, terms } from '@/const/Const'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
@@ -128,12 +129,15 @@ export const Mypage = () => {
             />
             <NavigationList
               title={i18n.t('termsOfService')}
-              screen="TermsOfService"
+              openInAppUrl={terms}
             />
-            <NavigationList title={i18n.t('privacyPolicy')} />
+            <NavigationList
+              title={i18n.t('privacyPolicy')}
+              openInAppUrl={privacy}
+            />
             <NavigationList
               title={i18n.t('communityUsePolicy')}
-              screen="CommunityUsePolicy"
+              openInAppUrl={community}
             />
             <NavigationList
               title={i18n.t('notice')}
@@ -141,7 +145,7 @@ export const Mypage = () => {
             />
             <NavigationList
               title={i18n.t('customerService')}
-              url="https://allchive.channel.io/"
+              url={customerService}
             />
             <NavigationList
               title={i18n.t('recycleBin')}
