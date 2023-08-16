@@ -43,6 +43,7 @@ export const TextInput = styled.TextInput`
   color: ${colors.gray600};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
+  margin-bottom: 6px;
 `
 
 export const MemoTextInput = styled.TextInput`

@@ -19,7 +19,6 @@ interface PopupProps {
 const Popup = ({ menuList }: PopupProps) => {
   return (
     <Menu>
-      {/* TODO: 아이콘 연결 */}
       <MenuTrigger>
         <Container>
           <Image source={defaultIcons.popup} />

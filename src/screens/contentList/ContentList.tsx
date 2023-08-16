@@ -133,7 +133,6 @@ const ContentList = ({ route }: ContentListProps) => {
    * handleEdit
    */
   const handleEdit = () => {
-    // TODO: edit 로직 추가
     setEditModal(true)
   }
 
