@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ScrollView, TouchableOpacity } from 'react-native'
+import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
