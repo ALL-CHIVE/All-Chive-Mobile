@@ -41,6 +41,7 @@ export const NicknameInputBox = styled.View`
   border-radius: 6px;
   background-color: ${colors.white};
   overflow: hidden;
+  margin-bottom: 8px;
 `
 
 export const InputBox = styled.TextInput`

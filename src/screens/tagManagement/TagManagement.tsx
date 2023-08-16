@@ -9,6 +9,7 @@ import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
+import { checkTag } from '@/services/StringChecker'
 
 import { ButtonText, PlusButton, ScrollContainer } from './TagManagement.style'
 import { TagList } from './components/TagList'
@@ -22,6 +23,7 @@ export const TagManagement = () => {
   const [editMode, setEditMode] = useState(false)
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
   const [text, setText] = useState('')
+  const [isTagValid, setIsTagValid] = useState(false)
 
   const { data: tagData, isLoading, isError } = useQuery(['getTagData'], () => getTag(false))
 
@@ -40,6 +42,14 @@ export const TagManagement = () => {
    */
   const handleCreate = () => {
     postTagMutate(text)
+  }
+
+  /**
+   * handleChangeText
+   */
+  const handleChangeText = (tag: string) => {
+    setText(tag)
+    setIsTagValid(checkTag(tag))
   }
 
   return (
@@ -78,7 +88,7 @@ export const TagManagement = () => {
           isVisible={isCreateDialogVisible}
           title="createNewTag"
           text={text}
-          setText={setText}
+          setText={handleChangeText}
           completeText="register"
           onCancel={() => {
             setIsCreateDialogVisible(false)
@@ -87,8 +97,9 @@ export const TagManagement = () => {
             setIsCreateDialogVisible(false)
             handleCreate()
           }}
-          isDisabled={text.length === 0}
+          isDisabled={text.length === 0 || !isTagValid}
           placeholder={i18n.t('placeHolderTag')}
+          isValid={isTagValid}
         />
       </DefaultContainer>
     </>

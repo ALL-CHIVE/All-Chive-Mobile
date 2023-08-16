@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { Image, ImageURISource, View } from 'react-native'
-import { useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { checkNicknameValid } from '@/apis/user'
@@ -16,8 +16,8 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { uploadProfileImage } from '@/services/ImageService'
-import { checkNickname } from '@/services/NicknameChecker'
 import { signUp } from '@/services/SignInService'
+import { checkNickname } from '@/services/StringChecker'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { SignInState } from '@/state/signIn/SignInState'
@@ -45,6 +45,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
   const setIsSignIn = useSetRecoilState(SignInState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
+  const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
   const idToken = useRecoilValue(IdTokenState)
   const ThirdpartyAccessToken = useRecoilValue(ThirdpartyAccessTokenState)
@@ -73,16 +74,32 @@ const AddProfile = ({ route }: AddProfileProps) => {
     }
   }
 
-  // TODO: 닉네임 체크 500 error
-  const { data, isLoading } = useQuery(['nickname', nickname], () => checkNicknameValid(nickname))
+  const { mutate: nicknameDuplicationCheckMutate } = useMutation(checkNicknameValid, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      setIsNicknameDuplicate(true)
+    },
 
+    /**
+     *
+     */
+    onError: () => {
+      setIsNicknameDuplicate(false)
+    },
+  })
   /**
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
     setNickname(nickname)
     setIsNicknameValid(checkNickname(nickname))
-    // TODO: nickname 중복 체크
+    if (nickname) {
+      nicknameDuplicationCheckMutate(nickname)
+    } else {
+      setIsNicknameDuplicate(false)
+    }
   }
 
   /**
@@ -91,6 +108,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
   const handleClearNickname = () => {
     setNickname('')
     setIsNicknameValid(false)
+    setIsNicknameDuplicate(false)
   }
 
   return (
@@ -115,6 +133,10 @@ const AddProfile = ({ route }: AddProfileProps) => {
               </ClearButton>
             </NicknameInputBox>
             <Verifier
+              isValid={isNicknameDuplicate}
+              text={'isNotDuplicate'}
+            />
+            <Verifier
               isValid={isNicknameValid}
               text={'nicknameVerify'}
             />
@@ -128,7 +150,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
       <BoxButton
         textKey="complete"
         onPress={handleComplete}
-        isDisabled={!isNicknameValid}
+        isDisabled={!isNicknameValid || !isNicknameDuplicate}
       />
     </DefaultContainer>
   )

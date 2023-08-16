@@ -3,6 +3,7 @@ import {
   ArchivingListResponse,
   ContentByArchivingResponse,
   MainArchivingListResponse,
+  PopularArchivingsResponse,
 } from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
@@ -247,6 +248,20 @@ export const getHomeArchivingList = async (
       size,
       sort,
     },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
+  return data.data
+}
+
+/**
+ * 가장 인기있는 아카이빙 5개를 가져옵니다
+ */
+export const getPopularArchivings = async (): Promise<PopularArchivingsResponse> => {
+  const accessToken = await getAccessToken()
+  const { data } = await client.get(`/archivings/popular`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
