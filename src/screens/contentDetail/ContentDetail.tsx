@@ -79,7 +79,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
    * HandleEdit
    */
   const HandleEdit = () => {
-    // TODO: edit 로직 추가
     switch (content?.contentType) {
       case ContentType.Link:
         navigation.navigate('Edit', { id: route.params.id, type: ContentType.Link })
