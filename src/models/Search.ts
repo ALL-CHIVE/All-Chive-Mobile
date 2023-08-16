@@ -5,13 +5,17 @@ export interface SearchResponse {
       content: ArchivingListContent[]
       page: number
       size: number
-      hasNext: boolean
+      totalElements: number
+      totalPages: number
+      hasNextPage: boolean
     }
     community: {
       content: ArchivingListContent[]
       page: number
       size: number
-      hasNext: boolean
+      totalElements: number
+      totalPages: number
+      hasNextPage: boolean
     }
   }
 }
