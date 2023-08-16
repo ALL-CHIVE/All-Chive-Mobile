@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ListRenderItem, NativeScrollEvent } from 'react-native'
+import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
@@ -25,7 +26,17 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { colors } from '@/styles/colors'
 
-import { ContentListContainer, ScrollContainer } from './ContentList.style'
+import {
+  Category,
+  ContentListContainer,
+  CreateAt,
+  HeaderContainer,
+  Nickname,
+  ProfileContainer,
+  ProfileImage,
+  ScrollContainer,
+  Text,
+} from './ContentList.style'
 
 interface ContentListProps {
   route: RouteProp<RootStackParamList, 'ContentList'>
@@ -46,6 +57,7 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
 
   const {
     data: contentList,
@@ -168,18 +180,34 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
-  if (isError) {
-    return <>Error!</>
-  }
-
   return (
     <>
-      <DefaultContainer>
+      <HeaderContainer>
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={handleReport}
         />
+      </HeaderContainer>
+      <Category>
+        <Text>{contentList?.pages[0].category}</Text>
+      </Category>
+      <ProfileContainer>
+        <ProfileImage
+          source={
+            isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
+              ? defaultImages.profile
+              : {
+                  uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
+                }
+          }
+          onError={() => setIsProfileImageError(true)}
+          defaultSource={defaultImages.profile as ImageURISource}
+        />
+        <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
+        {/* TODO: CreateAt 추가 */}
+      </ProfileContainer>
+      <DefaultContainer>
         <ScrollContainer
           showsVerticalScrollIndicator={false}
           onScrollEndDrag={({ nativeEvent }) => {
