@@ -68,7 +68,7 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
       <DefaultScrollContainer>
         <Container>
           <View>
-            <Heading>{i18n.t('niceMeetYouWhatIsYourHobby')}</Heading>
+            <Heading>{i18n.t('selectCategoryHeading')}</Heading>
             <Description>{i18n.t('chooseMaximum3')}</Description>
           </View>
           <CategoryList
