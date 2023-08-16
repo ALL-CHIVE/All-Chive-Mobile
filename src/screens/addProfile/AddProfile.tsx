@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, View } from 'react-native'
+import { Image, ImageURISource } from 'react-native'
 import { useQuery } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
@@ -10,7 +10,6 @@ import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
-import Profile from '@/components/profile/Profile'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -119,10 +118,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
               text={'nicknameVerify'}
             />
           </NicknameContainer>
-          <View>
-            <BodyText>{i18n.t('profile')}</BodyText>
-            <Profile />
-          </View>
         </Container>
       </DefaultScrollContainer>
       <BoxButton

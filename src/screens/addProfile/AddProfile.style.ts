@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Heading = styled.Text`
   ${fonts.heading2};
   color: ${colors.mainBlack};
-  margin-top: 111px;
+  margin-top: 80px;
 `
 
 export const NicknameContainer = styled.View`
