@@ -1,38 +1,47 @@
 import React from 'react'
 
-import { ScrollView } from 'react-native'
-
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import i18n from '@/locales'
 import { SearchTabData } from '@/models/SearchTab'
 
-import { SearchDataText, TabArchivingCardContainer, TabItemContainer, Title } from '../Search.style'
+import {
+  TabArchivingCardContainer,
+  ScrollContainer,
+  TabItemContainer,
+  TabHeader,
+  SearchDataText,
+  Title,
+  Bottom,
+} from './Tab.style'
 
 /**
  * 내 아카이빙만 보여주는 탭
  */
 export const ArchivingTab = ({ searchData }: SearchTabData) => {
   return (
-    <TabItemContainer>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <SearchDataText>
-          {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
-        </SearchDataText>
-        <Title>{i18n.t('myArchiving')}</Title>
+    <ScrollContainer
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+    >
+      <TabItemContainer>
+        <TabHeader>
+          <SearchDataText>
+            {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
+          </SearchDataText>
+          <Title>{i18n.t('myArchiving')}</Title>
+        </TabHeader>
         <TabArchivingCardContainer>
-          {searchData !== undefined &&
+          {searchData &&
             searchData.archivings.content.map((item) => (
               <ArchivingCard
                 key={item.archivingId}
                 item={item}
-                isMine={true}
+                isSearch={true}
               />
             ))}
         </TabArchivingCardContainer>
-      </ScrollView>
-    </TabItemContainer>
+      </TabItemContainer>
+      <Bottom />
+    </ScrollContainer>
   )
 }
