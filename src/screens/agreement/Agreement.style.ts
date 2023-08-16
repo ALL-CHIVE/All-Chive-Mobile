@@ -54,5 +54,6 @@ export const Divider = styled.View`
 
 export const RightButton = styled.TouchableOpacity`
   position: absolute;
-  right: 10px;
+  padding: 10px;
+  right: 0px;
 `
