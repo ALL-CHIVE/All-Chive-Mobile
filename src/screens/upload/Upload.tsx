@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
+import isUrl from 'is-url'
 import {
   Image,
   ImageSourcePropType,
@@ -21,6 +22,7 @@ import DefaultScrollContainer from '@/components/containers/defaultScrollContain
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
+import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
@@ -74,6 +76,7 @@ export const Upload = ({ route }: UploadProps) => {
 
   const [lastFocused, setLastFocused] = useState(-1)
   const [currentFocused, setCurrentFocused] = useState(-1)
+  const [isValidUrl, setIsValidUrl] = useState(false)
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
@@ -177,6 +180,14 @@ export const Upload = ({ route }: UploadProps) => {
     }
   }
 
+  /**
+   * handleChangeLink
+   */
+  const handleChangeLink = (link: string) => {
+    setLink(link)
+    setIsValidUrl(!!link && isUrl(link))
+  }
+
   return (
     <DefaultContainer>
       <CloseButtonHeader
@@ -229,19 +240,17 @@ export const Upload = ({ route }: UploadProps) => {
                 <TextInput
                   placeholder={i18n.t('placeHolderLink')}
                   value={link}
-                  onChangeText={setLink}
+                  onChangeText={handleChangeLink}
                   onFocus={() => handleFocused(2)}
                   style={
                     (currentFocused === 2 && Styles.focused) ||
                     (lastFocused >= 2 && contentName.length > 0 && Styles.clicked)
                   }
                 />
-                {/* TODO: Condition Icon 추가 */}
-                <Condition>
-                  <ConditionText style={contentName.length > 0 && Styles.conditionComplete}>
-                    {i18n.t('checkUrl')}
-                  </ConditionText>
-                </Condition>
+                <Verifier
+                  isValid={isValidUrl}
+                  text="checkUrl"
+                />
               </>
             )}
             {route.params.type === ContentType.Image && (
@@ -310,7 +319,7 @@ export const Upload = ({ route }: UploadProps) => {
           !archivingName ||
           !contentName ||
           (route.params.type === ContentType.Image && !image) ||
-          (route.params.type === ContentType.Link && !link)
+          (route.params.type === ContentType.Link && (!link || !isValidUrl))
         }
       />
       <SelectArchivingModal
