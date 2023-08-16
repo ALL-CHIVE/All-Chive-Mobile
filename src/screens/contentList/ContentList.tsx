@@ -14,8 +14,10 @@ import { defaultIcons, defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
+import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
@@ -210,6 +212,14 @@ const ContentList = ({ route }: ContentListProps) => {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+        }}
+      />
+
       <HeaderContainer>
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
