@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { Image, ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
+import { useRecoilValue } from 'recoil'
 
-import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
+import { deleteArchiving, getContentByArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { postBlock } from '@/apis/block'
-import { defaultImages } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
@@ -24,6 +25,7 @@ import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -34,6 +36,7 @@ import {
   Nickname,
   ProfileContainer,
   ProfileImage,
+  Scrap,
   ScrollContainer,
   Text,
 } from './ContentList.style'
@@ -58,6 +61,8 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
   const [isProfileImageError, setIsProfileImageError] = useState(false)
+
+  const currentCategory = useRecoilValue(CommunityCategoryState)
 
   const {
     data: contentList,
@@ -102,6 +107,20 @@ const ContentList = ({ route }: ContentListProps) => {
        */
       onError: () => {
         //ignore
+      },
+    }
+  )
+
+  const { mutate: scrapMutate } = useMutation(
+    () => patchScrapArchiving(contentList!.pages[0].isScrap, contentList!.pages[0].archivingId),
+    {
+      /**
+       * scrapMutate 성공 시, 현재 archiving을 업데이트 합니다.
+       */
+      onSuccess: () => {
+        queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+        queryClient.invalidateQueries(['getCommunityArchivingList', currentCategory])
+        queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
       },
     }
   )
@@ -180,6 +199,15 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
+  /**
+   * 해당 아카이빙을 스크랩합니다.
+   */
+  const handleScrap = () => {
+    if (contentList !== undefined) {
+      scrapMutate()
+    }
+  }
+
   return (
     <>
       <HeaderContainer>
@@ -189,24 +217,35 @@ const ContentList = ({ route }: ContentListProps) => {
           onRightClick={handleReport}
         />
       </HeaderContainer>
-      <Category>
-        <Text>{contentList?.pages[0].category}</Text>
-      </Category>
-      <ProfileContainer>
-        <ProfileImage
-          source={
-            isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
-              ? defaultImages.profile
-              : {
-                  uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
-                }
-          }
-          onError={() => setIsProfileImageError(true)}
-          defaultSource={defaultImages.profile as ImageURISource}
-        />
-        <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
-        {/* TODO: CreateAt 추가 */}
-      </ProfileContainer>
+      {!contentList?.pages[0].isMine && (
+        <>
+          <Category>
+            <Text>{contentList?.pages[0].category}</Text>
+          </Category>
+          <ProfileContainer>
+            <ProfileImage
+              source={
+                isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
+                  ? defaultImages.profile
+                  : {
+                      uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
+                    }
+              }
+              onError={() => setIsProfileImageError(true)}
+              defaultSource={defaultImages.profile as ImageURISource}
+            />
+            <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
+            {/* TODO: CreateAt 추가 */}
+            <Scrap onPress={handleScrap}>
+              {contentList?.pages[0].isScrap ? (
+                <Image source={defaultIcons.scrapFill} />
+              ) : (
+                <Image source={defaultIcons.scrap} />
+              )}
+            </Scrap>
+          </ProfileContainer>
+        </>
+      )}
       <DefaultContainer>
         <ScrollContainer
           showsVerticalScrollIndicator={false}

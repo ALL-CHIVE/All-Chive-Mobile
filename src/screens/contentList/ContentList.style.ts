@@ -36,6 +36,7 @@ export const ProfileContainer = styled.View`
   flex-direction: row;
   left: 25px;
   top: 13px;
+  margin-bottom: 30px;
 `
 
 export const ProfileImage = styled.Image`
@@ -53,4 +54,10 @@ export const Nickname = styled.Text`
 export const CreateAt = styled.Text`
   ${fonts.body4};
   color: ${colors.gray300};
+`
+
+export const Scrap = styled.TouchableOpacity`
+  position: absolute;
+  right: 45px;
+  padding: 5px;
 `
