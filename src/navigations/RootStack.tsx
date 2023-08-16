@@ -14,6 +14,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
+import { Agreement } from '@/screens/agreement/Agreement'
 import { ArchivingManagement } from '@/screens/archivingManagement/ArchivingManagement'
 import { BlockManagement } from '@/screens/blockManagement/BlockManagement'
 import { CommunityUsePolicy } from '@/screens/communityUsePolicy/CommunityUsePolicy'
@@ -41,6 +42,7 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
+  Agreement: { type: SignInType }
   SelectCategory: { type: SignInType }
   AddProfile: { type: SignInType; categories: string[] }
   BottomTab: BottomTabNavigationParams
@@ -112,6 +114,12 @@ export const RootStack = () => {
         <Stack.Screen
           name="OnBoarding2"
           component={OnBoarding2}
+        />
+        <Stack.Screen
+          name="Agreement"
+          component={Agreement}
+          initialParams={{ type: SignInType.Kakao }}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="SelectCategory"
