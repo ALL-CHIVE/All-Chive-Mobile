@@ -32,6 +32,10 @@ export const Text = styled.Text`
   color: ${colors.gray500};
 `
 
+export const WidthContainer = styled.View`
+  width: 375px;
+`
+
 export const ProfileContainer = styled.View`
   flex-direction: row;
   left: 25px;
@@ -58,6 +62,6 @@ export const CreateAt = styled.Text`
 
 export const Scrap = styled.TouchableOpacity`
   position: absolute;
-  right: 45px;
+  right: 25px;
   padding: 5px;
 `

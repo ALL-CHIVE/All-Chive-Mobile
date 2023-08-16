@@ -41,6 +41,7 @@ import {
   Scrap,
   ScrollContainer,
   Text,
+  WidthContainer,
 } from './ContentList.style'
 
 interface ContentListProps {
@@ -62,7 +63,6 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
 
   const currentCategory = useRecoilValue(CategoryState)
   const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
@@ -115,13 +115,14 @@ const ContentList = ({ route }: ContentListProps) => {
   )
 
   const { mutate: scrapMutate } = useMutation(
-    () => patchScrapArchiving(contentList!.pages[0].isScrap, contentList!.pages[0].archivingId),
+    () =>
+      patchScrapArchiving(!!contentList?.pages[0].isScrap, contentList?.pages[0].archivingId ?? -1),
     {
       /**
        * scrapMutate 성공 시, 현재 archiving을 업데이트 합니다.
        */
       onSuccess: () => {
-        queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+        queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
         queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
         queryClient.invalidateQueries(['getScrapArchivingList', communityCurrentCategory])
       },
@@ -229,21 +230,15 @@ const ContentList = ({ route }: ContentListProps) => {
         />
       </HeaderContainer>
       {!contentList?.pages[0].isMine && (
-        <>
+        <WidthContainer>
           <Category>
             <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
           </Category>
           <ProfileContainer>
             <ProfileImage
-              source={
-                isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
-                  ? defaultImages.profile
-                  : {
-                      uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
-                    }
-              }
-              onError={() => setIsProfileImageError(true)}
-              defaultSource={defaultImages.profile as ImageURISource}
+              source={{
+                uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
+              }}
             />
             <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
             {/* TODO: CreateAt 추가 */}
@@ -255,7 +250,7 @@ const ContentList = ({ route }: ContentListProps) => {
               )}
             </Scrap>
           </ProfileContainer>
-        </>
+        </WidthContainer>
       )}
       <DefaultContainer>
         <ScrollContainer
