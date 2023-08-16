@@ -24,7 +24,9 @@ export const SearchTab = ({ searchData }: SearchTabData) => {
       <Tab.Screen
         name="AllTab"
         options={{
-          tabBarLabel: `${i18n.t('ALL')}`,
+          tabBarLabel: `${i18n.t('ALL')} ${
+            searchData.archivings.totalElements + searchData.community.totalElements
+          }`,
         }}
       >
         {(props) => (
@@ -37,7 +39,7 @@ export const SearchTab = ({ searchData }: SearchTabData) => {
       <Tab.Screen
         name="ArchivingTab"
         options={{
-          tabBarLabel: `${i18n.t('myArchiving')}`,
+          tabBarLabel: `${i18n.t('myArchiving')} ${searchData.archivings.totalElements}`,
         }}
       >
         {(props) => (
@@ -50,7 +52,7 @@ export const SearchTab = ({ searchData }: SearchTabData) => {
       <Tab.Screen
         name="CommunityTab"
         options={{
-          tabBarLabel: `${i18n.t('community')}`,
+          tabBarLabel: `${i18n.t('community')} ${searchData.community.totalElements}`,
         }}
       >
         {(props) => (
