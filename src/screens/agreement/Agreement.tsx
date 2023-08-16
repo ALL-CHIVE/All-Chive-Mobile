@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
+import { Image } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -9,6 +10,7 @@ import DefaultScrollContainer from '@/components/containers/defaultScrollContain
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { openInappBrowser } from '@/services/InappBrowser'
 
 import {
   CheckBox,
@@ -16,6 +18,7 @@ import {
   Description,
   Divider,
   Heading,
+  RightButton,
   RowView,
   Title,
   YellowCheckImage,
@@ -71,6 +74,25 @@ export const Agreement = ({ route }: AgreementProps) => {
   }
 
   /**
+   * key에 해당하는 링크를 인앱브라우저로 엽니다.
+   */
+  const handleOpenBrowser = (key: string) => {
+    switch (key) {
+      case 'terms':
+        openInappBrowser(
+          'https://important-rotate-7df.notion.site/f7b9451a12594e2d8aa2c23d2334e75d?pvs=4'
+        )
+        break
+      case 'privacy':
+        openInappBrowser(
+          'https://important-rotate-7df.notion.site/d150313b80bc402f95acd12b037f368f?pvs=4'
+        )
+        break
+      // TODO: case 'marketing':
+    }
+  }
+
+  /**
    * SelectCategory 화면으로 이동합니다.
    */
   const handleComplete = () => {
@@ -98,6 +120,9 @@ export const Agreement = ({ route }: AgreementProps) => {
                     {value ? <YellowCheckImage source={defaultIcons.yellowCheck} /> : null}
                   </CheckBox>
                   <Title>{i18n.t(`${key}Agreement`)}</Title>
+                  <RightButton onPress={() => handleOpenBrowser(key)}>
+                    <Image source={defaultIcons.rightButton} />
+                  </RightButton>
                 </RowView>
               )
             }
