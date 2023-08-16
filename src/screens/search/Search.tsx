@@ -161,7 +161,7 @@ const Search = () => {
           </>
         )}
 
-        {searchRelation && searchRelation.length > 0 && searchText && isFocus && (
+        {searchRelation && searchText && isFocus && (
           <>
             {searchRelation.map((item) => (
               <RelationContainer key={item}>

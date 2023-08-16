@@ -36,6 +36,7 @@ export const CommunityTab = ({ searchData }: SearchTabData) => {
               <ArchivingCard
                 key={item.archivingId}
                 item={item}
+                isSearch={true}
               />
             ))}
         </TabArchivingCardContainer>
