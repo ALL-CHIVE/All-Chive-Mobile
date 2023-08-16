@@ -58,12 +58,12 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     isLoading,
     isError,
     data: content,
-  } = useQuery<GetContentsResponse, AxiosError>(`${queryKeys.contents}${route.params.id}`, () =>
+  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.id], () =>
     getContents(route.params.id)
   )
 
   useEffect(() => {
-    queryClient.setQueryData(`${queryKeys.contents}${route.params.id}`, content)
+    queryClient.setQueryData([queryKeys.contents, route.params.id], content)
   }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
@@ -147,7 +147,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       <ErrorDialog
         isVisible={isError}
         onClick={() => {
-          queryClient.invalidateQueries(`${queryKeys.contents}${route.params.id}`)
+          queryClient.invalidateQueries([queryKeys.contents, route.params.id])
         }}
       />
 

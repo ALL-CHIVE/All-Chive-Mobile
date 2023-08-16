@@ -14,18 +14,22 @@ import { Divider } from '@/components/divider/Divider'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
+import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { checkTag } from '@/services/StringChecker'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 
 import { ClickableTag } from '../upload/components/ClickableTag'
 
 import {
   Container,
+  CreateTagContainer,
   LatestTitle,
   PlusTagButton,
   PlusTagText,
   RowView,
+  Styles,
   Title,
 } from './CreateTag.style'
 interface TagProps {
@@ -42,6 +46,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
 
   const [searchText, setSearchText] = useState('')
   const [openDialog, setOpenDialog] = useState(false)
+  const [isTagValid, setIsTagValid] = useState(false)
 
   const { mutate: postTagMutate } = useMutation(() => postTag(searchText), {
     /**
@@ -60,7 +65,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
    */
   const handleSearch = (text: string) => {
     setSearchText(text)
-    // TODO: 검색어 처리 로직 추가
+    setIsTagValid(checkTag(text))
   }
 
   /**
@@ -142,13 +147,21 @@ export const CreateTag = ({ navigation }: TagProps) => {
             </RowView>
           ) : null}
           {searchText.length > 0 && tagData && !tagData?.find((tag) => tag.name === searchText) ? (
-            <>
+            <CreateTagContainer>
               <Title>{`${i18n.t('notExistTag')}\n ${i18n.t('askCreateTag')}`}</Title>
-              <PlusTagButton onPress={handleCreateTag}>
+              <Verifier
+                isValid={isTagValid}
+                text={'tagVerify'}
+              />
+              <PlusTagButton
+                onPress={handleCreateTag}
+                disabled={!isTagValid}
+                style={!isTagValid && Styles.disableButton}
+              >
                 <Image source={defaultIcons.plusBlack} />
                 <PlusTagText>{`${i18n.t('createTag')}`}</PlusTagText>
               </PlusTagButton>
-            </>
+            </CreateTagContainer>
           ) : (
             <></>
           )}

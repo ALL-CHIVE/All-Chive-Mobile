@@ -139,9 +139,12 @@ export const EditArchivingModal = ({
        * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
        */
       onSuccess: () => {
-        queryClient.invalidateQueries([`contentByArchiving${archivingId}`, archivingId])
+        queryClient.invalidateQueries([`contentByArchiving`, archivingId])
         queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         queryClient.invalidateQueries(['archivingList'])
+        queryClient.invalidateQueries(['getCommunityArchivingList'])
+        queryClient.invalidateQueries(['getScrapArchivingList'])
+        queryClient.invalidateQueries(['getPopularArchivings'])
         onClose()
       },
     }

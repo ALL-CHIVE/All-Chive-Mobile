@@ -163,5 +163,6 @@
   "temporaryError": "일시적인 오류에요",
   "couldntGetInformation": "정보를 불러오지 못 했어요",
   "pleaseRetryLittleWhile": "잠시 후에 다시 시도해주세요!",
-  "retry": "다시 시도하기"
+  "retry": "다시 시도하기",
+  "tagVerify": "한/영 20자 이내 입력"
 }

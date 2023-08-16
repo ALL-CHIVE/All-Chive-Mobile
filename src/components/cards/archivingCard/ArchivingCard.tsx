@@ -36,12 +36,13 @@ interface ArchivingCardProps {
   item: ArchivingListContent
   isMine?: boolean
   isRecycle?: boolean
+  isSearch?: boolean
 }
 
 /**
  * ArchivingCard
  */
-export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) => {
+export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCardProps) => {
   const queryClient = useQueryClient()
   const navigation = useNavigation<MainNavigationProp>()
 
@@ -68,6 +69,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+      queryClient.invalidateQueries(['getPopularArchivings'])
     },
   })
   const { mutate: pinMutate } = useMutation(() => patchPinArchiving(markStatus, archivingId), {
@@ -150,7 +152,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle }: ArchivingCardProps) =
             {title}
           </Title>
           <Day>{createdAt}</Day>
-          {isRecycle ? (
+          {isRecycle || isSearch ? (
             <></>
           ) : isMine ? (
             <>
