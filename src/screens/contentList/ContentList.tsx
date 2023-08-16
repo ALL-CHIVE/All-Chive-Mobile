@@ -220,7 +220,7 @@ const ContentList = ({ route }: ContentListProps) => {
       {!contentList?.pages[0].isMine && (
         <>
           <Category>
-            <Text>{contentList?.pages[0].category}</Text>
+            <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
           </Category>
           <ProfileContainer>
             <ProfileImage
