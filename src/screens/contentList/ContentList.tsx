@@ -27,7 +27,7 @@ import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { CommunityCategoryState } from '@/state/CategoryState'
+import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -64,7 +64,8 @@ const ContentList = ({ route }: ContentListProps) => {
   const [ownerNickname, setOwnerNickname] = useState('')
   const [isProfileImageError, setIsProfileImageError] = useState(false)
 
-  const currentCategory = useRecoilValue(CommunityCategoryState)
+  const currentCategory = useRecoilValue(CategoryState)
+  const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
 
   const {
     data: contentList,
@@ -89,7 +90,7 @@ const ContentList = ({ route }: ContentListProps) => {
      * deleteArchivingMutate 성공 시 홈 화면 리패치 후 홈 화면으로 이동합니다.
      */
     onSuccess: () => {
-      queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
   })
@@ -121,8 +122,8 @@ const ContentList = ({ route }: ContentListProps) => {
        */
       onSuccess: () => {
         queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
-        queryClient.invalidateQueries(['getCommunityArchivingList', currentCategory])
-        queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
+        queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+        queryClient.invalidateQueries(['getScrapArchivingList', communityCurrentCategory])
       },
     }
   )
@@ -326,7 +327,7 @@ const ContentList = ({ route }: ContentListProps) => {
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
-          queryClient.invalidateQueries(['getCommunityArchivingList', 'ALL'])
+          queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
