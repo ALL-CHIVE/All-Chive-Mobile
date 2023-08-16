@@ -1,3 +1,5 @@
+import { Category } from './enums/Category'
+
 export interface ArchivingListResponse {
   [category: string]: ArchivingItem[] | []
 }
@@ -27,10 +29,14 @@ export interface ContentByArchivingResponse {
     hasNext: boolean
   }
   archivingTitle: string
+  category: Category
   archivingId: number
   totalContentsCount: number
   ownerId: number
+  ownerNickname: string
+  ownerProfileImgUrl: string
   isMine: boolean
+  isScrap: boolean
 }
 
 export interface MainArchivingListResponse {

@@ -3,17 +3,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ListRenderItem, NativeScrollEvent } from 'react-native'
+import { Image, ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
+import { useRecoilValue } from 'recoil'
 
-import { deleteArchiving, getContentByArchiving } from '@/apis/archiving'
+import { deleteArchiving, getContentByArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { postBlock } from '@/apis/block'
-import { defaultImages } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
+import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
@@ -23,9 +27,22 @@ import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
-import { ContentListContainer, ScrollContainer } from './ContentList.style'
+import {
+  Category,
+  ContentListContainer,
+  CreateAt,
+  HeaderContainer,
+  Nickname,
+  ProfileContainer,
+  ProfileImage,
+  Scrap,
+  ScrollContainer,
+  Text,
+  WidthContainer,
+} from './ContentList.style'
 
 interface ContentListProps {
   route: RouteProp<RootStackParamList, 'ContentList'>
@@ -46,6 +63,9 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
+
+  const currentCategory = useRecoilValue(CategoryState)
+  const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
 
   const {
     data: contentList,
@@ -70,7 +90,7 @@ const ContentList = ({ route }: ContentListProps) => {
      * deleteArchivingMutate 성공 시 홈 화면 리패치 후 홈 화면으로 이동합니다.
      */
     onSuccess: () => {
-      queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
   })
@@ -90,6 +110,21 @@ const ContentList = ({ route }: ContentListProps) => {
        */
       onError: () => {
         //ignore
+      },
+    }
+  )
+
+  const { mutate: scrapMutate } = useMutation(
+    () =>
+      patchScrapArchiving(!!contentList?.pages[0].isScrap, contentList?.pages[0].archivingId ?? -1),
+    {
+      /**
+       * scrapMutate 성공 시, 현재 archiving을 업데이트 합니다.
+       */
+      onSuccess: () => {
+        queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
+        queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+        queryClient.invalidateQueries(['getScrapArchivingList', communityCurrentCategory])
       },
     }
   )
@@ -168,18 +203,56 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
-  if (isError) {
-    return <>Error!</>
+  /**
+   * 해당 아카이빙을 스크랩합니다.
+   */
+  const handleScrap = () => {
+    if (contentList !== undefined) {
+      scrapMutate()
+    }
   }
 
   return (
     <>
-      <DefaultContainer>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => {
+          queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+        }}
+      />
+
+      <HeaderContainer>
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={handleReport}
         />
+      </HeaderContainer>
+      {!contentList?.pages[0].isMine && (
+        <WidthContainer>
+          <Category>
+            <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
+          </Category>
+          <ProfileContainer>
+            <ProfileImage
+              source={{
+                uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
+              }}
+            />
+            <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
+            {/* TODO: CreateAt 추가 */}
+            <Scrap onPress={handleScrap}>
+              {contentList?.pages[0].isScrap ? (
+                <Image source={defaultIcons.scrapFill} />
+              ) : (
+                <Image source={defaultIcons.scrap} />
+              )}
+            </Scrap>
+          </ProfileContainer>
+        </WidthContainer>
+      )}
+      <DefaultContainer>
         <ScrollContainer
           showsVerticalScrollIndicator={false}
           onScrollEndDrag={({ nativeEvent }) => {
@@ -249,7 +322,7 @@ const ContentList = ({ route }: ContentListProps) => {
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
-          queryClient.invalidateQueries(['getCommunityArchivingList', 'ALL'])
+          queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
           queryClient.invalidateQueries(['getPopularArchivings'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
