@@ -14,9 +14,9 @@ import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
+import { Agreement } from '@/screens/agreement/Agreement'
 import { ArchivingManagement } from '@/screens/archivingManagement/ArchivingManagement'
 import { BlockManagement } from '@/screens/blockManagement/BlockManagement'
-import { CommunityUsePolicy } from '@/screens/communityUsePolicy/CommunityUsePolicy'
 import ContentDetail from '@/screens/contentDetail/ContentDetail'
 import ContentList from '@/screens/contentList/ContentList'
 import { CreateTag } from '@/screens/createTag/CreateTag'
@@ -32,7 +32,6 @@ import Report from '@/screens/report/Report'
 import Search from '@/screens/search/Search'
 import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { TagManagement } from '@/screens/tagManagement/TagManagement'
-import { TermsOfService } from '@/screens/termsOfService/TermsOfService'
 import { Upload } from '@/screens/upload/Upload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 import { SignInState } from '@/state/signIn/SignInState'
@@ -41,6 +40,7 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
+  Agreement: { type: SignInType }
   SelectCategory: { type: SignInType }
   AddProfile: { type: SignInType; categories: string[] }
   BottomTab: BottomTabNavigationParams
@@ -57,8 +57,6 @@ export type RootStackParamList = {
   ArchivingManagement: undefined
   TagManagement: undefined
   BlockManagement: undefined
-  TermsOfService: undefined
-  CommunityUsePolicy: undefined
   Notice: undefined
   RecycleBin: undefined
 }
@@ -112,6 +110,12 @@ export const RootStack = () => {
         <Stack.Screen
           name="OnBoarding2"
           component={OnBoarding2}
+        />
+        <Stack.Screen
+          name="Agreement"
+          component={Agreement}
+          initialParams={{ type: SignInType.Kakao }}
+          options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="SelectCategory"
@@ -186,14 +190,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="BlockManagement"
           component={BlockManagement}
-        />
-        <Stack.Screen
-          name="TermsOfService"
-          component={TermsOfService}
-        />
-        <Stack.Screen
-          name="CommunityUsePolicy"
-          component={CommunityUsePolicy}
         />
         <Stack.Screen
           name="Notice"

@@ -51,8 +51,7 @@ export const Login = () => {
       } else if (!data.canLogin && data.idToken) {
         setIdTokenState(data.idToken)
         setThirdpartyAccessTokenState(data.accessToken ?? '')
-        // TODO: 이용약관 페이지 추가
-        navigation.navigate('SelectCategory', { type })
+        navigation.navigate('Agreement', { type })
       }
     },
   })

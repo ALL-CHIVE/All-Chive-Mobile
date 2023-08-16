@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Heading = styled.Text`
   ${fonts.heading1};
   color: ${colors.mainBlack};
-  margin-top: 119px;
+  margin-top: 75px;
 `
 
 export const Description = styled.Text`

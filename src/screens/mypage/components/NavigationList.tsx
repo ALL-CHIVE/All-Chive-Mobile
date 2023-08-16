@@ -5,19 +5,19 @@ import { Image, Linking } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { openInappBrowser } from '@/services/InappBrowser'
 
 import { Container, Title } from './NavigationList.style'
 
 interface NavigationListProps {
   title: string
   url?: string
+  openInAppUrl?: string
   screen?:
     | 'MyAccount'
     | 'ArchivingManagement'
     | 'TagManagement'
     | 'BlockManagement'
-    | 'TermsOfService'
-    | 'CommunityUsePolicy'
     | 'Notice'
     | 'RecycleBin'
 }
@@ -25,7 +25,7 @@ interface NavigationListProps {
 /**
  * 마이페이지에서 네비게이션 역할을 하는 리스트
  */
-export const NavigationList = ({ title, screen, url }: NavigationListProps) => {
+export const NavigationList = ({ title, screen, url, openInAppUrl }: NavigationListProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   return (
     <>
@@ -42,6 +42,18 @@ export const NavigationList = ({ title, screen, url }: NavigationListProps) => {
           <Container
             onPress={() => {
               Linking.openURL(url)
+            }}
+          >
+            <Title>{title}</Title>
+            <Image source={defaultIcons.rightButton} />
+          </Container>
+        </>
+      )}
+      {openInAppUrl && (
+        <>
+          <Container
+            onPress={() => {
+              openInappBrowser(openInAppUrl)
             }}
           >
             <Title>{title}</Title>
