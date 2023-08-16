@@ -5,7 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   align-items: center;
-  margin-top: 165px;
+  margin-top: 120px;
 `
 
 export const SubTitleText = styled.Text`
