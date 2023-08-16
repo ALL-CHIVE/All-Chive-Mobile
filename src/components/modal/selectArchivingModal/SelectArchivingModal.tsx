@@ -97,7 +97,6 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                     <View key={category}>
                       {archivingList[category].length > 0 && (
                         <>
-                          {/* TODO: 서버에서 알맞게 전달하는지 확인 */}
                           <CategoryTitle>{i18n.t(`${category}`)}</CategoryTitle>
                           <Divider />
                           {archivingList[category].map((item) => (
