@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Image } from 'react-native'
 import Modal from 'react-native-modal'
 
 import { defaultIcons } from '@/assets'
+import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 
 import {
@@ -19,18 +20,20 @@ import {
   DeleteButton,
   TextInputContainer,
   DisabledStyles,
+  TagVerifier,
 } from './InputDialog.style'
 
 interface InputDialogProps {
   isVisible: boolean
   title: string
   text: string
-  setText: React.Dispatch<React.SetStateAction<string>>
+  setText: (text: string) => void
   completeText: string
   onCancel: () => void
   onComplete: () => void
   isDisabled?: boolean
   placeholder?: string
+  isValid: boolean
 }
 
 /**
@@ -46,14 +49,12 @@ export const InputDialog = ({
   onComplete,
   isDisabled,
   placeholder,
+  isValid,
 }: InputDialogProps) => {
-  const [isComplete, setIsComplete] = useState(false)
-
   /**
    *
    */
   const handleComplete = () => {
-    setIsComplete(true)
     onComplete()
   }
 
@@ -77,6 +78,12 @@ export const InputDialog = ({
             </DeleteButton>
           )}
         </TextInputContainer>
+        <TagVerifier>
+          <Verifier
+            isValid={isValid}
+            text={'tagVerify'}
+          />
+        </TagVerifier>
         <Buttons>
           <CancelButton onPress={onCancel}>
             <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>

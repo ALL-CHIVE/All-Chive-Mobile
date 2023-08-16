@@ -7,11 +7,16 @@ import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { getCommunityArchivingList, getScrapArchivingList } from '@/apis/archiving'
+import {
+  getCommunityArchivingList,
+  getPopularArchivings,
+  getScrapArchivingList,
+} from '@/apis/archiving'
 import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
+import { PopularArchivingCard } from '@/components/cards/popularArchivingCard/PopularArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
@@ -38,7 +43,14 @@ import {
   List,
 } from '../Main.style'
 
-import { BackgroundImage, Menu, MenuButton, MenuText, SelectedStyle } from './Community.style'
+import {
+  BackgroundImage,
+  Menu,
+  MenuButton,
+  MenuText,
+  PopularContainer,
+  SelectedStyle,
+} from './Community.style'
 
 const PAGE_LIMIT = isWindowWidthSmallerThen(750) ? 10 : 12
 const LIST_NUMS_COLUMNS = isWindowWidthSmallerThen(750) ? 1 : 2
@@ -61,6 +73,12 @@ export const Community = () => {
     isLoading: isProfileLoading,
     isError: isProfileError,
   } = useQuery(['getUser'], () => getUser())
+
+  const {
+    data: popularData,
+    isLoading: isPopuplarLoading,
+    isError: isPopularError,
+  } = useQuery(['getPopularArchivings'], () => getPopularArchivings())
 
   const {
     data: archivingList,
@@ -138,7 +156,7 @@ export const Community = () => {
 
   return (
     <>
-      {isProfileLoading || isLoading || isScrapLoading ? <Loading /> : <></>}
+      {isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading ? <Loading /> : <></>}
       <ErrorDialog
         isVisible={isProfileError}
         onClick={() => {
@@ -155,6 +173,12 @@ export const Community = () => {
         isVisible={isScrapError}
         onClick={() => {
           queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
+        }}
+      />
+      <ErrorDialog
+        isVisible={isPopularError}
+        onClick={() => {
+          queryClient.invalidateQueries(['getPopularArchivings'])
         }}
       />
 
@@ -184,11 +208,24 @@ export const Community = () => {
             }
           }}
         >
-          <Greeding>
+          <Greeding style={{ marginBottom: 47 }}>
             <>
               <Title>{i18n.t('scrapArchiveYouWant')}</Title>
             </>
             <BackgroundImage source={defaultImages.communityBackground} />
+            <PopularContainer
+              horizontal={true}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {popularData &&
+                popularData.archivings.map((item) => (
+                  <PopularArchivingCard
+                    key={item.archivingId}
+                    item={item}
+                  />
+                ))}
+            </PopularContainer>
           </Greeding>
           <Menu>
             <MenuButton

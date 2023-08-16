@@ -30,6 +30,11 @@ export const TextInputContainer = styled.View`
   display: flex;
 `
 
+export const TagVerifier = styled.View`
+  margin-top: 4px;
+  width: 220px;
+`
+
 export const TextInput = styled.TextInput`
   width: 229px;
   height: 37px;

@@ -74,7 +74,7 @@ const ContentList = ({ route }: ContentListProps) => {
     isLoading,
     isError,
   } = useInfiniteQuery<ContentByArchivingResponse, AxiosError>(
-    [`contentByArchiving${route.params.id}`, route.params.id],
+    [`contentByArchiving`, route.params.id],
     ({ pageParam = 0 }) => getContentByArchiving(route.params.id, pageParam, PAGE_LIMIT),
     {
       /**
@@ -328,6 +328,7 @@ const ContentList = ({ route }: ContentListProps) => {
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
           queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+          queryClient.invalidateQueries(['getPopularArchivings'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />

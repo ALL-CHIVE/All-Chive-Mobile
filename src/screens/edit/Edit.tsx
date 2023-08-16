@@ -134,11 +134,8 @@ export const Edit = ({ route }: EditProps) => {
       onSuccess: () => {
         setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
-        queryClient.invalidateQueries([`${queryKeys.contents}${route.params.id}`])
-        queryClient.invalidateQueries([
-          `contentByArchiving${selectArchiving.id}`,
-          selectArchiving.id,
-        ])
+        queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+        queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
         navigation.goBack()
       },
       /**

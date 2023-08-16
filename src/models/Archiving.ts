@@ -58,3 +58,7 @@ export interface ArchivingListContent {
   markStatus: boolean
   publicStatus: boolean
 }
+
+export interface PopularArchivingsResponse {
+  archivings: ArchivingListContent[]
+}
