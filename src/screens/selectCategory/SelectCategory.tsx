@@ -81,7 +81,7 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
         </Container>
       </DefaultScrollContainer>
       <BoxButton
-        textKey="selectCompleted"
+        textKey={i18n.t('next')}
         onPress={handleSubmitCategory}
         isDisabled={selectedCategory.length <= 0}
       />

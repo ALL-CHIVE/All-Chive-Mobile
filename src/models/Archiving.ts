@@ -31,6 +31,7 @@ export interface ContentByArchivingResponse {
   archivingTitle: string
   category: Category
   archivingId: number
+  createdAt: string
   totalContentsCount: number
   ownerId: number
   ownerNickname: string

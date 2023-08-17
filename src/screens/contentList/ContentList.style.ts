@@ -12,19 +12,19 @@ export const ScrollContainer = styled.ScrollView`
   width: 375px;
 `
 
+export const RowContainer = styled.View`
+  flex-direction: row;
+`
+
 export const HeaderContainer = styled.View`
   align-items: center;
 `
 
 export const Category = styled.View`
-  max-width: 77px;
-  justify-content: center;
   align-items: center;
   border-radius: 6px;
   padding: 4px 15px;
   background-color: ${colors.mainYellow};
-  margin-right: 11px;
-  left: 25px;
 `
 
 export const Text = styled.Text`
@@ -34,12 +34,13 @@ export const Text = styled.Text`
 
 export const WidthContainer = styled.View`
   width: 375px;
+  padding: 0px 25px;
+  margin-top: 15px;
 `
 
 export const ProfileContainer = styled.View`
   flex-direction: row;
-  left: 25px;
-  top: 13px;
+  margin-top: 13px;
   margin-bottom: 30px;
 `
 
@@ -49,10 +50,14 @@ export const ProfileImage = styled.Image`
   border-radius: 40px;
 `
 
+export const InfoContainer = styled.View`
+  margin-left: 10px;
+  flex-direction: column;
+`
+
 export const Nickname = styled.Text`
   ${fonts.body3};
   color: ${colors.mainBlack};
-  left: 10px;
 `
 
 export const CreateAt = styled.Text`
@@ -62,6 +67,6 @@ export const CreateAt = styled.Text`
 
 export const Scrap = styled.TouchableOpacity`
   position: absolute;
-  right: 25px;
+  right: -5px;
   padding: 5px;
 `

@@ -211,7 +211,7 @@ export const Community = () => {
         >
           <Greeding style={{ marginBottom: 47 }}>
             <>
-              <Title>{i18n.t('scrapArchiveYouWant')}</Title>
+              <Title>{i18n.t('communityTabTitle')}</Title>
             </>
             <BackgroundImage source={defaultImages.communityBackground} />
             <PopularContainer

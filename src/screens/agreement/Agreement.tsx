@@ -40,7 +40,7 @@ export const Agreement = ({ route }: AgreementProps) => {
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
-    marketing: false,
+    // marketing: false,
   })
 
   /**
@@ -62,14 +62,14 @@ export const Agreement = ({ route }: AgreementProps) => {
       setAgreements({
         terms: false,
         privacy: false,
-        marketing: false,
+        // marketing: false,
       })
     } else {
       setAllCheck(true)
       setAgreements({
         terms: true,
         privacy: true,
-        marketing: true,
+        // marketing: true,
       })
     }
   }
@@ -85,9 +85,9 @@ export const Agreement = ({ route }: AgreementProps) => {
       case 'privacy':
         openInappBrowser(privacy)
         break
-      case 'marketing':
-        openInappBrowser(marketing)
-        break
+      // case 'marketing':
+      //   openInappBrowser(marketing)
+      //   break
     }
   }
 
