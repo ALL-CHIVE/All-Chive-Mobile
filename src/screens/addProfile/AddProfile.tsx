@@ -143,7 +143,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
         </Container>
       </DefaultScrollContainer>
       <BoxButton
-        textKey="complete"
+        textKey={i18n.t('startAllChive')}
         onPress={handleComplete}
         isDisabled={!isNicknameValid || !isNicknameDuplicate}
       />
