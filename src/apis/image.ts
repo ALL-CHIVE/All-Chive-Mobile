@@ -8,8 +8,8 @@ import { getAccessToken } from '@/services/localStorage/LocalStorage'
 import { client } from './client'
 
 const access = new Credentials({
-  accessKeyId: Config.AWS_ASSET_SERVER_STAGE_ID ?? '',
-  secretAccessKey: Config.AWS_ASSET_SERVER_STAGE_KEY ?? '',
+  accessKeyId: Config.AWS_ASSET_SERVER_ID ?? '',
+  secretAccessKey: Config.AWS_ASSET_SERVER_KEY ?? '',
 })
 
 const s3 = new S3({
@@ -23,7 +23,7 @@ const s3 = new S3({
  */
 export const getAwsImageUrl = async (key: string): Promise<string> => {
   const url = await s3.getSignedUrlPromise('putObject', {
-    Bucket: Config.AWS_ASSET_BUCKET_STAGE,
+    Bucket: Config.AWS_ASSET_BUCKET,
     Key: key,
     ContentType: 'image/jpeg',
     Expires: 60 * 15,

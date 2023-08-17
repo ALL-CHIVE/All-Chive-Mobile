@@ -34,7 +34,7 @@
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:host="oauth"
-            android:scheme="@string/ALLCHIVE_DEV_NATIVE_APP_KEY_WITH_KAKAO" />
+            android:scheme="@string/ALLCHIVE_NATIVE_APP_KEY_WITH_KAKAO" />
         </intent-filter>
       </activity>
     </application>
