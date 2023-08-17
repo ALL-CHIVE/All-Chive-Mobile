@@ -37,7 +37,7 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
     isLoading,
     isError,
   } = useInfiniteQuery(
-    ['getSearchInfinite', searchText],
+    ['getSearchInfiniteArchiving', searchText],
     ({ pageParam = 1 }) => getSearch(SearchType.My, searchText, pageParam, 10),
     {
       enabled: endReached,
