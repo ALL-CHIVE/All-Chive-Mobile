@@ -92,7 +92,7 @@ export const CommunityTab = ({ data }: SearchResponse) => {
             <TabItemContainer>
               <TabHeader>
                 <SearchDataText>
-                  {i18n.t('numberOfsearchResult', { number: data.community.content.length })}
+                  {i18n.t('numberOfsearchResult', { number: data.community.totalElements })}
                 </SearchDataText>
                 <Title>{i18n.t('community')}</Title>
               </TabHeader>

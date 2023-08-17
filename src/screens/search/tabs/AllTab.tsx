@@ -32,7 +32,7 @@ export const AllTab = ({ data }: SearchResponse) => {
           <TabItemContainer>
             <TabHeader>
               <SearchDataText>
-                {i18n.t('numberOfsearchResult', { number: data.archivings.content.length })}
+                {i18n.t('numberOfsearchResult', { number: data.archivings.totalElements })}
               </SearchDataText>
               <Title>{i18n.t('myArchiving')}</Title>
             </TabHeader>
@@ -51,7 +51,7 @@ export const AllTab = ({ data }: SearchResponse) => {
           <TabItemContainer>
             <TabHeader>
               <SearchDataText>
-                {i18n.t('numberOfsearchResult', { number: data.community.content.length })}
+                {i18n.t('numberOfsearchResult', { number: data.community.totalElements })}
               </SearchDataText>
               <Title>{i18n.t('community')}</Title>
             </TabHeader>

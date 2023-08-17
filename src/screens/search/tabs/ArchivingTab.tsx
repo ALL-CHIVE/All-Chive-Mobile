@@ -92,7 +92,7 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
             <TabItemContainer>
               <TabHeader>
                 <SearchDataText>
-                  {i18n.t('numberOfsearchResult', { number: data.archivings.content.length })}
+                  {i18n.t('numberOfsearchResult', { number: data.archivings.totalElements })}
                 </SearchDataText>
                 <Title>{i18n.t('myArchiving')}</Title>
               </TabHeader>
