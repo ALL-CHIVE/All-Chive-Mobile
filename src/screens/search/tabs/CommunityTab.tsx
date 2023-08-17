@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
 import { NativeScrollEvent } from 'react-native'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { getSearch } from '@/apis/search'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
+import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
+import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { SearchResponse } from '@/models/Search'
 import { SearchType } from '@/models/enums/SearchType'
@@ -27,6 +29,7 @@ import {
  */
 export const CommunityTab = ({ data }: SearchResponse) => {
   const searchText = useRecoilValue(SearchTextState)
+  const queryClient = useQueryClient()
 
   const [endReached, setEndReached] = useState(false)
 
@@ -65,54 +68,62 @@ export const CommunityTab = ({ data }: SearchResponse) => {
   }
 
   return (
-    <ScrollContainer
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      onScrollEndDrag={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent)) {
-          setEndReached(true)
-          onEndReached()
-        }
-      }}
-    >
-      {data.community.content.length === 0 ? (
-        <EmptyItem textKey={i18n.t('emptySearch')} />
-      ) : (
-        <>
-          <TabItemContainer>
-            <TabHeader>
-              <SearchDataText>
-                {i18n.t('numberOfsearchResult', { number: data.community.content.length })}
-              </SearchDataText>
-              <Title>{i18n.t('community')}</Title>
-            </TabHeader>
-            <TabArchivingCardContainer>
-              {data !== undefined &&
-                data.community.content.map((item) => (
-                  <ArchivingCard
-                    key={item.archivingId}
-                    item={item}
-                    isSearch={true}
-                  />
-                ))}
-              {infiniteData?.pages &&
-                infiniteData?.pages.map((page, index) => (
-                  <React.Fragment key={index}>
-                    {page.community.content.map((item) => (
-                      <ArchivingCard
-                        key={item.archivingId}
-                        item={item}
-                        isSearch={true}
-                      />
-                    ))}
-                  </React.Fragment>
-                ))}
-            </TabArchivingCardContainer>
-          </TabItemContainer>
-          <Bottom />
-        </>
-      )}
-    </ScrollContainer>
+    <>
+      {isLoading && <Loading />}
+      <ErrorDialog
+        isVisible={isError}
+        onClick={() => queryClient.invalidateQueries(['getSearchInfiniteCommunity', searchText])}
+      />
+
+      <ScrollContainer
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        onScrollEndDrag={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            setEndReached(true)
+            onEndReached()
+          }
+        }}
+      >
+        {data.community.content.length === 0 ? (
+          <EmptyItem textKey={i18n.t('emptySearch')} />
+        ) : (
+          <>
+            <TabItemContainer>
+              <TabHeader>
+                <SearchDataText>
+                  {i18n.t('numberOfsearchResult', { number: data.community.content.length })}
+                </SearchDataText>
+                <Title>{i18n.t('community')}</Title>
+              </TabHeader>
+              <TabArchivingCardContainer>
+                {data !== undefined &&
+                  data.community.content.map((item) => (
+                    <ArchivingCard
+                      key={item.archivingId}
+                      item={item}
+                      isSearch={true}
+                    />
+                  ))}
+                {infiniteData?.pages &&
+                  infiniteData?.pages.map((page, index) => (
+                    <React.Fragment key={index}>
+                      {page.community.content.map((item) => (
+                        <ArchivingCard
+                          key={item.archivingId}
+                          item={item}
+                          isSearch={true}
+                        />
+                      ))}
+                    </React.Fragment>
+                  ))}
+              </TabArchivingCardContainer>
+            </TabItemContainer>
+            <Bottom />
+          </>
+        )}
+      </ScrollContainer>
+    </>
   )
 }
 
