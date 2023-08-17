@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem } from 'react-native'
+import { Image, ImageURISource, ListRenderItem, View } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -40,6 +40,7 @@ import {
   Nickname,
   ProfileContainer,
   ProfileImage,
+  RowContainer,
   Scrap,
   ScrollContainer,
   Text,
@@ -230,38 +231,40 @@ const ContentList = ({ route }: ContentListProps) => {
           PopupMenuList={PopupMenuList}
           onRightClick={handleReport}
         />
+        {!contentList?.pages[0].isMine && (
+          <WidthContainer>
+            <RowContainer>
+              <Category>
+                <Text>자기계발</Text>
+              </Category>
+            </RowContainer>
+            <ProfileContainer>
+              <ProfileImage
+                source={
+                  isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
+                    ? defaultImages.profile
+                    : {
+                        uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList.pages[0].ownerProfileImgUrl}`,
+                      }
+                }
+                onError={() => setIsProfileImageError(true)}
+                defaultSource={defaultImages.profile as ImageURISource}
+              />
+              <InfoContainer>
+                <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
+                <CreateAt>{contentList?.pages[0].createdAt}</CreateAt>
+              </InfoContainer>
+              <Scrap onPress={handleScrap}>
+                {contentList?.pages[0].isScrap ? (
+                  <Image source={defaultIcons.scrapFill} />
+                ) : (
+                  <Image source={defaultIcons.scrap} />
+                )}
+              </Scrap>
+            </ProfileContainer>
+          </WidthContainer>
+        )}
       </HeaderContainer>
-      {!contentList?.pages[0].isMine && (
-        <WidthContainer>
-          <Category>
-            <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
-          </Category>
-          <ProfileContainer>
-            <ProfileImage
-              source={
-                isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
-                  ? defaultImages.profile
-                  : {
-                      uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList.pages[0].ownerProfileImgUrl}`,
-                    }
-              }
-              onError={() => setIsProfileImageError(true)}
-              defaultSource={defaultImages.profile as ImageURISource}
-            />
-            <InfoContainer>
-              <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
-              <CreateAt>{contentList?.pages[0].createdAt}</CreateAt>
-            </InfoContainer>
-            <Scrap onPress={handleScrap}>
-              {contentList?.pages[0].isScrap ? (
-                <Image source={defaultIcons.scrapFill} />
-              ) : (
-                <Image source={defaultIcons.scrap} />
-              )}
-            </Scrap>
-          </ProfileContainer>
-        </WidthContainer>
-      )}
       <DefaultContainer>
         <ScrollContainer
           showsVerticalScrollIndicator={false}
