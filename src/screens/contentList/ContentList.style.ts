@@ -49,10 +49,14 @@ export const ProfileImage = styled.Image`
   border-radius: 40px;
 `
 
+export const InfoContainer = styled.View`
+  margin-left: 10px;
+  flex-direction: column;
+`
+
 export const Nickname = styled.Text`
   ${fonts.body3};
   color: ${colors.mainBlack};
-  left: 10px;
 `
 
 export const CreateAt = styled.Text`

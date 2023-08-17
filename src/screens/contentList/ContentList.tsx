@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem, NativeScrollEvent } from 'react-native'
+import { Image, ImageURISource, ListRenderItem, NativeScrollEvent, View } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -35,6 +35,7 @@ import {
   ContentListContainer,
   CreateAt,
   HeaderContainer,
+  InfoContainer,
   Nickname,
   ProfileContainer,
   ProfileImage,
@@ -239,8 +240,10 @@ const ContentList = ({ route }: ContentListProps) => {
                 uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
               }}
             />
-            <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
-            {/* TODO: CreateAt 추가 */}
+            <InfoContainer>
+              <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
+              <CreateAt>{contentList?.pages[0].createdAt}</CreateAt>
+            </InfoContainer>
             <Scrap onPress={handleScrap}>
               {contentList?.pages[0].isScrap ? (
                 <Image source={defaultIcons.scrapFill} />
