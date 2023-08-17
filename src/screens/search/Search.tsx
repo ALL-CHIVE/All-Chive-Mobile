@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Image, TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useRecoilState } from 'recoil'
 
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
 import { defaultIcons } from '@/assets'
@@ -12,6 +13,7 @@ import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
 import { SearchType } from '@/models/enums/SearchType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { SearchTextState } from '@/state/SearchTextState'
 
 import {
   AllRemoveText,
@@ -34,15 +36,14 @@ const Search = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
-  const [searchText, setSearchText] = useState('')
-  const [searchType, setSearchType] = useState<SearchType>(SearchType.All)
+  const [searchText, setSearchText] = useRecoilState(SearchTextState)
   const [isFocus, setIsFocus] = useState(false)
 
   const {
     data: searchData,
     isLoading: isSearchLoading,
     isError: isSearchError,
-  } = useQuery(['getSearch', searchText], () => getSearch(searchType, searchText), {
+  } = useQuery(['getSearch', searchText], () => getSearch(SearchType.All, searchText), {
     enabled: searchText !== '' && !isFocus,
   })
 
@@ -177,7 +178,7 @@ const Search = () => {
           </>
         )}
         <TabContainer>
-          {searchText && searchData && !isFocus && <SearchTab searchData={searchData} />}
+          {searchText && searchData && !isFocus && <SearchTab data={searchData} />}
         </TabContainer>
       </Container>
     </>

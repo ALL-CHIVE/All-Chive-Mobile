@@ -3,7 +3,7 @@ import React from 'react'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import i18n from '@/locales'
-import { SearchTabData } from '@/models/SearchTab'
+import { SearchResponse } from '@/models/Search'
 
 import {
   TabArchivingCardContainer,
@@ -19,26 +19,26 @@ import {
 /**
  * 전체 탭
  */
-export const AllTab = ({ searchData }: SearchTabData) => {
+export const AllTab = ({ data }: SearchResponse) => {
   return (
     <ScrollContainer
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >
-      {searchData.archivings.content.length === 0 && searchData.community.content.length === 0 ? (
+      {data.archivings.content.length === 0 && data.community.content.length === 0 ? (
         <EmptyItem textKey={i18n.t('emptySearch')} />
       ) : (
         <>
           <TabItemContainer>
             <TabHeader>
               <SearchDataText>
-                {i18n.t('numberOfsearchResult', { number: searchData.archivings.content.length })}
+                {i18n.t('numberOfsearchResult', { number: data.archivings.content.length })}
               </SearchDataText>
               <Title>{i18n.t('myArchiving')}</Title>
             </TabHeader>
             <TabArchivingCardContainer>
-              {searchData !== undefined &&
-                searchData.archivings.content.map((item) => (
+              {data !== undefined &&
+                data.archivings.content.map((item) => (
                   <ArchivingCard
                     key={item.archivingId}
                     item={item}
@@ -51,13 +51,13 @@ export const AllTab = ({ searchData }: SearchTabData) => {
           <TabItemContainer>
             <TabHeader>
               <SearchDataText>
-                {i18n.t('numberOfsearchResult', { number: searchData.community.content.length })}
+                {i18n.t('numberOfsearchResult', { number: data.community.content.length })}
               </SearchDataText>
               <Title>{i18n.t('community')}</Title>
             </TabHeader>
             <TabArchivingCardContainer>
-              {searchData !== undefined &&
-                searchData.community.content.map((item) => (
+              {data !== undefined &&
+                data.community.content.map((item) => (
                   <ArchivingCard
                     key={item.archivingId}
                     item={item}
