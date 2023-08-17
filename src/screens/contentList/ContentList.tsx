@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem, NativeScrollEvent, View } from 'react-native'
+import { Image, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -27,6 +27,7 @@ import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
+import { isCloseToBottom } from '@/services/InfiniteService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
@@ -353,11 +354,3 @@ const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
 }
 
 export default ContentList
-
-/**
- * isCloseToBottom
- */
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
-  const paddingToBottom = 600
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
-}
