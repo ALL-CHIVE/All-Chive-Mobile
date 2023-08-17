@@ -74,8 +74,11 @@ export const RootStack = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    checkIsInstalled().then((res) => {
+    setTimeout(() => {
       SplashScreen.hide()
+    }, 3000)
+
+    checkIsInstalled().then((res) => {
       setIsInstalled(res)
 
       if (res) {
