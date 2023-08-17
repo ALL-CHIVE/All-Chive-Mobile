@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { NativeScrollEvent } from 'react-native'
 import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -12,6 +11,7 @@ import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { SearchResponse } from '@/models/Search'
 import { SearchType } from '@/models/enums/SearchType'
+import { isCloseToBottom } from '@/services/InfiniteService'
 import { SearchTextState } from '@/state/SearchTextState'
 
 import {
@@ -125,12 +125,4 @@ export const CommunityTab = ({ data }: SearchResponse) => {
       </ScrollContainer>
     </>
   )
-}
-
-/**
- * isCloseToBottom
- */
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
-  const paddingToBottom = 600
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
 }

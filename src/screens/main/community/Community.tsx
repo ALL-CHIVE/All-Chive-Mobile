@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, NativeScrollEvent, TouchableOpacity } from 'react-native'
+import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -26,6 +26,7 @@ import i18n from '@/locales'
 import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { isCloseToBottom } from '@/services/InfiniteService'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
 import { AllCategoryListState } from '@/state/CategoryListState'
 import { CommunityCategoryState } from '@/state/CategoryState'
@@ -295,14 +296,6 @@ export const Community = () => {
       </HomeContainer>
     </>
   )
-}
-
-/**
- * isCloseToBottom
- */
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
-  const paddingToBottom = 600
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
 }
 
 /**
