@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ListRenderItem } from 'react-native'
+import { Image, ImageURISource, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -65,6 +65,7 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
 
   const currentCategory = useRecoilValue(CategoryState)
   const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
@@ -237,9 +238,15 @@ const ContentList = ({ route }: ContentListProps) => {
           </Category>
           <ProfileContainer>
             <ProfileImage
-              source={{
-                uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList?.pages[0].ownerProfileImgUrl}`,
-              }}
+              source={
+                isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
+                  ? defaultImages.profile
+                  : {
+                      uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${contentList.pages[0].ownerProfileImgUrl}`,
+                    }
+              }
+              onError={() => setIsProfileImageError(true)}
+              defaultSource={defaultImages.profile as ImageURISource}
             />
             <InfoContainer>
               <Nickname>{contentList?.pages[0].ownerNickname}</Nickname>
