@@ -1,6 +1,7 @@
 import styled from '@emotion/native'
 import { FlatList } from 'react-native'
 
+import { Category } from '@/models/enums/Category'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
@@ -20,4 +21,4 @@ export const Description = styled.Text`
   margin-top: 15px;
   margin-bottom: 33px;
 `
-export const CategoryList = styled(FlatList<string>)``
+export const CategoryList = styled(FlatList<Category>)``
