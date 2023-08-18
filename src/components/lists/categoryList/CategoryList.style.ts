@@ -4,9 +4,13 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const ScrollContainer = styled.ScrollView`
-  flex-direction: row;
   background-color: rgba(255, 252, 231, 0.9);
+`
+
+export const Container = styled.View`
   padding-left: 25px;
+  padding-right: 14px;
+  flex-direction: row;
 `
 
 export const Button = styled.TouchableOpacity`
