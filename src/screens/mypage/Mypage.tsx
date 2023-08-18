@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Image, ImageURISource, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
+import { getVersion } from 'react-native-device-info'
 import LinearGradient from 'react-native-linear-gradient'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -38,6 +39,7 @@ import { NavigationList } from './components/NavigationList'
 export const Mypage = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
+  const version = getVersion()
 
   const [isProfileImageError, setIsProfileImageError] = useState(false)
 
@@ -153,7 +155,7 @@ export const Mypage = () => {
             />
           </NavigationListContainer>
           <Footer>
-            <FooterText>{i18n.t('appVersion')}</FooterText>
+            <FooterText>{`${i18n.t('appVersion')} ${version}`}</FooterText>
             <FooterText>{`   |   `}</FooterText>
             <TouchableOpacity onPress={handleLogout}>
               <FooterText>{i18n.t('logout')}</FooterText>
