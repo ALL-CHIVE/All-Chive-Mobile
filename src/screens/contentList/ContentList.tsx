@@ -235,7 +235,7 @@ const ContentList = ({ route }: ContentListProps) => {
           <WidthContainer>
             <RowContainer>
               <Category>
-                <Text>자기계발</Text>
+                <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
               </Category>
             </RowContainer>
             <ProfileContainer>
