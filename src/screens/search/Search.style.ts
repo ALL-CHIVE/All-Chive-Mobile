@@ -3,12 +3,11 @@ import styled from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.View``
+export const Container = styled.SafeAreaView``
 
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  height: 120px;
   padding: 0px 25px;
 `
 
