@@ -141,7 +141,7 @@ const Search = () => {
           />
         </Header>
 
-        {latestSearchData && latestSearchData.keywords.length > 0 && !searchText && (
+        {latestSearchData?.keywords && latestSearchData.keywords.length > 0 && !searchText && (
           <>
             <LatestContainer>
               <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
