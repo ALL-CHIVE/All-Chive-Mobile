@@ -27,14 +27,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$(ALLCHIVE_DEV_NATIVE_APP_KEY_WITH_KAKAO)</string>
+				<string>$(ALLCHIVE_NATIVE_APP_KEY_WITH_KAKAO)</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>KAKAO_APP_KEY</key>
-	<string>$(ALLCHIVE_DEV_NATIVE_APP_KEY)</string>
+	<string>$(ALLCHIVE_NATIVE_APP_KEY)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
