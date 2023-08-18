@@ -54,6 +54,7 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
         </CloseButton>
       </Header>
       <ScrollContainer
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

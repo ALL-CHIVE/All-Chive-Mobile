@@ -76,6 +76,7 @@ export const Mypage = () => {
       />
       <DefaultContainer>
         <ScrollContainer
+          bounces={false}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >

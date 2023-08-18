@@ -26,7 +26,7 @@ export const Notice = () => {
   // 현재는 공지사항이 없어 빈 화면으로 둡니다.
   return (
     <>
-      <ScrollView>
+      <ScrollView bounces={false}>
         <EmptyItem textKey="emptyNotice" />
       </ScrollView>
     </>

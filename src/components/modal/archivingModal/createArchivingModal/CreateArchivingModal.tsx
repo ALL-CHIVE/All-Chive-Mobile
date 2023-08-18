@@ -200,6 +200,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             </CloseButton>
           </Header>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >

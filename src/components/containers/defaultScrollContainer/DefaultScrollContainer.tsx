@@ -12,6 +12,7 @@ interface DefaultScrollContainerProps {
 const DefaultScrollContainer = ({ children }: DefaultScrollContainerProps) => {
   return (
     <Container
+      bounces={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >

@@ -234,6 +234,7 @@ export const EditArchivingModal = ({
             </CloseButton>
           </Header>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
