@@ -46,7 +46,11 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleSubmitCategory = () => {
-    navigation.navigate('AddProfile', { type: route.params.type, categories: selectedCategory })
+    navigation.navigate('AddProfile', {
+      type: route.params.type,
+      categories: selectedCategory,
+      marketingAgreement: route.params.marketingAgreement,
+    })
   }
 
   /**

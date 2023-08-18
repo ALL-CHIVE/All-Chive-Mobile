@@ -452,6 +452,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.19.0):
     - React-Core
+  - RNDeviceInfo (10.8.0):
+    - React-Core
   - RNFS (2.20.0):
     - React-Core
   - RNImageCropPicker (0.40.0):
@@ -546,6 +548,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
@@ -662,6 +665,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNImageCropPicker:
@@ -737,6 +742,7 @@ SPEC CHECKSUMS:
   ReactCommon: 08723d2ed328c5cbcb0de168f231bc7bae7f8aa1
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
   RNCAsyncStorage: 4b98ac3c64efa4e35c1197cb0c5ca5e9f5d4c666
+  RNDeviceInfo: 5795b418ed3451ebcaf39384e6cf51f60cb931c9
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNImageCropPicker: 486e2f7e2b0461ce24321f751410dce1b3b49e6d
   RNInAppBrowser: e36d6935517101ccba0e875bac8ad7b0cb655364

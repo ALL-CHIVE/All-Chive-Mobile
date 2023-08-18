@@ -16,6 +16,7 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
+import EmptyItem from '@/components/emptyItem/EmptyItem'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
@@ -33,6 +34,7 @@ import { colors } from '@/styles/colors'
 
 import {
   Category,
+  Container,
   ContentListContainer,
   CreateAt,
   HeaderContainer,
@@ -43,6 +45,7 @@ import {
   RowContainer,
   Scrap,
   ScrollContainer,
+  SubTitleText,
   Text,
   WidthContainer,
 } from './ContentList.style'
@@ -235,7 +238,7 @@ const ContentList = ({ route }: ContentListProps) => {
           <WidthContainer>
             <RowContainer>
               <Category>
-                <Text>자기계발</Text>
+                <Text>{i18n.t(`${contentList?.pages[0].category}`)}</Text>
               </Category>
             </RowContainer>
             <ProfileContainer>
@@ -265,27 +268,36 @@ const ContentList = ({ route }: ContentListProps) => {
           </WidthContainer>
         )}
       </HeaderContainer>
-      <DefaultContainer>
-        <ScrollContainer
-          showsVerticalScrollIndicator={false}
-          onScrollEndDrag={({ nativeEvent }) => {
-            if (isCloseToBottom(nativeEvent)) {
-              onEndReached()
-            }
-          }}
-        >
-          {contentList && (
-            <ContentListContainer
-              scrollEnabled={false}
-              data={contentList.pages
-                .map((page: ContentByArchivingResponse) => page.contents.content)
-                .flat()}
-              numColumns={2}
-              renderItem={renderItem}
-            />
-          )}
-        </ScrollContainer>
-      </DefaultContainer>
+
+      {contentList?.pages[0].totalContentsCount === 0 ? (
+        <Container>
+          <Image source={defaultImages.emptyItem} />
+          <SubTitleText>{i18n.t('emptyArchiving')}</SubTitleText>
+        </Container>
+      ) : (
+        <DefaultContainer>
+          <ScrollContainer
+            showsVerticalScrollIndicator={false}
+            onScrollEndDrag={({ nativeEvent }) => {
+              if (isCloseToBottom(nativeEvent)) {
+                onEndReached()
+              }
+            }}
+          >
+            {contentList && (
+              <ContentListContainer
+                scrollEnabled={false}
+                data={contentList.pages
+                  .map((page: ContentByArchivingResponse) => page.contents.content)
+                  .flat()}
+                numColumns={2}
+                renderItem={renderItem}
+              />
+            )}
+          </ScrollContainer>
+        </DefaultContainer>
+      )}
+
       <EditArchivingModal
         archivingId={route.params.id}
         onClose={handleCloseModal}

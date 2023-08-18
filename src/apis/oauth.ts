@@ -11,7 +11,8 @@ export const signUpUser = (
   oauthAccessToken: string,
   profileImgUrl: string,
   nickname: string,
-  categories: string[]
+  categories: string[],
+  marketingAgreement: boolean
 ) => {
   return client.post(
     `/auth/oauth/register/${provider}?idToken=${idToken}&oauthAccessToken=${oauthAccessToken}`,
@@ -19,6 +20,7 @@ export const signUpUser = (
       profileImgUrl,
       nickname,
       categories,
+      marketingAgreement,
     }
   )
 }

@@ -41,8 +41,8 @@ export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
   Agreement: { type: SignInType }
-  SelectCategory: { type: SignInType }
-  AddProfile: { type: SignInType; categories: string[] }
+  SelectCategory: { type: SignInType; marketingAgreement: boolean }
+  AddProfile: { type: SignInType; categories: string[]; marketingAgreement: boolean }
   BottomTab: BottomTabNavigationParams
   Login: undefined
   ContentList: { id: number; title: string }
