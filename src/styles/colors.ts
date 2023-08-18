@@ -16,4 +16,5 @@ export const colors = {
   black: '#000000',
   shadow: '#3D3D3D1A',
   yellow600: '#FFF28B',
+  searchShadow: '#00000008',
 }

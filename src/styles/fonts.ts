@@ -62,7 +62,7 @@ export const fonts = {
     line-height: 18px;
   `,
   body4: css`
-    font-family: 'Pretendard-Bold';
+    font-family: 'Pretendard-Medium';
     font-size: 12px;
     letter-spacing: 0px;
     line-height: 18px;
