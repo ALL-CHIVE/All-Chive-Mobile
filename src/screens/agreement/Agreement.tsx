@@ -36,7 +36,6 @@ export const Agreement = ({ route }: AgreementProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   const [allCheck, setAllCheck] = useState(false)
-
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
@@ -95,7 +94,10 @@ export const Agreement = ({ route }: AgreementProps) => {
    * SelectCategory 화면으로 이동합니다.
    */
   const handleComplete = () => {
-    navigation.navigate('SelectCategory', { type: route.params.type })
+    navigation.navigate('SelectCategory', {
+      type: route.params.type,
+      marketingAgreement: agreements.marketing,
+    })
   }
 
   return (

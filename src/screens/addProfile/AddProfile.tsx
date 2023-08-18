@@ -63,7 +63,8 @@ const AddProfile = ({ route }: AddProfileProps) => {
       ThirdpartyAccessToken,
       profileImageUrl,
       nickname,
-      route.params.categories
+      route.params.categories,
+      route.params.marketingAgreement
     )
 
     if (isSucess) {
