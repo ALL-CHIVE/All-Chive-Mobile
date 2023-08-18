@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, TouchableOpacity } from 'react-native'
+import { Image, ImageURISource, Platform, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
-import { getVersion } from 'react-native-device-info'
+import { getBuildNumber, getVersion } from 'react-native-device-info'
 import LinearGradient from 'react-native-linear-gradient'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -155,7 +155,10 @@ export const Mypage = () => {
             />
           </NavigationListContainer>
           <Footer>
-            <FooterText>{`${i18n.t('appVersion')} ${version}`}</FooterText>
+            <FooterText>{`${i18n.t('appVersion')} ${version}${Platform.select({
+              ios: `.${getBuildNumber()}`,
+              android: '',
+            })}`}</FooterText>
             <FooterText>{`   |   `}</FooterText>
             <TouchableOpacity onPress={handleLogout}>
               <FooterText>{i18n.t('logout')}</FooterText>
