@@ -1,0 +1,34 @@
+[
+  {
+    "id": "SPAM",
+    "message": "reportSpam"
+  },
+  {
+    "id": "OBSCENE",
+    "message": "reportObsceneContent"
+  },
+  {
+    "id": "PERSONAL_INFO",
+    "message": "reportPersonalInfomation"
+  },
+  {
+    "id": "INTELLECTUAL_PROPERTY",
+    "message": "reportCopyrightInfringement"
+  },
+  {
+    "id": "VIOLENCE",
+    "message": "reportViolenceContent"
+  },
+  {
+    "id": "ILLEGAL_INFO",
+    "message": "reportIllegalInfomation"
+  },
+  {
+    "id": "FRAUD",
+    "message": "reportPhishingLink"
+  },
+  {
+    "id": "ETC",
+    "message": "reportEtc"
+  }
+]

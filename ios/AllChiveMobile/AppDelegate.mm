@@ -1,6 +1,9 @@
 #import "AppDelegate.h"
+#import "RNCConfig.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <RNKakaoLogins.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -11,7 +14,9 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
+  [RNSplashScreen show];
+  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -32,5 +37,18 @@
 {
   return true;
 }
+
+- (BOOL)application:(UIApplication *)app
+    openURL:(NSURL *)url
+    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+      if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
+      return [RNKakaoLogins handleOpenUrl: url];
+    }
+
+  return NO;
+}
+
+// env전체
+NSDictionary *config = [RNCConfig env];
 
 @end
