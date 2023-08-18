@@ -36,10 +36,6 @@ const LinkDetail = ({ content }: LinkDetailProps) => {
     }
   }, [content.link])
 
-  if (!ogTags) {
-    return <></>
-  }
-
   return (
     <Container onPress={() => openInappBrowser(content.link)}>
       <LinkPreview
