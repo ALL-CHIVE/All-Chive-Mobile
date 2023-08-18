@@ -36,11 +36,10 @@ export const Agreement = ({ route }: AgreementProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   const [allCheck, setAllCheck] = useState(false)
-
   const [agreements, setAgreements] = useState({
     terms: false,
     privacy: false,
-    // marketing: false,
+    marketing: false,
   })
 
   /**
@@ -62,14 +61,14 @@ export const Agreement = ({ route }: AgreementProps) => {
       setAgreements({
         terms: false,
         privacy: false,
-        // marketing: false,
+        marketing: false,
       })
     } else {
       setAllCheck(true)
       setAgreements({
         terms: true,
         privacy: true,
-        // marketing: true,
+        marketing: true,
       })
     }
   }
@@ -85,9 +84,9 @@ export const Agreement = ({ route }: AgreementProps) => {
       case 'privacy':
         openInappBrowser(privacy)
         break
-      // case 'marketing':
-      //   openInappBrowser(marketing)
-      //   break
+      case 'marketing':
+        openInappBrowser(marketing)
+        break
     }
   }
 
@@ -95,7 +94,10 @@ export const Agreement = ({ route }: AgreementProps) => {
    * SelectCategory 화면으로 이동합니다.
    */
   const handleComplete = () => {
-    navigation.navigate('SelectCategory', { type: route.params.type })
+    navigation.navigate('SelectCategory', {
+      type: route.params.type,
+      marketingAgreement: agreements.marketing,
+    })
   }
 
   return (

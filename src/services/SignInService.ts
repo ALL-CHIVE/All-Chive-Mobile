@@ -115,7 +115,8 @@ export const signUp = async (
   accessToken: string,
   profileImgUrl: string,
   nickname: string,
-  categories: string[]
+  categories: string[],
+  marketingAgreement: boolean
 ) => {
   try {
     const response = await signUpUser(
@@ -124,7 +125,8 @@ export const signUp = async (
       accessToken,
       profileImgUrl,
       nickname,
-      categories
+      categories,
+      marketingAgreement
     )
 
     if (!response?.data?.data) {

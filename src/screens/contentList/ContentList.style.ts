@@ -70,3 +70,14 @@ export const Scrap = styled.TouchableOpacity`
   right: -5px;
   padding: 5px;
 `
+
+export const Container = styled.View`
+  align-items: center;
+  margin-top: 55px;
+`
+
+export const SubTitleText = styled.Text`
+  ${fonts.subtitle2}
+  color: ${colors.gray600};
+  margin-top: 23px;
+`
