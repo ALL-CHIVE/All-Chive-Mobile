@@ -8,7 +8,6 @@ export const defaultImages: Assets = {
   profile: require('@/assets/default/profile.png'),
   onBoarding1: require('@/assets/default/onboarding1.png'),
   onBoarding2: require('@/assets/default/onboarding2.png'),
-  uploadBottomSheet: require('@/assets/default/uploadBottomSheet.png'),
   reportComplete: require('@/assets/default/reportComplete.png'),
   thumbnail: require('@/assets/default/thumbnail.png'),
   blockComplete: require('@/assets/default/blockComplete.png'),
