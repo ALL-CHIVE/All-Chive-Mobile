@@ -21,7 +21,6 @@ import { ClickStyles, Container, ImageView, Title } from './ImageButton.style'
 interface ImageButtonProps {
   title: Category
   updateSelectedList: (category: Category) => void
-  source: ImageSourcePropType
   disabled?: boolean
 }
 
