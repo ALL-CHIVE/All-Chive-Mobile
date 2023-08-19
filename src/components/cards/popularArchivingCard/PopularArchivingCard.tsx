@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ImageURISource, View } from 'react-native'
+import { ImageURISource } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import PhotoIcon from '@/assets/icons/photo.svg'
 import ScrapIcon from '@/assets/icons/scrap.svg'
 import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
+import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
 import { ArchivingListContent } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CommunityCategoryState } from '@/state/CategoryState'
@@ -24,7 +26,6 @@ import {
   ArchivingImage,
   Scrap,
   Title,
-  ScarpIcon,
 } from './PopularArchivingCard.style'
 
 interface PopularArchivingCardProps {
@@ -98,11 +99,11 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
           )}
         </Scrap>
         <CountContainer>
-          <Icon source={defaultIcons.photoWhite} />
+          <PhotoIcon />
           <CountText>{imgCnt}</CountText>
-          <Icon source={defaultIcons.linkWhite} />
+          <Icon source={defaultIcons.link} />
           <CountText>{linkCnt}</CountText>
-          <Icon source={defaultIcons.scrap} />
+          <ScrapSmallIcon />
           <CountText>{scrapCnt}</CountText>
         </CountContainer>
       </Card>

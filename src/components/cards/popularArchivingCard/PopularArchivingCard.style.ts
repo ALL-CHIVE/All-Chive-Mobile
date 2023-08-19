@@ -39,8 +39,6 @@ export const Scrap = styled.TouchableOpacity`
   padding: 5px;
 `
 
-export const ScarpIcon = styled.Image``
-
 export const CountContainer = styled.View`
   position: absolute;
   flex-direction: row;
@@ -59,4 +57,7 @@ export const CountText = styled.Text`
   margin: 0 4px;
 `
 
-export const Icon = styled.Image``
+export const Icon = styled.Image`
+  width: 10px;
+  height: 10px;
+`
