@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { ImageURISource, ListRenderItem, View } from 'react-native'
+import { ImageURISource, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -35,11 +35,11 @@ import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
+  BackgroundImage,
   Category,
   Container,
   ContentListContainer,
   CreateAt,
-  HeaderContainer,
   InfoContainer,
   Nickname,
   ProfileContainer,
@@ -47,7 +47,6 @@ import {
   RowContainer,
   Scrap,
   ScrollContainer,
-  SubTitleText,
   Text,
   WidthContainer,
 } from './ContentList.style'
@@ -230,6 +229,12 @@ const ContentList = ({ route }: ContentListProps) => {
         }}
       />
       <DefaultContainer>
+        {!contentList?.pages[0].isMine && (
+          <BackgroundImage
+            resizeMode="stretch"
+            source={defaultImages.contentListBackground}
+          />
+        )}
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}

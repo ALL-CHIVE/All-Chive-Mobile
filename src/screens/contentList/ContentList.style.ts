@@ -81,3 +81,10 @@ export const SubTitleText = styled.Text`
   color: ${colors.gray600};
   margin-top: 23px;
 `
+
+export const BackgroundImage = styled.Image`
+  width: 100%;
+  height: 230px;
+  position: absolute;
+  top: 0;
+`
