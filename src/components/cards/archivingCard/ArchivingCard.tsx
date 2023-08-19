@@ -9,6 +9,10 @@ import { useRecoilValue } from 'recoil'
 
 import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import PhotoIcon from '@/assets/icons/photo.svg'
+import ScrapIcon from '@/assets/icons/scrap.svg'
+import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
+import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
@@ -168,18 +172,18 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
           ) : (
             <Scrap onPress={handleScrap}>
               {markStatus ? (
-                <Image source={defaultIcons.scrapFill} />
+                <ScrapFillIcon color={colors.gray500} />
               ) : (
-                <Image source={defaultIcons.scrap} />
+                <ScrapIcon color={colors.gray500} />
               )}
             </Scrap>
           )}
           <CountContainer>
-            <Icon source={defaultIcons.photoWhite} />
+            <PhotoIcon />
             <CountText>{imgCnt}</CountText>
-            <Icon source={defaultIcons.linkWhite} />
+            <Icon source={defaultIcons.link} />
             <CountText>{linkCnt}</CountText>
-            <Icon source={defaultIcons.scrap} />
+            <ScrapSmallIcon />
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
         </Card>

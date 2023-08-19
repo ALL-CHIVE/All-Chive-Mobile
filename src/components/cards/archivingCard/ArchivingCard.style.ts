@@ -58,7 +58,10 @@ export const CountText = styled.Text`
   margin: 0 4px;
 `
 
-export const Icon = styled.Image``
+export const Icon = styled.Image`
+  width: 10px;
+  height: 10px;
+`
 
 export const PopupContainer = styled.View`
   position: absolute;

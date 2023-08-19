@@ -46,7 +46,6 @@ export const defaultIcons: Assets = {
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
   popup: require('@/assets/icons/popup.png'),
-  linkWhite: require('@/assets/icons/linkWhite.png'),
   photoWhite: require('@/assets/icons/photoWhite.png'),
   rightButton: require('@/assets/icons/rightButton.png'),
   pencil: require('@/assets/icons/pencil.png'),
