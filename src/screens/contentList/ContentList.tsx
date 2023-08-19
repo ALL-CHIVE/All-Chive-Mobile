@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem } from 'react-native'
+import { ImageURISource, ListRenderItem, View } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -229,8 +229,7 @@ const ContentList = ({ route }: ContentListProps) => {
           queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
         }}
       />
-
-      <HeaderContainer>
+      <DefaultContainer>
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
@@ -277,18 +276,14 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-      </HeaderContainer>
-
-      {contentList?.pages[0].totalContentsCount === 0 ? (
-        <Container>
-          <Image
-            style={{ width: 216, height: 189 }}
-            source={defaultImages.emptyItem}
-          />
-          <SubTitleText>{i18n.t('emptyArchiving')}</SubTitleText>
-        </Container>
-      ) : (
-        <DefaultContainer>
+        {contentList?.pages[0].totalContentsCount === 0 ? (
+          <Container>
+            <EmptyItem
+              textKey="emptyArchiving"
+              marginTop={55}
+            />
+          </Container>
+        ) : (
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -309,8 +304,8 @@ const ContentList = ({ route }: ContentListProps) => {
               />
             )}
           </ScrollContainer>
-        </DefaultContainer>
-      )}
+        )}
+      </DefaultContainer>
 
       <EditArchivingModal
         archivingId={route.params.id}

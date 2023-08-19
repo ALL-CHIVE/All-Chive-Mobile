@@ -10,6 +10,7 @@ export const ContentListContainer = styled(FlatList<SimpleContent>)``
 export const ScrollContainer = styled.ScrollView`
   padding: 0px 20px;
   width: 375px;
+  flex: 1;
 `
 
 export const RowContainer = styled.View`
@@ -35,7 +36,7 @@ export const Text = styled.Text`
 export const WidthContainer = styled.View`
   width: 375px;
   padding: 0px 25px;
-  margin-top: 15px;
+  margin-top: 0px;
 `
 
 export const ProfileContainer = styled.View`
@@ -72,8 +73,7 @@ export const Scrap = styled.TouchableOpacity`
 `
 
 export const Container = styled.View`
-  align-items: center;
-  margin-top: 55px;
+  flex: 1;
 `
 
 export const SubTitleText = styled.Text`
