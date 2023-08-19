@@ -16,6 +16,7 @@ import i18n from '@/locales'
 import { SearchType } from '@/models/enums/SearchType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SearchTextState } from '@/state/SearchTextState'
+import { colors } from '@/styles/colors'
 
 import {
   AllRemoveText,
@@ -160,6 +161,7 @@ const Search = () => {
                   <XMark
                     width={16}
                     height={14}
+                    color={colors.gray600}
                   />
                 </TouchableOpacity>
               </LatestContainer>

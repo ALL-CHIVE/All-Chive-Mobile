@@ -5,6 +5,7 @@ import Modal from 'react-native-modal'
 import XMark from '@/assets/icons/x_mark.svg'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import {
   Css,
@@ -74,7 +75,7 @@ export const InputDialog = ({
           />
           {text.length > 0 && (
             <DeleteButton onPress={() => setText('')}>
-              <XMark />
+              <XMark color={colors.gray600} />
             </DeleteButton>
           )}
         </TextInputContainer>

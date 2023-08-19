@@ -114,6 +114,7 @@ export const AddTagButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   padding: 4px 10px;
+  margin-right: 8px;
 `
 
 export const AddTagText = styled.Text`

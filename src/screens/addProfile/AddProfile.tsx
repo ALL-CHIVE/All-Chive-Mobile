@@ -21,6 +21,7 @@ import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
+import { colors } from '@/styles/colors'
 
 import {
   BodyText,
@@ -129,7 +130,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <XMark />
+                <XMark color={colors.gray600} />
               </ClearButton>
             </NicknameInputBox>
             <Verifier

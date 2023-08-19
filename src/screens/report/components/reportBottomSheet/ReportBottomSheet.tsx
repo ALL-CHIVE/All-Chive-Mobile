@@ -6,6 +6,7 @@ import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Header, ScrollContainer, Title } from './ReportBottomSheet.style'
 
@@ -55,7 +56,7 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
     <Container style={{ height: modalHight }}>
       <Header>
         <CloseButton onPress={onClose}>
-          <XMark />
+          <XMark color={colors.gray600} />
         </CloseButton>
       </Header>
       <ScrollContainer

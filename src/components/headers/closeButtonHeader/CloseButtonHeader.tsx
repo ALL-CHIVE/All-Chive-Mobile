@@ -1,6 +1,7 @@
 import React from 'react'
 
 import XMark from '@/assets/icons/x_mark.svg'
+import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Title } from './CloseButtonHeader.style'
 
@@ -17,7 +18,7 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
     <Container>
       <Title>{title}</Title>
       <CloseButton onPress={onClose}>
-        <XMark />
+        <XMark color={colors.gray600} />
       </CloseButton>
     </Container>
   )

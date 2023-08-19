@@ -9,6 +9,7 @@ import { defaultIcons } from '@/assets'
 import XMark from '@/assets/icons/x_mark.svg'
 import i18n from '@/locales'
 import { checkNickname } from '@/services/StringChecker'
+import { colors } from '@/styles/colors'
 
 import {
   Button,
@@ -113,7 +114,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <XMark />
+                <XMark color={colors.gray600} />
               </ClearButton>
             </NicknameInputBox>
             <VerifierContainer>

@@ -16,6 +16,7 @@ import i18n from '@/locales'
 import { ArchivingListResponse } from '@/models/Archiving'
 import { SelectArchivingState, SelectedArchiving } from '@/state/upload/SelectArchivingState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
+import { colors } from '@/styles/colors'
 
 import { CreateArchivingModal } from '../archivingModal/createArchivingModal/CreateArchivingModal'
 
@@ -83,7 +84,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
         <ModalContainer>
           <Header>
             <CloseButton onPress={onClose}>
-              <XMark />
+              <XMark color={colors.gray600} />
             </CloseButton>
           </Header>
           <ArchivingHeader>

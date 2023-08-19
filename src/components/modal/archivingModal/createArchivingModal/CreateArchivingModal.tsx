@@ -203,7 +203,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>
-              <XMark />
+              <XMark color={colors.gray600} />
             </CloseButton>
           </Header>
           <ScrollContainer
