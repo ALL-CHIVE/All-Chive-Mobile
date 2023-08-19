@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Image } from 'react-native'
 
 import { defaultIcons } from '@/assets'
+import PopupIcon from '@/assets/icons/popup.svg'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -33,7 +34,7 @@ const DefaultHeader = ({ title, PopupMenuList, onRightClick }: DefaultHeaderProp
           <Popup menuList={PopupMenuList} />
         ) : (
           <RightButton onPress={onRightClick}>
-            <Image source={defaultIcons.popup} />
+            <PopupIcon />
           </RightButton>
         )}
       </HeaderRight>

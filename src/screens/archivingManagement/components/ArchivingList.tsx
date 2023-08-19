@@ -2,11 +2,12 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { AxiosError } from 'axios'
-import { Image, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { useMutation, useQueryClient } from 'react-query'
 
 import { deleteArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import PopupIcon from '@/assets/icons/popup.svg'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
 import i18n from '@/locales'
@@ -105,7 +106,7 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
         <ArchivingContainer key={item.archivingId}>
           <GrayText>{`${item.title}  ${item.contentCnt}`}</GrayText>
           <TouchableOpacity onPress={() => handleActionSheet(item.archivingId)}>
-            <Image source={defaultIcons.popup} />
+            <PopupIcon />
           </TouchableOpacity>
         </ArchivingContainer>
       ))}
