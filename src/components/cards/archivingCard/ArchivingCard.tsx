@@ -34,6 +34,7 @@ import {
   Styles,
   Title,
   Pin,
+  PinIcon,
 } from './ArchivingCard.style'
 
 interface ArchivingCardProps {
@@ -165,7 +166,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
               </PopupContainer>
               {markStatus && (
                 <Pin>
-                  <Image source={defaultIcons.pinFill} />
+                  <PinIcon source={defaultIcons.pinFill} />
                 </Pin>
               )}
             </>

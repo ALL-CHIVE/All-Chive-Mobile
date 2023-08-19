@@ -89,3 +89,8 @@ export const Pin = styled.View`
   top: 25px;
   padding: 5px;
 `
+
+export const PinIcon = styled.Image`
+  width: 16px;
+  height: 16px;
+`
