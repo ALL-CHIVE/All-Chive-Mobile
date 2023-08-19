@@ -50,7 +50,7 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
     <Container style={{ height: modalHight }}>
       <Header>
         <CloseButton onPress={onClose}>
-          <Image source={defaultIcons.grayCloseButton} />
+          <Image source={defaultIcons.xMark} />
         </CloseButton>
       </Header>
       <ScrollContainer

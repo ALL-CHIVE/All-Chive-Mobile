@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource } from 'react-native'
+import { ImageURISource } from 'react-native'
 import { useMutation } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { checkNicknameValid } from '@/apis/user'
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/xMark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -129,7 +129,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <Image source={defaultIcons.grayCloseButton} />
+                <XMark />
               </ClearButton>
             </NicknameInputBox>
             <Verifier

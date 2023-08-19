@@ -80,7 +80,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
         <ModalContainer>
           <Header>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.grayCloseButton} />
+              <Image source={defaultIcons.xMark} />
             </CloseButton>
           </Header>
           <ArchivingHeader>
