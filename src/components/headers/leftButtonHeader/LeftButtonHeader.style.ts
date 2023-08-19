@@ -4,13 +4,12 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  height: 100px;
   width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
   background-color: ${colors.white};
-  padding: 0px 25px;
+  padding: 20px 25px;
 `
 
 export const HeaderLeft = styled.TouchableOpacity`

@@ -68,6 +68,7 @@ export const TagManagement = () => {
           rightButtonClick={() => setEditMode((prev) => !prev)}
         />
         <ScrollContainer
+          bounces={false}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >

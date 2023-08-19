@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
-  Image,
+  Dimensions,
   ImageSourcePropType,
   ImageURISource,
   Keyboard,
   KeyboardEvent,
-  TouchableOpacity,
+  Platform,
   View,
 } from 'react-native'
 import Modal from 'react-native-modal'
@@ -15,7 +15,9 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { postArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import CameraIcon from '@/assets/icons/camera.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import i18n from '@/locales'
@@ -27,7 +29,6 @@ import { colors } from '@/styles/colors'
 
 import {
   Bottom,
-  CameraIcon,
   CloseButton,
   Condition,
   Container,
@@ -77,7 +78,12 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    setModalHeight(event.endCoordinates.screenY - 10)
+    const height = Platform.select({
+      ios: Dimensions.get('screen').height - 80,
+      android: Dimensions.get('screen').height - 150,
+    })
+
+    height && setModalHeight(height)
   }
 
   /**
@@ -188,6 +194,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     <>
       <Modal
         isVisible={isVisible}
+        statusBarTranslucent={true}
         backdropOpacity={0.5}
         style={{
           margin: 0,
@@ -196,10 +203,11 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.grayCloseButton} />
+              <XMark color={colors.gray600} />
             </CloseButton>
           </Header>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
@@ -229,7 +237,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
                 source={image ? image : defaultImages.thumbnail}
                 defaultSource={defaultImages.thumbnail as ImageURISource}
               />
-              <CameraIcon source={defaultIcons.camera} />
+              <CameraIcon style={Styles.cameraIcon} />
             </ImageButton>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>

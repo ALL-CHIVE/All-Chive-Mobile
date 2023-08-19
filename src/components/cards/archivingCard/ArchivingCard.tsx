@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource } from 'react-native'
+import { ImageURISource } from 'react-native'
 import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'
@@ -9,6 +9,10 @@ import { useRecoilValue } from 'recoil'
 
 import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import PhotoIcon from '@/assets/icons/photo.svg'
+import ScrapIcon from '@/assets/icons/scrap.svg'
+import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
+import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
 import { ArchivingListContent } from '@/models/Archiving'
@@ -30,6 +34,7 @@ import {
   Styles,
   Title,
   Pin,
+  PinIcon,
 } from './ArchivingCard.style'
 
 interface ArchivingCardProps {
@@ -161,25 +166,25 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
               </PopupContainer>
               {markStatus && (
                 <Pin>
-                  <Image source={defaultIcons.pinFill} />
+                  <PinIcon source={defaultIcons.pinFill} />
                 </Pin>
               )}
             </>
           ) : (
             <Scrap onPress={handleScrap}>
               {markStatus ? (
-                <Image source={defaultIcons.scrapFill} />
+                <ScrapFillIcon color={colors.gray500} />
               ) : (
-                <Image source={defaultIcons.scrap} />
+                <ScrapIcon color={colors.gray500} />
               )}
             </Scrap>
           )}
           <CountContainer>
-            <Icon source={defaultIcons.photoWhite} />
+            <PhotoIcon />
             <CountText>{imgCnt}</CountText>
-            <Icon source={defaultIcons.linkWhite} />
+            <Icon source={defaultIcons.link} />
             <CountText>{linkCnt}</CountText>
-            <Icon source={defaultIcons.scrapWhite} />
+            <ScrapSmallIcon />
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
         </Card>

@@ -3,14 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem, View } from 'react-native'
+import { Image, ImageURISource, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { deleteArchiving, getContentByArchiving, patchScrapArchiving } from '@/apis/archiving'
 import { postBlock } from '@/apis/block'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import ScrapIcon from '@/assets/icons/scrap.svg'
+import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
@@ -259,9 +261,17 @@ const ContentList = ({ route }: ContentListProps) => {
               </InfoContainer>
               <Scrap onPress={handleScrap}>
                 {contentList?.pages[0].isScrap ? (
-                  <Image source={defaultIcons.scrapFill} />
+                  <ScrapFillIcon
+                    width={30}
+                    height={30}
+                    color={'transparent'}
+                  />
                 ) : (
-                  <Image source={defaultIcons.scrap} />
+                  <ScrapIcon
+                    width={30}
+                    height={30}
+                    color={colors.gray500}
+                  />
                 )}
               </Scrap>
             </ProfileContainer>
@@ -277,6 +287,7 @@ const ContentList = ({ route }: ContentListProps) => {
       ) : (
         <DefaultContainer>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             onScrollEndDrag={({ nativeEvent }) => {
               if (isCloseToBottom(nativeEvent)) {

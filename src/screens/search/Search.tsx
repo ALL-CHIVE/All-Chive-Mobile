@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
-import { defaultIcons } from '@/assets'
+import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import SearchIcon from '@/assets/icons/search.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'
@@ -14,6 +16,7 @@ import i18n from '@/locales'
 import { SearchType } from '@/models/enums/SearchType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { SearchTextState } from '@/state/SearchTextState'
+import { colors } from '@/styles/colors'
 
 import {
   AllRemoveText,
@@ -22,10 +25,10 @@ import {
   LatestContainer,
   TabContainer,
   LatestSearch,
-  SmallImage,
   Header,
   RelationContainer,
   BackButton,
+  Styles,
 } from './Search.style'
 import { SearchTab } from './tabs/SearchTab'
 
@@ -130,7 +133,7 @@ const Search = () => {
               navigation.goBack()
             }}
           >
-            <Image source={defaultIcons.back} />
+            <LeftArrowIcon />
           </BackButton>
           <SearchBar
             placeholder={i18n.t('pleaseEnterSearchKeyword')}
@@ -141,7 +144,7 @@ const Search = () => {
           />
         </Header>
 
-        {latestSearchData && latestSearchData.keywords.length > 0 && !searchText && (
+        {latestSearchData?.keywords && latestSearchData.keywords.length > 0 && !searchText && (
           <>
             <LatestContainer>
               <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
@@ -155,7 +158,11 @@ const Search = () => {
                   <ItemText>{item.word}</ItemText>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
-                  <SmallImage source={defaultIcons.grayCloseButton} />
+                  <XMark
+                    width={16}
+                    height={14}
+                    color={colors.gray600}
+                  />
                 </TouchableOpacity>
               </LatestContainer>
             ))}
@@ -166,10 +173,7 @@ const Search = () => {
           <>
             {searchRelation.map((item) => (
               <RelationContainer key={item}>
-                <Image
-                  source={defaultIcons.search}
-                  style={{ marginRight: 12, marginTop: 5 }}
-                />
+                <SearchIcon style={Styles.searchIcon} />
                 <TouchableOpacity onPress={() => handleSelectItem(item)}>
                   <ItemText>{item}</ItemText>
                 </TouchableOpacity>

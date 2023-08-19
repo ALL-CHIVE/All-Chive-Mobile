@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import {
@@ -33,7 +33,7 @@ export const LeftButtonHeader = ({
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>
-        <Image source={defaultIcons.back} />
+        <LeftArrowIcon />
       </HeaderLeft>
       <Title>{title}</Title>
       {rightButtonText ? (

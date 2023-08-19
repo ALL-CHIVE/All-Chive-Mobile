@@ -1,26 +1,21 @@
 import React from 'react'
 
-import { ImageSourcePropType } from 'react-native'
-
 import i18n from '@/locales'
 
-import { BottomTabImage, Container, Title } from './TabIcon.style'
+import { Container, Title } from './TabIcon.style'
 
 interface TabIconProps {
-  icon: ImageSourcePropType
+  children: React.ReactNode
   text: string
 }
 
 /**
  * TabIcon
  */
-const TabIcon = ({ icon, text }: TabIconProps) => {
+const TabIcon = ({ children, text }: TabIconProps) => {
   return (
     <Container>
-      <BottomTabImage
-        source={icon}
-        resizeMode="contain"
-      />
+      {children}
       <Title>{i18n.t(text)}</Title>
     </Container>
   )

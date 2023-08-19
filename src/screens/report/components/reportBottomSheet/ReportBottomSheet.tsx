@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import { Image, Keyboard, KeyboardEvent } from 'react-native'
+import { Dimensions, Keyboard, KeyboardEvent, Platform } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Header, ScrollContainer, Title } from './ReportBottomSheet.style'
 
@@ -36,7 +37,12 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    setModalHeight(event.endCoordinates.screenY - 10)
+    const height = Platform.select({
+      ios: Dimensions.get('screen').height - 80,
+      android: Dimensions.get('screen').height - 150,
+    })
+
+    height && setModalHeight(height)
   }
 
   /**
@@ -50,10 +56,11 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
     <Container style={{ height: modalHight }}>
       <Header>
         <CloseButton onPress={onClose}>
-          <Image source={defaultIcons.grayCloseButton} />
+          <XMark color={colors.gray600} />
         </CloseButton>
       </Header>
       <ScrollContainer
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

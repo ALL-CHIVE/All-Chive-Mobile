@@ -5,7 +5,8 @@ import { ImageURISource } from 'react-native/types'
 import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 
-import { defaultImages } from '@/assets'
+import { defaultIcons, defaultImages } from '@/assets'
+import PhotoIcon from '@/assets/icons/photo.svg'
 import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
 import i18n from '@/locales'
 import { ContentType } from '@/models/enums/ContentType'
@@ -24,6 +25,7 @@ import {
   ImageContainer,
   Information,
   TagContainer,
+  Icon,
 } from './ContentCard.style'
 
 interface ContentCardProps {
@@ -91,6 +93,11 @@ const ContentCard = ({
               defaultSource={defaultImages.content as ImageURISource}
             />
             <Type>
+              {contentType === ContentType.Link ? (
+                <Icon source={defaultIcons.link} />
+              ) : (
+                <PhotoIcon />
+              )}
               <TypeText>{i18n.t(contentType.toLocaleLowerCase())}</TypeText>
             </Type>
           </ImageContainer>
@@ -100,7 +107,7 @@ const ContentCard = ({
             {tag && (
               <TagContainer>
                 <WhiteTag tag={tag} />
-                <WhiteTag tag={`+${tagCount - 1}`} />
+                <WhiteTag tag={tagCount > 1 ? `+${tagCount - 1}` : ''} />
               </TagContainer>
             )}
           </Information>

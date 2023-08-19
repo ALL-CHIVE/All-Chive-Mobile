@@ -52,6 +52,7 @@ export const ArchivingManagement = () => {
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('archivingManagement')} />
         <ScrollContainer
+          bounces={false}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >

@@ -1,11 +1,12 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, Linking } from 'react-native'
+import { Linking } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { openInappBrowser } from '@/services/InappBrowser'
+import { colors } from '@/styles/colors'
 
 import { Container, Title } from './NavigationList.style'
 
@@ -33,7 +34,7 @@ export const NavigationList = ({ title, screen, url, openInAppUrl }: NavigationL
         <>
           <Container onPress={() => navigation.navigate(screen)}>
             <Title>{title}</Title>
-            <Image source={defaultIcons.rightButton} />
+            <RightArrowIcon color={colors.gray500} />
           </Container>
         </>
       )}
@@ -45,7 +46,7 @@ export const NavigationList = ({ title, screen, url, openInAppUrl }: NavigationL
             }}
           >
             <Title>{title}</Title>
-            <Image source={defaultIcons.rightButton} />
+            <RightArrowIcon color={colors.gray500} />
           </Container>
         </>
       )}
@@ -57,7 +58,7 @@ export const NavigationList = ({ title, screen, url, openInAppUrl }: NavigationL
             }}
           >
             <Title>{title}</Title>
-            <Image source={defaultIcons.rightButton} />
+            <RightArrowIcon color={colors.gray500} />
           </Container>
         </>
       )}

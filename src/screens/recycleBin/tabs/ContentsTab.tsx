@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Image, ListRenderItem, ScrollView, View } from 'react-native'
+import { ListRenderItem, ScrollView, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
-import { defaultIcons } from '@/assets'
+import CheckIcon from '@/assets/icons/check_yellow.svg'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'
@@ -59,7 +59,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
         {editMode && <CheckBox onPress={() => handleCheck(item.contentId)} />}
         {editMode && isCheck.includes(item.contentId) && (
           <YellowCheck onPress={() => handleCheck(item.contentId)}>
-            <Image source={defaultIcons.yellowCheck} />
+            <CheckIcon />
           </YellowCheck>
         )}
       </View>
@@ -69,6 +69,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <ScrollView
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

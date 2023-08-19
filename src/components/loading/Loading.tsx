@@ -13,7 +13,10 @@ import { Container, Description, Title } from './Loading.style'
 export const Loading = () => {
   return (
     <Container>
-      <Image source={defaultImages.loading} />
+      <Image
+        style={{ width: 230, height: 237.196 }}
+        source={defaultImages.loading}
+      />
       <Title>{i18n.t('loading')}</Title>
       <Description>{i18n.t('pleaseWait')}</Description>
     </Container>

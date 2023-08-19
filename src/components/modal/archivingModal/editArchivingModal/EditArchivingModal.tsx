@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
-  Image,
+  Dimensions,
   ImageSourcePropType,
   ImageURISource,
   Keyboard,
   KeyboardEvent,
-  TouchableOpacity,
+  Platform,
   View,
 } from 'react-native'
 import Config from 'react-native-config'
@@ -16,7 +16,9 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import CameraIcon from '@/assets/icons/camera.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { DropDown } from '@/components/dropDown/DropDown'
@@ -31,7 +33,6 @@ import { colors } from '@/styles/colors'
 
 import {
   Bottom,
-  CameraIcon,
   CloseButton,
   Condition,
   Container,
@@ -88,7 +89,12 @@ export const EditArchivingModal = ({
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    setModalHeight(event.endCoordinates.screenY - 10)
+    const height = Platform.select({
+      ios: Dimensions.get('screen').height - 80,
+      android: Dimensions.get('screen').height - 150,
+    })
+
+    height && setModalHeight(height)
   }
 
   /**
@@ -223,6 +229,7 @@ export const EditArchivingModal = ({
       <Modal
         isVisible={isVisible}
         backdropOpacity={0.5}
+        statusBarTranslucent={true}
         style={{
           margin: 0,
         }}
@@ -230,10 +237,11 @@ export const EditArchivingModal = ({
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.grayCloseButton} />
+              <XMark color={colors.gray600} />
             </CloseButton>
           </Header>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
@@ -263,7 +271,7 @@ export const EditArchivingModal = ({
                 source={image ? image : defaultImages.thumbnail}
                 defaultSource={defaultImages.thumbnail as ImageURISource}
               />
-              <CameraIcon source={defaultIcons.camera} />
+              <CameraIcon style={Styles.cameraIcon} />
             </ImageButton>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>

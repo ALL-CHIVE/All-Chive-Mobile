@@ -1,8 +1,7 @@
 import React from 'react'
 
-import { Image } from 'react-native'
-
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
+import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Header, Title } from './ImageHeader.style'
 
@@ -20,7 +19,7 @@ const ImageHeader = ({ title, onClose }: ImageHeaderProps) => {
       <Container>
         <Title>{title}</Title>
         <CloseButton onPress={onClose}>
-          <Image source={defaultIcons.grayCloseButton} />
+          <XMark color={colors.gray600} />
         </CloseButton>
       </Container>
     </Header>

@@ -13,8 +13,4 @@ export const Text = styled.Text`
   color: ${colors.gray600};
 `
 
-export const Icon = styled.Image`
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-`
+export const Blank = styled.View``

@@ -54,12 +54,18 @@ const TwoButtonDialog = ({
   return (
     <Modal
       style={Css.modal}
+      statusBarTranslucent={true}
       isVisible={isVisible}
       onModalHide={() => onClose && onClose(isComplete)}
     >
       <Container>
         <Title>{i18n.t(title)}</Title>
-        {imageUrl && <Image source={imageUrl} />}
+        {imageUrl && (
+          <Image
+            style={{ width: 164, height: 144 }}
+            source={imageUrl}
+          />
+        )}
         {description && <Description>{i18n.t(description)}</Description>}
         <Buttons>
           <CancelButton onPress={onCancel}>

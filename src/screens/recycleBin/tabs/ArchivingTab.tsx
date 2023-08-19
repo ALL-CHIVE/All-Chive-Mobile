@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Image, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
-import { defaultIcons } from '@/assets'
+import CheckIcon from '@/assets/icons/check_yellow.svg'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'
@@ -42,6 +42,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <ScrollView
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
@@ -64,7 +65,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
                   {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
                   {editMode && isCheck.includes(item.archivingId) && (
                     <YellowCheck onPress={() => handleCheck(item.archivingId)}>
-                      <Image source={defaultIcons.yellowCheck} />
+                      <CheckIcon />
                     </YellowCheck>
                   )}
                 </View>

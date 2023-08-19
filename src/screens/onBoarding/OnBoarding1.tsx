@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
 
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import FirstIndicator from '@/assets/icons/firstIndicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -22,9 +22,12 @@ const OnBoarding1 = () => {
     <DefaultContainer>
       <DefaultScrollContainer>
         <Container>
-          <OnBoardingImage source={defaultImages.onBoarding1} />
+          <OnBoardingImage
+            source={defaultImages.onBoarding1}
+            style={{ width: 247, height: 280 }}
+          />
           <Title>{i18n.t('easilyManageContent')}</Title>
-          <Image source={defaultIcons.firstIndicator} />
+          <FirstIndicator />
         </Container>
       </DefaultScrollContainer>
       <BoxButton

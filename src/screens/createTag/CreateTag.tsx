@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
-import { Image, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getTag, postTag } from '@/apis/tag'
-import { defaultIcons } from '@/assets'
+import PlusIcon from '@/assets/icons/plus.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -19,6 +19,7 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { checkTag } from '@/services/StringChecker'
 import { SelectTagState } from '@/state/upload/SelectTagState'
+import { colors } from '@/styles/colors'
 
 import { ClickableTag } from '../upload/components/ClickableTag'
 
@@ -158,7 +159,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
                 disabled={!isTagValid}
                 style={!isTagValid && Styles.disableButton}
               >
-                <Image source={defaultIcons.plusBlack} />
+                <PlusIcon
+                  color={colors.gray500}
+                  width={14}
+                  height={14}
+                />
                 <PlusTagText>{`${i18n.t('createTag')}`}</PlusTagText>
               </PlusTagButton>
             </CreateTagContainer>
@@ -171,6 +176,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
               <Divider />
               <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
               <ScrollView
+                bounces={false}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
               >

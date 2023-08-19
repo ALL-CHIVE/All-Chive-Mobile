@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 
@@ -17,19 +17,16 @@ export const Container = styled.View`
   flex: 1;
 `
 
-export const SearchImage = styled.Image`
-  position: absolute;
-  top: 40px;
-  left: 10px;
-`
-
 export const RemoveImageContainer = styled.TouchableOpacity`
   position: absolute;
-  top: 40px;
+  top: 39px;
   right: 20px;
 `
 
-export const RemoveImage = styled.Image`
-  width: 9px;
-  height: 9px;
-`
+export const Style = {
+  searchIcon: css`
+    position: absolute;
+    top: 38px;
+    left: 10px;
+  `,
+}

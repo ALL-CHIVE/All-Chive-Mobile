@@ -16,5 +16,5 @@ export const Title = styled.Text`
   ${fonts.heading2};
   text-align: center;
   color: ${colors.mainBlack};
-  margin-bottom: 31px;
+  margin: 31px 0px;
 `

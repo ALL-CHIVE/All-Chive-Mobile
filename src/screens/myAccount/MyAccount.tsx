@@ -2,13 +2,14 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
+import { ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth'
 import { getUserInfo, postUserInfo } from '@/apis/user'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import PencilIcon from '@/assets/icons/pencil.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
@@ -34,7 +35,7 @@ import {
   ProfileImage,
   Button,
   ButtonText,
-  PencilIcon,
+  PencilButton,
   RowView,
   Footer,
   FooterText,
@@ -216,9 +217,9 @@ export const MyAccount = () => {
               <RowView>
                 <InfoTitle>{i18n.t('nickName')}</InfoTitle>
                 <InfoText>{nickname}</InfoText>
-                <PencilIcon onPress={handleEditNickname}>
-                  {editMode && <Image source={defaultIcons.pencil} />}
-                </PencilIcon>
+                <PencilButton onPress={handleEditNickname}>
+                  {editMode && <PencilIcon />}
+                </PencilButton>
               </RowView>
               <Divider />
             </InfoContainer>

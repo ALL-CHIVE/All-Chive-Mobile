@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { Image } from 'react-native'
 import Modal from 'react-native-modal'
 
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import {
   Css,
@@ -61,6 +61,7 @@ export const InputDialog = ({
   return (
     <Modal
       style={Css.modal}
+      statusBarTranslucent={true}
       isVisible={isVisible}
     >
       <Container>
@@ -74,7 +75,7 @@ export const InputDialog = ({
           />
           {text.length > 0 && (
             <DeleteButton onPress={() => setText('')}>
-              <Image source={defaultIcons.grayCloseButton} />
+              <XMark color={colors.gray600} />
             </DeleteButton>
           )}
         </TextInputContainer>

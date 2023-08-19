@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import CheckIcon from '@/assets/icons/check_yellow.svg'
+import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -12,6 +12,7 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { openInappBrowser } from '@/services/InappBrowser'
+import { colors } from '@/styles/colors'
 
 import {
   CheckBox,
@@ -21,8 +22,8 @@ import {
   Heading,
   RightButton,
   RowView,
+  Styles,
   Title,
-  YellowCheckImage,
 } from './Agreement.style'
 
 interface AgreementProps {
@@ -107,7 +108,7 @@ export const Agreement = ({ route }: AgreementProps) => {
           <Heading>{i18n.t('agreementHeading')}</Heading>
           <RowView>
             <CheckBox onPress={handleAllCheck}>
-              {allCheck ? <YellowCheckImage source={defaultIcons.yellowCheck} /> : null}
+              {allCheck ? <CheckIcon style={Styles.checkIcon} /> : null}
             </CheckBox>
             <Title>{i18n.t('allAgreement')}</Title>
           </RowView>
@@ -118,11 +119,11 @@ export const Agreement = ({ route }: AgreementProps) => {
               return (
                 <RowView key={key}>
                   <CheckBox onPress={() => handleCheckboxChange(key as keyof typeof agreements)}>
-                    {value ? <YellowCheckImage source={defaultIcons.yellowCheck} /> : null}
+                    {value ? <CheckIcon style={Styles.checkIcon} /> : null}
                   </CheckBox>
                   <Title>{i18n.t(`${key}Agreement`)}</Title>
                   <RightButton onPress={() => handleOpenBrowser(key)}>
-                    <Image source={defaultIcons.rightButton} />
+                    <RightArrowIcon color={colors.gray500} />
                   </RightButton>
                 </RowView>
               )

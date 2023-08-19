@@ -46,12 +46,6 @@ export const ImageButton = styled.TouchableOpacity`
   width: 84px;
 `
 
-export const CameraIcon = styled.Image`
-  position: absolute;
-  right: 0;
-  bottom: -6px;
-`
-
 export const TextInput = styled.TextInput`
   width: 100%;
   height: 38px;
@@ -71,6 +65,11 @@ export const Styles = {
   `,
   conditionComplete: css`
     color: ${colors.gray600};
+  `,
+  cameraIcon: css`
+    position: absolute;
+    right: 0;
+    bottom: -6px;
   `,
 }
 

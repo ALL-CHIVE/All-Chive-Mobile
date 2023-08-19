@@ -4,7 +4,6 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { ListRenderItem, View } from 'react-native'
 import { useRecoilValue } from 'recoil'
 
-import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -61,7 +60,6 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
       <ImageButton
         title={item}
         updateSelectedList={handleCategoryPress}
-        source={defaultIcons[item.toLowerCase()]}
         disabled={selectedCategory.length >= 3 && !selectedCategory.includes(item)}
       />
     )

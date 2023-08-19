@@ -42,7 +42,7 @@ export const RowView = styled.View`
   margin: 5px 0px;
 `
 
-export const PencilIcon = styled.TouchableOpacity`
+export const PencilButton = styled.TouchableOpacity`
   width: 14px;
   height: 15px;
   position: absolute;
@@ -66,10 +66,11 @@ export const FooterText = styled.Text`
 export const InfoText = styled.Text`
   ${fonts.body1}
   color: ${colors.gray400};
-  margin-left: 37px;
 `
 
 export const InfoTitle = styled.Text`
-  ${fonts.body1}
-  color: ${colors.mainBlack}
+  ${fonts.body1};
+  color: ${colors.mainBlack};
+  width: 50px;
+  margin-right: 15px;
 `

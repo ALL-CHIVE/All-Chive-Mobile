@@ -1,14 +1,10 @@
 import React from 'react'
 
-import { defaultIcons } from '@/assets'
+import SearchIcon from '@/assets/icons/search.svg'
+import XMark from '@/assets/icons/x_mark.svg'
+import { colors } from '@/styles/colors'
 
-import {
-  Container,
-  RemoveImage,
-  RemoveImageContainer,
-  SearchImage,
-  TextInput,
-} from './SearchBar.style'
+import { Container, RemoveImageContainer, Style, TextInput } from './SearchBar.style'
 
 interface SearchBarProps {
   placeholder: string
@@ -39,11 +35,15 @@ export const SearchBar = ({
         onFocus={onFocus}
         maxLength={maxLength}
       />
-      <SearchImage source={defaultIcons.search} />
+      <SearchIcon style={Style.searchIcon} />
       {value.length > 0 ? (
         <>
           <RemoveImageContainer onPress={() => onChangeText('')}>
-            <RemoveImage source={defaultIcons.grayCloseButton} />
+            <XMark
+              width={16}
+              height={14}
+              color={colors.gray600}
+            />
           </RemoveImageContainer>
         </>
       ) : (
