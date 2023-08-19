@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { Image } from 'react-native'
-
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 
 import { CloseButton, Container, Title } from './CloseButtonHeader.style'
 
@@ -19,7 +17,7 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
     <Container>
       <Title>{title}</Title>
       <CloseButton onPress={onClose}>
-        <Image source={defaultIcons.xMark} />
+        <XMark />
       </CloseButton>
     </Container>
   )

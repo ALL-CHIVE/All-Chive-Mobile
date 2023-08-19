@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { Dimensions, Image, Keyboard, KeyboardEvent, Platform } from 'react-native'
+import { Dimensions, Keyboard, KeyboardEvent, Platform } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'
@@ -55,7 +55,7 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
     <Container style={{ height: modalHight }}>
       <Header>
         <CloseButton onPress={onClose}>
-          <Image source={defaultIcons.xMark} />
+          <XMark />
         </CloseButton>
       </Header>
       <ScrollContainer

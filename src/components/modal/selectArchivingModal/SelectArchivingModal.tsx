@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
 import { getArchivingList } from '@/apis/archiving'
-import { defaultIcons } from '@/assets'
+import CheckCircle from '@/assets/icons/check_circle.svg'
+import LeftProvider from '@/assets/icons/left_provider.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { Divider } from '@/components/divider/Divider'
@@ -81,7 +83,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
         <ModalContainer>
           <Header>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.xMark} />
+              <XMark />
             </CloseButton>
           </Header>
           <ArchivingHeader>
@@ -108,7 +110,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                                   handleClickArchiving({ id: item.archivingId, title: item.title })
                                 }
                               >
-                                <Image source={defaultIcons.leftProvider} />
+                                <LeftProvider />
                                 <ArchivingTitle
                                   style={
                                     item.archivingId === selectArchiving.id &&
@@ -117,9 +119,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
                                 >
                                   {`${item.title}  ${item.contentCnt}`}
                                 </ArchivingTitle>
-                                {item.archivingId === selectArchiving.id && (
-                                  <Image source={defaultIcons.selectedIcon} />
-                                )}
+                                {item.archivingId === selectArchiving.id && <CheckCircle />}
                               </ArchivingButton>
                               <Divider />
                             </View>

@@ -25,11 +25,6 @@ export const SearchImage = styled.Image`
 
 export const RemoveImageContainer = styled.TouchableOpacity`
   position: absolute;
-  top: 40px;
+  top: 39px;
   right: 20px;
-`
-
-export const RemoveImage = styled.Image`
-  width: 9px;
-  height: 9px;
 `

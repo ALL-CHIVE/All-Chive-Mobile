@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil'
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
 import { defaultIcons } from '@/assets'
 import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'
@@ -156,7 +157,10 @@ const Search = () => {
                   <ItemText>{item.word}</ItemText>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
-                  <SmallImage source={defaultIcons.xMark} />
+                  <XMark
+                    width={16}
+                    height={14}
+                  />
                 </TouchableOpacity>
               </LatestContainer>
             ))}

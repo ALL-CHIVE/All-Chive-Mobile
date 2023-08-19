@@ -54,7 +54,7 @@ export const defaultIcons: Assets = {
   scrapFill: require('@/assets/icons/scrap_fill.png'),
   yellowCheck: require('@/assets/icons/yellowCheck.png'),
   rightArrow: require('@/assets/icons/rightArrow.png'),
-  selectedIcon: require('@/assets/icons/selectedIcon.png'),
+  checkCircle: require('@/assets/icons/check_circle.png'),
   leftProvider: require('@/assets/icons/leftProvider.png'),
   plus: require('@/assets/icons/plus.png'),
   plusBlack: require('@/assets/icons/plusBlack.png'),

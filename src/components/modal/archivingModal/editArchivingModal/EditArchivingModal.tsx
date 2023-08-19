@@ -3,13 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
   Dimensions,
-  Image,
   ImageSourcePropType,
   ImageURISource,
   Keyboard,
   KeyboardEvent,
   Platform,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import Config from 'react-native-config'
@@ -19,6 +17,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { DropDown } from '@/components/dropDown/DropDown'
@@ -238,7 +237,7 @@ export const EditArchivingModal = ({
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>
-              <Image source={defaultIcons.xMark} />
+              <XMark />
             </CloseButton>
           </Header>
           <ScrollContainer

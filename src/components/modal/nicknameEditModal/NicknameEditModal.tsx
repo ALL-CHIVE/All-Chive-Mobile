@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 
 import { checkNicknameValid } from '@/apis/user'
 import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 import i18n from '@/locales'
 import { checkNickname } from '@/services/StringChecker'
 
@@ -15,7 +16,6 @@ import {
   ClearButton,
   Container,
   Header,
-  Icon,
   InputBox,
   NicknameContainer,
   NicknameInputBox,
@@ -113,7 +113,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <Image source={defaultIcons.xMark} />
+                <XMark />
               </ClearButton>
             </NicknameInputBox>
             <VerifierContainer>

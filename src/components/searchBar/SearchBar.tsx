@@ -1,14 +1,9 @@
 import React from 'react'
 
 import { defaultIcons } from '@/assets'
+import XMark from '@/assets/icons/x_mark.svg'
 
-import {
-  Container,
-  RemoveImage,
-  RemoveImageContainer,
-  SearchImage,
-  TextInput,
-} from './SearchBar.style'
+import { Container, RemoveImageContainer, SearchImage, TextInput } from './SearchBar.style'
 
 interface SearchBarProps {
   placeholder: string
@@ -43,7 +38,10 @@ export const SearchBar = ({
       {value.length > 0 ? (
         <>
           <RemoveImageContainer onPress={() => onChangeText('')}>
-            <RemoveImage source={defaultIcons.xMark} />
+            <XMark
+              width={16}
+              height={14}
+            />
           </RemoveImageContainer>
         </>
       ) : (
