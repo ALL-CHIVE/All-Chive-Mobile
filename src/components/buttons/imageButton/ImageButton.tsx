@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ImageSourcePropType, View } from 'react-native'
+import { View } from 'react-native'
 import { Shadow } from 'react-native-shadow-2'
 
 import DesignIcon from '@/assets/icons/design.svg'

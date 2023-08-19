@@ -67,5 +67,4 @@ export const defaultIcons: Assets = {
 
 export const logo: Assets = {
   allchiveLogo: require('@/assets/logo/allchiveLogo.png'),
-  allchiveSubLogo: require('@/assets/logo/allchiveSubLogo.png'),
 }
