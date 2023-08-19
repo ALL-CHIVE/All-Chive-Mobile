@@ -8,6 +8,7 @@ export const Container = styled.View`
   border-radius: 20px;
   padding: 4px 15px;
   padding-right: 10px;
+  margin-right: 8px;
 `
 
 export const Text = styled.Text`
