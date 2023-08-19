@@ -9,7 +9,7 @@ export const Container = styled.TouchableOpacity`
 
 export const Card = styled.View`
   width: 186px;
-  height: 235px;
+  height: 236px;
   border-radius: 10px;
   background-color: ${colors.white};
   flex-direction: row;
@@ -20,7 +20,7 @@ export const Card = styled.View`
 export const ArchivingImage = styled.Image`
   position: absolute;
   width: 186px;
-  height: 235px;
+  height: 236px;
   opacity: 0.6;
 `
 
