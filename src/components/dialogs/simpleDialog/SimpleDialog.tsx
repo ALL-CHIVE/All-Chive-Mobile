@@ -21,6 +21,7 @@ export const SimpleDialog = ({ isVisible, title, completeText, onClose }: Simple
     <Modal
       style={Styles.modal}
       isVisible={isVisible}
+      statusBarTranslucent={true}
       onModalHide={onClose}
     >
       <Container>

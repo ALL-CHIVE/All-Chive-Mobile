@@ -54,6 +54,7 @@ const TwoButtonDialog = ({
   return (
     <Modal
       style={Css.modal}
+      statusBarTranslucent={true}
       isVisible={isVisible}
       onModalHide={() => onClose && onClose(isComplete)}
     >

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Image, Keyboard, KeyboardEvent } from 'react-native'
+import { Dimensions, Image, Keyboard, KeyboardEvent, Platform } from 'react-native'
 
 import { defaultIcons } from '@/assets'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -36,7 +36,12 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    setModalHeight(event.endCoordinates.screenY - 10)
+    const height = Platform.select({
+      ios: Dimensions.get('screen').height - 80,
+      android: Dimensions.get('screen').height - 150,
+    })
+
+    height && setModalHeight(height)
   }
 
   /**

@@ -33,6 +33,7 @@ const DefaultDialog = ({
     <Modal
       style={Css.modal}
       isVisible={isVisible}
+      statusBarTranslucent={true}
       onModalHide={onClose}
     >
       <Container>
