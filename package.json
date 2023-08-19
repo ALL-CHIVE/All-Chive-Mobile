@@ -49,7 +49,7 @@
     "react-native-screens": "^3.22.0",
     "react-native-shadow-2": "^7.0.8",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-svg": "^13.9.0",
+    "react-native-svg": "^13.11.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-uuid": "^2.0.1",
     "react-query": "^3.39.3",
@@ -78,6 +78,7 @@
     "metro-react-native-babel-preset": "0.73.10",
     "pod-install": "^0.1.38",
     "prettier": "^2.4.1",
+    "react-native-svg-transformer": "^1.1.0",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
   },

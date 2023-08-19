@@ -23,7 +23,6 @@ export const defaultImages: Assets = {
 }
 
 export const defaultIcons: Assets = {
-  firstIndicator: require('@/assets/icons/firstIndicator.png'),
   secondIndicator: require('@/assets/icons/secondIndicator.png'),
   check: require('@/assets/icons/check.png'),
   archiving: require('@/assets/icons/archiving.png'),
@@ -64,11 +63,6 @@ export const defaultIcons: Assets = {
   pin: require('@/assets/icons/pin.png'),
   pinFill: require('@/assets/icons/pinFill.png'),
   camera: require('@/assets/icons/camera.png'),
-}
-
-export const loginIcons: Assets = {
-  apple: require('@/assets/login/apple.png'),
-  kakao: require('@/assets/login/kakao.png'),
 }
 
 export const logo: Assets = {

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Image } from 'react-native'
 
 import { defaultIcons, defaultImages } from '@/assets'
+import SecondIndicator from '@/assets/icons/secondIndicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -22,9 +23,12 @@ const OnBoarding2 = () => {
     <DefaultContainer>
       <DefaultScrollContainer>
         <Container>
-          <OnBoardingImage source={defaultImages.onBoarding2} />
+          <OnBoardingImage
+            source={defaultImages.onBoarding2}
+            style={{ width: 247, height: 297 }}
+          />
           <Title>{i18n.t('shareCategoryWithPeople')}</Title>
-          <Image source={defaultIcons.secondIndicator} />
+          <SecondIndicator />
         </Container>
       </DefaultScrollContainer>
       <BoxButton
