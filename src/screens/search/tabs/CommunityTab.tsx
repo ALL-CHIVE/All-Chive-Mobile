@@ -76,6 +76,7 @@ export const CommunityTab = ({ data }: SearchResponse) => {
       />
 
       <ScrollContainer
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         onScrollEndDrag={({ nativeEvent }) => {

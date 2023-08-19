@@ -3,7 +3,7 @@ import React from 'react'
 import i18n from '@/locales'
 import { Category } from '@/models/enums/Category'
 
-import { Button, ClickStyles, ScrollContainer, Text } from './CategoryList.style'
+import { Button, ClickStyles, Container, ScrollContainer, Text } from './CategoryList.style'
 
 interface CategoryListProps {
   currentCategory: Category | string
@@ -32,15 +32,17 @@ export const CategoryList = ({
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >
-      {options.map((option, index) => (
-        <Button
-          key={index}
-          onPress={() => handleOptionPress(option)}
-          style={currentCategory === option && ClickStyles.category}
-        >
-          <Text style={currentCategory === option && ClickStyles.text}>{i18n.t(option)}</Text>
-        </Button>
-      ))}
+      <Container>
+        {options.map((option, index) => (
+          <Button
+            key={index}
+            onPress={() => handleOptionPress(option)}
+            style={currentCategory === option && ClickStyles.category}
+          >
+            <Text style={currentCategory === option && ClickStyles.text}>{i18n.t(option)}</Text>
+          </Button>
+        ))}
+      </Container>
     </ScrollContainer>
   )
 }

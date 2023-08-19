@@ -21,6 +21,7 @@ export const ErrorDialog = ({ isVisible, onClick }: ErrorDialogProps) => {
     <Modal
       style={Css.modal}
       isVisible={isVisible}
+      statusBarTranslucent={true}
       onModalHide={onClick}
     >
       <Container>

@@ -61,6 +61,7 @@ export const InputDialog = ({
   return (
     <Modal
       style={Css.modal}
+      statusBarTranslucent={true}
       isVisible={isVisible}
     >
       <Container>

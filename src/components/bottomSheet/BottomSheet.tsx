@@ -21,6 +21,7 @@ const BottomSheet = ({ isVisible, onClose, onModalHide, children }: BottomSheetP
       style={Styles.modal}
       onBackdropPress={onClose}
       onModalHide={onModalHide}
+      statusBarTranslucent={true}
       backdropOpacity={0.5}
     >
       {children}

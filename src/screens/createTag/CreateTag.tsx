@@ -171,6 +171,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
               <Divider />
               <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
               <ScrollView
+                bounces={false}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
               >

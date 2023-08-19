@@ -277,6 +277,7 @@ const ContentList = ({ route }: ContentListProps) => {
       ) : (
         <DefaultContainer>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             onScrollEndDrag={({ nativeEvent }) => {
               if (isCloseToBottom(nativeEvent)) {

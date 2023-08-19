@@ -17,10 +17,10 @@ const SearchButton = () => {
 
   return (
     <Shadow
-      startColor={colors.gray50}
-      offset={[0, 0]}
-      distance={4}
-      style={{ borderRadius: 19.5, width: '100%' }}
+      startColor={colors.searchShadow}
+      offset={[0, 3]}
+      distance={8}
+      style={{ borderRadius: 17, width: '100%' }}
     >
       <Container>
         <Button onPress={() => navigation.navigate('Search')}>

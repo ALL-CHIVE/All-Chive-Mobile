@@ -197,9 +197,6 @@ export const RootStack = () => {
         <Stack.Screen
           name="Notice"
           component={Notice}
-          options={{
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="RecycleBin"

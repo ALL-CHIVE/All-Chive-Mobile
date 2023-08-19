@@ -42,6 +42,7 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <ScrollView
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

@@ -38,6 +38,7 @@ export const BlockManagement = () => {
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('blockManagement')} />
         <ScrollContainer
+          bounces={false}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
