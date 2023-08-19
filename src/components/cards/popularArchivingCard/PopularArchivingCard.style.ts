@@ -34,14 +34,12 @@ export const Title = styled.Text`
 
 export const Scrap = styled.TouchableOpacity`
   position: absolute;
-  right: 8.6px;
-  top: 13px;
+  right: 3px;
+  top: 12px;
   padding: 5px;
 `
 
-export const ScarpIcon = styled.Image`
-  height: 30px;
-`
+export const ScarpIcon = styled.Image``
 
 export const CountContainer = styled.View`
   position: absolute;

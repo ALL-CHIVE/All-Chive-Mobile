@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ImageURISource } from 'react-native'
+import { ImageURISource, View } from 'react-native'
 import Config from 'react-native-config'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
 import { patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import ScrapIcon from '@/assets/icons/scrap.svg'
+import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
 import { ArchivingListContent } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CommunityCategoryState } from '@/state/CategoryState'
+import { colors } from '@/styles/colors'
 
 import {
   Card,
@@ -81,9 +84,17 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
         </Title>
         <Scrap onPress={handleScrap}>
           {markStatus ? (
-            <ScarpIcon source={defaultIcons.scrapFill} />
+            <ScrapFillIcon
+              width={32}
+              height={32}
+              color={'transparent'}
+            />
           ) : (
-            <ScarpIcon source={defaultIcons.scrap} />
+            <ScrapIcon
+              width={32}
+              height={32}
+              color={colors.white}
+            />
           )}
         </Scrap>
         <CountContainer>
@@ -91,7 +102,7 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
           <CountText>{imgCnt}</CountText>
           <Icon source={defaultIcons.linkWhite} />
           <CountText>{linkCnt}</CountText>
-          <Icon source={defaultIcons.scrapWhite} />
+          <Icon source={defaultIcons.scrap} />
           <CountText>{scrapCnt}</CountText>
         </CountContainer>
       </Card>

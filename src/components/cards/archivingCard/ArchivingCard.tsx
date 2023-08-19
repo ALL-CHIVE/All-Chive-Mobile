@@ -179,7 +179,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
             <CountText>{imgCnt}</CountText>
             <Icon source={defaultIcons.linkWhite} />
             <CountText>{linkCnt}</CountText>
-            <Icon source={defaultIcons.scrapWhite} />
+            <Icon source={defaultIcons.scrap} />
             <CountText>{scrapCnt}</CountText>
           </CountContainer>
         </Card>
