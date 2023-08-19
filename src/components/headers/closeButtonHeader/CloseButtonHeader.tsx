@@ -19,7 +19,7 @@ export const CloseButtonHeader = ({ title, onClose }: CloseButtonHeaderProps) =>
     <Container>
       <Title>{title}</Title>
       <CloseButton onPress={onClose}>
-        <Image source={defaultIcons.grayCloseButton} />
+        <Image source={defaultIcons.xMark} />
       </CloseButton>
     </Container>
   )

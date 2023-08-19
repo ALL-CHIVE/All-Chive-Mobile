@@ -155,7 +155,7 @@ const Search = () => {
                   <ItemText>{item.word}</ItemText>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
-                  <SmallImage source={defaultIcons.grayCloseButton} />
+                  <SmallImage source={defaultIcons.xMark} />
                 </TouchableOpacity>
               </LatestContainer>
             ))}

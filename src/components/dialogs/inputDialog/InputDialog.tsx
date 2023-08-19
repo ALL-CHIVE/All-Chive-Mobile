@@ -75,7 +75,7 @@ export const InputDialog = ({
           />
           {text.length > 0 && (
             <DeleteButton onPress={() => setText('')}>
-              <Image source={defaultIcons.grayCloseButton} />
+              <Image source={defaultIcons.xMark} />
             </DeleteButton>
           )}
         </TextInputContainer>

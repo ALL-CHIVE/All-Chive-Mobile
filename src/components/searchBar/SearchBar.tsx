@@ -43,7 +43,7 @@ export const SearchBar = ({
       {value.length > 0 ? (
         <>
           <RemoveImageContainer onPress={() => onChangeText('')}>
-            <RemoveImage source={defaultIcons.grayCloseButton} />
+            <RemoveImage source={defaultIcons.xMark} />
           </RemoveImageContainer>
         </>
       ) : (

@@ -7,9 +7,14 @@ export const Container = styled.View`
   align-items: center;
 `
 
-export const SubLogo = styled.Image``
+export const SubLogo = styled.Text`
+  ${fonts.body2}
+  color: ${colors.gray600};
+  margin-bottom: 5px;
+`
 
 export const Logo = styled.Image`
+  width: 163px;
   margin-top: 9px;
   margin-bottom: 47px;
 `

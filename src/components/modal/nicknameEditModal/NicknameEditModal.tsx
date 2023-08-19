@@ -113,7 +113,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <Image source={defaultIcons.grayCloseButton} />
+                <Image source={defaultIcons.xMark} />
               </ClearButton>
             </NicknameInputBox>
             <VerifierContainer>

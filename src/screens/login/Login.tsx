@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, Platform } from 'react-native'
+import { Platform } from 'react-native'
 import { useQuery, useQueryClient } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 
-import { loginIcons, logo } from '@/assets'
+import { logo } from '@/assets'
+import AppleLogo from '@/assets/login/apple.svg'
+import KakaoLogo from '@/assets/login/kakao.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
@@ -68,7 +70,7 @@ export const Login = () => {
 
       <DefaultContainer>
         <Container>
-          <SubLogo source={logo.allchiveSubLogo} />
+          <SubLogo>always, all, archive</SubLogo>
           <Logo source={logo.allchiveLogo} />
           <Title>{i18n.t('simpleLogin')}</Title>
           <LoginButtons>
@@ -80,7 +82,7 @@ export const Login = () => {
                     setType(SignInType.Apple)
                   }}
                 >
-                  <Image source={loginIcons.apple} />
+                  <AppleLogo />
                 </Button>
               ),
             })}
@@ -90,7 +92,7 @@ export const Login = () => {
                 setType(SignInType.Kakao)
               }}
             >
-              <Image source={loginIcons.kakao} />
+              <KakaoLogo />
             </Button>
           </LoginButtons>
         </Container>

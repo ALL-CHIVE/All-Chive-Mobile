@@ -20,7 +20,7 @@ const ImageHeader = ({ title, onClose }: ImageHeaderProps) => {
       <Container>
         <Title>{title}</Title>
         <CloseButton onPress={onClose}>
-          <Image source={defaultIcons.grayCloseButton} />
+          <Image source={defaultIcons.xMark} />
         </CloseButton>
       </Container>
     </Header>

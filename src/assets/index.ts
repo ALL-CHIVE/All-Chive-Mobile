@@ -23,7 +23,6 @@ export const defaultImages: Assets = {
 }
 
 export const defaultIcons: Assets = {
-  firstIndicator: require('@/assets/icons/firstIndicator.png'),
   secondIndicator: require('@/assets/icons/secondIndicator.png'),
   check: require('@/assets/icons/check.png'),
   archiving: require('@/assets/icons/archiving.png'),
@@ -40,7 +39,7 @@ export const defaultIcons: Assets = {
   sport: require('@/assets/icons/sport.png'),
   tech: require('@/assets/icons/tech.png'),
   trend: require('@/assets/icons/trend.png'),
-  grayCloseButton: require('@/assets/icons/gray_closeButton.png'),
+  xMark: require('@/assets/icons/gray_closeButton.png'),
   whiteCloseButton: require('@/assets/icons/white_closeButton.png'),
   back: require('@/assets/icons/back.png'),
   search: require('@/assets/icons/search.png'),
@@ -66,12 +65,6 @@ export const defaultIcons: Assets = {
   camera: require('@/assets/icons/camera.png'),
 }
 
-export const loginIcons: Assets = {
-  apple: require('@/assets/login/apple.png'),
-  kakao: require('@/assets/login/kakao.png'),
-}
-
 export const logo: Assets = {
   allchiveLogo: require('@/assets/logo/allchiveLogo.png'),
-  allchiveSubLogo: require('@/assets/logo/allchiveSubLogo.png'),
 }
