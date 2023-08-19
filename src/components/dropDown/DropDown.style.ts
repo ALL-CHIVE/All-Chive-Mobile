@@ -15,7 +15,7 @@ export const CategoryContainer = styled.View`
 `
 
 export const CategoryTitle = styled.Text`
-  color: ${colors.gray100};
+  color: ${colors.gray200};
 `
 
 export const DropDownModal = styled.View`

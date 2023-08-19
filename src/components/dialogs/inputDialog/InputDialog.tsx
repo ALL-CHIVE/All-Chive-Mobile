@@ -72,6 +72,7 @@ export const InputDialog = ({
             onChangeText={setText}
             maxLength={20}
             placeholder={placeholder}
+            placeholderTextColor={colors.gray200}
           />
           {text.length > 0 && (
             <DeleteButton onPress={() => setText('')}>
