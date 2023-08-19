@@ -281,7 +281,10 @@ const ContentList = ({ route }: ContentListProps) => {
 
       {contentList?.pages[0].totalContentsCount === 0 ? (
         <Container>
-          <Image source={defaultImages.emptyItem} />
+          <Image
+            style={{ width: 216, height: 189 }}
+            source={defaultImages.emptyItem}
+          />
           <SubTitleText>{i18n.t('emptyArchiving')}</SubTitleText>
         </Container>
       ) : (
