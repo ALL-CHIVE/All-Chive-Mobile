@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
 
-import { defaultIcons } from '@/assets'
+import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import PopupIcon from '@/assets/icons/popup.svg'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -26,7 +25,7 @@ const DefaultHeader = ({ title, PopupMenuList, onRightClick }: DefaultHeaderProp
   return (
     <Container>
       <HeaderLeft onPress={navigation.goBack}>
-        <Image source={defaultIcons.back} />
+        <LeftArrowIcon />
       </HeaderLeft>
       <Title numberOfLines={1}>{title}</Title>
       <HeaderRight>

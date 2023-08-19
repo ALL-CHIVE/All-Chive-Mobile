@@ -12,7 +12,7 @@ export const Header = styled.View`
 `
 
 export const BackButton = styled.TouchableOpacity`
-  margin-right: 15px;
+  margin-right: 10px;
 `
 
 export const LatestContainer = styled.View`

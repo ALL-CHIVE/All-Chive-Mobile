@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil'
 
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
 import { defaultIcons } from '@/assets'
+import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'
@@ -130,7 +131,7 @@ const Search = () => {
               navigation.goBack()
             }}
           >
-            <Image source={defaultIcons.back} />
+            <LeftArrowIcon />
           </BackButton>
           <SearchBar
             placeholder={i18n.t('pleaseEnterSearchKeyword')}

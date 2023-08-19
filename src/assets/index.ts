@@ -41,7 +41,7 @@ export const defaultIcons: Assets = {
   trend: require('@/assets/icons/trend.png'),
   xMark: require('@/assets/icons/gray_closeButton.png'),
   whiteCloseButton: require('@/assets/icons/white_closeButton.png'),
-  back: require('@/assets/icons/back.png'),
+  leftArrow: require('@/assets/icons/left_arrow.png'),
   search: require('@/assets/icons/search.png'),
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
