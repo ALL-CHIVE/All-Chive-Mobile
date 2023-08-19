@@ -82,6 +82,7 @@ export const Styles = {
 export const Condition = styled.Text`
   ${fonts.body4}
   color: ${colors.gray100};
+  margin-top: 4px;
 `
 
 export const Thumbnail = styled.Image`

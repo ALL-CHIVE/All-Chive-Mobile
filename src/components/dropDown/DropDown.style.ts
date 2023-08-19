@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 
@@ -31,3 +31,12 @@ export const TouchableItem = styled.TouchableOpacity`
   width: 100%;
   margin: 5px 0px;
 `
+
+export const Styles = {
+  selectedContainer: css`
+    border: 1px solid ${colors.gray500};
+  `,
+  selectedText: css`
+    color: ${colors.gray600};
+  `,
+}
