@@ -15,7 +15,8 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { postArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
@@ -28,7 +29,6 @@ import { colors } from '@/styles/colors'
 
 import {
   Bottom,
-  CameraIcon,
   CloseButton,
   Condition,
   Container,
@@ -237,7 +237,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
                 source={image ? image : defaultImages.thumbnail}
                 defaultSource={defaultImages.thumbnail as ImageURISource}
               />
-              <CameraIcon source={defaultIcons.camera} />
+              <CameraIcon style={Styles.cameraIcon} />
             </ImageButton>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>
