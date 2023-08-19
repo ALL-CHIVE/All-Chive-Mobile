@@ -29,6 +29,8 @@ export const LeftButton = styled.TouchableOpacity`
 `
 
 export const Icon = styled.Image`
+  width: 24px;
+  height: 24px;
   margin-bottom: 8px;
 `
 

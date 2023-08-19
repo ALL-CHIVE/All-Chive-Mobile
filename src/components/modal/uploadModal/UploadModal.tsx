@@ -1,10 +1,11 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, Text } from 'react-native'
+import { Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { defaultIcons } from '@/assets'
+import UploadIcon from '@/assets/icons/upload.svg'
 import i18n from '@/locales'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -33,10 +34,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
           colors={[colors.yellow500, colors.mainYellow]}
         >
           <UploadButton>
-            <Image
-              source={defaultIcons.upload}
-              resizeMode="contain"
-            />
+            <UploadIcon />
           </UploadButton>
         </LinearGradient>
         <LeftButton
@@ -54,7 +52,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
             navigate('Upload', { type: ContentType.Link })
           }}
         >
-          <Icon source={defaultIcons.link} />
+          <Icon source={defaultIcons.linkUpload} />
           <Text>{i18n.t('link')}</Text>
         </RightButton>
       </LinearGradient>
