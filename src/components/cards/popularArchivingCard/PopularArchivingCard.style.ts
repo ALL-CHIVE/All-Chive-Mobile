@@ -29,13 +29,13 @@ export const Title = styled.Text`
   color: ${colors.white};
   top: 17px;
   left: 15px;
-  width: 135px;
+  width: 116px;
 `
 
 export const Scrap = styled.TouchableOpacity`
   position: absolute;
   right: 3px;
-  top: 12px;
+  top: 14px;
   padding: 5px;
 `
 
