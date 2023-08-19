@@ -43,7 +43,6 @@ export const defaultIcons: Assets = {
   whiteCloseButton: require('@/assets/icons/white_closeButton.png'),
   back: require('@/assets/icons/back.png'),
   search: require('@/assets/icons/search.png'),
-  searchNormal: require('@/assets/icons/searchNormal.png'),
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
   popup: require('@/assets/icons/popup.png'),
