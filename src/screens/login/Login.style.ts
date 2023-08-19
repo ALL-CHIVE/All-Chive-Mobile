@@ -15,6 +15,7 @@ export const SubLogo = styled.Text`
 
 export const Logo = styled.Image`
   width: 163px;
+  height: 30.24px;
   margin-top: 9px;
   margin-bottom: 47px;
 `

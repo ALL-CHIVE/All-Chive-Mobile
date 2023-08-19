@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image } from 'react-native'
 
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
 import SecondIndicator from '@/assets/icons/secondIndicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'

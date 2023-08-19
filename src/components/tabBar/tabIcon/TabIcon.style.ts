@@ -12,8 +12,6 @@ export const Container = styled.View`
   align-items: center;
 `
 
-export const BottomTabImage = styled.Image``
-
 export const Title = styled.Text`
   ${fonts.body3}
   color: ${colors.gray600}

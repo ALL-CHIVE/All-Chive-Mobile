@@ -8,9 +8,14 @@ import { useRecoilValue } from 'recoil'
 
 import { patchScrapArchiving } from '@/apis/archiving'
 import { defaultIcons, defaultImages } from '@/assets'
+import PhotoIcon from '@/assets/icons/photo.svg'
+import ScrapIcon from '@/assets/icons/scrap.svg'
+import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
+import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
 import { ArchivingListContent } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CommunityCategoryState } from '@/state/CategoryState'
+import { colors } from '@/styles/colors'
 
 import {
   Card,
@@ -21,7 +26,6 @@ import {
   ArchivingImage,
   Scrap,
   Title,
-  ScarpIcon,
 } from './PopularArchivingCard.style'
 
 interface PopularArchivingCardProps {
@@ -81,17 +85,25 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
         </Title>
         <Scrap onPress={handleScrap}>
           {markStatus ? (
-            <ScarpIcon source={defaultIcons.scrapFill} />
+            <ScrapFillIcon
+              width={32}
+              height={32}
+              color={'transparent'}
+            />
           ) : (
-            <ScarpIcon source={defaultIcons.scrap} />
+            <ScrapIcon
+              width={32}
+              height={32}
+              color={colors.white}
+            />
           )}
         </Scrap>
         <CountContainer>
-          <Icon source={defaultIcons.photoWhite} />
+          <PhotoIcon />
           <CountText>{imgCnt}</CountText>
-          <Icon source={defaultIcons.linkWhite} />
+          <Icon source={defaultIcons.link} />
           <CountText>{linkCnt}</CountText>
-          <Icon source={defaultIcons.scrapWhite} />
+          <ScrapSmallIcon />
           <CountText>{scrapCnt}</CountText>
         </CountContainer>
       </Card>

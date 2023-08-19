@@ -6,7 +6,7 @@ import { useMutation } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { checkNicknameValid } from '@/apis/user'
-import XMark from '@/assets/icons/xMark.svg'
+import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -21,6 +21,7 @@ import { setIsInstalled } from '@/services/localStorage/LocalStorage'
 import { ProfileImageState } from '@/state/ProfileImageState'
 import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
+import { colors } from '@/styles/colors'
 
 import {
   BodyText,
@@ -129,7 +130,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 onPress={handleClearNickname}
                 disabled={!nickname}
               >
-                <XMark />
+                <XMark color={colors.gray600} />
               </ClearButton>
             </NicknameInputBox>
             <Verifier

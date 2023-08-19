@@ -50,10 +50,8 @@ export const InputBox = styled.TextInput`
 
 export const ClearButton = styled.TouchableOpacity`
   position: absolute;
-  top: 12px;
-  right: 0px;
-  width: 24px;
-  height: 24px;
+  top: 7px;
+  right: 7px;
 `
 
 export const VerifierContainer = styled.View``

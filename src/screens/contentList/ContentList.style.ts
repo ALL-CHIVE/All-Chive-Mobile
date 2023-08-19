@@ -67,7 +67,7 @@ export const CreateAt = styled.Text`
 
 export const Scrap = styled.TouchableOpacity`
   position: absolute;
-  right: -5px;
+  right: -15px;
   padding: 5px;
 `
 

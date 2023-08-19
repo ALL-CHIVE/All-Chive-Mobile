@@ -17,11 +17,13 @@ export const Card = styled.View`
 
 export const ImageContainer = styled.View`
   height: 50%;
+  background-color: ${colors.black};
 `
 
 export const Image = styled.Image`
   width: 100%;
   height: 100%;
+  opacity: 0.6;
 `
 
 export const Type = styled.View`
@@ -31,11 +33,14 @@ export const Type = styled.View`
   border-radius: 4px;
   padding: 2px 7px;
   background-color: rgba(255, 255, 255, 0.3);
+  flex-direction: row;
+  align-items: center;
 `
 
 export const TypeText = styled.Text`
   ${fonts.body4}
   color: ${colors.white};
+  margin-left: 3px;
 `
 export const Information = styled.View`
   padding: 5px 10px;
@@ -61,3 +66,8 @@ export const Styles = {
     border-radius: 9px;
   `,
 }
+
+export const Icon = styled.Image`
+  width: 10px;
+  height: 10px;
+`

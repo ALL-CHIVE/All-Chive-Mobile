@@ -7,6 +7,8 @@ export const BackgroundImage = styled.Image`
   position: absolute;
   right: 0px;
   top: 0px;
+  width: 147.17px;
+  height: 162.52px;
 `
 
 export const PopularContainer = styled.ScrollView`

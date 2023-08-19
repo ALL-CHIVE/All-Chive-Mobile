@@ -2,7 +2,10 @@ import React from 'react'
 
 import { TouchableOpacity } from 'react-native'
 
-import { Container, RowView, Text } from './GrayTag.style'
+import XMark from '@/assets/icons/x_mark.svg'
+import { colors } from '@/styles/colors'
+
+import { Container, RemoveButton, RowView, Text } from './GrayTag.style'
 
 interface GrayTagProps {
   tag: string
@@ -18,9 +21,13 @@ export const GrayTag = ({ tag, onRemove }: GrayTagProps) => {
       <Container>
         <RowView>
           <Text>{tag}</Text>
-          <TouchableOpacity onPress={onRemove}>
-            <Text>{`  x`}</Text>
-          </TouchableOpacity>
+          <RemoveButton onPress={onRemove}>
+            <XMark
+              width={15}
+              height={15}
+              color={colors.white}
+            />
+          </RemoveButton>
         </RowView>
       </Container>
     </>

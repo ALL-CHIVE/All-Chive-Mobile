@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource, Platform, TouchableOpacity } from 'react-native'
+import { ImageURISource, Platform, TouchableOpacity, View } from 'react-native'
 import Config from 'react-native-config'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
 import LinearGradient from 'react-native-linear-gradient'
@@ -10,7 +10,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { logout } from '@/apis/auth'
 import { getUser } from '@/apis/user'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
@@ -94,9 +95,10 @@ export const Mypage = () => {
               >
                 <HeaderContainer>
                   <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image source={defaultIcons.back} />
+                    <LeftArrowIcon />
                   </TouchableOpacity>
                   <Title>{i18n.t('mypage')}</Title>
+                  <View style={{ width: 20 }} />
                 </HeaderContainer>
                 <ProfileContainer>
                   <ProfileImage

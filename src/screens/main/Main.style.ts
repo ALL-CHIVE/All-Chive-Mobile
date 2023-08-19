@@ -47,7 +47,9 @@ export const Title = styled.Text`
 
 export const BackgroundImage = styled.Image`
   position: absolute;
-  right: 0px;
+  width: 235px;
+  height: 197.344px;
+  right: -17px;
   top: 38px;
 `
 
