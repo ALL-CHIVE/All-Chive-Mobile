@@ -3,20 +3,15 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
-import {
-  Image,
-  ImageSourcePropType,
-  ImageURISource,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import Config from 'react-native-config'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
 import { getContentsInfo, patchContents } from '@/apis/content'
-import { defaultIcons } from '@/assets'
+import PlusIcon from '@/assets/icons/plus.svg'
+import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -48,7 +43,6 @@ import {
   ContentImage,
   MemoTextInput,
   PlusImageButton,
-  RightButton,
   RowView,
   SelectArchivingText,
   Styles,
@@ -250,7 +244,10 @@ export const Edit = ({ route }: EditProps) => {
               >
                 {archivingName ? archivingName : i18n.t('choiceArchiving')}
               </SelectArchivingText>
-              <RightButton source={defaultIcons.rightArrow} />
+              <RightArrowIcon
+                color={lastFocused >= 0 && !!archivingName ? colors.gray600 : colors.gray200}
+                style={Styles.rightArrow}
+              />
             </ArchivingSelect>
             <Title>{i18n.t('contentName')}</Title>
             <TextInput
@@ -301,7 +298,7 @@ export const Edit = ({ route }: EditProps) => {
                   </TouchableOpacity>
                 ) : (
                   <PlusImageButton onPress={handleUploadImage}>
-                    <Image source={defaultIcons.plus} />
+                    <PlusIcon />
                   </PlusImageButton>
                 )}
               </>

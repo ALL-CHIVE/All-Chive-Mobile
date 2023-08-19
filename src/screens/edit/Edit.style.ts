@@ -30,11 +30,6 @@ export const SelectArchivingText = styled.Text`
   color: ${colors.gray100};
 `
 
-export const RightButton = styled.Image`
-  position: absolute;
-  right: 10px;
-`
-
 export const TextInput = styled.TextInput`
   width: 100%;
   height: 38px;
@@ -68,6 +63,10 @@ export const Styles = {
   `,
   conditionComplete: css`
     color: ${colors.gray600};
+  `,
+  rightArrow: css`
+    position: absolute;
+    right: 10px;
   `,
 }
 
