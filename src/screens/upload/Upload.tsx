@@ -260,7 +260,7 @@ export const Upload = ({ route }: UploadProps) => {
                   </TouchableOpacity>
                 ) : (
                   <PlusImageButton onPress={handleUploadImage}>
-                    <PlusIcon />
+                    <PlusIcon color={colors.gray300} />
                   </PlusImageButton>
                 )}
               </>

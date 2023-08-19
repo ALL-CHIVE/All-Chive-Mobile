@@ -298,7 +298,7 @@ export const Edit = ({ route }: EditProps) => {
                   </TouchableOpacity>
                 ) : (
                   <PlusImageButton onPress={handleUploadImage}>
-                    <PlusIcon />
+                    <PlusIcon color={colors.gray300} />
                   </PlusImageButton>
                 )}
               </>

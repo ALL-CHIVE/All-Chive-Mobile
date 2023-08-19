@@ -16,7 +16,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { getArchivingData, patchArchiving } from '@/apis/archiving'
-import { defaultIcons, defaultImages } from '@/assets'
+import { defaultImages } from '@/assets'
+import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
@@ -32,7 +33,6 @@ import { colors } from '@/styles/colors'
 
 import {
   Bottom,
-  CameraIcon,
   CloseButton,
   Condition,
   Container,
@@ -271,7 +271,7 @@ export const EditArchivingModal = ({
                 source={image ? image : defaultImages.thumbnail}
                 defaultSource={defaultImages.thumbnail as ImageURISource}
               />
-              <CameraIcon source={defaultIcons.camera} />
+              <CameraIcon style={Styles.cameraIcon} />
             </ImageButton>
             <View style={{ flexDirection: 'row' }}>
               <Title>{i18n.t('settingPublic')}</Title>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Image, ImageURISource } from 'react-native'
+import { ImageURISource } from 'react-native'
 import Config from 'react-native-config'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'

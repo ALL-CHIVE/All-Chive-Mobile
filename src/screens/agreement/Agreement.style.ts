@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
@@ -40,10 +40,12 @@ export const CheckBox = styled.TouchableOpacity`
   background-color: ${colors.white};
 `
 
-export const YellowCheckImage = styled.Image`
-  top: -4px;
-  left: -1px;
-`
+export const Styles = {
+  checkIcon: css`
+    top: -8px;
+    left: -3px;
+  `,
+}
 
 export const Divider = styled.View`
   width: 100%;

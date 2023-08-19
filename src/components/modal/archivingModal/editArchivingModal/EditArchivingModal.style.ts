@@ -72,6 +72,11 @@ export const Styles = {
   conditionComplete: css`
     color: ${colors.gray600};
   `,
+  cameraIcon: css`
+    position: absolute;
+    right: 0;
+    bottom: -6px;
+  `,
 }
 
 export const Condition = styled.Text`

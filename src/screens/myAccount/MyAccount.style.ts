@@ -42,7 +42,7 @@ export const RowView = styled.View`
   margin: 5px 0px;
 `
 
-export const PencilIcon = styled.TouchableOpacity`
+export const PencilButton = styled.TouchableOpacity`
   width: 14px;
   height: 15px;
   position: absolute;
