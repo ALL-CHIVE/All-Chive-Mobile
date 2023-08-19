@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigatorScreenParams } from '@react-navigation/native'
-import { Image } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-import { defaultIcons } from '@/assets'
+import ArchivingIcon from '@/assets/icons/archiving.svg'
+import ArchivingFocusIcon from '@/assets/icons/archiving_focus.svg'
+import CommunityIcon from '@/assets/icons/community.svg'
+import CommunityFocusIcon from '@/assets/icons/community_focus.svg'
+import UploadIcon from '@/assets/icons/upload.svg'
 import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import UploadModal from '@/components/modal/uploadModal/UploadModal'
 import TabBarBackground from '@/components/tabBar/tabBarBackground/TabBarBackground'
@@ -61,10 +64,9 @@ export const BottomTab = () => {
              *
              */
             tabBarIcon: ({ focused }) => (
-              <TabIcon
-                icon={focused ? defaultIcons.archivingFocus : defaultIcons.archiving}
-                text="archiving"
-              />
+              <TabIcon text="archiving">
+                {focused ? <ArchivingFocusIcon /> : <ArchivingIcon height={22} />}
+              </TabIcon>
             ),
           }}
         />
@@ -76,10 +78,9 @@ export const BottomTab = () => {
              *
              */
             tabBarIcon: ({ focused }) => (
-              <TabIcon
-                icon={focused ? defaultIcons.communityFocus : defaultIcons.community}
-                text="community"
-              />
+              <TabIcon text="community">
+                {focused ? <CommunityFocusIcon /> : <CommunityIcon />}
+              </TabIcon>
             ),
           }}
         />
@@ -91,10 +92,7 @@ export const BottomTab = () => {
           colors={[colors.yellow500, colors.mainYellow]}
         >
           <UploadButton onPress={() => setShowUpload(true)}>
-            <Image
-              source={defaultIcons.upload}
-              resizeMode="contain"
-            />
+            <UploadIcon />
           </UploadButton>
         </LinearGradient>
       </UploadButtonContainer>
