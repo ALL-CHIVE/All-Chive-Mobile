@@ -22,6 +22,7 @@ import {
 export const AllTab = ({ data }: SearchResponse) => {
   return (
     <ScrollContainer
+      bounces={false}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
     >

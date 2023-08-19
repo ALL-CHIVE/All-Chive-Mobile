@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import {
+  Dimensions,
   Image,
   ImageSourcePropType,
   ImageURISource,
   Keyboard,
   KeyboardEvent,
+  Platform,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -88,7 +90,12 @@ export const EditArchivingModal = ({
    *
    */
   const keyboardDidShow = (event: KeyboardEvent) => {
-    setModalHeight(event.endCoordinates.screenY - 10)
+    const height = Platform.select({
+      ios: Dimensions.get('screen').height - 80,
+      android: Dimensions.get('screen').height - 150,
+    })
+
+    height && setModalHeight(height)
   }
 
   /**
@@ -223,6 +230,7 @@ export const EditArchivingModal = ({
       <Modal
         isVisible={isVisible}
         backdropOpacity={0.5}
+        statusBarTranslucent={true}
         style={{
           margin: 0,
         }}
@@ -234,6 +242,7 @@ export const EditArchivingModal = ({
             </CloseButton>
           </Header>
           <ScrollContainer
+            bounces={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >

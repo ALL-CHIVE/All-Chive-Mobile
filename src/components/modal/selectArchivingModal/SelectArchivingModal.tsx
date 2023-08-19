@@ -70,6 +70,7 @@ export const SelectArchivingModal = ({ onClose, isVisible }: SelectArchivingModa
       <Modal
         isVisible={isVisible}
         backdropOpacity={0.5}
+        statusBarTranslucent={true}
         onBackdropPress={onClose}
         style={{
           margin: 0,

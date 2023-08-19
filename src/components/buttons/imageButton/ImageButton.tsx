@@ -38,7 +38,7 @@ const ImageButton = ({ title, updateSelectedList, source, disabled }: ImageButto
       <Shadow
         startColor={colors.shadow}
         offset={[0, 2]}
-        distance={4}
+        distance={3}
         style={{ borderRadius: 50, marginBottom: 10 }}
       >
         <ImageView style={isSelected && ClickStyles.image}>

@@ -69,6 +69,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
   return (
     <Container>
       <ScrollView
+        bounces={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >

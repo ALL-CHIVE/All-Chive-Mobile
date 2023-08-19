@@ -139,7 +139,7 @@ export const Home = () => {
               <NicknameText>{i18n.t('userName', { nickname: profileData?.nickname })}</NicknameText>
               <Title>
                 {i18n.t('youHaveSavedArchives', {
-                  number: profileData ? profileData.archivingCount : 0,
+                  number: profileData?.archivingCount ? profileData.archivingCount : 0,
                 })}
               </Title>
             </>

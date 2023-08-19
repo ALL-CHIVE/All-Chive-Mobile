@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Image } from 'react-native'
+import { Image, SafeAreaView } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 
@@ -85,44 +85,46 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
         alignItems: 'center',
       }}
     >
-      <Container>
-        <Header>
-          <Button onPress={onCancle}>
-            <ButtonText>{i18n.t('cancel')}</ButtonText>
-          </Button>
-          <Title>{i18n.t('nickName')}</Title>
-          <Button
-            onPress={() => onSuccess(nickname)}
-            disabled={!isNicknameValid || !isNicknameDuplicate}
-          >
-            <ButtonText style={isNicknameValid && isNicknameDuplicate && Styles.buttonEnable}>
-              {i18n.t('confirm')}
-            </ButtonText>
-          </Button>
-        </Header>
-        <NicknameContainer>
-          <NicknameInputBox>
-            <InputBox
-              textAlign="center"
-              onChangeText={handleChangeNickname}
-              maxLength={20}
-              value={nickname}
-            />
-            <ClearButton
-              onPress={handleClearNickname}
-              disabled={!nickname}
+      <SafeAreaView>
+        <Container>
+          <Header>
+            <Button onPress={onCancle}>
+              <ButtonText>{i18n.t('cancel')}</ButtonText>
+            </Button>
+            <Title>{i18n.t('nickName')}</Title>
+            <Button
+              onPress={() => onSuccess(nickname)}
+              disabled={!isNicknameValid || !isNicknameDuplicate}
             >
-              <Image source={defaultIcons.grayCloseButton} />
-            </ClearButton>
-          </NicknameInputBox>
-          <VerifierContainer>
-            <Text>{i18n.t('isNotDuplicate')}</Text>
-          </VerifierContainer>
-          <VerifierContainer>
-            <Text>{i18n.t('nicknameVerify')}</Text>
-          </VerifierContainer>
-        </NicknameContainer>
-      </Container>
+              <ButtonText style={isNicknameValid && isNicknameDuplicate && Styles.buttonEnable}>
+                {i18n.t('confirm')}
+              </ButtonText>
+            </Button>
+          </Header>
+          <NicknameContainer bounces={false}>
+            <NicknameInputBox>
+              <InputBox
+                textAlign="center"
+                onChangeText={handleChangeNickname}
+                maxLength={20}
+                value={nickname}
+              />
+              <ClearButton
+                onPress={handleClearNickname}
+                disabled={!nickname}
+              >
+                <Image source={defaultIcons.grayCloseButton} />
+              </ClearButton>
+            </NicknameInputBox>
+            <VerifierContainer>
+              <Text>{i18n.t('isNotDuplicate')}</Text>
+            </VerifierContainer>
+            <VerifierContainer>
+              <Text>{i18n.t('nicknameVerify')}</Text>
+            </VerifierContainer>
+          </NicknameContainer>
+        </Container>
+      </SafeAreaView>
     </Modal>
   )
 }
