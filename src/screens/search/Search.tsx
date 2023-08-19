@@ -8,6 +8,7 @@ import { useRecoilState } from 'recoil'
 import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
 import { defaultIcons } from '@/assets'
 import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import SearchIcon from '@/assets/icons/search.svg'
 import XMark from '@/assets/icons/x_mark.svg'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
@@ -25,10 +26,10 @@ import {
   LatestContainer,
   TabContainer,
   LatestSearch,
-  SmallImage,
   Header,
   RelationContainer,
   BackButton,
+  Styles,
 } from './Search.style'
 import { SearchTab } from './tabs/SearchTab'
 
@@ -173,10 +174,7 @@ const Search = () => {
           <>
             {searchRelation.map((item) => (
               <RelationContainer key={item}>
-                <Image
-                  source={defaultIcons.search}
-                  style={{ marginRight: 12, marginTop: 5 }}
-                />
+                <SearchIcon style={Styles.searchIcon} />
                 <TouchableOpacity onPress={() => handleSelectItem(item)}>
                   <ItemText>{item}</ItemText>
                 </TouchableOpacity>
