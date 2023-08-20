@@ -56,7 +56,7 @@ export const Login = () => {
         navigation.navigate('Agreement', { type })
       }
     },
-    retry: 1,
+    retry: 0,
   })
 
   return (
