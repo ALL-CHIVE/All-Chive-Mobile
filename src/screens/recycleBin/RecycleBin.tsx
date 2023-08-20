@@ -35,6 +35,8 @@ export const RecycleBin = () => {
   const [isCheckArchiving, setIsCheckArchiving] = useRecoilState(CheckArchivingState)
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
+  const [isDeleteError, setIsDeleteError] = useState(false)
+  const [visibleErrorDialog, setVisibleErrorDialog] = useState(false)
 
   const {
     data: recycleData,
@@ -57,6 +59,7 @@ export const RecycleBin = () => {
      *
      */
     onError: () => {
+      setIsDeleteError(true)
       setIsDeleteDialogVisible(false)
     },
   })
@@ -117,6 +120,14 @@ export const RecycleBin = () => {
           queryClient.invalidateQueries('recycleBinData')
         }}
       />
+      {visibleErrorDialog && (
+        <ErrorDialog
+          isVisible={true}
+          onClick={() => {
+            setVisibleErrorDialog(false)
+          }}
+        />
+      )}
       <DefaultContainer>
         <LeftButtonHeader
           title={i18n.t('recycleBin')}
@@ -177,6 +188,7 @@ export const RecycleBin = () => {
           title="persistentDeleteWarning"
           completeText={i18n.t('delete')}
           onCancel={() => setIsDeleteDialogVisible(false)}
+          onClose={() => isDeleteError && setVisibleErrorDialog(true)}
           onComplete={handleDelete}
         />
       </DefaultContainer>
