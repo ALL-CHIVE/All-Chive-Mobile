@@ -67,6 +67,11 @@ export const RecycleBin = () => {
      */
     onSuccess: () => {
       queryClient.invalidateQueries('recycleBinData')
+      queryClient.invalidateQueries(['getUser'])
+      queryClient.invalidateQueries(['getHomeArchivingList'])
+      queryClient.invalidateQueries(['getPopularArchivings'])
+      queryClient.invalidateQueries(['getCommunityArchivingList'])
+      queryClient.invalidateQueries(['getScrapArchivingList'])
       setIsCheckArchiving([])
       setIsCheckContent([])
     },
