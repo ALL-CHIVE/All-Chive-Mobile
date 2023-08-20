@@ -10,6 +10,7 @@ import {
   Platform,
   View,
 } from 'react-native'
+import { Appearance } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -265,7 +266,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         title={i18n.t('settingThumbnail')}
         options={DefalutMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />
