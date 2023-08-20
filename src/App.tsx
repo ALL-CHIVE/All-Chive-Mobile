@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { NavigationContainer } from '@react-navigation/native'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar } from 'react-native'
 import { MenuProvider } from 'react-native-popup-menu'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RecoilRoot } from 'recoil'
@@ -16,7 +16,7 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle={`${Platform.OS === 'android' ? 'light-content' : 'dark-content'}`} />
       <RecoilRoot>
         <MenuProvider>
           <NavigationContainer>
