@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native'
 import Config from 'react-native-config'
+import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -142,15 +143,19 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
         style={Styles.shadow}
       >
         <Card>
-          <ArchivingImage
-            source={
-              isImageError || !imageUrl
-                ? defaultImages.thumbnail
-                : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imageUrl}` }
-            }
-            onError={() => setIsImageError(true)}
-            defaultSource={defaultImages.thumbnail as ImageURISource}
-          />
+          {isImageError || !imageUrl ? (
+            <ArchivingImage
+              source={defaultImages.thumbnail}
+              defaultSource={defaultImages.thumbnail as ImageURISource}
+              onError={() => setIsImageError(true)}
+            />
+          ) : (
+            <FastImage
+              source={{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imageUrl}` }}
+              style={{ width: 97, height: 90, top: 9, left: 7, borderRadius: 8, marginRight: 10 }}
+              onError={() => setIsImageError(true)}
+            />
+          )}
           <Title
             numberOfLines={2}
             ellipsizeMode="tail"

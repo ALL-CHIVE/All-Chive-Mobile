@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native/types'
 import Config from 'react-native-config'
+import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 
 import { defaultIcons, defaultImages } from '@/assets'
@@ -84,19 +85,22 @@ const ContentCard = ({
       >
         <Card>
           <ImageContainer>
-            <Image
-              source={
-                !imgUrl
-                  ? defaultImages.content
-                  : {
-                      uri:
-                        contentType === ContentType.Link
-                          ? imgUrl
-                          : `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imgUrl}`,
-                    }
-              }
-              defaultSource={defaultImages.content as ImageURISource}
-            />
+            {!imgUrl ? (
+              <Image
+                source={defaultImages.content}
+                defaultSource={defaultImages.content as ImageURISource}
+              />
+            ) : (
+              <FastImage
+                style={{ width: '100%', height: '100%', opacity: 0.6 }}
+                source={{
+                  uri:
+                    contentType === ContentType.Link
+                      ? imgUrl
+                      : `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imgUrl}`,
+                }}
+              />
+            )}
             <Type>
               {contentType === ContentType.Link ? (
                 <Icon source={defaultIcons.link} />
