@@ -5,6 +5,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
+import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -35,7 +36,6 @@ import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
 import {
-  BackgroundImage,
   Category,
   Container,
   ContentListContainer,
@@ -47,6 +47,7 @@ import {
   RowContainer,
   Scrap,
   ScrollContainer,
+  Styles,
   Text,
   WidthContainer,
 } from './ContentList.style'
@@ -228,13 +229,13 @@ const ContentList = ({ route }: ContentListProps) => {
           queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
         }}
       />
+      {!contentList?.pages[0].isMine && (
+        <LinearGradient
+          style={Styles.linearGradient}
+          colors={[colors.yellow200, colors.white]}
+        />
+      )}
       <DefaultContainer>
-        {!contentList?.pages[0].isMine && (
-          <BackgroundImage
-            resizeMode="stretch"
-            source={defaultImages.contentListBackground}
-          />
-        )}
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}

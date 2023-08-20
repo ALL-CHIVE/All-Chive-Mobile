@@ -19,7 +19,6 @@ export const defaultImages: Assets = {
   content: require('@/assets/default/content.png'),
   loading: require('@/assets/default/loading.png'),
   error: require('@/assets/default/error.png'),
-  contentListBackground: require('@/assets/default/contentlist_background.png'),
 }
 
 export const defaultIcons: Assets = {

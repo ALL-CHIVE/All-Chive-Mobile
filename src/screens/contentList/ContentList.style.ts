@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
 import { SimpleContent } from '@/models/SimpleContent'
@@ -82,9 +82,11 @@ export const SubTitleText = styled.Text`
   margin-top: 23px;
 `
 
-export const BackgroundImage = styled.Image`
-  width: 100%;
-  height: 230px;
-  position: absolute;
-  top: 0;
-`
+export const Styles = {
+  linearGradient: css`
+    width: 100%;
+    height: 230px;
+    position: absolute;
+    top: 0;
+  `,
+}
