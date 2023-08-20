@@ -131,7 +131,10 @@ export const RecycleBin = () => {
               editMode={editMode}
             />
           ) : (
-            <EmptyItem textKey="emptyRecycleBin" />
+            <EmptyItem
+              textKey="emptyRecycleBin"
+              marginTop={120}
+            />
           )}
         </Container>
         {editMode && (

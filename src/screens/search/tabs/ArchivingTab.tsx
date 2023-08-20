@@ -87,7 +87,10 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
         }}
       >
         {data.archivings.content.length === 0 ? (
-          <EmptyItem textKey={i18n.t('emptySearch')} />
+          <EmptyItem
+            textKey={i18n.t('emptySearch')}
+            marginTop={120}
+          />
         ) : (
           <>
             <TabItemContainer>

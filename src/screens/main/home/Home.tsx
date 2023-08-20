@@ -152,7 +152,10 @@ export const Home = () => {
           />
           {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
             .length ? (
-            <EmptyItem textKey="noHomeArchiving" />
+            <EmptyItem
+              textKey="noHomeArchiving"
+              marginTop={39}
+            />
           ) : (
             <List>
               <ArchivingCardList

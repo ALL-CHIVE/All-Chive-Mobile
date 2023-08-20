@@ -9,7 +9,6 @@ export const Container = styled.SafeAreaView`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  background-color: ${colors.white};
 `
 
 export const HeaderLeft = styled.TouchableOpacity`

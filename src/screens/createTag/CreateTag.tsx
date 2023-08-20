@@ -128,6 +128,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
           </RowView>
           <SearchBar
             placeholder={i18n.t('searchTag')}
+            placeholderTextColor={colors.gray200}
             value={searchText}
             maxLength={20}
             onChangeText={handleSearch}

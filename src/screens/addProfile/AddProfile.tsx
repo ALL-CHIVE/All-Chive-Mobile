@@ -122,6 +122,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
             <NicknameInputBox>
               <InputBox
                 placeholder={i18n.t('nicknamePlaceholder')}
+                placeholderTextColor={colors.gray200}
                 onChangeText={handleChangeNickname}
                 maxLength={20}
                 value={nickname}

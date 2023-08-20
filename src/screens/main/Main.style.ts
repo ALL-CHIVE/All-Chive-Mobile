@@ -8,7 +8,7 @@ import { fonts } from '@/styles/fonts'
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 56px;
+  margin-top: 46px;
   margin-bottom: 25px;
   padding: 0 25px;
 `
@@ -31,7 +31,7 @@ export const Container = styled.View`
 `
 
 export const Greeding = styled.View`
-  margin-bottom: 141px;
+  margin-bottom: 137px;
   margin-left: 25px;
 `
 
@@ -50,7 +50,7 @@ export const BackgroundImage = styled.Image`
   width: 235px;
   height: 197.344px;
   right: -17px;
-  top: 38px;
+  top: 25px;
 `
 
 export const ArchivingCardList = styled(FlatList<ArchivingListContent>)``

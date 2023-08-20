@@ -3,6 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import { TextBox, TextCounter } from './InputBox.style'
 
@@ -25,6 +26,7 @@ const InputBox = ({ maxLength, text, setText }: InputBoxProps) => {
         multiline={true}
         placeholder={i18n.t('placeholder')}
         textAlignVertical={'top'}
+        placeholderTextColor={colors.gray200}
       />
       <TextCounter>
         {text.length}/{maxLength}
