@@ -29,6 +29,7 @@ import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -369,7 +370,7 @@ export const Edit = ({ route }: EditProps) => {
         title={i18n.t('uploadImage')}
         options={ImageUploadMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />
