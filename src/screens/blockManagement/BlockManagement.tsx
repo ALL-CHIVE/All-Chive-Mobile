@@ -51,7 +51,10 @@ export const BlockManagement = () => {
               />
             ))
           ) : (
-            <EmptyItem textKey="noAuthorBlocked" />
+            <EmptyItem
+              textKey="noAuthorBlocked"
+              marginTop={120}
+            />
           )}
         </ScrollContainer>
       </DefaultContainer>

@@ -215,6 +215,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
+              placeholderTextColor={colors.gray200}
               value={name}
               onChangeText={setName}
               onFocus={handleNameFocus}

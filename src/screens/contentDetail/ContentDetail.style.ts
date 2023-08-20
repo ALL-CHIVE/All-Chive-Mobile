@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  padding: 29px 25px;
+  padding: 15px 25px;
 `
 
 export const Day = styled.Text`

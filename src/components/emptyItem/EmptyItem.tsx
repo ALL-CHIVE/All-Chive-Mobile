@@ -9,19 +9,20 @@ import { Container, SubTitleText } from './EmptyItem.style'
 
 interface EmptyItemProps {
   textKey: string
+  marginTop?: number
 }
 
 /**
  *
  */
-const EmptyItem = ({ textKey: text }: EmptyItemProps) => {
+const EmptyItem = ({ textKey, marginTop }: EmptyItemProps) => {
   return (
-    <Container>
+    <Container style={{ marginTop: marginTop }}>
       <Image
         style={{ width: 216, height: 189 }}
         source={defaultImages.emptyItem}
       />
-      <SubTitleText>{i18n.t(text)}</SubTitleText>
+      <SubTitleText>{i18n.t(textKey)}</SubTitleText>
     </Container>
   )
 }

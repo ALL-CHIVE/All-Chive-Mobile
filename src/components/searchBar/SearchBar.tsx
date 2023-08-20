@@ -29,6 +29,7 @@ export const SearchBar = ({
     <Container>
       <TextInput
         placeholder={placeholder}
+        placeholderTextColor={colors.gray200}
         value={value}
         onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}

@@ -150,7 +150,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
         }}
       />
-
       <DefaultContainer>
         <DefaultHeader
           title={content.contentTitle}

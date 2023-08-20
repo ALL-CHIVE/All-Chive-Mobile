@@ -252,6 +252,7 @@ export const Edit = ({ route }: EditProps) => {
             <Title>{i18n.t('contentName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
+              placeholderTextColor={colors.gray200}
               value={contentName}
               onChangeText={setContentName}
               onFocus={() => handleFocused(1)}
@@ -274,6 +275,7 @@ export const Edit = ({ route }: EditProps) => {
                 <Title>{i18n.t('link')}</Title>
                 <TextInput
                   placeholder={i18n.t('placeHolderLink')}
+                  placeholderTextColor={colors.gray200}
                   value={link}
                   onChangeText={handleChangeLink}
                   onFocus={() => handleFocused(2)}
@@ -334,6 +336,7 @@ export const Edit = ({ route }: EditProps) => {
             </TagTitleContainer>
             <MemoTextInput
               placeholder={i18n.t('placeHolderMemo')}
+              placeholderTextColor={colors.gray200}
               value={memo}
               onChangeText={setMemo}
               onFocus={() => handleFocused(3)}

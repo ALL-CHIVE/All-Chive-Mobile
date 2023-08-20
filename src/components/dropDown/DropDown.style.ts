@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 
@@ -15,7 +15,7 @@ export const CategoryContainer = styled.View`
 `
 
 export const CategoryTitle = styled.Text`
-  color: ${colors.gray100};
+  color: ${colors.gray200};
 `
 
 export const DropDownModal = styled.View`
@@ -31,3 +31,12 @@ export const TouchableItem = styled.TouchableOpacity`
   width: 100%;
   margin: 5px 0px;
 `
+
+export const Styles = {
+  selectedContainer: css`
+    border: 1px solid ${colors.gray500};
+  `,
+  selectedText: css`
+    color: ${colors.gray600};
+  `,
+}
