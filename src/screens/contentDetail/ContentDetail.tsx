@@ -5,6 +5,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
+import { postBlock } from '@/apis/block'
 import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -53,6 +54,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const [ownerNickname, setOwnerNickname] = useState('')
 
   const {
     isLoading,
@@ -72,6 +74,22 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      */
     onSuccess: () => {
       navigation.goBack()
+    },
+  })
+
+  const { mutate: postBlockMutate } = useMutation(() => postBlock(content?.ownerId ?? -1), {
+    /**
+     * postBlockMutate 성공 시 차단 완료 다이얼로그를 띄웁니다.
+     */
+    onSuccess: (response) => {
+      setOwnerNickname(response.nickname)
+      setIsBlockCompleteDialogVisible(true)
+    },
+    /**
+     *
+     */
+    onError: () => {
+      //ignore
     },
   })
 
@@ -212,17 +230,20 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           setIsBlockDialogVisible(false)
         }}
         onClose={(isComplete: boolean) => {
-          isComplete && setIsBlockCompleteDialogVisible(true)
+          isComplete && postBlockMutate()
         }}
       />
       <DefaultDialog
         isVisible={isBlockCompleteDialogVisible}
-        title={i18n.t('blockComplete', { nickname: '다카이브' })}
+        title={i18n.t('blockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.blockComplete}
-        description={i18n.t('youCannotSeeBlockUserContents', { nickname: '다카이브' })}
+        description={i18n.t('youCannotSeeBlockUserContents', { nickname: ownerNickname })}
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
+          queryClient.invalidateQueries(['getCommunityArchivingList'])
+          queryClient.invalidateQueries(['getPopularArchivings'])
+          queryClient.invalidateQueries(['getScrapArchivingList'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />

@@ -227,7 +227,7 @@ const ContentList = ({ route }: ContentListProps) => {
       <ErrorDialog
         isVisible={isError}
         onClick={() => {
-          queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+          queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
         }}
       />
       {!contentList?.pages[0].isMine && (
@@ -365,6 +365,7 @@ const ContentList = ({ route }: ContentListProps) => {
           setIsBlockCompleteDialogVisible(false)
           queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
           queryClient.invalidateQueries(['getPopularArchivings'])
+          queryClient.invalidateQueries(['getScrapArchivingList'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
