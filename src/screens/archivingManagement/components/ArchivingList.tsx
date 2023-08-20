@@ -13,7 +13,7 @@ import { EditArchivingModal } from '@/components/modal/archivingModal/editArchiv
 import i18n from '@/locales'
 import { ArchivingItem } from '@/models/Archiving'
 import { EditDeleteMenuType, EditDeleteMenus } from '@/models/enums/ActionSheetType'
-import { colors } from '@/styles/colors'
+import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
   ArchivingContainer,
@@ -135,7 +135,7 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
         options={EditDeleteMenus()}
         cancelButtonIndex={0}
         onPress={handleActionSheetMenu}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         theme="ios"
       />
     </Container>

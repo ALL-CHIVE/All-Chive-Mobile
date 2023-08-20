@@ -32,6 +32,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { isCloseToBottom } from '@/services/InfiniteService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
@@ -342,7 +343,7 @@ const ContentList = ({ route }: ContentListProps) => {
         ref={actionSheetRef}
         options={ReportMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />

@@ -33,7 +33,7 @@ export const handleDefaultImageMenu = async (index: DefaultMenuType) => {
       }
 
       const selectedImage = await handleImageSelect()
-      return selectedImage?.path
+      return selectedImage?.assets ? selectedImage.assets[0].uri : ''
     }
     case DefaultMenuType.selectFromCamera: {
       const permission = await checkAndRequestPermission(Permissions.Camera)
@@ -53,7 +53,7 @@ export const handleDefaultImageMenu = async (index: DefaultMenuType) => {
       }
 
       const selectedImage = await handleCameraOpen()
-      return selectedImage?.path
+      return selectedImage?.assets ? selectedImage.assets[0].uri : ''
     }
   }
 }
@@ -81,28 +81,28 @@ export const handleImageUploadMenu = async (index: ImageUploadMenuType) => {
       }
 
       const selectedImage = await handleImageSelect()
-      return selectedImage?.path
+      return selectedImage?.assets ? selectedImage.assets[0].uri : ''
     }
-    case ImageUploadMenuType.selectFromFile: {
-      const permission = await checkAndRequestPermission(Permissions.File)
+    // case ImageUploadMenuType.selectFromFile: {
+    //   const permission = await checkAndRequestPermission(Permissions.File)
 
-      if (permission === 'blocked' || permission === 'denied') {
-        createCancelConfirmAlert(
-          'pleaseAllowFilePermission',
-          Platform.select({
-            ios: 'filePermissionGuideIOS',
-            android: 'filePermissionGuideAndroid',
-            default: '',
-          }),
-          () => Linking.openSettings()
-        )
+    //   if (permission === 'blocked' || permission === 'denied') {
+    //     createCancelConfirmAlert(
+    //       'pleaseAllowFilePermission',
+    //       Platform.select({
+    //         ios: 'filePermissionGuideIOS',
+    //         android: 'filePermissionGuideAndroid',
+    //         default: '',
+    //       }),
+    //       () => Linking.openSettings()
+    //     )
 
-        return
-      }
+    //     return
+    //   }
 
-      const selectedImage = await handleFileOpen()
-      return selectedImage?.toString()
-    }
+    //   const selectedImage = await handleFileOpen()
+    //   return selectedImage?.toString()
+    // }
     case ImageUploadMenuType.selectFromCamera: {
       const permission = await checkAndRequestPermission(Permissions.Camera)
 
@@ -121,7 +121,7 @@ export const handleImageUploadMenu = async (index: ImageUploadMenuType) => {
       }
 
       const selectedImage = await handleCameraOpen()
-      return selectedImage?.path
+      return selectedImage?.assets ? selectedImage.assets[0].uri : ''
     }
   }
 }

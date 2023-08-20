@@ -7,8 +7,8 @@ import { defaultImages } from '@/assets'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { ProfileImageState } from '@/state/ProfileImageState'
-import { colors } from '@/styles/colors'
 
 import { ButtonText, Container, ProfileImage, UploadButton } from './Profile.style'
 
@@ -60,7 +60,7 @@ const Profile = () => {
         title={i18n.t('setProfile')}
         options={DefalutMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />

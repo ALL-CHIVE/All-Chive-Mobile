@@ -25,7 +25,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { queryKeys } from '@/queries/queryKeys'
-import { colors } from '@/styles/colors'
+import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
   Container,
@@ -184,7 +184,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         ref={actionSheetRef}
         options={ReportMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />
