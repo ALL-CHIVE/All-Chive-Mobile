@@ -72,6 +72,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      */
     onSuccess: () => {
       navigation.goBack()
+      queryClient.invalidateQueries([`contentByArchiving`])
     },
   })
 
