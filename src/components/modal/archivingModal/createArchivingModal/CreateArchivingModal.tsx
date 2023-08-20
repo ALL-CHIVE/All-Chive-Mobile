@@ -10,7 +10,6 @@ import {
   Platform,
   View,
 } from 'react-native'
-import { Appearance } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -25,6 +24,7 @@ import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
