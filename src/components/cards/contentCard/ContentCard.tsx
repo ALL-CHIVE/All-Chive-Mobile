@@ -29,6 +29,7 @@ import {
 } from './ContentCard.style'
 
 interface ContentCardProps {
+  archivingId: number
   contentId: number
   contentTitle: string
   contentType: string
@@ -44,6 +45,7 @@ interface ContentCardProps {
  * ContentCard
  */
 const ContentCard = ({
+  archivingId,
   contentId,
   contentTitle,
   contentType,
@@ -67,7 +69,10 @@ const ContentCard = ({
              * 휴지통에서의 컨텐츠 카드가 아닐 경우에만 onPress 이벤트를 추가합니다.
              */
             onPress: () => {
-              navigation.navigate('ContentDetail', { id: contentId })
+              navigation.navigate('ContentDetail', {
+                archivingId: archivingId,
+                contentId: contentId,
+              })
             },
           })}
     >
