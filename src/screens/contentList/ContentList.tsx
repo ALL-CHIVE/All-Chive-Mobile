@@ -221,6 +221,26 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
+  /**
+   * ListRenderItem
+   */
+  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+    return (
+      <ContentCard
+        key={item.contentId}
+        archivingId={route.params.id}
+        contentId={item.contentId}
+        contentTitle={item.contentTitle}
+        contentType={item.contentType}
+        contentCreatedAt={item.contentCreatedAt}
+        link={item.link}
+        imgUrl={item.imgUrl}
+        tag={item.tag}
+        tagCount={item.tagCount}
+      />
+    )
+  }
+
   return (
     <>
       {isLoading && <Loading />}
@@ -370,25 +390,6 @@ const ContentList = ({ route }: ContentListProps) => {
         }}
       />
     </>
-  )
-}
-
-/**
- * ListRenderItem
- */
-const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
-  return (
-    <ContentCard
-      key={item.contentId}
-      contentId={item.contentId}
-      contentTitle={item.contentTitle}
-      contentType={item.contentType}
-      contentCreatedAt={item.contentCreatedAt}
-      link={item.link}
-      imgUrl={item.imgUrl}
-      tag={item.tag}
-      tagCount={item.tagCount}
-    />
   )
 }
 

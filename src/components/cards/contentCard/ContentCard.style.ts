@@ -16,7 +16,7 @@ export const Card = styled.View`
 `
 
 export const ImageContainer = styled.View`
-  height: 50%;
+  height: 80px;
   background-color: ${colors.black};
 `
 
@@ -28,10 +28,10 @@ export const Image = styled.Image`
 
 export const Type = styled.View`
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 12px;
+  right: 9px;
   border-radius: 4px;
-  padding: 2px 7px;
+  padding: 1px 7px;
   background-color: rgba(255, 255, 255, 0.3);
   flex-direction: row;
   align-items: center;
@@ -43,7 +43,7 @@ export const TypeText = styled.Text`
   margin-left: 3px;
 `
 export const Information = styled.View`
-  padding: 5px 10px;
+  padding: 9px 10px 10.5px 10px;
 `
 
 export const Title = styled.Text`
@@ -58,7 +58,7 @@ export const Day = styled.Text`
 
 export const TagContainer = styled.View`
   flex-direction: row;
-  margin: 5px 0;
+  margin: 5.5px 0;
 `
 
 export const Styles = {

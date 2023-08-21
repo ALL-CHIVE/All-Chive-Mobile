@@ -24,7 +24,7 @@ const OnBoarding1 = () => {
         <Container>
           <OnBoardingImage
             source={defaultImages.onBoarding1}
-            style={{ width: 247, height: 280 }}
+            style={{ width: 222.3, height: 252 }}
           />
           <Title>{i18n.t('easilyManageContent')}</Title>
           <FirstIndicator />

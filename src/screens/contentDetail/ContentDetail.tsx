@@ -60,12 +60,12 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     isLoading,
     isError,
     data: content,
-  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.id], () =>
-    getContents(route.params.id)
+  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.contentId], () =>
+    getContents(route.params.contentId)
   )
 
   useEffect(() => {
-    queryClient.setQueryData([queryKeys.contents, route.params.id], content)
+    queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
   }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
@@ -73,6 +73,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      *
      */
     onSuccess: () => {
+      queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
       navigation.goBack()
     },
   })
@@ -99,10 +100,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const HandleEdit = () => {
     switch (content?.contentType) {
       case ContentType.Link:
-        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Link })
+        navigation.navigate('Edit', { id: route.params.contentId, type: ContentType.Link })
         break
       case ContentType.Image:
-        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Image })
+        navigation.navigate('Edit', { id: route.params.contentId, type: ContentType.Image })
         break
     }
   }
@@ -144,7 +145,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const handleActionSheetMenu = (index: ReportMenuType) => {
     switch (index) {
       case ReportMenuType.reportThisContent: {
-        navigation.navigate('Report', { id: route.params.id, type: ReportType.Content })
+        navigation.navigate('Report', { id: route.params.contentId, type: ReportType.Content })
         break
       }
       case ReportMenuType.blockThisUser: {
@@ -164,7 +165,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       <ErrorDialog
         isVisible={isError}
         onClick={() => {
-          queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+          queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
         }}
       />
       <DefaultContainer>

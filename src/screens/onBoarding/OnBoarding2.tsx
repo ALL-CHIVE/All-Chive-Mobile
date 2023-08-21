@@ -24,7 +24,7 @@ const OnBoarding2 = () => {
         <Container>
           <OnBoardingImage
             source={defaultImages.onBoarding2}
-            style={{ width: 247, height: 297 }}
+            style={{ width: 222.3, height: 267.3 }}
           />
           <Title>{i18n.t('shareCategoryWithPeople')}</Title>
           <SecondIndicator />
