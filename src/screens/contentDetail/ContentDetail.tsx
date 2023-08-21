@@ -16,7 +16,7 @@ import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialo
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import Memo from '@/components/memo/Memo'
-import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
+import { BigWhiteTag } from '@/components/tag/whiteTag/bigWhiteTag/BigWhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -186,7 +186,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                 <SubTitle>{i18n.t('tag')}</SubTitle>
                 <TagList>
                   {content.tagList.map((tag) => (
-                    <WhiteTag
+                    <BigWhiteTag
                       key={tag.tagId}
                       tag={tag.name}
                     />
