@@ -77,12 +77,7 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
           onError={() => setIsImageError(true)}
           defaultSource={defaultImages.thumbnail as ImageURISource}
         />
-        <Title
-          numberOfLines={2}
-          ellipsizeMode="tail"
-        >
-          {title}
-        </Title>
+        <Title ellipsizeMode="tail">{title}</Title>
         <Scrap onPress={handleScrap}>
           {markStatus ? (
             <ScrapFillIcon

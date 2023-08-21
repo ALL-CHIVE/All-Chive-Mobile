@@ -17,7 +17,7 @@ const SearchButton = () => {
 
   return (
     <Shadow
-      startColor={colors.searchShadow}
+      startColor={colors.commonShadow}
       offset={[0, 3]}
       distance={8}
       style={{ borderRadius: 17, width: '100%' }}
