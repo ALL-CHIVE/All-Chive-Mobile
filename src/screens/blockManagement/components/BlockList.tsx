@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { deleteBlock } from '@/apis/block'
 import { defaultImages } from '@/assets'
@@ -18,6 +18,8 @@ import { ButtonText, ListContainer, Text, UnblockButton } from '../BlockManageme
  * 차단 관리 리스트
  */
 export const BlockList = ({ nickname, id }: UserData) => {
+  const queryClient = useQueryClient()
+
   const navigation = useNavigation<MainNavigationProp>()
   const [ownerNickname, setOwnerNickname] = useState('')
 
@@ -29,6 +31,9 @@ export const BlockList = ({ nickname, id }: UserData) => {
      *
      */
     onSuccess: (response) => {
+      queryClient.invalidateQueries(['getCommunityArchivingList'])
+      queryClient.invalidateQueries(['getPopularArchivings'])
+      queryClient.invalidateQueries(['getScrapArchivingList'])
       setOwnerNickname(response.nickname)
       setIsUnblockCompleteDialogVisible(true)
     },
