@@ -137,9 +137,9 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
           })}
     >
       <Shadow
-        startColor={colors.gray50}
+        startColor={colors.commonShadow}
         offset={[0, 0]}
-        distance={4}
+        distance={6}
         style={Styles.shadow}
       >
         <Card>
