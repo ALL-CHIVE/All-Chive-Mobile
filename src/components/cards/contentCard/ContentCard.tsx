@@ -99,6 +99,7 @@ const ContentCard = ({
                       ? imgUrl
                       : `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imgUrl}`,
                 }}
+                defaultSource={defaultImages.content as number}
               />
             )}
             <Type>
