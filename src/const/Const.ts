@@ -16,7 +16,7 @@ export const marketing =
 
 // 오픈소스 라이선스
 export const openSourceLicense =
-  'https://important-rotate-7df.notion.site/b876fbae73814c6eb1e616e315d72dcc'
+  'https://important-rotate-7df.notion.site/b876fbae73814c6eb1e616e315d72dcc?pvs=4'
 
 // 고객센터
 export const customerService = 'https://allchive.channel.io/'
