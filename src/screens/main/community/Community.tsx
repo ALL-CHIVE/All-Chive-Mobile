@@ -278,6 +278,7 @@ export const Community = () => {
               <ArchivingCardList
                 contentContainerStyle={Styles.flatList}
                 scrollEnabled={false}
+                showsVerticalScrollIndicator={false}
                 numColumns={LIST_NUMS_COLUMNS}
                 renderItem={renderItem}
                 data={
