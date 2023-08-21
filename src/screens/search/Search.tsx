@@ -74,7 +74,14 @@ const Search = () => {
     enabled: searchText === '',
   })
 
-  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest)
+  const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest, {
+    /**
+     * 삭제 성공 시 getSearchLatest 쿼리를 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getSearchLatest'])
+    },
+  })
 
   /**
    * handleSearch
