@@ -16,7 +16,10 @@ export const Notice = () => {
     <DefaultContainer>
       <LeftButtonHeader title={i18n.t('notice')} />
       <ScrollView bounces={false}>
-        <EmptyItem textKey="emptyNotice" />
+        <EmptyItem
+          textKey="emptyNotice"
+          marginTop={120}
+        />
       </ScrollView>
     </DefaultContainer>
   )

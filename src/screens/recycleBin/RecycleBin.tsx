@@ -35,6 +35,7 @@ export const RecycleBin = () => {
   const [isCheckArchiving, setIsCheckArchiving] = useRecoilState(CheckArchivingState)
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
+  const [visibleErrorDialog, setVisibleErrorDialog] = useState(false)
 
   const {
     data: recycleData,
@@ -42,7 +43,7 @@ export const RecycleBin = () => {
     isError,
   } = useQuery<RecyclesResponse>(['recycleBinData'], getRecycles)
 
-  const { mutate: deleteMutate } = useMutation(deleteRecycles, {
+  const { mutate: deleteMutate, isError: deleteError } = useMutation(deleteRecycles, {
     /**
      * 삭제 성공 시 recycleBinData 쿼리를 리패치하고, 체크박스를 초기화합니다.
      */
@@ -67,6 +68,11 @@ export const RecycleBin = () => {
      */
     onSuccess: () => {
       queryClient.invalidateQueries('recycleBinData')
+      queryClient.invalidateQueries(['getUser'])
+      queryClient.invalidateQueries(['getHomeArchivingList'])
+      queryClient.invalidateQueries(['getPopularArchivings'])
+      queryClient.invalidateQueries(['getCommunityArchivingList'])
+      queryClient.invalidateQueries(['getScrapArchivingList'])
       setIsCheckArchiving([])
       setIsCheckContent([])
     },
@@ -117,6 +123,12 @@ export const RecycleBin = () => {
           queryClient.invalidateQueries('recycleBinData')
         }}
       />
+      <ErrorDialog
+        isVisible={visibleErrorDialog}
+        onClick={() => {
+          setVisibleErrorDialog(false)
+        }}
+      />
       <DefaultContainer>
         <LeftButtonHeader
           title={i18n.t('recycleBin')}
@@ -131,7 +143,10 @@ export const RecycleBin = () => {
               editMode={editMode}
             />
           ) : (
-            <EmptyItem textKey="emptyRecycleBin" />
+            <EmptyItem
+              textKey="emptyRecycleBin"
+              marginTop={120}
+            />
           )}
         </Container>
         {editMode && (
@@ -174,6 +189,7 @@ export const RecycleBin = () => {
           title="persistentDeleteWarning"
           completeText={i18n.t('delete')}
           onCancel={() => setIsDeleteDialogVisible(false)}
+          onClose={() => deleteError && setVisibleErrorDialog(true)}
           onComplete={handleDelete}
         />
       </DefaultContainer>

@@ -127,6 +127,7 @@ export const Home = () => {
         </Header>
         <ScrollContainer
           showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           stickyHeaderIndices={[1]}
           onScrollEndDrag={({ nativeEvent }) => {
             if (isCloseToBottom(nativeEvent)) {
@@ -152,12 +153,17 @@ export const Home = () => {
           />
           {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
             .length ? (
-            <EmptyItem textKey="noHomeArchiving" />
+            <EmptyItem
+              textKey="noHomeArchiving"
+              marginTop={39}
+            />
           ) : (
             <List>
               <ArchivingCardList
                 contentContainerStyle={Styles.flatList}
                 scrollEnabled={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 numColumns={LIST_NUMS_COLUMNS}
                 renderItem={renderItem}
                 data={archivingList?.pages

@@ -209,7 +209,7 @@ export const Community = () => {
             }
           }}
         >
-          <Greeding style={{ marginBottom: 47 }}>
+          <Greeding style={{ marginBottom: 47, marginTop: 13 }}>
             <>
               <Title>{i18n.t('communityTabTitle')}</Title>
             </>
@@ -271,12 +271,14 @@ export const Community = () => {
                   ? 'noCommunityArchiving'
                   : 'noScrapArchiving'
               }
+              marginTop={43}
             />
           ) : (
             <List>
               <ArchivingCardList
                 contentContainerStyle={Styles.flatList}
                 scrollEnabled={false}
+                showsVerticalScrollIndicator={false}
                 numColumns={LIST_NUMS_COLUMNS}
                 renderItem={renderItem}
                 data={

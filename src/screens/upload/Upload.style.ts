@@ -27,7 +27,7 @@ export const ArchivingSelect = styled.TouchableOpacity`
 `
 
 export const SelectArchivingText = styled.Text`
-  color: ${colors.gray100};
+  color: ${colors.gray200};
 `
 
 export const TextInput = styled.TextInput`

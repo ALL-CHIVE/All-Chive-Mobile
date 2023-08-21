@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Image, ImageURISource, ListRenderItem } from 'react-native'
+import { ImageURISource, ListRenderItem } from 'react-native'
 import Config from 'react-native-config'
+import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -31,6 +32,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { isCloseToBottom } from '@/services/InfiniteService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
 
@@ -39,7 +41,6 @@ import {
   Container,
   ContentListContainer,
   CreateAt,
-  HeaderContainer,
   InfoContainer,
   Nickname,
   ProfileContainer,
@@ -47,7 +48,7 @@ import {
   RowContainer,
   Scrap,
   ScrollContainer,
-  SubTitleText,
+  Styles,
   Text,
   WidthContainer,
 } from './ContentList.style'
@@ -100,6 +101,7 @@ const ContentList = ({ route }: ContentListProps) => {
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      queryClient.invalidateQueries(['getUser'])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },
   })
@@ -220,17 +222,42 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }
 
+  /**
+   * ListRenderItem
+   */
+  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+    return (
+      <ContentCard
+        key={item.contentId}
+        archivingId={route.params.id}
+        contentId={item.contentId}
+        contentTitle={item.contentTitle}
+        contentType={item.contentType}
+        contentCreatedAt={item.contentCreatedAt}
+        link={item.link}
+        imgUrl={item.imgUrl}
+        tag={item.tag}
+        tagCount={item.tagCount}
+      />
+    )
+  }
+
   return (
     <>
       {isLoading && <Loading />}
       <ErrorDialog
         isVisible={isError}
         onClick={() => {
-          queryClient.invalidateQueries([`contentByArchiving${route.params.id}`, route.params.id])
+          queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
         }}
       />
-
-      <HeaderContainer>
+      {!contentList?.pages[0].isMine && (
+        <LinearGradient
+          style={Styles.linearGradient}
+          colors={[colors.yellow200, colors.white]}
+        />
+      )}
+      <DefaultContainer>
         <DefaultHeader
           title={contentList?.pages[0].archivingTitle}
           PopupMenuList={PopupMenuList}
@@ -277,15 +304,14 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-      </HeaderContainer>
-
-      {contentList?.pages[0].totalContentsCount === 0 ? (
-        <Container>
-          <Image source={defaultImages.emptyItem} />
-          <SubTitleText>{i18n.t('emptyArchiving')}</SubTitleText>
-        </Container>
-      ) : (
-        <DefaultContainer>
+        {contentList?.pages[0].totalContentsCount === 0 ? (
+          <Container>
+            <EmptyItem
+              textKey="emptyArchiving"
+              marginTop={55}
+            />
+          </Container>
+        ) : (
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -306,8 +332,8 @@ const ContentList = ({ route }: ContentListProps) => {
               />
             )}
           </ScrollContainer>
-        </DefaultContainer>
-      )}
+        )}
+      </DefaultContainer>
 
       <EditArchivingModal
         archivingId={route.params.id}
@@ -318,7 +344,7 @@ const ContentList = ({ route }: ContentListProps) => {
         ref={actionSheetRef}
         options={ReportMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />
@@ -360,29 +386,11 @@ const ContentList = ({ route }: ContentListProps) => {
           setIsBlockCompleteDialogVisible(false)
           queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
           queryClient.invalidateQueries(['getPopularArchivings'])
+          queryClient.invalidateQueries(['getScrapArchivingList'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />
     </>
-  )
-}
-
-/**
- * ListRenderItem
- */
-const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
-  return (
-    <ContentCard
-      key={item.contentId}
-      contentId={item.contentId}
-      contentTitle={item.contentTitle}
-      contentType={item.contentType}
-      contentCreatedAt={item.contentCreatedAt}
-      link={item.link}
-      imgUrl={item.imgUrl}
-      tag={item.tag}
-      tagCount={item.tagCount}
-    />
   )
 }
 

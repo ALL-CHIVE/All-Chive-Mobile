@@ -13,6 +13,7 @@ import {
   CategoryContainer,
   TouchableItem,
   CategoryTitle,
+  Styles,
 } from './DropDown.style'
 
 /**
@@ -22,6 +23,7 @@ export const DropDown = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const categoryList = useRecoilValue(CategoryListState)
+  const [isSelected, setIsSelected] = useState(false)
 
   /**
    *
@@ -31,12 +33,16 @@ export const DropDown = () => {
     setIsVisible(false)
   }
 
+  /**
+   *
+   */
+  const handleClick = () => {
+    setIsVisible(true)
+    setIsSelected(true)
+  }
+
   return (
-    <Container
-      onPress={() => {
-        setIsVisible(true)
-      }}
-    >
+    <Container onPress={handleClick}>
       {isVisible ? (
         <DropDownModal>
           <ScrollView
@@ -55,8 +61,8 @@ export const DropDown = () => {
           </ScrollView>
         </DropDownModal>
       ) : (
-        <CategoryContainer>
-          <CategoryTitle>
+        <CategoryContainer style={isSelected && Styles.selectedContainer}>
+          <CategoryTitle style={isSelected && Styles.selectedText}>
             {i18n.t(selectedCategory ? selectedCategory : `noSelectCategory`)}
           </CategoryTitle>
         </CategoryContainer>

@@ -24,6 +24,7 @@ import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -215,6 +216,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
+              placeholderTextColor={colors.gray200}
               value={name}
               onChangeText={setName}
               onFocus={handleNameFocus}
@@ -264,7 +266,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         title={i18n.t('settingThumbnail')}
         options={DefalutMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />

@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native/types'
 import Config from 'react-native-config'
+import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 
 import { defaultIcons, defaultImages } from '@/assets'
@@ -29,6 +30,7 @@ import {
 } from './ContentCard.style'
 
 interface ContentCardProps {
+  archivingId: number
   contentId: number
   contentTitle: string
   contentType: string
@@ -44,6 +46,7 @@ interface ContentCardProps {
  * ContentCard
  */
 const ContentCard = ({
+  archivingId,
   contentId,
   contentTitle,
   contentType,
@@ -67,7 +70,10 @@ const ContentCard = ({
              * 휴지통에서의 컨텐츠 카드가 아닐 경우에만 onPress 이벤트를 추가합니다.
              */
             onPress: () => {
-              navigation.navigate('ContentDetail', { id: contentId })
+              navigation.navigate('ContentDetail', {
+                archivingId: archivingId,
+                contentId: contentId,
+              })
             },
           })}
     >
@@ -79,19 +85,23 @@ const ContentCard = ({
       >
         <Card>
           <ImageContainer>
-            <Image
-              source={
-                !imgUrl
-                  ? defaultImages.content
-                  : {
-                      uri:
-                        contentType === ContentType.Link
-                          ? imgUrl
-                          : `${Config.ALLCHIVE_ASSET_SERVER}/${imgUrl}`,
-                    }
-              }
-              defaultSource={defaultImages.content as ImageURISource}
-            />
+            {!imgUrl ? (
+              <Image
+                source={defaultImages.content}
+                defaultSource={defaultImages.content as ImageURISource}
+              />
+            ) : (
+              <FastImage
+                style={{ width: '100%', height: '100%', opacity: 0.6 }}
+                source={{
+                  uri:
+                    contentType === ContentType.Link
+                      ? imgUrl
+                      : `${Config.ALLCHIVE_ASSET_SERVER}/${imgUrl}`,
+                }}
+                defaultSource={defaultImages.content as number}
+              />
+            )}
             <Type>
               {contentType === ContentType.Link ? (
                 <Icon source={defaultIcons.link} />
@@ -107,7 +117,7 @@ const ContentCard = ({
             {tag && (
               <TagContainer>
                 <WhiteTag tag={tag} />
-                <WhiteTag tag={tagCount > 1 ? `+${tagCount - 1}` : ''} />
+                {tagCount > 1 && <WhiteTag tag={`+${tagCount - 1}`} />}
               </TagContainer>
             )}
           </Information>

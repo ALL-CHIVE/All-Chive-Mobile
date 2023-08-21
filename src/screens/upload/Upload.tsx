@@ -26,6 +26,7 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
+import { getActionSheetTintColor } from '@/services/StyleService'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -215,6 +216,7 @@ export const Upload = ({ route }: UploadProps) => {
             <Title>{i18n.t('contentName')}</Title>
             <TextInput
               placeholder={i18n.t('contentVerify')}
+              placeholderTextColor={colors.gray200}
               value={contentName}
               onChangeText={setContentName}
               onFocus={() => handleFocused(1)}
@@ -236,6 +238,7 @@ export const Upload = ({ route }: UploadProps) => {
                 <Title>{i18n.t('link')}</Title>
                 <TextInput
                   placeholder={i18n.t('placeHolderLink')}
+                  placeholderTextColor={colors.gray200}
                   value={link}
                   onChangeText={handleChangeLink}
                   onFocus={() => handleFocused(2)}
@@ -296,6 +299,7 @@ export const Upload = ({ route }: UploadProps) => {
             </TagTitleContainer>
             <MemoTextInput
               placeholder={i18n.t('placeHolderMemo')}
+              placeholderTextColor={colors.gray200}
               value={memo}
               onChangeText={setMemo}
               onFocus={() => handleFocused(3)}
@@ -328,7 +332,7 @@ export const Upload = ({ route }: UploadProps) => {
         title={i18n.t('uploadImage')}
         options={ImageUploadMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />

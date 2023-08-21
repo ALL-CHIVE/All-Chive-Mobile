@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
 import { SimpleContent } from '@/models/SimpleContent'
@@ -46,7 +46,7 @@ export const ContentListContainer = styled(FlatList<SimpleContent>)`
   width: 336px;
 `
 
-export const CheckBox = styled.TouchableOpacity`
+export const CheckBox = styled.View`
   position: absolute;
   width: 14px;
   height: 14px;
@@ -56,8 +56,10 @@ export const CheckBox = styled.TouchableOpacity`
   background-color: ${colors.white};
 `
 
-export const YellowCheck = styled.TouchableOpacity`
-  position: absolute;
-  top: 13px;
-  left: 14px;
-`
+export const Styles = {
+  checkIcon: css`
+    position: absolute;
+    top: 9px;
+    left: 12px;
+  `,
+}

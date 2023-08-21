@@ -5,6 +5,7 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
+import { postBlock } from '@/apis/block'
 import { deleteContents, getContents } from '@/apis/content'
 import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -25,7 +26,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { queryKeys } from '@/queries/queryKeys'
-import { colors } from '@/styles/colors'
+import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
   Container,
@@ -53,17 +54,18 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
+  const [ownerNickname, setOwnerNickname] = useState('')
 
   const {
     isLoading,
     isError,
     data: content,
-  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.id], () =>
-    getContents(route.params.id)
+  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.contentId], () =>
+    getContents(route.params.contentId)
   )
 
   useEffect(() => {
-    queryClient.setQueryData([queryKeys.contents, route.params.id], content)
+    queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
   }, [])
 
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
@@ -71,7 +73,25 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      *
      */
     onSuccess: () => {
+      queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
       navigation.goBack()
+      queryClient.invalidateQueries([`contentByArchiving`])
+    },
+  })
+
+  const { mutate: postBlockMutate } = useMutation(() => postBlock(content?.ownerId ?? -1), {
+    /**
+     * postBlockMutate 성공 시 차단 완료 다이얼로그를 띄웁니다.
+     */
+    onSuccess: (response) => {
+      setOwnerNickname(response.nickname)
+      setIsBlockCompleteDialogVisible(true)
+    },
+    /**
+     *
+     */
+    onError: () => {
+      //ignore
     },
   })
 
@@ -81,10 +101,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const HandleEdit = () => {
     switch (content?.contentType) {
       case ContentType.Link:
-        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Link })
+        navigation.navigate('Edit', { id: route.params.contentId, type: ContentType.Link })
         break
       case ContentType.Image:
-        navigation.navigate('Edit', { id: route.params.id, type: ContentType.Image })
+        navigation.navigate('Edit', { id: route.params.contentId, type: ContentType.Image })
         break
     }
   }
@@ -126,7 +146,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const handleActionSheetMenu = (index: ReportMenuType) => {
     switch (index) {
       case ReportMenuType.reportThisContent: {
-        navigation.navigate('Report', { id: route.params.id, type: ReportType.Content })
+        navigation.navigate('Report', { id: route.params.contentId, type: ReportType.Content })
         break
       }
       case ReportMenuType.blockThisUser: {
@@ -146,10 +166,9 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       <ErrorDialog
         isVisible={isError}
         onClick={() => {
-          queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+          queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
         }}
       />
-
       <DefaultContainer>
         <DefaultHeader
           title={content.contentTitle}
@@ -184,7 +203,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         ref={actionSheetRef}
         options={ReportMenus()}
         cancelButtonIndex={0}
-        tintColor={colors.gray600}
+        tintColor={getActionSheetTintColor()}
         onPress={handleActionSheetMenu}
         theme="ios"
       />
@@ -213,17 +232,20 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           setIsBlockDialogVisible(false)
         }}
         onClose={(isComplete: boolean) => {
-          isComplete && setIsBlockCompleteDialogVisible(true)
+          isComplete && postBlockMutate()
         }}
       />
       <DefaultDialog
         isVisible={isBlockCompleteDialogVisible}
-        title={i18n.t('blockComplete', { nickname: '다카이브' })}
+        title={i18n.t('blockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.blockComplete}
-        description={i18n.t('youCannotSeeBlockUserContents', { nickname: '다카이브' })}
+        description={i18n.t('youCannotSeeBlockUserContents', { nickname: ownerNickname })}
         buttonText="backToCommunity"
         onClick={() => {
           setIsBlockCompleteDialogVisible(false)
+          queryClient.invalidateQueries(['getCommunityArchivingList'])
+          queryClient.invalidateQueries(['getPopularArchivings'])
+          queryClient.invalidateQueries(['getScrapArchivingList'])
           navigation.navigate('BottomTab', { screen: 'Community' })
         }}
       />

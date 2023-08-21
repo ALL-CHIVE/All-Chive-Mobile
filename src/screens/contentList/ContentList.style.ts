@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
 import { SimpleContent } from '@/models/SimpleContent'
@@ -10,6 +10,7 @@ export const ContentListContainer = styled(FlatList<SimpleContent>)``
 export const ScrollContainer = styled.ScrollView`
   padding: 0px 20px;
   width: 375px;
+  flex: 1;
 `
 
 export const RowContainer = styled.View`
@@ -23,7 +24,7 @@ export const HeaderContainer = styled.View`
 export const Category = styled.View`
   align-items: center;
   border-radius: 6px;
-  padding: 4px 15px;
+  padding: 2px 15px;
   background-color: ${colors.mainYellow};
 `
 
@@ -35,7 +36,7 @@ export const Text = styled.Text`
 export const WidthContainer = styled.View`
   width: 375px;
   padding: 0px 25px;
-  margin-top: 15px;
+  margin-top: 0px;
 `
 
 export const ProfileContainer = styled.View`
@@ -45,13 +46,13 @@ export const ProfileContainer = styled.View`
 `
 
 export const ProfileImage = styled.Image`
-  width: 41px;
-  height: 41px;
+  width: 37px;
+  height: 37px;
   border-radius: 40px;
 `
 
 export const InfoContainer = styled.View`
-  margin-left: 10px;
+  margin-left: 12px;
   flex-direction: column;
 `
 
@@ -72,8 +73,7 @@ export const Scrap = styled.TouchableOpacity`
 `
 
 export const Container = styled.View`
-  align-items: center;
-  margin-top: 55px;
+  flex: 1;
 `
 
 export const SubTitleText = styled.Text`
@@ -81,3 +81,12 @@ export const SubTitleText = styled.Text`
   color: ${colors.gray600};
   margin-top: 23px;
 `
+
+export const Styles = {
+  linearGradient: css`
+    width: 100%;
+    height: 230px;
+    position: absolute;
+    top: 0;
+  `,
+}

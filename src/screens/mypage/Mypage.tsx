@@ -15,7 +15,7 @@ import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
-import { community, customerService, privacy, terms } from '@/const/Const'
+import { community, customerService, openSourceLicense, privacy, terms } from '@/const/Const'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
@@ -147,6 +147,10 @@ export const Mypage = () => {
             <NavigationList
               title={i18n.t('notice')}
               screen="Notice"
+            />
+            <NavigationList
+              title={i18n.t('openSourceLicense')}
+              url={openSourceLicense}
             />
             <NavigationList
               title={i18n.t('customerService')}

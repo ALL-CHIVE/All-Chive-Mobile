@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ListRenderItem, ScrollView, View } from 'react-native'
+import { ListRenderItem, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import CheckIcon from '@/assets/icons/check_yellow.svg'
@@ -20,8 +20,8 @@ import {
   GrayDivider,
   TabItemCardContainer,
   Title,
-  YellowCheck,
   Header,
+  Styles,
 } from './Tab.style'
 
 /**
@@ -60,7 +60,11 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
    */
   const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
     return (
-      <>
+      <TouchableOpacity
+        key={item.contentId}
+        onPress={() => handleCheck(item.contentId, 'content')}
+        disabled={!editMode}
+      >
         <ContentCard
           contentId={item.contentId}
           contentTitle={item.contentTitle}
@@ -72,13 +76,11 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
           tagCount={item.tagCount}
           isRecycle={true}
         />
-        {editMode && <CheckBox onPress={() => handleCheck(item.contentId, 'content')} />}
+        {editMode && <CheckBox />}
         {editMode && isContentCheck.includes(item.contentId) && (
-          <YellowCheck onPress={() => handleCheck(item.contentId, 'content')}>
-            <CheckIcon />
-          </YellowCheck>
+          <CheckIcon style={Styles.checkIcon} />
         )}
-      </>
+      </TouchableOpacity>
     )
   }
 
@@ -99,9 +101,11 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
           <TabItemCardContainer>
             {archivings &&
               archivings.map((item) => (
-                <View
+                <TouchableOpacity
                   key={item.archivingId}
                   style={{ alignItems: 'center' }}
+                  onPress={() => handleCheck(item.archivingId, 'archiving')}
+                  disabled={!editMode}
                 >
                   <ArchivingCard
                     key={item.archivingId}
@@ -109,15 +113,11 @@ export const AllTab = ({ contents, archivings, editMode }: RecycleBinTabProps) =
                     isMine={true}
                     isRecycle={true}
                   />
-                  {editMode && (
-                    <CheckBox onPress={() => handleCheck(item.archivingId, 'archiving')} />
-                  )}
+                  {editMode && <CheckBox />}
                   {editMode && isArchivingCheck.includes(item.archivingId) && (
-                    <YellowCheck onPress={() => handleCheck(item.archivingId, 'archiving')}>
-                      <CheckIcon />
-                    </YellowCheck>
+                    <CheckIcon style={Styles.checkIcon} />
                   )}
-                </View>
+                </TouchableOpacity>
               ))}
           </TabItemCardContainer>
         </TabItemContainer>

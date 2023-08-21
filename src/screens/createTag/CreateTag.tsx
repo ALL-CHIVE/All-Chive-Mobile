@@ -53,7 +53,11 @@ export const CreateTag = ({ navigation }: TagProps) => {
     /**
      * postTagMutate 성공 시 getTagData를 리패치합니다.
      */
-    onSuccess: () => {
+    onSuccess: (data) => {
+      handleSelectTag({
+        tagId: data.tagId,
+        name: data.name,
+      })
       queryClient.invalidateQueries(['getTagData', searchText])
     },
   })

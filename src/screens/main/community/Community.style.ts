@@ -6,7 +6,7 @@ import { fonts } from '@/styles/fonts'
 export const BackgroundImage = styled.Image`
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: -5px;
   width: 147.17px;
   height: 162.52px;
 `
@@ -17,11 +17,12 @@ export const PopularContainer = styled.ScrollView`
 `
 
 export const Menu = styled.View`
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   border-bottom-color: ${colors.gray50};
   flex-direction: row;
   padding: 0 18.5px;
   margin-bottom: 16px;
+  margin-top: -10px;
 `
 
 export const MenuButton = styled.TouchableOpacity`

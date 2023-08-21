@@ -25,7 +25,7 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadProfileImage } from '@/services/ImageService'
 import { getAppleAuthCode } from '@/services/SignInService'
-import { colors } from '@/styles/colors'
+import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
   InfoContainer,
@@ -243,7 +243,7 @@ export const MyAccount = () => {
           title={i18n.t('setProfile')}
           options={DefalutMenus()}
           cancelButtonIndex={0}
-          tintColor={colors.gray600}
+          tintColor={getActionSheetTintColor()}
           onPress={handleActionSheetMenu}
           theme="ios"
         />
