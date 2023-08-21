@@ -24,7 +24,7 @@ export const HeaderContainer = styled.View`
 export const Category = styled.View`
   align-items: center;
   border-radius: 6px;
-  padding: 4px 15px;
+  padding: 2px 15px;
   background-color: ${colors.mainYellow};
 `
 
