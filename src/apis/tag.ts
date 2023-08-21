@@ -25,7 +25,7 @@ export const getTag = async (latest: boolean) => {
  */
 export const postTag = async (name: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.post(
+  const { data } = await client.post(
     '/tags',
     {
       name,
@@ -37,7 +37,7 @@ export const postTag = async (name: string) => {
     }
   )
 
-  return response
+  return data.data
 }
 
 /**
