@@ -14,6 +14,7 @@ interface SearchBarProps {
   onFocus?: () => void
   maxLength?: number
 }
+
 /**
  *
  */

@@ -48,7 +48,7 @@ export type RootStackParamList = {
   ContentList: { id: number; title: string }
   Upload: { type: ContentType }
   CreateTag: undefined
-  ContentDetail: { id: number }
+  ContentDetail: { archivingId: number; contentId: number }
   Report: { id: number; type: ReportType }
   Search: undefined
   Edit: { id: number; type: ContentType }
