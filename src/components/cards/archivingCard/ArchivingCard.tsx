@@ -151,7 +151,7 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
             />
           ) : (
             <FastImage
-              source={{ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${imageUrl}` }}
+              source={{ uri: `${Config.ALLCHIVE_ASSET_SERVER}/${imageUrl}` }}
               style={{ width: 97, height: 90, top: 9, left: 7, borderRadius: 8, marginRight: 10 }}
               onError={() => setIsImageError(true)}
               defaultSource={defaultImages.thumbnail as number}
