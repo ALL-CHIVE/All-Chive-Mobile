@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ListRenderItem, ScrollView, View } from 'react-native'
+import { ListRenderItem, ScrollView, TouchableOpacity, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import CheckIcon from '@/assets/icons/check_yellow.svg'
@@ -17,8 +17,8 @@ import {
   ContentListContainer,
   TabItemCardContainer,
   Title,
-  YellowCheck,
   Container,
+  Styles,
 } from './Tab.style'
 
 /**
@@ -44,7 +44,11 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
    */
   const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
     return (
-      <View>
+      <TouchableOpacity
+        key={item.contentId}
+        onPress={() => handleCheck(item.contentId)}
+        disabled={!editMode}
+      >
         <ContentCard
           contentId={item.contentId}
           contentTitle={item.contentTitle}
@@ -56,13 +60,9 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
           tagCount={item.tagCount}
           isRecycle={true}
         />
-        {editMode && <CheckBox onPress={() => handleCheck(item.contentId)} />}
-        {editMode && isCheck.includes(item.contentId) && (
-          <YellowCheck onPress={() => handleCheck(item.contentId)}>
-            <CheckIcon />
-          </YellowCheck>
-        )}
-      </View>
+        {editMode && <CheckBox />}
+        {editMode && isCheck.includes(item.contentId) && <CheckIcon style={Styles.checkIcon} />}
+      </TouchableOpacity>
     )
   }
 

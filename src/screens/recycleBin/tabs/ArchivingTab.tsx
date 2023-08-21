@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ScrollView, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
 import CheckIcon from '@/assets/icons/check_yellow.svg'
@@ -16,8 +16,8 @@ import {
   Container,
   TabItemCardContainer,
   Title,
-  YellowCheck,
   Header,
+  Styles,
 } from './Tab.style'
 
 /**
@@ -56,19 +56,21 @@ export const ArchivingTab = ({ archivings, editMode }: RecycleBinTabProps) => {
           <TabItemCardContainer>
             {archivings !== undefined &&
               archivings.map((item) => (
-                <View key={item.archivingId}>
+                <TouchableOpacity
+                  key={item.archivingId}
+                  onPress={() => handleCheck(item.archivingId)}
+                  disabled={!editMode}
+                >
                   <ArchivingCard
                     item={item}
                     isMine={true}
                     isRecycle={true}
                   />
-                  {editMode && <CheckBox onPress={() => handleCheck(item.archivingId)} />}
+                  {editMode && <CheckBox />}
                   {editMode && isCheck.includes(item.archivingId) && (
-                    <YellowCheck onPress={() => handleCheck(item.archivingId)}>
-                      <CheckIcon />
-                    </YellowCheck>
+                    <CheckIcon style={Styles.checkIcon} />
                   )}
-                </View>
+                </TouchableOpacity>
               ))}
           </TabItemCardContainer>
         </TabItemContainer>
