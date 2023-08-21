@@ -12,6 +12,6 @@ export const Container = styled.View`
 `
 
 export const Text = styled.Text`
-  ${fonts.body2}
+  ${fonts.body4}
   color: ${colors.gray400};
 `

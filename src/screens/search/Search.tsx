@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { TouchableOpacity } from 'react-native'
@@ -41,6 +41,14 @@ const Search = () => {
 
   const [searchText, setSearchText] = useRecoilState(SearchTextState)
   const [isFocus, setIsFocus] = useState(false)
+  const [debounceText, setDebounceText] = useState('')
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceText(searchText)
+    }, 500)
+    return () => clearTimeout(timeoutId)
+  }, [searchText, 500])
 
   const {
     data: searchData,
@@ -54,8 +62,8 @@ const Search = () => {
     data: searchRelation,
     isLoading: isRelationLoading,
     isError: isRelationError,
-  } = useQuery(['getSearchRelation', searchText], () => getSearchRelation(searchText), {
-    enabled: searchText !== '' && isFocus,
+  } = useQuery(['getSearchRelation', debounceText], () => getSearchRelation(searchText), {
+    enabled: debounceText !== '' && isFocus,
   })
 
   const {
