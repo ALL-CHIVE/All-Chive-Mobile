@@ -55,6 +55,7 @@ export const Mypage = () => {
      *
      */
     onSuccess: () => {
+      queryClient.clear()
       navigation.navigate('Login')
     },
   })
