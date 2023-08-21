@@ -46,13 +46,13 @@ export const ProfileContainer = styled.View`
 `
 
 export const ProfileImage = styled.Image`
-  width: 41px;
-  height: 41px;
+  width: 37px;
+  height: 37px;
   border-radius: 40px;
 `
 
 export const InfoContainer = styled.View`
-  margin-left: 10px;
+  margin-left: 12px;
   flex-direction: column;
 `
 
