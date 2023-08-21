@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { debounce } from 'lodash'
+
 import SearchIcon from '@/assets/icons/search.svg'
 import XMark from '@/assets/icons/x_mark.svg'
 import { colors } from '@/styles/colors'
@@ -14,6 +16,7 @@ interface SearchBarProps {
   onFocus?: () => void
   maxLength?: number
 }
+
 /**
  *
  */
@@ -25,13 +28,16 @@ export const SearchBar = ({
   onFocus,
   maxLength,
 }: SearchBarProps) => {
+  const onChange = debounce((event) => {
+    onChangeText(event)
+  }, 300)
+
   return (
     <Container>
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={colors.gray200}
-        value={value}
-        onChangeText={onChangeText}
+        onChangeText={(e) => onChange(e)}
         onSubmitEditing={onSubmitEditing}
         onFocus={onFocus}
         maxLength={maxLength}
