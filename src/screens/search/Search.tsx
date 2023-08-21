@@ -138,6 +138,7 @@ const Search = () => {
         <Header>
           <BackButton
             onPress={() => {
+              setSearchText('')
               navigation.goBack()
             }}
           >
