@@ -101,6 +101,9 @@ const ContentList = ({ route }: ContentListProps) => {
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      queryClient.invalidateQueries(['getCommunityArchivingList'])
+      queryClient.invalidateQueries(['getScrapArchivingList'])
+      queryClient.invalidateQueries(['getPopularArchivings'])
       queryClient.invalidateQueries(['getUser'])
       navigation.navigate('BottomTab', { screen: 'Home' })
     },

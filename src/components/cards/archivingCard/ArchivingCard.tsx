@@ -65,6 +65,11 @@ export const ArchivingCard = ({ item, isMine, isRecycle, isSearch }: ArchivingCa
      */
     onSuccess: () => {
       queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      if (item.publicStatus) {
+        queryClient.invalidateQueries(['getCommunityArchivingList'])
+        queryClient.invalidateQueries(['getScrapArchivingList'])
+        queryClient.invalidateQueries(['getPopularArchivings'])
+      }
       queryClient.invalidateQueries(['getUser'])
     },
   })
