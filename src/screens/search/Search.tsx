@@ -87,7 +87,7 @@ const Search = () => {
     ['getSearchLatest'],
     () => getSearchLatest(),
     {
-      enabled: searchText === '',
+      enabled: !searchText,
       /**
        *
        */
