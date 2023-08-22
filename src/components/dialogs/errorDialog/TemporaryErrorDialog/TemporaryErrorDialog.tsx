@@ -32,11 +32,17 @@ export const TemporaryErrorDialog = ({ isVisible, onClick }: TemporaryErrorDialo
       onModalHide={onClick}
     >
       <Container>
-        <Title>{i18n.t('couldntGetInformation')}</Title>
-        <Image source={defaultImages.error} />
+        <Title>{i18n.t('temporaryError')}</Title>
+        <Image
+          style={{
+            width: 133.37,
+            height: 137,
+          }}
+          source={defaultImages.temporaryError}
+        />
         <Description>{i18n.t('pleaseRetryLittleWhile')}</Description>
         <OneButton onPress={onClick}>
-          <CompleteButtonText>{i18n.t('retry')}</CompleteButtonText>
+          <CompleteButtonText>{i18n.t('confirm')}</CompleteButtonText>
         </OneButton>
       </Container>
     </Modal>
