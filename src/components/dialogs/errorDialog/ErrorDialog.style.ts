@@ -27,24 +27,49 @@ export const Title = styled.Text`
   margin-bottom: 20px;
 `
 
+export const Image = styled.Image`
+  width: 120.96px;
+  height: 143.95px;
+`
+
 export const Description = styled.Text`
   ${fonts.body3};
   color: ${colors.gray400};
   margin-top: 20px;
 `
 
-export const Button = styled.TouchableOpacity`
-  min-width: 197px;
-  height: 36px;
-  background-color: ${colors.gray500};
-  border-radius: 8px;
-  padding: 5px 37px;
-  align-items: center;
-  justify-content: center;
+export const Buttons = styled.View`
+  flex-direction: row;
   margin-top: 20px;
 `
 
-export const ButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.white}
+export const RetryButton = styled.TouchableOpacity`
+  width: 102px;
+  height: 36px;
+  background-color: ${colors.mainYellow};
+  border-radius: 8px;
+  padding: 5px 0px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+`
+
+export const CompleteButton = styled.TouchableOpacity`
+  width: 102px;
+  height: 36px;
+  background-color: ${colors.gray500};
+  border-radius: 8px;
+  padding: 5px 0px;
+  align-items: center;
+  justify-content: center;
+`
+
+export const CompleteButtonText = styled.Text`
+  ${fonts.btn1};
+  color: ${colors.white};
+`
+
+export const RetryButtonText = styled.Text`
+  ${fonts.btn1};
+  color: ${colors.gray500};
 `
