@@ -6,7 +6,8 @@ import { useRecoilState } from 'recoil'
 
 import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
+import { TemporaryErrorDialog } from '@/components/dialogs/errorDialog/TemporaryErrorDialog/TemporaryErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
@@ -32,16 +33,25 @@ export const RecycleBin = () => {
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
+  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const [deleteErrorVisible, setDeleteErrorVisible] = useState(false)
+
   const [isCheckArchiving, setIsCheckArchiving] = useRecoilState(CheckArchivingState)
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
-  const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
-  const [visibleErrorDialog, setVisibleErrorDialog] = useState(false)
 
-  const {
-    data: recycleData,
-    isLoading,
-    isError,
-  } = useQuery<RecyclesResponse>(['recycleBinData'], getRecycles)
+  const { data: recycleData, isLoading } = useQuery<RecyclesResponse>(
+    ['recycleBinData'],
+    getRecycles,
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
+  )
 
   const { mutate: deleteMutate, isError: deleteError } = useMutation(deleteRecycles, {
     /**
@@ -117,16 +127,20 @@ export const RecycleBin = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries('recycleBinData')
         }}
-      />
-      <ErrorDialog
-        isVisible={visibleErrorDialog}
         onClick={() => {
-          setVisibleErrorDialog(false)
+          setErrorDialogVisible(false)
+        }}
+      />
+      <TemporaryErrorDialog
+        isVisible={deleteErrorVisible}
+        onClick={() => {
+          setDeleteErrorVisible(false)
         }}
       />
       <DefaultContainer>
@@ -189,7 +203,7 @@ export const RecycleBin = () => {
           title="persistentDeleteWarning"
           completeText={i18n.t('delete')}
           onCancel={() => setIsDeleteDialogVisible(false)}
-          onClose={() => deleteError && setVisibleErrorDialog(true)}
+          onClose={() => deleteError && setDeleteErrorVisible(true)}
           onComplete={handleDelete}
         />
       </DefaultContainer>

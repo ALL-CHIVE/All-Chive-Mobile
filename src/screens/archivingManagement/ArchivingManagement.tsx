@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
-import { AxiosError } from 'axios'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
@@ -21,17 +20,20 @@ export const ArchivingManagement = () => {
   const queryClient = useQueryClient()
 
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    data: archivingListData,
-    isLoading,
-    isError,
-  } = useQuery('archivingList', () => getArchivingList(), {
-    /**
-     *
-     */
-    onError: (e: AxiosError) => {},
-  })
+  const { data: archivingListData, isLoading } = useQuery(
+    'archivingList',
+    () => getArchivingList(),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
+  )
 
   /**
    * 생성 모달을 종료합니다.
@@ -43,10 +45,14 @@ export const ArchivingManagement = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['archivingList'])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>

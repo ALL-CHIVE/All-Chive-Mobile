@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQueryClient } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { postArchiving } from '@/apis/archiving'
 import { defaultImages } from '@/assets'
@@ -25,6 +25,7 @@ import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
 import { getActionSheetTintColor } from '@/services/StyleService'
+import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -55,15 +56,18 @@ interface CreateArchivingModalProps {
  */
 export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModalProps) => {
   const queryClient = useQueryClient()
+  const actionSheetRef = useRef<ActionSheet>(null)
 
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [imageKey, setImageKey] = useState('')
-  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const [publicStatus, setPublicStatus] = useState(false)
-  const actionSheetRef = useRef<ActionSheet>(null)
   const [modalHight, setModalHeight] = useState(624)
+
+  const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
+  const currentCategory = useRecoilValue(CategoryState)
+  const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
@@ -118,9 +122,10 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
         queryClient.invalidateQueries(['getArchivingList'])
         queryClient.invalidateQueries(['archivingList'])
         queryClient.invalidateQueries(['getUser'])
+        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
 
         if (publicStatus) {
-          queryClient.invalidateQueries(['getCommunityArchivingList'])
+          queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
           queryClient.invalidateQueries(['getScrapArchivingList'])
           queryClient.invalidateQueries(['getPopularArchivings'])
         }

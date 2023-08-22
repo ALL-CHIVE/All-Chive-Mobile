@@ -90,7 +90,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
     setSelectTag([
       ...selectTag,
       {
-        name: searchText,
+        name: value.name,
         tagId: value.tagId,
       },
     ])
@@ -175,7 +175,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
             <></>
           )}
 
-          {latestTagData && latestTagData.length > 0 && (
+          {latestTagData && latestTagData.length > 0 && !searchText && (
             <>
               <Divider />
               <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>

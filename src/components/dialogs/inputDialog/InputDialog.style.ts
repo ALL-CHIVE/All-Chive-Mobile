@@ -61,7 +61,7 @@ export const CancelButton = styled.TouchableOpacity`
   height: 36px;
   background-color: ${colors.gray500};
   border-radius: 8px;
-  padding: 5px 37px;
+  padding: 5px 0px;
   align-items: center;
   justify-content: center;
   margin-right: 10px;
@@ -72,7 +72,7 @@ export const CompleteButton = styled.TouchableOpacity`
   height: 36px;
   background-color: ${colors.mainYellow};
   border-radius: 8px;
-  padding: 5px 37px;
+  padding: 5px 0px;
   align-items: center;
   justify-content: center;
   margin-right: 10px;

@@ -11,12 +11,12 @@ import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import Memo from '@/components/memo/Memo'
-import { WhiteTag } from '@/components/tag/whiteTag/WhiteTag'
+import { BigWhiteTag } from '@/components/tag/whiteTag/bigWhiteTag/BigWhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
 import { PopupMenu } from '@/models/PopupMenu'
@@ -55,13 +55,19 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    isLoading,
-    isError,
-    data: content,
-  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.contentId], () =>
-    getContents(route.params.contentId)
+  const { data: content, isLoading } = useQuery<GetContentsResponse, AxiosError>(
+    [queryKeys.contents, route.params.contentId],
+    () => getContents(route.params.contentId),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
   )
 
   useEffect(() => {
@@ -86,12 +92,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     onSuccess: (response) => {
       setOwnerNickname(response.nickname)
       setIsBlockCompleteDialogVisible(true)
-    },
-    /**
-     *
-     */
-    onError: () => {
-      //ignore
     },
   })
 
@@ -163,10 +163,14 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>
@@ -186,7 +190,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                 <SubTitle>{i18n.t('tag')}</SubTitle>
                 <TagList>
                   {content.tagList.map((tag) => (
-                    <WhiteTag
+                    <BigWhiteTag
                       key={tag.tagId}
                       tag={tag.name}
                     />

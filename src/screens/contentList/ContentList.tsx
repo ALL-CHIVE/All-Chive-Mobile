@@ -17,7 +17,7 @@ import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
@@ -73,6 +73,7 @@ const ContentList = ({ route }: ContentListProps) => {
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
   const [isProfileImageError, setIsProfileImageError] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const currentCategory = useRecoilValue(CategoryState)
   const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
@@ -82,7 +83,6 @@ const ContentList = ({ route }: ContentListProps) => {
     fetchNextPage,
     hasNextPage,
     isLoading,
-    isError,
   } = useInfiniteQuery<ContentByArchivingResponse, AxiosError>(
     [`contentByArchiving`, route.params.id],
     ({ pageParam = 0 }) => getContentByArchiving(route.params.id, pageParam, PAGE_LIMIT),
@@ -92,6 +92,12 @@ const ContentList = ({ route }: ContentListProps) => {
        */
       getNextPageParam: (lastPage) =>
         lastPage.contents.hasNext ? lastPage.contents.page + 1 : undefined,
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
     }
   )
 
@@ -115,12 +121,6 @@ const ContentList = ({ route }: ContentListProps) => {
       onSuccess: (response) => {
         setOwnerNickname(response.nickname)
         setIsBlockCompleteDialogVisible(true)
-      },
-      /**
-       *
-       */
-      onError: () => {
-        //ignore
       },
     }
   )
@@ -245,10 +245,14 @@ const ContentList = ({ route }: ContentListProps) => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       {!contentList?.pages[0].isMine && (

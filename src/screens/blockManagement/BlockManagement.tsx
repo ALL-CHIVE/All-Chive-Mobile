@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
@@ -19,20 +19,28 @@ import { BlockList } from './components/BlockList'
  */
 export const BlockManagement = () => {
   const queryClient = useQueryClient()
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    data: blockUserData,
-    isLoading,
-    isError,
-  } = useQuery(['getBlockList'], () => getBlockList())
+  const { data: blockUserData, isLoading } = useQuery(['getBlockList'], () => getBlockList(), {
+    /**
+     *
+     */
+    onError: () => {
+      setErrorDialogVisible(true)
+    },
+  })
 
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getBlockList'])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>
