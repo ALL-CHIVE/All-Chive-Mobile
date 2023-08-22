@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
@@ -24,8 +24,16 @@ export const TagManagement = () => {
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
   const [text, setText] = useState('')
   const [isTagValid, setIsTagValid] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const { data: tagData, isLoading, isError } = useQuery(['getTagData'], () => getTag(false))
+  const { data: tagData, isLoading } = useQuery(['getTagData'], () => getTag(false), {
+    /**
+     *
+     */
+    onError: () => {
+      setErrorDialogVisible(true)
+    },
+  })
 
   const { mutate: postTagMutate } = useMutation(postTag, {
     /**
@@ -55,10 +63,13 @@ export const TagManagement = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getTagData'])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>

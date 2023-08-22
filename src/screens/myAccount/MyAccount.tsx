@@ -12,7 +12,7 @@ import { defaultImages } from '@/assets'
 import PencilIcon from '@/assets/icons/pencil.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
@@ -57,22 +57,29 @@ export const MyAccount = () => {
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    data: userInfoData,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-  } = useQuery(['getUserInfo'], () => getUserInfo(), {
-    /**
-     *
-     */
-    onSuccess: (userInfoData) => {
-      userInfoData.imgUrl &&
-        setProfileImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${userInfoData.imgUrl}` })
-      setProfileImageKey(userInfoData.imgUrl)
-      setNickname(userInfoData.nickname)
-    },
-  })
+  const { data: userInfoData, isLoading: isProfileLoading } = useQuery(
+    ['getUserInfo'],
+    () => getUserInfo(),
+    {
+      /**
+       *
+       */
+      onSuccess: (userInfoData) => {
+        userInfoData.imgUrl &&
+          setProfileImage({ uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${userInfoData.imgUrl}` })
+        setProfileImageKey(userInfoData.imgUrl)
+        setNickname(userInfoData.nickname)
+      },
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
+  )
 
   const { mutate: postUserInfoMutation } = useMutation(
     () =>
@@ -175,10 +182,13 @@ export const MyAccount = () => {
   return (
     <>
       {isProfileLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isProfileError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getUserInfo'])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>

@@ -18,7 +18,7 @@ import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import { PopularArchivingCard } from '@/components/cards/popularArchivingCard/PopularArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
@@ -65,21 +65,39 @@ export const Community = () => {
 
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [currentCommunityMenu, setCurrentCommunityMenu] = useState(CommunityMenuType.Community)
+  const [profileErrorVisible, setProfileErrorVisible] = useState(false)
+  const [popularErrorVisible, setPopularErrorVisible] = useState(false)
+  const [errorVisible, setErrorVisible] = useState(false)
+  const [scrapErrorVisible, setScrapErrorVisible] = useState(false)
 
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
 
-  const {
-    data: profileData,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-  } = useQuery(['getUser'], () => getUser())
+  const { data: profileData, isLoading: isProfileLoading } = useQuery(
+    ['getUser'],
+    () => getUser(),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setProfileErrorVisible(true)
+      },
+    }
+  )
 
-  const {
-    data: popularData,
-    isLoading: isPopuplarLoading,
-    isError: isPopularError,
-  } = useQuery(['getPopularArchivings'], () => getPopularArchivings())
+  const { data: popularData, isLoading: isPopuplarLoading } = useQuery(
+    ['getPopularArchivings'],
+    () => getPopularArchivings(),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setPopularErrorVisible(true)
+      },
+    }
+  )
 
   const {
     data: archivingList,
@@ -95,6 +113,12 @@ export const Community = () => {
        * getNextPageParam
        */
       getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+      /**
+       *
+       */
+      onError: () => {
+        setErrorVisible(true)
+      },
     }
   )
 
@@ -112,6 +136,12 @@ export const Community = () => {
        * getNextPageParam
        */
       getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+      /**
+       *
+       */
+      onError: () => {
+        setScrapErrorVisible(true)
+      },
     }
   )
 
@@ -158,28 +188,40 @@ export const Community = () => {
   return (
     <>
       {isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading ? <Loading /> : <></>}
-      <ErrorDialog
-        isVisible={isProfileError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={profileErrorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getUser'])
         }}
-      />
-      <ErrorDialog
-        isVisible={isError}
         onClick={() => {
+          setProfileErrorVisible(false)
+        }}
+      />
+      <InformationErrorDialog
+        isVisible={errorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getCommunityArchivingList', currentCategory])
         }}
-      />
-      <ErrorDialog
-        isVisible={isScrapError}
         onClick={() => {
-          queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
+          setErrorVisible(false)
         }}
       />
-      <ErrorDialog
-        isVisible={isPopularError}
+      <InformationErrorDialog
+        isVisible={scrapErrorVisible}
+        onRetry={() => {
+          queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
+        }}
         onClick={() => {
+          setScrapErrorVisible(false)
+        }}
+      />
+      <InformationErrorDialog
+        isVisible={popularErrorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getPopularArchivings'])
+        }}
+        onClick={() => {
+          setPopularErrorVisible(false)
         }}
       />
 

@@ -13,7 +13,7 @@ import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { community, customerService, openSourceLicense, privacy, terms } from '@/const/Const'
 import i18n from '@/locales'
@@ -43,12 +43,9 @@ export const Mypage = () => {
   const version = getVersion()
 
   const [isProfileImageError, setIsProfileImageError] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    data: profileData,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-  } = useQuery(['getUser'], () => getUser())
+  const { data: profileData, isLoading: isProfileLoading } = useQuery(['getUser'], () => getUser())
 
   const { mutate: logoutMutate } = useMutation(logout, {
     /**
@@ -57,6 +54,12 @@ export const Mypage = () => {
     onSuccess: () => {
       queryClient.clear()
       navigation.navigate('Login')
+    },
+    /**
+     *
+     */
+    onError: () => {
+      setErrorDialogVisible(true)
     },
   })
 
@@ -70,10 +73,13 @@ export const Mypage = () => {
   return (
     <>
       {isProfileLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isProfileError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getUser'])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>

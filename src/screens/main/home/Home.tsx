@@ -13,7 +13,7 @@ import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import HomeContainer from '@/components/containers/homeContainer/HomeContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
@@ -50,22 +50,31 @@ export const Home = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
+  const [isProfileImageError, setIsProfileImageError] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const [profileErrorVisible, setProfileErrorVisible] = useState(false)
+
   const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
 
-  const {
-    data: profileData,
-    isLoading: isProfileLoading,
-    isError: isProfileError,
-  } = useQuery(['getUser'], () => getUser())
+  const { data: profileData, isLoading: isProfileLoading } = useQuery(
+    ['getUser'],
+    () => getUser(),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setProfileErrorVisible(true)
+      },
+    }
+  )
 
   const {
     data: archivingList,
     fetchNextPage,
     hasNextPage,
     isLoading,
-    isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getHomeArchivingList', currentCategory],
     ({ pageParam = 0 }) => getHomeArchivingList(currentCategory, pageParam, PAGE_LIMIT),
@@ -74,6 +83,12 @@ export const Home = () => {
        * getNextPageParam
        */
       getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
     }
   )
 
@@ -95,16 +110,22 @@ export const Home = () => {
   return (
     <>
       {isProfileLoading || isLoading ? <Loading /> : <></>}
-      <ErrorDialog
-        isVisible={isProfileError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={profileErrorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getUser'])
         }}
-      />
-      <ErrorDialog
-        isVisible={isError}
         onClick={() => {
+          setProfileErrorVisible(false)
+        }}
+      />
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
 

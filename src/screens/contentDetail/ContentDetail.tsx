@@ -11,7 +11,7 @@ import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
@@ -55,13 +55,19 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [isBlockDialogVisible, setIsBlockDialogVisible] = useState(false)
   const [isBlockCompleteDialogVisible, setIsBlockCompleteDialogVisible] = useState(false)
   const [ownerNickname, setOwnerNickname] = useState('')
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
-  const {
-    isLoading,
-    isError,
-    data: content,
-  } = useQuery<GetContentsResponse, AxiosError>([queryKeys.contents, route.params.contentId], () =>
-    getContents(route.params.contentId)
+  const { data: content, isLoading } = useQuery<GetContentsResponse, AxiosError>(
+    [queryKeys.contents, route.params.contentId],
+    () => getContents(route.params.contentId),
+    {
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
   )
 
   useEffect(() => {
@@ -86,12 +92,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     onSuccess: (response) => {
       setOwnerNickname(response.nickname)
       setIsBlockCompleteDialogVisible(true)
-    },
-    /**
-     *
-     */
-    onError: () => {
-      //ignore
     },
   })
 
@@ -163,10 +163,13 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
           queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <DefaultContainer>

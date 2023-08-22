@@ -9,7 +9,7 @@ import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } fro
 import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import SearchIcon from '@/assets/icons/search.svg'
 import XMark from '@/assets/icons/x_mark.svg'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'
 import i18n from '@/locales'
@@ -40,8 +40,13 @@ const Search = () => {
   const queryClient = useQueryClient()
 
   const [searchText, setSearchText] = useRecoilState(SearchTextState)
+
   const [isFocus, setIsFocus] = useState(false)
   const [debounceText, setDebounceText] = useState('')
+
+  const [isSearchErrorVisible, setIsSearchErrorVisible] = useState(false)
+  const [isRelationErrorVisible, setIsRelationErrorVisible] = useState(false)
+  const [isLatestErrorVisible, setIsLatestErrorVisible] = useState(false)
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -50,29 +55,47 @@ const Search = () => {
     return () => clearTimeout(timeoutId)
   }, [searchText, 500])
 
-  const {
-    data: searchData,
-    isLoading: isSearchLoading,
-    isError: isSearchError,
-  } = useQuery(['getSearch', searchText], () => getSearch(SearchType.All, searchText), {
-    enabled: searchText !== '' && !isFocus,
-  })
+  const { data: searchData, isLoading: isSearchLoading } = useQuery(
+    ['getSearch', searchText],
+    () => getSearch(SearchType.All, searchText),
+    {
+      enabled: searchText !== '' && !isFocus,
+      /**
+       *
+       */
+      onError: () => {
+        setIsSearchErrorVisible(true)
+      },
+    }
+  )
 
-  const {
-    data: searchRelation,
-    isLoading: isRelationLoading,
-    isError: isRelationError,
-  } = useQuery(['getSearchRelation', debounceText], () => getSearchRelation(searchText), {
-    enabled: debounceText !== '' && isFocus,
-  })
+  const { data: searchRelation, isLoading: isRelationLoading } = useQuery(
+    ['getSearchRelation', debounceText],
+    () => getSearchRelation(searchText),
+    {
+      enabled: debounceText !== '' && isFocus,
+      /**
+       *
+       */
+      onError: () => {
+        setIsRelationErrorVisible(true)
+      },
+    }
+  )
 
-  const {
-    data: latestSearchData,
-    isLoading: isLatestLoading,
-    isError: isLatestError,
-  } = useQuery(['getSearchLatest'], () => getSearchLatest(), {
-    enabled: searchText === '',
-  })
+  const { data: latestSearchData, isLoading: isLatestLoading } = useQuery(
+    ['getSearchLatest'],
+    () => getSearchLatest(),
+    {
+      enabled: searchText === '',
+      /**
+       *
+       */
+      onError: () => {
+        setIsLatestErrorVisible(true)
+      },
+    }
+  )
 
   const { mutate: deleteLatestMutate } = useMutation(deleteSearchLatest, {
     /**
@@ -122,22 +145,31 @@ const Search = () => {
   return (
     <>
       {isSearchLoading || isRelationLoading || isLatestLoading ? <Loading /> : <></>}
-      <ErrorDialog
-        isVisible={isSearchError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={isSearchErrorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getSearch', searchText])
         }}
-      />
-      <ErrorDialog
-        isVisible={isRelationError}
         onClick={() => {
-          queryClient.invalidateQueries(['getSearchRelation', searchText])
+          setIsSearchErrorVisible(false)
         }}
       />
-      <ErrorDialog
-        isVisible={isLatestError}
+      <InformationErrorDialog
+        isVisible={isRelationErrorVisible}
+        onRetry={() => {
+          queryClient.invalidateQueries(['getSearchRelation', searchText])
+        }}
         onClick={() => {
+          setIsRelationErrorVisible(false)
+        }}
+      />
+      <InformationErrorDialog
+        isVisible={isLatestErrorVisible}
+        onRetry={() => {
           queryClient.invalidateQueries(['getSearchLatest'])
+        }}
+        onClick={() => {
+          setIsLatestErrorVisible(false)
         }}
       />
 

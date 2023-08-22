@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil'
 
 import { getSearch } from '@/apis/search'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
@@ -32,13 +32,13 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
   const queryClient = useQueryClient()
 
   const [endReached, setEndReached] = useState(false)
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const {
     data: infiniteData,
     fetchNextPage,
     hasNextPage,
     isLoading,
-    isError,
   } = useInfiniteQuery(
     ['getSearchInfiniteArchiving', searchText],
     ({ pageParam = 1 }) => getSearch(SearchType.My, searchText, pageParam, 10),
@@ -55,6 +55,12 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
       onSuccess: () => {
         setEndReached(false)
       },
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
     }
   )
 
@@ -70,9 +76,12 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => queryClient.invalidateQueries(['getSearchInfiniteArchiving', searchText])}
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => queryClient.invalidateQueries(['getSearchInfiniteArchiving', searchText])}
+        onClick={() => {
+          setErrorDialogVisible(false)
+        }}
       />
 
       <ScrollContainer
