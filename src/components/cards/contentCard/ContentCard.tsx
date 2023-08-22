@@ -78,7 +78,7 @@ const ContentCard = ({
           })}
     >
       <Shadow
-        startColor={colors.gray50}
+        startColor={colors.commonShadow}
         offset={[0, 0]}
         distance={4}
         style={Styles.shadow}

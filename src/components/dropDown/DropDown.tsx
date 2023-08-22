@@ -4,7 +4,7 @@ import { ScrollView, Text } from 'react-native'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import i18n from '@/locales'
-import { CategoryListState } from '@/state/CategoryListState'
+import { CategoryListWithEtcState } from '@/state/CategoryListState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 
 import {
@@ -22,7 +22,7 @@ import {
 export const DropDown = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
-  const categoryList = useRecoilValue(CategoryListState)
+  const categoryList = useRecoilValue(CategoryListWithEtcState)
   const [isSelected, setIsSelected] = useState(false)
 
   /**

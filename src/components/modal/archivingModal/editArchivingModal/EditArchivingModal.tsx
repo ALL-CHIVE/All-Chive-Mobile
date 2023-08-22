@@ -20,7 +20,7 @@ import { defaultImages } from '@/assets'
 import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x_mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
+import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { DropDown } from '@/components/dropDown/DropDown'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
@@ -72,6 +72,7 @@ export const EditArchivingModal = ({
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(624)
   const [imageKey, setImageKey] = useState('')
+  const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -105,28 +106,29 @@ export const EditArchivingModal = ({
     setModalHeight(624)
   }
 
-  const {
-    data: archivingData,
-    isLoading,
-    isError,
-  } = useQuery(['archiving', archivingId], () => getArchivingData(archivingId), {
-    enabled: isVisible && archivingId !== -1,
-    /**
-     * onSuccess 시 데이터를 세팅합니다.
-     */
-    onSuccess: (data) => {
-      setName(data.title)
-      setImageKey(data.imageUrl)
-      data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_SERVER}/${data.imageUrl}` })
-      setSelectedCategory(data.category)
-      setPublicStatus(data.publicStatus)
-    },
-
-    /**
-     *
-     */
-    onError: () => {},
-  })
+  const { data: archivingData, isLoading } = useQuery(
+    ['archiving', archivingId],
+    () => getArchivingData(archivingId),
+    {
+      enabled: isVisible && archivingId !== -1,
+      /**
+       * onSuccess 시 데이터를 세팅합니다.
+       */
+      onSuccess: (data) => {
+        setName(data.title)
+        setImageKey(data.imageUrl)
+        data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_SERVER}/${data.imageUrl}` })
+        setSelectedCategory(data.category)
+        setPublicStatus(data.publicStatus)
+      },
+      /**
+       *
+       */
+      onError: () => {
+        setErrorDialogVisible(true)
+      },
+    }
+  )
 
   /**
    *
@@ -221,10 +223,14 @@ export const EditArchivingModal = ({
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
+      <InformationErrorDialog
+        isVisible={errorDialogVisible}
+        onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['archiving', archivingId])
+        }}
+        onClick={() => {
+          setErrorDialogVisible(false)
         }}
       />
       <Modal
@@ -261,7 +267,6 @@ export const EditArchivingModal = ({
                 (!nameFocus && name.length > 0 && Styles.inputWithValue)
               }
             />
-            {/* TODO: Condition Icon 추가 */}
             <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
               {i18n.t('contentVerify')}
             </Condition>

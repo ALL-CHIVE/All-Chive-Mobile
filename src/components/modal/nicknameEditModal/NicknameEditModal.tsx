@@ -106,7 +106,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
               <InputBox
                 textAlign="center"
                 onChangeText={handleChangeNickname}
-                maxLength={20}
+                maxLength={10}
                 value={nickname}
               />
               <ClearButton
