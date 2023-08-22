@@ -27,11 +27,6 @@ export const Title = styled.Text`
   margin-bottom: 20px;
 `
 
-export const Image = styled.Image`
-  width: 120.96px;
-  height: 143.95px;
-`
-
 export const Description = styled.Text`
   ${fonts.body3};
   color: ${colors.gray400};

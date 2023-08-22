@@ -19,7 +19,7 @@ export const defaultImages: Assets = {
   content: require('@/assets/default/content.png'),
   loading: require('@/assets/default/loading.png'),
   temporaryError: require('@/assets/default/temporaryError.png'),
-  getInformationError: require('@/assets/default/getInformationError.png'),
+  informationError: require('@/assets/default/informationError.png'),
 }
 
 export const defaultIcons: Assets = {

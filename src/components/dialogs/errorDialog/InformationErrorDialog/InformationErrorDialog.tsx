@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Image } from 'react-native'
 import Modal from 'react-native-modal'
 
 import { defaultImages } from '@/assets'
@@ -10,7 +11,6 @@ import {
   Container,
   Title,
   Description,
-  Image,
   Buttons,
   RetryButton,
   RetryButtonText,
@@ -41,7 +41,13 @@ export const InformationErrorDialog = ({
     >
       <Container>
         <Title>{i18n.t('couldntGetInformation')}</Title>
-        <Image source={defaultImages.getInformationError} />
+        <Image
+          style={{
+            width: 120.96,
+            height: 143.95,
+          }}
+          source={defaultImages.informationError}
+        />
         <Description>{i18n.t('pleaseRetryLittleWhile')}</Description>
         <Buttons>
           <RetryButton onPress={onRetry}>
