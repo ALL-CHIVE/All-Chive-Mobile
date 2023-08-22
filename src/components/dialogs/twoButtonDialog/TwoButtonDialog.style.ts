@@ -59,11 +59,11 @@ export const CompleteButton = styled.TouchableOpacity`
 `
 
 export const CancelButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.white}
+  ${fonts.btn1};
+  color: ${colors.white};
 `
 
 export const CompleteButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.gray500}
+  ${fonts.btn1};
+  color: ${colors.gray500};
 `
