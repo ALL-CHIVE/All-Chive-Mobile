@@ -6,7 +6,7 @@ import isUrl from 'is-url'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation, useQueryClient } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { postContents } from '@/apis/content'
 import PlusIcon from '@/assets/icons/plus.svg'
@@ -27,6 +27,7 @@ import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
 import { getActionSheetTintColor } from '@/services/StyleService'
+import { CategoryState } from '@/state/CategoryState'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -75,6 +76,7 @@ export const Upload = ({ route }: UploadProps) => {
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
+  const currentCategory = useRecoilValue(CategoryState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -97,7 +99,7 @@ export const Upload = ({ route }: UploadProps) => {
       onSuccess: () => {
         setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
-        queryClient.invalidateQueries(['getHomeArchivingList', 'ALL'])
+        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         navigation.navigate('BottomTab', { screen: 'Home' })
       },
       /**
