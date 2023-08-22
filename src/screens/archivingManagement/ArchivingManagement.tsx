@@ -26,12 +26,7 @@ export const ArchivingManagement = () => {
     data: archivingListData,
     isLoading,
     isError,
-  } = useQuery('archivingList', () => getArchivingList(), {
-    /**
-     *
-     */
-    onError: (e: AxiosError) => {},
-  })
+  } = useQuery('archivingList', () => getArchivingList())
 
   /**
    * 생성 모달을 종료합니다.
