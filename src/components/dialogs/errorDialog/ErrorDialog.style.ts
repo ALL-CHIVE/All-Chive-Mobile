@@ -43,6 +43,17 @@ export const Buttons = styled.View`
   margin-top: 20px;
 `
 
+export const OneButton = styled.TouchableOpacity`
+  min-width: 197px;
+  height: 36px;
+  background-color: ${colors.gray500};
+  border-radius: 8px;
+  padding: 5px 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+`
+
 export const RetryButton = styled.TouchableOpacity`
   width: 102px;
   height: 36px;

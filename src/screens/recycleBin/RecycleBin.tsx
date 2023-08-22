@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil'
 import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
+import { TemporaryErrorDialog } from '@/components/dialogs/errorDialog/TemporaryErrorDialog/TemporaryErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
@@ -34,7 +35,7 @@ export const RecycleBin = () => {
   const [editMode, setEditMode] = useState(false)
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
-  const [visibleErrorDialog, setVisibleErrorDialog] = useState(false)
+  const [deleteErrorVisible, setDeleteErrorVisible] = useState(false)
 
   const [isCheckArchiving, setIsCheckArchiving] = useRecoilState(CheckArchivingState)
   const [isCheckContent, setIsCheckContent] = useRecoilState(CheckContentState)
@@ -135,12 +136,12 @@ export const RecycleBin = () => {
           setErrorDialogVisible(false)
         }}
       />
-      {/* <ErrorDialog
-        isVisible={visibleErrorDialog}
+      <TemporaryErrorDialog
+        isVisible={deleteErrorVisible}
         onClick={() => {
-          setVisibleErrorDialog(false)
+          setDeleteErrorVisible(false)
         }}
-      /> */}
+      />
       <DefaultContainer>
         <LeftButtonHeader
           title={i18n.t('recycleBin')}
@@ -201,7 +202,7 @@ export const RecycleBin = () => {
           title="persistentDeleteWarning"
           completeText={i18n.t('delete')}
           onCancel={() => setIsDeleteDialogVisible(false)}
-          onClose={() => deleteError && setVisibleErrorDialog(true)}
+          onClose={() => deleteError && setDeleteErrorVisible(true)}
           onComplete={handleDelete}
         />
       </DefaultContainer>
