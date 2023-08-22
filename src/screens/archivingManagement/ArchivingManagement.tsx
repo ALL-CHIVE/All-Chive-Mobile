@@ -48,6 +48,7 @@ export const ArchivingManagement = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['archivingList'])
         }}
         onClick={() => {

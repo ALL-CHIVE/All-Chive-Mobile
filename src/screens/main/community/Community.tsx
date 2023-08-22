@@ -191,6 +191,7 @@ export const Community = () => {
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {
+          setProfileErrorVisible(false)
           queryClient.invalidateQueries(['getUser'])
         }}
         onClick={() => {
@@ -200,6 +201,7 @@ export const Community = () => {
       <InformationErrorDialog
         isVisible={errorVisible}
         onRetry={() => {
+          setErrorVisible(false)
           queryClient.invalidateQueries(['getCommunityArchivingList', currentCategory])
         }}
         onClick={() => {
@@ -209,6 +211,7 @@ export const Community = () => {
       <InformationErrorDialog
         isVisible={scrapErrorVisible}
         onRetry={() => {
+          setScrapErrorVisible(false)
           queryClient.invalidateQueries(['getScrapArchivingList', currentCategory])
         }}
         onClick={() => {
@@ -218,6 +221,7 @@ export const Community = () => {
       <InformationErrorDialog
         isVisible={popularErrorVisible}
         onRetry={() => {
+          setPopularErrorVisible(false)
           queryClient.invalidateQueries(['getPopularArchivings'])
         }}
         onClick={() => {

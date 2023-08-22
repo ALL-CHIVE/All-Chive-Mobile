@@ -76,6 +76,7 @@ export const Mypage = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getUser'])
         }}
         onClick={() => {

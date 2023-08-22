@@ -66,6 +66,7 @@ export const TagManagement = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getTagData'])
         }}
         onClick={() => {

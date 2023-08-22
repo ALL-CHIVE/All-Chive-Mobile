@@ -166,6 +166,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
         }}
         onClick={() => {

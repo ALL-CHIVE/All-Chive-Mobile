@@ -248,6 +248,7 @@ const ContentList = ({ route }: ContentListProps) => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries([`contentByArchiving`, route.params.id])
         }}
         onClick={() => {

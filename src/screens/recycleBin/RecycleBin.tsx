@@ -130,6 +130,7 @@ export const RecycleBin = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries('recycleBinData')
         }}
         onClick={() => {

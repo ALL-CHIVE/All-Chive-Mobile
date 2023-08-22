@@ -148,6 +148,7 @@ const Search = () => {
       <InformationErrorDialog
         isVisible={isSearchErrorVisible}
         onRetry={() => {
+          setIsSearchErrorVisible(false)
           queryClient.invalidateQueries(['getSearch', searchText])
         }}
         onClick={() => {
@@ -157,6 +158,7 @@ const Search = () => {
       <InformationErrorDialog
         isVisible={isRelationErrorVisible}
         onRetry={() => {
+          setIsRelationErrorVisible(false)
           queryClient.invalidateQueries(['getSearchRelation', searchText])
         }}
         onClick={() => {
@@ -166,6 +168,7 @@ const Search = () => {
       <InformationErrorDialog
         isVisible={isLatestErrorVisible}
         onRetry={() => {
+          setIsLatestErrorVisible(false)
           queryClient.invalidateQueries(['getSearchLatest'])
         }}
         onClick={() => {

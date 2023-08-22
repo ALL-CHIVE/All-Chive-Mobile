@@ -36,6 +36,7 @@ export const BlockManagement = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getBlockList'])
         }}
         onClick={() => {

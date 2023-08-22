@@ -185,6 +185,7 @@ export const MyAccount = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getUserInfo'])
         }}
         onClick={() => {

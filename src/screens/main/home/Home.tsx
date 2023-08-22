@@ -113,6 +113,7 @@ export const Home = () => {
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {
+          setProfileErrorVisible(false)
           queryClient.invalidateQueries(['getUser'])
         }}
         onClick={() => {
@@ -122,6 +123,7 @@ export const Home = () => {
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
         }}
         onClick={() => {

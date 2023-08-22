@@ -78,7 +78,10 @@ export const CommunityTab = ({ data }: SearchResponse) => {
       {isLoading && <Loading />}
       <InformationErrorDialog
         isVisible={errorDialogVisible}
-        onRetry={() => queryClient.invalidateQueries(['getSearchInfiniteCommunity', searchText])}
+        onRetry={() => {
+          setErrorDialogVisible(false)
+          queryClient.invalidateQueries(['getSearchInfiniteCommunity', searchText])
+        }}
         onClick={() => {
           setErrorDialogVisible(false)
         }}

@@ -226,6 +226,7 @@ export const EditArchivingModal = ({
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
+          setErrorDialogVisible(false)
           queryClient.invalidateQueries(['archiving', archivingId])
         }}
         onClick={() => {

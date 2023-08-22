@@ -78,7 +78,10 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
       {isLoading && <Loading />}
       <InformationErrorDialog
         isVisible={errorDialogVisible}
-        onRetry={() => queryClient.invalidateQueries(['getSearchInfiniteArchiving', searchText])}
+        onRetry={() => {
+          setErrorDialogVisible(false)
+          queryClient.invalidateQueries(['getSearchInfiniteArchiving', searchText])
+        }}
         onClick={() => {
           setErrorDialogVisible(false)
         }}
