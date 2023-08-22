@@ -90,7 +90,7 @@ export const CreateTag = ({ navigation }: TagProps) => {
     setSelectTag([
       ...selectTag,
       {
-        name: searchText,
+        name: value.name,
         tagId: value.tagId,
       },
     ])
