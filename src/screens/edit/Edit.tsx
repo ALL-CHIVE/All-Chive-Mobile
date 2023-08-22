@@ -100,7 +100,7 @@ export const Edit = ({ route }: EditProps) => {
           setImage({
             uri:
               content.contentType === ContentType.Image
-                ? `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}`
+                ? `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}`
                 : content.imgUrl,
           })
 
