@@ -44,9 +44,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>카메라 접근을 원하시면 '확인'을 눌러 허용해 주세요.</string>
+	<string>카메라로 촬영한 사진을 업로드하기 위해
+	카메라 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>원활한 사진 접근을 원하시면 '모든 사진에 대한 접근 허용'을 눌러 허용해 주세요.</string>
+	<string>앨범에서 선택한 사진을 업로드하기 위해
+	사진 권한이 필요합니다.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/Pretendard-Bold.ttf</string>
