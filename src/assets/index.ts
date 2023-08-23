@@ -18,7 +18,8 @@ export const defaultImages: Assets = {
   unblockComplete: require('@/assets/default/unblockComplete.png'),
   content: require('@/assets/default/content.png'),
   loading: require('@/assets/default/loading.png'),
-  error: require('@/assets/default/error.png'),
+  temporaryError: require('@/assets/default/temporaryError.png'),
+  informationError: require('@/assets/default/informationError.png'),
 }
 
 export const defaultIcons: Assets = {

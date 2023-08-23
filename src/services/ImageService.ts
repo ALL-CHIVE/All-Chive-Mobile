@@ -39,7 +39,9 @@ const uploadImage = async (uri: string, key: string) => {
     try {
       await uploadImageCore(imageUrl, uri)
       return key
-    } catch (error) {}
+    } catch (error) {
+      // err
+    }
   }
 
   return ''

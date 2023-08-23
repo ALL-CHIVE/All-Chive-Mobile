@@ -124,7 +124,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                 placeholder={i18n.t('nicknamePlaceholder')}
                 placeholderTextColor={colors.gray200}
                 onChangeText={handleChangeNickname}
-                maxLength={20}
+                maxLength={10}
                 value={nickname}
               />
               <ClearButton

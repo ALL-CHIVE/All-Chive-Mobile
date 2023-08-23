@@ -49,11 +49,6 @@ export const ArchivingList = ({ category, archivingListData }: ArchivingListProp
       queryClient.invalidateQueries(['archivingList'])
       queryClient.invalidateQueries(['getUser'])
     },
-
-    /**
-     *
-     */
-    onError: (e: AxiosError) => {},
   })
 
   /**

@@ -80,7 +80,7 @@
   "backToCommunity": "커뮤니티로 돌아가기",
   "backToMypage": "마이페이지로 돌아가기",
   "placeholder": "내용을 입력해주세요.",
-  "nicknameVerify": "한/영문/숫자 1~20자리 이내",
+  "nicknameVerify": "한/영문/숫자 1~10자리 이내",
   "contentVerify": "한/영/특수문자 15자 이내로 입력하세요",
   "isNotDuplicate": "중복되지 않는 닉네임",
   "update": "수정하기",
@@ -168,5 +168,6 @@
   "couldntGetInformation": "정보를 불러오지 못 했어요",
   "pleaseRetryLittleWhile": "잠시 후에 다시 시도해주세요!",
   "retry": "다시 시도하기",
-  "tagVerify": "한/영 20자 이내 입력"
+  "tagVerify": "한/영 20자 이내 입력",
+  "errorDialogRetry": "재시도"
 }

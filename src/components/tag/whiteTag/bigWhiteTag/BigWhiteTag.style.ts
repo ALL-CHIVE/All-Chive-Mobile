@@ -6,12 +6,12 @@ import { fonts } from '@/styles/fonts'
 export const Container = styled.View`
   background-color: ${colors.white};
   border-radius: 20px;
-  padding: 0px 8px;
-  margin-right: 4.5px;
+  padding: 1px 16px;
+  margin-right: 8px;
   border: 0.5px solid ${colors.gray400};
 `
 
 export const Text = styled.Text`
-  ${fonts.body4}
+  ${fonts.body2}
   color: ${colors.gray500};
 `

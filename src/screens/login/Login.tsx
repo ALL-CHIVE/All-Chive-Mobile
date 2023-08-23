@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { Platform } from 'react-native'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useSetRecoilState } from 'recoil'
 
 import { logo } from '@/assets'
 import AppleLogo from '@/assets/login/apple.svg'
 import KakaoLogo from '@/assets/login/kakao.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
-import { ErrorDialog } from '@/components/dialogs/errorDialog/ErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
@@ -26,7 +25,6 @@ import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.s
  */
 export const Login = () => {
   const navigation = useNavigation<MainNavigationProp>()
-  const queryClient = useQueryClient()
 
   const setIdTokenState = useSetRecoilState(IdTokenState)
   const setThirdpartyAccessTokenState = useSetRecoilState(ThirdpartyAccessTokenState)
@@ -35,7 +33,7 @@ export const Login = () => {
   const [type, setType] = useState<SignInType>(SignInType.Kakao)
   const [enabled, setEnabled] = useState(false)
 
-  const { data, isLoading, isError } = useQuery(['signIn', type], () => signInWith(type), {
+  const { isLoading } = useQuery(['signIn', type], () => signInWith(type), {
     enabled: enabled,
     /**
      * 로그인 성공 시
@@ -62,12 +60,6 @@ export const Login = () => {
   return (
     <>
       {isLoading && <Loading />}
-      <ErrorDialog
-        isVisible={isError}
-        onClick={() => {
-          queryClient.invalidateQueries(['signIn', type])
-        }}
-      />
 
       <DefaultContainer>
         <Container>
