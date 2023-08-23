@@ -31,7 +31,7 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
           source={
             isImageError
               ? defaultImages.content
-              : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` }
+              : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}` }
           }
           onError={() => setIsImageError(true)}
           defaultSource={defaultImages.content as ImageURISource}
@@ -42,7 +42,7 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
         images={[
           isImageError
             ? (defaultImages.content as ImageURISource)
-            : { uri: `${Config.ALLCHIVE_ASSET_STAGE_SERVER}/${content.imgUrl}` },
+            : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}` },
         ]}
         FooterComponent={() => <Text></Text>}
         HeaderComponent={() => (
