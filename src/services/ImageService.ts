@@ -1,66 +1,27 @@
 import axios from 'axios'
 import { decode } from 'base64-arraybuffer'
 import fs from 'react-native-fs'
-import uuid from 'react-native-uuid'
 
-import { getAwsImageUrl } from '@/apis/image'
-
-/**
- * 프로필 이미지 URL을 생성합니다.
- */
-export const uploadProfileImage = async (uri: string, key = '') => {
-  key = key ? key : `user/${uuid.v4()}/profile.jpg`
-  return uploadImage(uri, key)
-}
+import { getAccessToken } from './localStorage/LocalStorage'
 
 /**
- * 컨텐츠 이미지 URL을 생성합니다.
+ * 생성된 presigned url로 이미지를 전송합니다.
  */
-export const uploadContentImage = async (uri: string, key = '') => {
-  key = key ? key : `contents/${uuid.v4()}/image.jpg`
-  return uploadImage(uri, key)
-}
+export const uploadImageToS3 = async (url: string, file: string) => {
+  const accessToken = await getAccessToken()
+  try {
+    const response = await axios.put(url, {
+      body: getBinary(file),
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'image/jpeg',
+      },
+    })
 
-/**
- * 아카이빙 이미지 URL을 생성합니다.
- */
-export const uploadArchivingImage = async (uri: string, key = '') => {
-  key = key ? key : `archivings/${uuid.v4()}/image.jpg`
-  return uploadImage(uri, key)
-}
-
-/**
- * uploadImage
- */
-const uploadImage = async (uri: string, key: string) => {
-  const imageUrl = await getAwsImageUrl(key)
-
-  if (imageUrl) {
-    try {
-      await uploadImageCore(imageUrl, uri)
-      return key
-    } catch (error) {
-      // err
-    }
+    return response
+  } catch (error) {
+    // console.log(error)
   }
-
-  return ''
-}
-
-/**
- * uploadImageCore
- */
-const uploadImageCore = async (uploadUrl: string, fileUrl: string) => {
-  const imageBody = await getBinary(fileUrl)
-
-  const response = await axios.put(uploadUrl, imageBody, {
-    headers: {
-      'Content-Type': `image/jpeg`,
-      ACL: 'public-read',
-    },
-  })
-
-  return response
 }
 
 /**
