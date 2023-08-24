@@ -155,8 +155,7 @@ android {
     flavorDimensions "version"
     productFlavors {
         dev {
-          applicationIdSuffix ".dev"
-          manifestPlaceholders = [appName: "@string/app_name_dev"]
+          
         }
         prod {
 
