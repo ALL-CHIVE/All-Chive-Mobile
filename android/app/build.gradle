@@ -1,10 +1,10 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 project.ext.envConfigFiles = [
-  devdebug: ".env.dev",
-  devrelease: ".env.dev",
-  proddebug: ".env.prod",
-  prodrelease: ".env.prod",
+  devdebug: "env/.env.dev",
+  devrelease: "env/.env.dev",
+  proddebug: "env/.env.prod",
+  prodrelease: "env/.env.prod",
 ]
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
