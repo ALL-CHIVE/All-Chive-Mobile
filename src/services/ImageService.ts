@@ -8,7 +8,7 @@ import { getArchivingImageUrl, getContentsImageUrl, getUserImageUrl } from '@/ap
 export const uploadProfileImage = async (imageUri: string) => {
   try {
     const { url } = await getUserImageUrl()
-    uploadImageToS3(url, imageUri)
+    await uploadImageToS3(url, imageUri)
     return url
   } catch (error) {
     return ''
@@ -21,7 +21,7 @@ export const uploadProfileImage = async (imageUri: string) => {
 export const uploadContentImage = async (imageUri: string) => {
   try {
     const { url } = await getContentsImageUrl()
-    uploadImageToS3(url, imageUri)
+    await uploadImageToS3(url, imageUri)
     return url
   } catch (error) {
     return ''
@@ -34,7 +34,7 @@ export const uploadContentImage = async (imageUri: string) => {
 export const uploadArchivingImage = async (imageUri: string) => {
   try {
     const { url } = await getArchivingImageUrl()
-    uploadImageToS3(url, imageUri)
+    await uploadImageToS3(url, imageUri)
     return url
   } catch (error) {
     return ''
