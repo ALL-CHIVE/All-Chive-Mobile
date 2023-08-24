@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+project.ext.envConfigFiles = [
+  devdebug: ".env.dev",
+  devrelease: ".env.dev",
+  proddebug: ".env.prod",
+  prodrelease: ".env.prod",
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -142,6 +149,16 @@ android {
             shrinkResources true
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+          
+        }
+        prod {
+
         }
     }
 
