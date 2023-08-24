@@ -1,33 +1,63 @@
-import axios from 'axios'
-import { decode } from 'base64-arraybuffer'
-import fs from 'react-native-fs'
+import RNBlobUtil from 'react-native-blob-util'
 
-import { getAccessToken } from './localStorage/LocalStorage'
+import { getArchivingImageUrl, getContentsImageUrl, getUserImageUrl } from '@/apis/image'
 
 /**
- * 생성된 presigned url로 이미지를 전송합니다.
+ * 프로필 이미지 URL을 생성합니다.
  */
-export const uploadImageToS3 = async (url: string, file: string) => {
-  const accessToken = await getAccessToken()
+export const uploadProfileImage = async (imageUri: string) => {
   try {
-    const response = await axios.put(url, {
-      body: getBinary(file),
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'image/jpeg',
-      },
-    })
-
-    return response
+    const { url } = await getUserImageUrl()
+    uploadImageToS3(url, imageUri)
+    return url
   } catch (error) {
-    // console.log(error)
+    return ''
   }
 }
 
 /**
- * getBinary
+ * 컨텐츠 이미지 URL을 생성합니다.
  */
-const getBinary = async (fileUri: string) => {
-  const imageBody = await fs.readFile(fileUri, 'base64')
-  return decode(imageBody)
+export const uploadContentImage = async (imageUri: string) => {
+  try {
+    const { url } = await getContentsImageUrl()
+    uploadImageToS3(url, imageUri)
+    return url
+  } catch (error) {
+    return ''
+  }
+}
+
+/**
+ * 아카이빙 이미지 URL을 생성합니다.
+ */
+export const uploadArchivingImage = async (imageUri: string) => {
+  try {
+    const { url } = await getArchivingImageUrl()
+    uploadImageToS3(url, imageUri)
+    return url
+  } catch (error) {
+    return ''
+  }
+}
+
+/**
+ * 생성된 presigned url로 이미지를 전송합니다.
+ */
+const uploadImageToS3 = async (url: string, imageUri: string) => {
+  try {
+    await RNBlobUtil.fetch(
+      'PUT',
+      url,
+      {
+        'Content-Type': 'image/jpeg',
+      },
+      RNBlobUtil.wrap(imageUri)
+    )
+
+    return true
+  } catch (error) {
+    // console.log(error)
+    return false
+  }
 }
