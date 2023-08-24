@@ -93,12 +93,7 @@ const ContentCard = ({
             ) : (
               <FastImage
                 style={{ width: '100%', height: '100%', opacity: 0.6 }}
-                source={{
-                  uri:
-                    contentType === ContentType.Link
-                      ? imgUrl
-                      : `${Config.ALLCHIVE_ASSET_SERVER}/${imgUrl}`,
-                }}
+                source={{ uri: imgUrl }}
                 defaultSource={defaultImages.content as number}
               />
             )}

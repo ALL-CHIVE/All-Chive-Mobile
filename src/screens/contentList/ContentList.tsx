@@ -282,9 +282,7 @@ const ContentList = ({ route }: ContentListProps) => {
                 source={
                   isProfileImageError || !contentList?.pages[0].ownerProfileImgUrl
                     ? defaultImages.profile
-                    : {
-                        uri: `${Config.ALLCHIVE_ASSET_SERVER}/${contentList.pages[0].ownerProfileImgUrl}`,
-                      }
+                    : { uri: contentList.pages[0].ownerProfileImgUrl }
                 }
                 onError={() => setIsProfileImageError(true)}
                 defaultSource={defaultImages.profile as ImageURISource}

@@ -239,7 +239,7 @@ export const Community = () => {
               source={
                 isProfileImageError || !profileData?.imgUrl
                   ? defaultImages.profile
-                  : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${profileData.imgUrl}` }
+                  : { uri: profileData.imgUrl }
               }
               onError={() => setIsProfileImageError(true)}
               defaultSource={defaultImages.profile as ImageURISource}

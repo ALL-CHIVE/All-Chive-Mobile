@@ -69,11 +69,7 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
     >
       <Card>
         <ArchivingImage
-          source={
-            isImageError || !imageUrl
-              ? defaultImages.thumbnail
-              : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${imageUrl}` }
-          }
+          source={isImageError || !imageUrl ? defaultImages.thumbnail : { uri: imageUrl }}
           onError={() => setIsImageError(true)}
           defaultSource={defaultImages.thumbnail as ImageURISource}
         />
