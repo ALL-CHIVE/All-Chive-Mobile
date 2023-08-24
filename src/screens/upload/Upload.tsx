@@ -5,10 +5,11 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { postContents } from '@/apis/content'
+import { getContentsImageUrl } from '@/apis/image'
 import PlusIcon from '@/assets/icons/plus.svg'
 import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -24,7 +25,7 @@ import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
-import { uploadContentImage } from '@/services/ImageService'
+import { uploadImageToS3 } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState } from '@/state/CategoryState'
@@ -79,6 +80,16 @@ export const Upload = ({ route }: UploadProps) => {
   const currentCategory = useRecoilValue(CategoryState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
+
+  const { data: presignedUrl } = useQuery(['getPresignedUrl', image], () => getContentsImageUrl(), {
+    enabled: imageUrl !== '',
+    /**
+     *
+     */
+    onSuccess: (data) => {
+      uploadImageToS3(data.url, imageUrl)
+    },
+  })
 
   const { mutate: postContentsMutate } = useMutation(
     () =>
@@ -157,8 +168,7 @@ export const Upload = ({ route }: UploadProps) => {
       }
       case ContentType.Image: {
         const imageUrl = (image as ImageURISource)?.uri ?? ''
-        const contentImageUrl = await uploadContentImage(imageUrl)
-        contentImageUrl && setImageUrl(contentImageUrl)
+        setImageUrl(imageUrl)
         break
       }
     }
