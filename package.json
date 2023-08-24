@@ -4,6 +4,11 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android-dev": "react-native run-android --variant=devdebug",
+    "android-prod": "react-native run-android --variant=proddebug",
+    "build-android-dev": "react-native run-android --variant=devrelease",
+    "build-android-prod": "react-native run-android --variant=prodrelease",
+    "make-aab-prod-r": "cd android && ./gradlew bundleProdRelease && cd ..",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
