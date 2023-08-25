@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
-import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -53,6 +52,7 @@ export const Home = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
   const [profileErrorVisible, setProfileErrorVisible] = useState(false)
+  const [showLoading, setShowLoading] = useState(false)
 
   const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
@@ -98,6 +98,16 @@ export const Home = () => {
     }
   }, [currentCategory, archivingList, isLoading])
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading || isProfileLoading) {
+        setShowLoading(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [isLoading || isProfileLoading])
+
   /**
    * 무한스크롤 요청입니다.
    */
@@ -109,7 +119,7 @@ export const Home = () => {
 
   return (
     <>
-      {isProfileLoading || isLoading ? <Loading /> : <></>}
+      {showLoading && (isProfileLoading || isLoading) ? <Loading /> : <></>}
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
-import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
@@ -69,6 +68,7 @@ export const Community = () => {
   const [popularErrorVisible, setPopularErrorVisible] = useState(false)
   const [errorVisible, setErrorVisible] = useState(false)
   const [scrapErrorVisible, setScrapErrorVisible] = useState(false)
+  const [showLoading, setShowLoading] = useState(false)
 
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
@@ -160,6 +160,16 @@ export const Community = () => {
     }
   }, [currentCommunityMenu, currentCategory, archivingList, isLoading])
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading || isProfileLoading || isScrapLoading || isPopuplarLoading) {
+        setShowLoading(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [isLoading || isProfileLoading || isScrapLoading || isPopuplarLoading])
+
   /**
    * 무한스크롤 요청입니다.
    */
@@ -187,7 +197,11 @@ export const Community = () => {
 
   return (
     <>
-      {isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading ? <Loading /> : <></>}
+      {showLoading && (isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading) ? (
+        <Loading />
+      ) : (
+        <></>
+      )}
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {

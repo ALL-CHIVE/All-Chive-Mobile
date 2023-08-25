@@ -182,8 +182,6 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         <DefaultScrollContainer>
           <Container>
             <Day>{content.contentCreatedAt}</Day>
-            {/* {isLoading && <Text>loading</Text>}
-          {error && <Text>error</Text>} */}
             {content && (
               <ContentDetailView>
                 <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
