@@ -67,8 +67,7 @@ export const MyAccount = () => {
        *
        */
       onSuccess: (userInfoData) => {
-        userInfoData.imgUrl &&
-          setProfileImage({ uri: `${Config.ALLCHIVE_ASSET_SERVER}/${userInfoData.imgUrl}` })
+        userInfoData.imgUrl && setProfileImage({ uri: userInfoData.imgUrl })
         setProfileImageKey(userInfoData.imgUrl)
         setNickname(userInfoData.nickname)
       },

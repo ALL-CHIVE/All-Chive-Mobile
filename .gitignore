@@ -63,6 +63,7 @@ yarn-error.log
 .metro-health-check*
 
 .env
+env/
 
 # react-native-config codegen
 ios/tmp.xcconfig

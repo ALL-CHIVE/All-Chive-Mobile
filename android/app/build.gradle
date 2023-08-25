@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+project.ext.envConfigFiles = [
+  devdebug: "env/.env.dev",
+  devrelease: "env/.env.dev",
+  proddebug: "env/.env.prod",
+  prodrelease: "env/.env.prod",
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -99,8 +106,8 @@ android {
         applicationId "com.allchivemobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.0.3"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -142,6 +149,16 @@ android {
             shrinkResources true
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+          
+        }
+        prod {
+
         }
     }
 
