@@ -117,7 +117,7 @@ export const EditArchivingModal = ({
       onSuccess: (data) => {
         setName(data.title)
         setImageKey(data.imageUrl)
-        data.imageUrl && setImage({ uri: `${Config.ALLCHIVE_ASSET_SERVER}/${data.imageUrl}` })
+        data.imageUrl && setImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.publicStatus)
       },

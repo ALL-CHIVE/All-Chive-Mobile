@@ -96,13 +96,7 @@ export const Edit = ({ route }: EditProps) => {
         setMemo(content.contentMemo)
         setImageUrl(content.imgUrl)
         setSelectArchiving({ id: content.archivingId, title: content.archivingTitle })
-        content.imgUrl &&
-          setImage({
-            uri:
-              content.contentType === ContentType.Image
-                ? `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}`
-                : content.imgUrl,
-          })
+        content.imgUrl && setImage({ uri: content.imgUrl })
 
         setSelectTag(
           content.tagList.map((tag) => {
