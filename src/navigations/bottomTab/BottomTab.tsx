@@ -4,10 +4,10 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { NavigatorScreenParams } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 
+import ArchivingFocusIcon from '@/assets/icons/archiving-focus.svg'
 import ArchivingIcon from '@/assets/icons/archiving.svg'
-import ArchivingFocusIcon from '@/assets/icons/archiving_focus.svg'
+import CommunityFocusIcon from '@/assets/icons/community-focus.svg'
 import CommunityIcon from '@/assets/icons/community.svg'
-import CommunityFocusIcon from '@/assets/icons/community_focus.svg'
 import UploadIcon from '@/assets/icons/upload.svg'
 import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import UploadModal from '@/components/modal/uploadModal/UploadModal'

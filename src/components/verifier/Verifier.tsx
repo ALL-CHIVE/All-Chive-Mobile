@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Check from '@/assets/icons/check.svg'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import i18n from '@/locales'
 import { colors } from '@/styles/colors'
 

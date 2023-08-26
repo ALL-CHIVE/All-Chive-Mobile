@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 
 import { defaultImages } from '@/assets'
-import SecondIndicator from '@/assets/icons/secondIndicator.svg'
+import SecondIndicator from '@/assets/icons/second-indicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'

@@ -2,7 +2,7 @@ import React from 'react'
 
 import Modal from 'react-native-modal'
 
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { colors } from '@/styles/colors'

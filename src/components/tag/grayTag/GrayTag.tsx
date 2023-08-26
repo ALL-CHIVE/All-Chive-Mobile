@@ -2,7 +2,7 @@ import React from 'react'
 
 import { TouchableOpacity } from 'react-native'
 
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { colors } from '@/styles/colors'
 
 import { Container, RemoveButton, RowView, Text } from './GrayTag.style'

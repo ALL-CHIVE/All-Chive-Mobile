@@ -6,7 +6,7 @@ import { useMutation } from 'react-query'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { checkNicknameValid } from '@/apis/user/User'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
