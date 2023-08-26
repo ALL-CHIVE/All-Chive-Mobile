@@ -25,10 +25,10 @@ export const defaultImages: Assets = {
 export const defaultIcons: Assets = {
   photo: require('@/assets/icons/photo.png'),
   link: require('@/assets/icons/link.png'),
-  linkUpload: require('@/assets/icons/link_upload.png'),
-  pinFill: require('@/assets/icons/pinFill.png'),
+  linkUpload: require('@/assets/icons/link-upload.png'),
+  pinFill: require('@/assets/icons/pin-fill.png'),
 }
 
 export const logo: Assets = {
-  allchiveLogo: require('@/assets/logo/allchiveLogo.png'),
+  allchiveLogo: require('@/assets/logo/allchive.png'),
 }
