@@ -1,5 +1,5 @@
 ---
-name: Feature request template
+name: Feature request
 about: 작업사항을 입력해주세요.
 title: "[FEAT]"
 labels: feat
