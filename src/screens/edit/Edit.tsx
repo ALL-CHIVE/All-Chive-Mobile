@@ -108,16 +108,16 @@ export const Edit = ({ route }: EditProps) => {
 
   const { mutate: patchContentsMutate } = useMutation(
     () =>
-      patchContents({
-        contentId: route.params.id,
-        contentType: route.params.type,
-        archivingId: selectArchiving.id,
-        title: contentName,
-        link: link,
-        imgUrl: imageUrl,
-        tagIds: selectTag.map((tag) => tag.tagId),
-        memo: memo,
-      }),
+      patchContents(
+        route.params.id,
+        route.params.type,
+        selectArchiving.id,
+        contentName,
+        link,
+        imageUrl,
+        selectTag.map((tag) => tag.tagId),
+        memo
+      ),
     {
       /**
        * patchContentsMutate 성공 시 recoil state를 초기화하고,

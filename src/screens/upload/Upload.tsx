@@ -82,15 +82,15 @@ export const Upload = ({ route }: UploadProps) => {
 
   const { mutate: postContentsMutate } = useMutation(
     () =>
-      postContents({
-        contentType: route.params.type,
-        archivingId: selectArchiving.id,
-        title: contentName,
-        link: link,
-        imgUrl: imageUrl,
-        tagIds: selectTag.map((tag) => tag.tagId),
-        memo: memo,
-      }),
+      postContents(
+        route.params.type,
+        selectArchiving.id,
+        contentName,
+        link,
+        imageUrl,
+        selectTag.map((tag) => tag.tagId),
+        memo
+      ),
     {
       /**
        * postContentsMutate 성공 시 recoil state를 초기화하고,

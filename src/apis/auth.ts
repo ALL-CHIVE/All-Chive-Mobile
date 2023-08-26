@@ -9,7 +9,10 @@ import { client } from './client'
  */
 export const deleteWithdrawal = async (appleCode: string) => {
   const accessToken = await getAccessToken()
-  const response = await client.delete(`/auth/withdrawal?appleCode=${appleCode}`, {
+  const response = await client.delete(`/auth/withdrawal`, {
+    params: {
+      appleCode,
+    },
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -24,7 +27,11 @@ export const deleteWithdrawal = async (appleCode: string) => {
 export const canAuthSignIn = async () => {
   try {
     const refreshToken = await getRefreshToken()
-    const { data } = await client.post(`/auth/token/refresh?refreshToken=${refreshToken}`)
+    const { data } = await client.post(`/auth/token/refresh`, null, {
+      params: {
+        refreshToken,
+      },
+    })
 
     const tokens = data.data as AutoSignInResponse
     saveTokens(tokens.refreshToken, tokens.accessToken)
@@ -39,15 +46,11 @@ export const canAuthSignIn = async () => {
  */
 export const logout = async () => {
   const accessToken = await getAccessToken()
-  const response = await client.post(
-    `/auth/logout`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  )
+  const response = await client.post(`/auth/logout`, null, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
 
   return response
 }

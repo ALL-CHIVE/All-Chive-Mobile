@@ -4,28 +4,18 @@ import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
 import { client } from './client'
 
-interface PostContentsParams {
-  contentType: ContentType
-  archivingId: number
-  title: string
-  link: string
-  imgUrl: string
-  tagIds: number[]
-  memo: string
-}
-
 /**
  * 컨텐츠를 생성합니다.
  */
-export const postContents = async ({
-  contentType,
-  archivingId,
-  title,
-  link,
-  imgUrl,
-  tagIds,
-  memo,
-}: PostContentsParams) => {
+export const postContents = async (
+  contentType: ContentType,
+  archivingId: number,
+  title: string,
+  link: string,
+  imgUrl: string,
+  tagIds: number[],
+  memo: string
+) => {
   const accessToken = await getAccessToken()
   const response = await client.post(
     '/contents',
@@ -51,7 +41,7 @@ export const postContents = async ({
 /**
  * 컨텐츠 내용을 가져옵니다.
  */
-export const getContents = async (contentId: number | undefined): Promise<GetContentsResponse> => {
+export const getContents = async (contentId: number): Promise<GetContentsResponse> => {
   const accessToken = await getAccessToken()
   const { data } = await client.get(`/contents/${contentId}`, {
     headers: {
@@ -62,30 +52,19 @@ export const getContents = async (contentId: number | undefined): Promise<GetCon
   return data.data
 }
 
-interface PatchContentsParams {
-  contentId: number
-  contentType: ContentType
-  archivingId: number
-  title: string
-  link: string
-  imgUrl: string
-  tagIds: number[]
-  memo: string
-}
-
 /**
  * 컨텐츠를 수정합니다.
  */
-export const patchContents = async ({
-  contentId,
-  contentType,
-  archivingId,
-  title,
-  link,
-  imgUrl,
-  tagIds,
-  memo,
-}: PatchContentsParams) => {
+export const patchContents = async (
+  contentId: number,
+  contentType: ContentType,
+  archivingId: number,
+  title: string,
+  link: string,
+  imgUrl: string,
+  tagIds: number[],
+  memo: string
+) => {
   const accessToken = await getAccessToken()
   const response = await client.patch(
     `/contents/${contentId}`,

@@ -14,13 +14,16 @@ export const postReport = async (
 ) => {
   const accessToken = await getAccessToken()
   const response = await client.post(
-    `/reports?type=${type}`,
+    `/reports`,
     {
       reason,
       reportedType,
       id,
     },
     {
+      params: {
+        type,
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

@@ -15,8 +15,9 @@ export const getSearch = async (
   sort?: Array<string>
 ) => {
   const accessToken = await getAccessToken()
-  const { data } = await client.get<SearchResponse>(`/searches?type=${type}`, {
+  const { data } = await client.get<SearchResponse>(`/searches`, {
     params: {
+      type,
       page,
       size,
       sort,
