@@ -1,6 +1,6 @@
 import { SignInType } from '@/models/enums/SignInType'
 
-import { client } from './client'
+import { client } from '../Client'
 
 /**
  * 회원가입을 진행합니다.

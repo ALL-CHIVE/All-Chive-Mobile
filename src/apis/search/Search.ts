@@ -2,7 +2,7 @@ import { KeywordResponse, KeywordsResponse, SearchResponse } from '@/models/Sear
 import { SearchType } from '@/models/enums/SearchType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from '../Client'
 
 /**
  * 검색어를 검색합니다.

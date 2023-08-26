@@ -1,7 +1,7 @@
 import { ArchivingInfo } from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from '../Client'
 
 /**
  * 아카이빙 정보 수정시 보여줄 정보를 가져옵니다.

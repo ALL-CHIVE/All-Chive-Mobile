@@ -1,7 +1,7 @@
 import { UserInfoResponse, UserResponse } from '@/models/User'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from '../Client'
 
 /**
  * 닉네임 중복체크합니다.

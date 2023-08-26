@@ -1,7 +1,7 @@
 import { ReportType } from '@/models/enums/ReportType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from '../Client'
 
 /**
  *
