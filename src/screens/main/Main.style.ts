@@ -1,7 +1,7 @@
 import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
-import { ArchivingListContent } from '@/models/Archiving'
+import { ArchivingInfo } from '@/models/Archiving'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
@@ -53,7 +53,7 @@ export const BackgroundImage = styled.Image`
   top: 25px;
 `
 
-export const ArchivingCardList = styled(FlatList<ArchivingListContent>)``
+export const ArchivingCardList = styled(FlatList<ArchivingInfo>)``
 
 export const List = styled.View`
   align-items: center;

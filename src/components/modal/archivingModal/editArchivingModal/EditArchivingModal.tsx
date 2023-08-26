@@ -14,7 +14,7 @@ import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { getArchivingData, patchArchiving } from '@/apis/archiving'
+import { getArchivingData, patchArchiving } from '@/apis/archiving/Archiving'
 import { defaultImages } from '@/assets'
 import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x_mark.svg'
@@ -133,14 +133,7 @@ export const EditArchivingModal = ({
    *
    */
   const { mutate: patchArchivingMutate } = useMutation(
-    () =>
-      patchArchiving({
-        archivingId: archivingId,
-        title: name,
-        imageUrl: image ? imageKey : '',
-        category: selectedCategory,
-        publicStatus: publicStatus,
-      }),
+    () => patchArchiving(archivingId, name, image ? imageKey : '', selectedCategory, publicStatus),
     {
       /**
        * patchArchivingMutate 성공 시 홈 화면과 해당 아카이빙 화면을 리패치합니다.

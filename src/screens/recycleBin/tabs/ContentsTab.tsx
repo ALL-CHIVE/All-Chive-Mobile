@@ -6,8 +6,8 @@ import { useRecoilState } from 'recoil'
 import CheckIcon from '@/assets/icons/check_yellow.svg'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'
+import { ContentCardInfo } from '@/models/ContentCard'
 import { RecycleBinTabProps } from '@/models/Recycle'
-import { SimpleContent } from '@/models/SimpleContent'
 import { CheckContentState } from '@/state/CheckState'
 
 import {
@@ -42,7 +42,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
   /**
    * ListRenderItem
    */
-  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+  const renderItem: ListRenderItem<ContentCardInfo> = ({ item }) => {
     return (
       <TouchableOpacity
         key={item.contentId}
@@ -50,6 +50,7 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
         disabled={!editMode}
       >
         <ContentCard
+          archivingId={0}
           contentId={item.contentId}
           contentTitle={item.contentTitle}
           contentType={item.contentType}

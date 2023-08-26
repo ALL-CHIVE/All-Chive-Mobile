@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native'
-import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving'
+import { deleteArchiving, patchPinArchiving, patchScrapArchiving } from '@/apis/archiving/Archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import PhotoIcon from '@/assets/icons/photo.svg'
 import ScrapIcon from '@/assets/icons/scrap.svg'
@@ -16,7 +15,7 @@ import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
 import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import Popup from '@/components/popup/Popup'
-import { ArchivingListContent } from '@/models/Archiving'
+import { ArchivingInfo } from '@/models/Archiving'
 import { PopupMenu } from '@/models/PopupMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
@@ -39,7 +38,7 @@ import {
 } from './ArchivingCard.style'
 
 interface ArchivingCardProps {
-  item: ArchivingListContent
+  item: ArchivingInfo
   isMine?: boolean
   isRecycle?: boolean
   isSearch?: boolean

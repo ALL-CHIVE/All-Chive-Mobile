@@ -1,3 +1,4 @@
+import { ContentCardInfo } from './ContentCard'
 import { Category } from './enums/Category'
 
 export interface ArchivingListResponse {
@@ -12,18 +13,7 @@ export interface ArchivingItem {
 
 export interface ContentByArchivingResponse {
   contents: {
-    content: [
-      {
-        contentId: number
-        contentTitle: string
-        contentType: string
-        link: string
-        imgUrl: string
-        contentCreatedAt: string
-        tag: string
-        tagCount: number
-      }
-    ]
+    content: ContentCardInfo[]
     page: number
     size: number
     hasNext: boolean
@@ -41,13 +31,13 @@ export interface ContentByArchivingResponse {
 }
 
 export interface MainArchivingListResponse {
-  content: ArchivingListContent[]
+  content: ArchivingInfo[]
   page: number
   size: number
   hasNext: boolean
 }
 
-export interface ArchivingListContent {
+export interface ArchivingInfo {
   archivingId: number
   title: string
   imageUrl: string
@@ -61,5 +51,5 @@ export interface ArchivingListContent {
 }
 
 export interface PopularArchivingsResponse {
-  archivings: ArchivingListContent[]
+  archivings: ArchivingInfo[]
 }

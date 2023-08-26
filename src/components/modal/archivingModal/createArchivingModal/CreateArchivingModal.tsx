@@ -14,7 +14,7 @@ import Modal from 'react-native-modal'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { postArchiving } from '@/apis/archiving'
+import { postArchiving } from '@/apis/archiving/Archiving'
 import { defaultImages } from '@/assets'
 import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x_mark.svg'
@@ -101,13 +101,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const { mutate: postArchivingMutate } = useMutation(
-    () =>
-      postArchiving({
-        title: name,
-        imageUrl: imageKey,
-        category: selectedCategory,
-        publicStatus: publicStatus,
-      }),
+    () => postArchiving(name, imageKey, selectedCategory, publicStatus),
     {
       /**
        * postArchivingMutate 성공 시 해당 Modal의 data를 초기화하고,

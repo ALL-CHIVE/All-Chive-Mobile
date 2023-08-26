@@ -10,7 +10,7 @@ import {
   getCommunityArchivingList,
   getPopularArchivings,
   getScrapArchivingList,
-} from '@/apis/archiving'
+} from '@/apis/archiving/ArchivingList'
 import { getUser } from '@/apis/user'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
@@ -22,7 +22,7 @@ import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
-import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
+import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isCloseToBottom } from '@/services/InfiniteService'
@@ -363,6 +363,6 @@ export const Community = () => {
 /**
  * renderItem
  */
-const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
+const renderItem: ListRenderItem<ArchivingInfo> = ({ item }) => {
   return <ArchivingCard item={item} />
 }

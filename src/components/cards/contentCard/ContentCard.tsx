@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native/types'
-import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 
