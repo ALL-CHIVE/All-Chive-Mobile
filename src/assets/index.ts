@@ -5,21 +5,21 @@ export interface Assets {
 }
 
 export const defaultImages: Assets = {
-  profile: require('@/assets/default/profile.png'),
-  onBoarding1: require('@/assets/default/onboarding1.png'),
-  onBoarding2: require('@/assets/default/onboarding2.png'),
-  reportComplete: require('@/assets/default/reportComplete.png'),
-  thumbnail: require('@/assets/default/thumbnail.png'),
-  blockComplete: require('@/assets/default/blockComplete.png'),
-  homeBackground: require('@/assets/default/homeBackground.png'),
-  recycleBin: require('@/assets/default/recycleBin.png'),
-  communityBackground: require('@/assets/default/community_background.png'),
-  emptyItem: require('@/assets/default/emptyItem.png'),
-  unblockComplete: require('@/assets/default/unblockComplete.png'),
-  content: require('@/assets/default/content.png'),
-  loading: require('@/assets/default/loading.png'),
-  temporaryError: require('@/assets/default/temporaryError.png'),
-  informationError: require('@/assets/default/informationError.png'),
+  blockComplete: require('@/assets/images/block-complete.png'),
+  communityBackground: require('@/assets/images/community-background.png'),
+  content: require('@/assets/images/content.png'),
+  emptyItem: require('@/assets/images/empty-item.png'),
+  homeBackground: require('@/assets/images/home-background.png'),
+  informationError: require('@/assets/images/information-error.png'),
+  loading: require('@/assets/images/loading.png'),
+  onBoarding1: require('@/assets/images/onboarding1.png'),
+  onBoarding2: require('@/assets/images/onboarding2.png'),
+  profile: require('@/assets/images/profile.png'),
+  recycleBin: require('@/assets/images/recycle-bin.png'),
+  reportComplete: require('@/assets/images/report-complete.png'),
+  temporaryError: require('@/assets/images/temporary-error.png'),
+  thumbnail: require('@/assets/images/thumbnail.png'),
+  unblockComplete: require('@/assets/images/unblock-complete.png'),
 }
 
 export const defaultIcons: Assets = {
