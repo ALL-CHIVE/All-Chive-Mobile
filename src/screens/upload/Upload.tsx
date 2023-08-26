@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { postContents } from '@/apis/content'
+import { postContents } from '@/apis/content/Content'
 import PlusIcon from '@/assets/icons/plus.svg'
 import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'

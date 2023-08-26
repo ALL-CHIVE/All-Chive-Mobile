@@ -1,7 +1,7 @@
 import { DeleteRecyclesRequest, RecyclesResponse } from '@/models/Recycle'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../client'
 
 /**
  * 삭제된 아카이빙, 컨텐츠를 가져옵니다.

@@ -5,7 +5,12 @@ import { TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
+import {
+  getSearchLatest,
+  getSearch,
+  getSearchRelation,
+  deleteSearchLatest,
+} from '@/apis/search/Search'
 import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
 import SearchIcon from '@/assets/icons/search.svg'
 import XMark from '@/assets/icons/x_mark.svg'

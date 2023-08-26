@@ -1,7 +1,7 @@
 import { ImageUrl } from '@/models/ImageUrl'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../client'
 
 /**
  * 프로필 이미지 업로드 url 요청할 수 있는 api

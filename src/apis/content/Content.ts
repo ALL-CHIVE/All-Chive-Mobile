@@ -2,7 +2,7 @@ import { GetContentsInfoResponse, GetContentsResponse } from '@/models/Contents'
 import { ContentType } from '@/models/enums/ContentType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../client'
 
 /**
  * 컨텐츠를 생성합니다.

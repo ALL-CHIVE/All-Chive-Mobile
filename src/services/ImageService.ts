@@ -1,6 +1,6 @@
 import RNBlobUtil from 'react-native-blob-util'
 
-import { getArchivingImageUrl, getContentsImageUrl, getUserImageUrl } from '@/apis/image'
+import { getArchivingImageUrl, getContentsImageUrl, getUserImageUrl } from '@/apis/recycle/Image'
 
 /**
  * 프로필 이미지 URL을 생성합니다.

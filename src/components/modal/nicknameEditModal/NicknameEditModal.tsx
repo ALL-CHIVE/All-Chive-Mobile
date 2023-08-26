@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 
-import { checkNicknameValid } from '@/apis/user'
+import { checkNicknameValid } from '@/apis/user/User'
 import XMark from '@/assets/icons/x_mark.svg'
 import i18n from '@/locales'
 import { checkNickname } from '@/services/StringChecker'

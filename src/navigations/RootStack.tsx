@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { useRecoilState } from 'recoil'
 
-import { canAuthSignIn } from '@/apis/auth'
+import { canAuthSignIn } from '@/apis/auth/Auth'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { SignInType } from '@/models/enums/SignInType'

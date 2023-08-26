@@ -2,7 +2,7 @@ import { AutoSignInResponse } from '@/models/user/Auth'
 import { saveTokens } from '@/services/SignInService'
 import { getAccessToken, getRefreshToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../client'
 
 /**
  * 회원탈퇴를 합니다.

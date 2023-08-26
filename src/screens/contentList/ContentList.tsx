@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil'
 
 import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving/Archiving'
 import { getContentByArchiving } from '@/apis/archiving/ArchivingList'
-import { postBlock } from '@/apis/block'
+import { postBlock } from '@/apis/block/Block'
 import { defaultImages } from '@/assets'
 import ScrapIcon from '@/assets/icons/scrap.svg'
 import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'

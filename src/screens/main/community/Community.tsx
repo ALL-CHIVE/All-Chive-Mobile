@@ -11,7 +11,7 @@ import {
   getPopularArchivings,
   getScrapArchivingList,
 } from '@/apis/archiving/ArchivingList'
-import { getUser } from '@/apis/user'
+import { getUser } from '@/apis/user/User'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
