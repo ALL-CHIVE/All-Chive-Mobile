@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 
-import CheckIcon from '@/assets/icons/check_yellow.svg'
-import RightArrowIcon from '@/assets/icons/right_arrow.svg'
+import CheckIcon from '@/assets/icons/check-yellow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'

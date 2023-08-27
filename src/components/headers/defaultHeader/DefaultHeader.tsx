@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 
-import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import LeftArrowIcon from '@/assets/icons/left-arrow.svg'
 import PopupIcon from '@/assets/icons/popup.svg'
 import Popup from '@/components/popup/Popup'
 import { PopupMenu } from '@/models/PopupMenu'

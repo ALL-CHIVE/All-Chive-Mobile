@@ -3,7 +3,7 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { View } from 'react-native'
 
-import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import LeftArrowIcon from '@/assets/icons/left-arrow.svg'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import {

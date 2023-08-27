@@ -1,7 +1,7 @@
 import React from 'react'
 
 import SearchIcon from '@/assets/icons/search.svg'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { colors } from '@/styles/colors'
 
 import { Container, RemoveImageContainer, Style, TextInput } from './SearchBar.style'

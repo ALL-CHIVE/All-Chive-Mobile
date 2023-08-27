@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Dimensions, Keyboard, KeyboardEvent, Platform } from 'react-native'
 
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'

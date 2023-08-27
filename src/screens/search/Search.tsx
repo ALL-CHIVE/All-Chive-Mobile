@@ -11,9 +11,9 @@ import {
   getSearchRelation,
   deleteSearchLatest,
 } from '@/apis/search/Search'
-import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import LeftArrowIcon from '@/assets/icons/left-arrow.svg'
 import SearchIcon from '@/assets/icons/search.svg'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'

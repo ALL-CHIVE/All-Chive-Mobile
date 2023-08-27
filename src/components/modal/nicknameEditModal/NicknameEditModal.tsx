@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import { useMutation } from 'react-query'
 
 import { checkNicknameValid } from '@/apis/user/User'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import i18n from '@/locales'
 import { checkNickname } from '@/services/StringChecker'
 import { colors } from '@/styles/colors'

@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { postContents } from '@/apis/content/Content'
 import PlusIcon from '@/assets/icons/plus.svg'
-import RightArrowIcon from '@/assets/icons/right_arrow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
