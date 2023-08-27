@@ -6,7 +6,7 @@ import {
 } from '@/models/Archiving'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from '../client'
+import { client } from '../Client'
 
 /**
  * 내 아카이빙 카테고리별 아카이빙 리스트를 가져옵니다.

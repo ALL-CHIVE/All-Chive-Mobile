@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getContentsInfo, patchContents } from '@/apis/content'
+import { getContentsInfo, patchContents } from '@/apis/content/Content'
 import PlusIcon from '@/assets/icons/plus.svg'
 import RightArrowIcon from '@/assets/icons/right_arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -108,16 +108,16 @@ export const Edit = ({ route }: EditProps) => {
 
   const { mutate: patchContentsMutate } = useMutation(
     () =>
-      patchContents({
-        contentId: route.params.id,
-        contentType: route.params.type,
-        archivingId: selectArchiving.id,
-        title: contentName,
-        link: link,
-        imgUrl: imageUrl,
-        tagIds: selectTag.map((tag) => tag.tagId),
-        memo: memo,
-      }),
+      patchContents(
+        route.params.id,
+        route.params.type,
+        selectArchiving.id,
+        contentName,
+        link,
+        imageUrl,
+        selectTag.map((tag) => tag.tagId),
+        memo
+      ),
     {
       /**
        * patchContentsMutate 성공 시 recoil state를 초기화하고,

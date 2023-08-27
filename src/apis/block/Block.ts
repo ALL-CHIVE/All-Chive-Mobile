@@ -1,7 +1,7 @@
 import { BlockListResponse, BlockResponse } from '@/models/Block'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../Client'
 
 /**
  * 차단한 유저 정보를 가져옵니다.

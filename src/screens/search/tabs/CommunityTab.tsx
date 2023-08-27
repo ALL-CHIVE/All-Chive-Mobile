@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { getSearch } from '@/apis/search'
+import { getSearch } from '@/apis/search/Search'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
