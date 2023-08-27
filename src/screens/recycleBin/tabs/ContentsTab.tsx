@@ -50,7 +50,6 @@ export const ContentsTab = ({ contents, editMode }: RecycleBinTabProps) => {
         disabled={!editMode}
       >
         <ContentCard
-          archivingId={0}
           contentId={item.contentId}
           contentTitle={item.contentTitle}
           contentType={item.contentType}
