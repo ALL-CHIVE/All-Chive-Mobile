@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useQuery, useQueryClient } from 'react-query'
 
-import { getArchivingList } from '@/apis/archiving'
+import { getArchivingList } from '@/apis/archiving/ArchivingList'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'

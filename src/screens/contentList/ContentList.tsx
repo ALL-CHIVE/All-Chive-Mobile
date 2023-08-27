@@ -4,12 +4,12 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
-import Config from 'react-native-config'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { deleteArchiving, getContentByArchiving, patchScrapArchiving } from '@/apis/archiving'
+import { deleteArchiving, patchScrapArchiving } from '@/apis/archiving/Archiving'
+import { getContentByArchiving } from '@/apis/archiving/ArchivingList'
 import { postBlock } from '@/apis/block'
 import { defaultImages } from '@/assets'
 import ScrapIcon from '@/assets/icons/scrap.svg'
@@ -25,8 +25,8 @@ import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
+import { ContentCardInfo } from '@/models/ContentCard'
 import { PopupMenu } from '@/models/PopupMenu'
-import { SimpleContent } from '@/models/SimpleContent'
 import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -228,7 +228,7 @@ const ContentList = ({ route }: ContentListProps) => {
   /**
    * ListRenderItem
    */
-  const renderItem: ListRenderItem<SimpleContent> = ({ item }) => {
+  const renderItem: ListRenderItem<ContentCardInfo> = ({ item }) => {
     return (
       <ContentCard
         key={item.contentId}

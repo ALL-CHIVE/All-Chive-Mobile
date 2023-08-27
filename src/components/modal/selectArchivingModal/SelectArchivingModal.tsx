@@ -5,7 +5,7 @@ import Modal from 'react-native-modal'
 import { useQuery } from 'react-query'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 
-import { getArchivingList } from '@/apis/archiving'
+import { getArchivingList } from '@/apis/archiving/ArchivingList'
 import CheckCircle from '@/assets/icons/check_circle.svg'
 import LeftProvider from '@/assets/icons/left_provider.svg'
 import XMark from '@/assets/icons/x_mark.svg'

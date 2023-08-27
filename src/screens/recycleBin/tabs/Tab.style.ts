@@ -1,7 +1,7 @@
 import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
-import { SimpleContent } from '@/models/SimpleContent'
+import { ContentCardInfo } from '@/models/ContentCard'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
@@ -42,7 +42,7 @@ export const GrayDivider = styled.View`
   background-color: ${colors.gray50};
 `
 
-export const ContentListContainer = styled(FlatList<SimpleContent>)`
+export const ContentListContainer = styled(FlatList<ContentCardInfo>)`
   width: 336px;
 `
 

@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native/types'
-import Config from 'react-native-config'
 import FastImage from 'react-native-fast-image'
 import { Shadow } from 'react-native-shadow-2'
 
@@ -30,7 +29,7 @@ import {
 } from './ContentCard.style'
 
 interface ContentCardProps {
-  archivingId: number
+  archivingId?: number
   contentId: number
   contentTitle: string
   contentType: string
@@ -61,21 +60,14 @@ const ContentCard = ({
 
   return (
     <Container
-      {...(isRecycle
-        ? {
-            disabled: true,
-          }
-        : {
-            /**
-             * 휴지통에서의 컨텐츠 카드가 아닐 경우에만 onPress 이벤트를 추가합니다.
-             */
-            onPress: () => {
-              navigation.navigate('ContentDetail', {
-                archivingId: archivingId,
-                contentId: contentId,
-              })
-            },
-          })}
+      disabled={isRecycle}
+      onPress={() => {
+        archivingId &&
+          navigation.navigate('ContentDetail', {
+            archivingId: archivingId,
+            contentId: contentId,
+          })
+      }}
     >
       <Shadow
         startColor={colors.commonShadow}
