@@ -10,7 +10,6 @@ import {
   Platform,
   View,
 } from 'react-native'
-import Config from 'react-native-config'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -213,7 +212,7 @@ export const EditArchivingModal = ({
     const imageUrl = (image as ImageURISource)?.uri ?? ''
 
     if (imageUrl) {
-      const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
+      const archivingImageUrl = await uploadArchivingImage(imageUrl)
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
 

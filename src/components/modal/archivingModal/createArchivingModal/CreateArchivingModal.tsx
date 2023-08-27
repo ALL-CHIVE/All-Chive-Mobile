@@ -189,7 +189,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     const imageUrl = (image as ImageURISource)?.uri ?? ''
 
     if (imageUrl) {
-      const archivingImageUrl = await uploadArchivingImage(imageUrl, imageKey)
+      const archivingImageUrl = await uploadArchivingImage(imageUrl)
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
 

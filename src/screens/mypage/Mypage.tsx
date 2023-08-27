@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource, Platform, TouchableOpacity, View } from 'react-native'
-import Config from 'react-native-config'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
 import LinearGradient from 'react-native-linear-gradient'
 import { Shadow } from 'react-native-shadow-2'
@@ -158,11 +157,11 @@ export const Mypage = () => {
             />
             <NavigationList
               title={i18n.t('openSourceLicense')}
-              url={openSourceLicense}
+              openInAppUrl={openSourceLicense}
             />
             <NavigationList
               title={i18n.t('customerService')}
-              url={customerService}
+              openInAppUrl={customerService}
             />
             <NavigationList
               title={i18n.t('recycleBin')}
