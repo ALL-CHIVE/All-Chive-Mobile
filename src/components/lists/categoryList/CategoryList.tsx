@@ -34,7 +34,7 @@ export const CategoryList = ({
       horizontal={true}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      style={isSticky && { backgroundColor: colors.yellow200 }}
+      style={isSticky && { backgroundColor: colors.sticky }}
     >
       <Container>
         {options.map((option, index) => (

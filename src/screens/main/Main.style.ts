@@ -8,8 +8,8 @@ import { fonts } from '@/styles/fonts'
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-top: 36px;
-  margin-bottom: 15px;
+  margin-top: 46px;
+  margin-bottom: 25px;
   padding: 0 25px;
 `
 
