@@ -2,6 +2,7 @@ import React from 'react'
 
 import i18n from '@/locales'
 import { Category } from '@/models/enums/Category'
+import { colors } from '@/styles/colors'
 
 import { Button, ClickStyles, Container, ScrollContainer, Text } from './CategoryList.style'
 
@@ -9,6 +10,7 @@ interface CategoryListProps {
   currentCategory: Category | string
   setCurrentCategory: React.Dispatch<React.SetStateAction<Category | string>>
   options: Category[]
+  isSticky: boolean
 }
 
 /**
@@ -18,6 +20,7 @@ export const CategoryList = ({
   currentCategory,
   setCurrentCategory,
   options,
+  isSticky,
 }: CategoryListProps) => {
   /**
    * handleOptionPress
@@ -31,6 +34,7 @@ export const CategoryList = ({
       horizontal={true}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
+      style={isSticky && { backgroundColor: colors.yellow200 }}
     >
       <Container>
         {options.map((option, index) => (

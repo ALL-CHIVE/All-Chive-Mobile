@@ -21,6 +21,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
+import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
 import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
@@ -72,6 +73,7 @@ export const Community = () => {
 
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
+  const { isSticky, handleScroll } = useSticky(515)
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery(
     ['getUser'],
@@ -263,6 +265,8 @@ export const Community = () => {
         <ScrollContainer
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[2]}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
           onScrollEndDrag={({ nativeEvent }) => {
             if (isCloseToBottom(nativeEvent)) {
               onEndReached()
@@ -318,6 +322,7 @@ export const Community = () => {
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             options={allCategoryList}
+            isSticky={isSticky}
           />
           {(currentCommunityMenu === CommunityMenuType.Community &&
             !archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
