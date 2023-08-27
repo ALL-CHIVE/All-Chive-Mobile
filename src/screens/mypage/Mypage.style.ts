@@ -8,9 +8,10 @@ export const ScrollContainer = styled.ScrollView`
 `
 
 export const MyPageContainer = styled.View`
-  height: 270px;
+  height: 350px;
   border-radius: 0px 0px 20px 20px;
   overflow: hidden;
+  background-color: ${colors.yellow200};
 `
 
 export const HeaderContainer = styled.View`
@@ -60,4 +61,9 @@ export const Footer = styled.View`
 export const FooterText = styled.Text`
   ${fonts.body3}
   color: ${colors.gray300};
+`
+
+export const CountContainer = styled.View`
+  flex-direction: row;
+  margin-top: 15px;
 `

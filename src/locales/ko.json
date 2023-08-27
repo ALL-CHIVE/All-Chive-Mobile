@@ -169,5 +169,6 @@
   "pleaseRetryLittleWhile": "잠시 후에 다시 시도해주세요!",
   "retry": "다시 시도하기",
   "tagVerify": "한/영 20자 이내 입력",
-  "errorDialogRetry": "재시도"
+  "errorDialogRetry": "재시도",
+  "publicArchiving": "공개 아카이빙"
 }
