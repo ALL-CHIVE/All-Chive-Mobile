@@ -50,12 +50,12 @@ export const CountContainer = styled.View`
   background-color: ${colors.gray200};
   border-radius: 4px;
   align-items: center;
+  gap: 4px;
 `
 
 export const CountText = styled.Text`
   ${fonts.body4};
   color: ${colors.white};
-  margin: 0 4px;
 `
 
 export const Icon = styled.Image`
