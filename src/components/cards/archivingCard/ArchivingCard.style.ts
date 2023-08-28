@@ -54,7 +54,7 @@ export const CountContainer = styled.View`
 `
 
 export const CountText = styled.Text`
-  ${fonts.body4};
+  ${fonts.body3};
   color: ${colors.white};
 `
 
