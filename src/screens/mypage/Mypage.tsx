@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource, Platform, TouchableOpacity, View } from 'react-native'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
-import LinearGradient from 'react-native-linear-gradient'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
@@ -11,6 +11,7 @@ import { logout } from '@/apis/auth/Auth'
 import { getUser } from '@/apis/user/User'
 import { defaultImages } from '@/assets'
 import LeftArrowIcon from '@/assets/icons/left-arrow.svg'
+import CountCard from '@/components/cards/countCard/CountCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
@@ -30,6 +31,7 @@ import {
   ProfileImage,
   Title,
   ScrollContainer,
+  CountContainer,
 } from './Mypage.style'
 import { NavigationList } from './components/NavigationList'
 
@@ -69,6 +71,7 @@ export const Mypage = () => {
     logoutMutate()
   }
 
+  const { top } = useSafeAreaInsets()
   return (
     <>
       {isProfileLoading && <Loading />}
@@ -82,6 +85,7 @@ export const Mypage = () => {
           setErrorDialogVisible(false)
         }}
       />
+      <View style={{ backgroundColor: colors.yellow200, height: top }} />
       <DefaultContainer>
         <ScrollContainer
           bounces={false}
@@ -96,30 +100,39 @@ export const Mypage = () => {
             style={{ width: '100%', borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}
           >
             <MyPageContainer>
-              <LinearGradient
-                style={{ height: '100%' }}
-                colors={[colors.white, colors.yellow600]}
-              >
-                <HeaderContainer>
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <LeftArrowIcon />
-                  </TouchableOpacity>
-                  <Title>{i18n.t('mypage')}</Title>
-                  <View style={{ width: 20 }} />
-                </HeaderContainer>
-                <ProfileContainer>
-                  <ProfileImage
-                    source={
-                      isProfileImageError || !profileData?.imgUrl
-                        ? defaultImages.profile
-                        : { uri: profileData.imgUrl }
-                    }
-                    onError={() => setIsProfileImageError(true)}
-                    defaultSource={defaultImages.profile as ImageURISource}
+              <HeaderContainer>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <LeftArrowIcon />
+                </TouchableOpacity>
+                <Title>{i18n.t('mypage')}</Title>
+                <View style={{ width: 20 }} />
+              </HeaderContainer>
+              <ProfileContainer>
+                <ProfileImage
+                  source={
+                    isProfileImageError || !profileData?.imgUrl
+                      ? defaultImages.profile
+                      : { uri: profileData.imgUrl }
+                  }
+                  onError={() => setIsProfileImageError(true)}
+                  defaultSource={defaultImages.profile as ImageURISource}
+                />
+                <NicknameText>{profileData?.nickname}</NicknameText>
+                <CountContainer>
+                  <CountCard
+                    title={i18n.t('link')}
+                    count={profileData?.linkCount ?? 0}
                   />
-                  <NicknameText>{profileData?.nickname}</NicknameText>
-                </ProfileContainer>
-              </LinearGradient>
+                  <CountCard
+                    title={i18n.t('image')}
+                    count={profileData?.imgCount ?? 0}
+                  />
+                  <CountCard
+                    title={i18n.t('publicArchiving')}
+                    count={profileData?.publicArchivingCount ?? 0}
+                  />
+                </CountContainer>
+              </ProfileContainer>
             </MyPageContainer>
           </Shadow>
           <NavigationListContainer>
