@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import Config from 'react-native-config'
+
 /**
  *
  */
@@ -14,7 +16,11 @@ const useUploadImage = () => {
     uploadFunction: (imageUri: string) => Promise<string>
   ) => {
     setIsUploading(true)
-    const url = await uploadFunction(imageUrl)
+
+    const url =
+      Config.ALLCHIVE_ASSET_SERVER && imageUrl.startsWith(Config.ALLCHIVE_ASSET_SERVER)
+        ? imageUrl
+        : await uploadFunction(imageUrl)
     setIsUploading(false)
 
     return url
