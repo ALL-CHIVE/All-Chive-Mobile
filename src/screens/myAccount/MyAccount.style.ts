@@ -34,7 +34,7 @@ export const ButtonText = styled.Text`
 `
 
 export const InfoContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 60px;
 `
 
 export const RowView = styled.View`
