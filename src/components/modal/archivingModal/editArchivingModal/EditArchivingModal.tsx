@@ -21,7 +21,9 @@ import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { DropDown } from '@/components/dropDown/DropDown'
+import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
+import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
@@ -75,6 +77,7 @@ export const EditArchivingModal = ({
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
+  const { isUploading, upload } = useUploadImage()
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
@@ -205,7 +208,7 @@ export const EditArchivingModal = ({
     const imageUrl = (image as ImageURISource)?.uri ?? ''
 
     if (imageUrl) {
-      const archivingImageUrl = await uploadArchivingImage(imageUrl)
+      const archivingImageUrl = await upload(imageUrl, uploadArchivingImage)
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
 
@@ -233,6 +236,7 @@ export const EditArchivingModal = ({
           margin: 0,
         }}
       >
+        {isUploading && <Indicator />}
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>

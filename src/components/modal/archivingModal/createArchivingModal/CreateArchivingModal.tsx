@@ -20,6 +20,8 @@ import CameraIcon from '@/assets/icons/camera.svg'
 import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
+import Indicator from '@/components/indicator/Indicator'
+import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
@@ -68,6 +70,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
   const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
+  const { isUploading, upload } = useUploadImage()
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
@@ -183,7 +186,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     const imageUrl = (image as ImageURISource)?.uri ?? ''
 
     if (imageUrl) {
-      const archivingImageUrl = await uploadArchivingImage(imageUrl)
+      const archivingImageUrl = await upload(imageUrl, uploadArchivingImage)
       archivingImageUrl && setImageKey(archivingImageUrl)
     }
 
@@ -200,6 +203,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
           margin: 0,
         }}
       >
+        {isUploading && <Indicator />}
         <Container style={{ height: modalHight }}>
           <Header>
             <CloseButton onPress={onClose}>

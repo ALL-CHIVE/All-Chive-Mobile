@@ -15,9 +15,11 @@ import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
+import Indicator from '@/components/indicator/Indicator'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
+import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
@@ -79,6 +81,7 @@ export const Edit = ({ route }: EditProps) => {
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
+  const { isUploading, upload } = useUploadImage()
 
   const { data: content } = useQuery<GetContentsInfoResponse>(
     [`contentsInfo${route.params.id}`, route.params.id],
@@ -185,7 +188,7 @@ export const Edit = ({ route }: EditProps) => {
       }
       case ContentType.Image: {
         const imageUrl = (image as ImageURISource)?.uri ?? ''
-        const contentImageUrl = await uploadContentImage(imageUrl)
+        const contentImageUrl = await upload(imageUrl, uploadContentImage)
         contentImageUrl && setImageUrl(contentImageUrl)
         break
       }
@@ -344,6 +347,7 @@ export const Edit = ({ route }: EditProps) => {
           </Container>
         </KeyboardAwareScrollView>
       </DefaultScrollContainer>
+      {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
         onPress={handleSubmit}

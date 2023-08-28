@@ -15,8 +15,10 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
+import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { SignInType } from '@/models/enums/SignInType'
@@ -52,11 +54,11 @@ export const MyAccount = () => {
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
   const [profileImageKey, setProfileImageKey] = useState<string>('')
   const [editMode, setEditMode] = useState(false)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const { isUploading, upload } = useUploadImage()
 
   const { data: userInfoData, isLoading: isProfileLoading } = useQuery(
     ['getUserInfo'],
@@ -129,6 +131,7 @@ export const MyAccount = () => {
         break
       default:
         setProfileImage({ uri: selectedImage })
+        break
     }
   }
 
@@ -153,7 +156,7 @@ export const MyAccount = () => {
   const handleRightButton = async () => {
     if (editMode) {
       const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
-      const contentImageUrl = await uploadProfileImage(imageUrl)
+      const contentImageUrl = await upload(imageUrl, uploadProfileImage)
       contentImageUrl && setProfileImageKey(contentImageUrl)
 
       postUserInfoMutation()
@@ -180,6 +183,7 @@ export const MyAccount = () => {
   return (
     <>
       {isProfileLoading && <Loading />}
+      {isUploading && <Indicator />}
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
@@ -202,8 +206,7 @@ export const MyAccount = () => {
           <Container>
             <ProfileContainer>
               <ProfileImage
-                source={isProfileImageError || !profileImage ? defaultImages.profile : profileImage}
-                onError={() => setIsProfileImageError(true)}
+                source={profileImage ?? defaultImages.profile}
                 defaultSource={defaultImages.profile as ImageURISource}
               />
               {editMode && (
