@@ -191,7 +191,7 @@ export const Home = () => {
             .length ? (
             <EmptyItem
               textKey="noHomeArchiving"
-              marginTop={29}
+              marginTop={39}
             />
           ) : (
             <List>
