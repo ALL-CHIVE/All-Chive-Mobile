@@ -16,11 +16,14 @@ const useUploadImage = () => {
     uploadFunction: (imageUri: string) => Promise<string>
   ) => {
     setIsUploading(true)
+    let url = ''
 
-    const url =
-      Config.ALLCHIVE_ASSET_SERVER && imageUrl.startsWith(Config.ALLCHIVE_ASSET_SERVER)
-        ? imageUrl
-        : await uploadFunction(imageUrl)
+    if (Config.ALLCHIVE_ASSET_SERVER && imageUrl.startsWith(Config.ALLCHIVE_ASSET_SERVER)) {
+      url = imageUrl
+    } else if (imageUrl) {
+      url = await uploadFunction(imageUrl)
+    }
+
     setIsUploading(false)
 
     return url
