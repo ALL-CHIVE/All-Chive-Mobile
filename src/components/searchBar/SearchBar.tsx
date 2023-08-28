@@ -31,7 +31,6 @@ export const SearchBar = ({
   const inputRef = useRef<TextInput>(null)
 
   useEffect(() => {
-    console.log('mount')
     inputRef?.current?.focus()
   }, [])
 
