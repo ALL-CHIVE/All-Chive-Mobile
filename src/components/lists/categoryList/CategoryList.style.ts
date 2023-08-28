@@ -3,13 +3,10 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const ScrollContainer = styled.ScrollView`
-  background-color: rgba(255, 252, 231, 0.9);
-`
+export const ScrollContainer = styled.ScrollView``
 
 export const Container = styled.View`
-  padding-left: 25px;
-  padding-right: 14px;
+  padding: 10px 14px 10px 25px;
   flex-direction: row;
 `
 
@@ -20,11 +17,13 @@ export const Button = styled.TouchableOpacity`
   padding: 4px 15px;
   background-color: ${colors.yellow200};
   margin-right: 11px;
+  border: 0.5px solid ${colors.yellow500};
 `
 
 export const ClickStyles = {
   category: css`
     background-color: ${colors.mainYellow};
+    border: none;
   `,
   text: css`
     color: ${colors.gray500};

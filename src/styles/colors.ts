@@ -17,6 +17,7 @@ export const colors = {
   shadow: '#3D3D3D1A',
   yellow600: '#FFF28B',
   commonShadow: '#00000008',
-  yellow500Opacity60: '#ffec5499',
-  mainYellowOpacity60: '#ffd23199',
+  sticky: '#FDFADB',
+  yellow500Opacity60: '#FFEC5499',
+  mainYellowOpacity60: '#FFD23199',
 }

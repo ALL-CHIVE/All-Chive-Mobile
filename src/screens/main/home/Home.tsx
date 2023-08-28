@@ -16,6 +16,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
+import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
 import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
@@ -53,10 +54,9 @@ export const Home = () => {
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
   const [profileErrorVisible, setProfileErrorVisible] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
-
   const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
-
+  const { isSticky, handleScroll } = useSticky(265)
   const { data: profileData, isLoading: isProfileLoading } = useQuery(
     ['getUser'],
     () => getUser(),
@@ -162,6 +162,8 @@ export const Home = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           stickyHeaderIndices={[1]}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
           onScrollEndDrag={({ nativeEvent }) => {
             if (isCloseToBottom(nativeEvent)) {
               onEndReached()
@@ -183,6 +185,7 @@ export const Home = () => {
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             options={allCategoryList}
+            isSticky={isSticky}
           />
           {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
             .length ? (

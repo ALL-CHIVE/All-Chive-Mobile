@@ -21,7 +21,7 @@ export const Menu = styled.View`
   border-bottom-color: ${colors.gray50};
   flex-direction: row;
   padding: 0 18.5px;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
   margin-top: -10px;
 `
 
