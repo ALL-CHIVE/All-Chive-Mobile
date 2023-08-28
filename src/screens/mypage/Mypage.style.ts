@@ -55,7 +55,6 @@ export const Footer = styled.View`
   justify-content: center;
   width: 100%;
   height: 107px;
-  background-color: ${colors.yellow100};
 `
 
 export const FooterText = styled.Text`

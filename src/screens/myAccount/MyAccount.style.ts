@@ -50,21 +50,8 @@ export const PencilButton = styled.TouchableOpacity`
   right: 0px;
 `
 
-export const Footer = styled.View`
-  align-items: center;
-  justify-content: center;
-  width: 375px;
-  height: 103px;
-  background-color: ${colors.yellow100};
-`
-
-export const FooterText = styled.Text`
-  ${fonts.body3}
-  color: ${colors.gray300};
-`
-
 export const InfoText = styled.Text`
-  ${fonts.body1}
+  ${fonts.subtitle2}
   color: ${colors.gray400};
 `
 
@@ -73,4 +60,19 @@ export const InfoTitle = styled.Text`
   color: ${colors.mainBlack};
   width: 50px;
   margin-right: 15px;
+`
+
+export const WithdrawButton = styled.TouchableOpacity`
+  min-width: 130px;
+  height: 36px;
+  background-color: ${colors.gray500};
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  bottom: 49px;
+`
+
+export const WithdrawButtonText = styled.Text`
+  ${fonts.btn1}
+  color: ${colors.white};
 `
