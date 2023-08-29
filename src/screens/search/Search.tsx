@@ -48,17 +48,11 @@ const Search = () => {
 
   const [isFocus, setIsFocus] = useState(false)
   const [debounceText, setDebounceText] = useState('')
+  const [showLoading, setShowLoading] = useState(false)
 
   const [isSearchErrorVisible, setIsSearchErrorVisible] = useState(false)
   const [isRelationErrorVisible, setIsRelationErrorVisible] = useState(false)
   const [isLatestErrorVisible, setIsLatestErrorVisible] = useState(false)
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebounceText(searchText)
-    }, 500)
-    return () => clearTimeout(timeoutId)
-  }, [searchText, 500])
 
   const { data: searchData, isLoading: isSearchLoading } = useQuery(
     ['getSearch', searchText],
@@ -111,6 +105,23 @@ const Search = () => {
     },
   })
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceText(searchText)
+    }, 500)
+    return () => clearTimeout(timeoutId)
+  }, [searchText, 500])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isSearchLoading || isRelationLoading || isLatestLoading) {
+        setShowLoading(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [isSearchLoading || isRelationLoading || isLatestLoading])
+
   /**
    * handleSearch
    */
@@ -149,7 +160,11 @@ const Search = () => {
 
   return (
     <>
-      {isSearchLoading || isRelationLoading || isLatestLoading ? <Loading /> : <></>}
+      {showLoading && (isSearchLoading || isRelationLoading || isLatestLoading) ? (
+        <Loading />
+      ) : (
+        <></>
+      )}
       <InformationErrorDialog
         isVisible={isSearchErrorVisible}
         onRetry={() => {
