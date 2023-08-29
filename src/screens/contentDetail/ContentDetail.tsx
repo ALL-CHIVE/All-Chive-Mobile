@@ -80,8 +80,11 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
      */
     onSuccess: () => {
       queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
-      navigation.goBack()
       queryClient.invalidateQueries([`contentByArchiving`])
+      queryClient.invalidateQueries([`getHomeArchivingList`])
+      if (route.params.previousScreen === 'Upload')
+        navigation.navigate('BottomTab', { screen: 'Home' })
+      else navigation.goBack()
     },
   })
 
@@ -178,6 +181,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           title={content.contentTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={HandleReport}
+          wantGoHome={route.params.previousScreen === 'Upload'}
         />
         <DefaultScrollContainer>
           <Container>
