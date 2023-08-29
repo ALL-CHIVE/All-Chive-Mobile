@@ -15,6 +15,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
 import i18n from '@/locales'
@@ -50,9 +51,7 @@ export const MyAccount = () => {
   const queryClient = useQueryClient()
 
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
-  const [profileImageKey, setProfileImageKey] = useState<string>('')
   const [editMode, setEditMode] = useState(false)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
@@ -67,7 +66,6 @@ export const MyAccount = () => {
        */
       onSuccess: (userInfoData) => {
         userInfoData.imgUrl && setProfileImage({ uri: userInfoData.imgUrl })
-        setProfileImageKey(userInfoData.imgUrl)
         setNickname(userInfoData.nickname)
       },
       /**
@@ -79,23 +77,33 @@ export const MyAccount = () => {
     }
   )
 
-  const { mutate: postUserInfoMutation } = useMutation(
-    () =>
-      postUserInfo(
-        profileImage ? profileImageKey : '',
-        userInfoData?.email ?? '',
-        userInfoData?.name ?? '',
-        nickname
-      ),
-    {
-      /**
-       *
-       */
-      onSuccess: () => {
-        queryClient.invalidateQueries(['getUser'])
-      },
+  /**
+   *
+   */
+  const updateUserInfo = async () => {
+    const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
+    let profileImageUrl = ''
+
+    if (imageUrl) {
+      profileImageUrl = await uploadProfileImage(imageUrl)
     }
-  )
+
+    await postUserInfo(
+      profileImage ? profileImageUrl : '',
+      userInfoData?.email ?? '',
+      userInfoData?.name ?? '',
+      nickname
+    )
+  }
+
+  const { mutate: updateUserInfoMutation, isLoading: isUploading } = useMutation(updateUserInfo, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getUser'])
+    },
+  })
 
   const { mutate: withdrawMutation } = useMutation(deleteWithdrawal, {
     /**
@@ -129,6 +137,7 @@ export const MyAccount = () => {
         break
       default:
         setProfileImage({ uri: selectedImage })
+        break
     }
   }
 
@@ -152,11 +161,7 @@ export const MyAccount = () => {
    */
   const handleRightButton = async () => {
     if (editMode) {
-      const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
-      const contentImageUrl = await uploadProfileImage(imageUrl)
-      contentImageUrl && setProfileImageKey(contentImageUrl)
-
-      postUserInfoMutation()
+      updateUserInfoMutation()
     }
 
     setEditMode((prev) => !prev)
@@ -180,6 +185,7 @@ export const MyAccount = () => {
   return (
     <>
       {isProfileLoading && <Loading />}
+      {isUploading && <Indicator />}
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
@@ -202,8 +208,7 @@ export const MyAccount = () => {
           <Container>
             <ProfileContainer>
               <ProfileImage
-                source={isProfileImageError || !profileImage ? defaultImages.profile : profileImage}
-                onError={() => setIsProfileImageError(true)}
+                source={profileImage ?? defaultImages.profile}
                 defaultSource={defaultImages.profile as ImageURISource}
               />
               {editMode && (
