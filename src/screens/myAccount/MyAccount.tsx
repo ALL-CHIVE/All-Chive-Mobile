@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
+import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth/Auth'
@@ -37,9 +37,9 @@ import {
   ButtonText,
   PencilButton,
   RowView,
-  Footer,
-  FooterText,
   Container,
+  WithdrawButton,
+  WithdrawButtonText,
 } from './MyAccount.style'
 
 /**
@@ -262,11 +262,9 @@ export const MyAccount = () => {
           theme="ios"
         />
         {editMode && (
-          <Footer>
-            <TouchableOpacity onPress={() => setIsWithdrawDialogVisible(true)}>
-              <FooterText>{i18n.t('deleteAccount')}</FooterText>
-            </TouchableOpacity>
-          </Footer>
+          <WithdrawButton onPress={() => setIsWithdrawDialogVisible(true)}>
+            <WithdrawButtonText>{i18n.t('deleteAccount')}</WithdrawButtonText>
+          </WithdrawButton>
         )}
         <NicknameEditModal
           isVisible={isNicknameEditModalVisible}

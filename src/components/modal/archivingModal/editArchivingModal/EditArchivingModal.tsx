@@ -273,7 +273,7 @@ export const EditArchivingModal = ({
             <Bottom />
           </ScrollContainer>
           <BoxButton
-            textKey={i18n.t('confirm')}
+            textKey={i18n.t('complete')}
             onPress={updateArchivingMutate}
             isDisabled={!name || !selectedCategory}
           />
