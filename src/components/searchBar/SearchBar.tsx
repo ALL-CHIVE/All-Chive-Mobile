@@ -31,7 +31,7 @@ export const SearchBar = ({
   const inputRef = useRef<TextInput>(null)
 
   useEffect(() => {
-    inputRef?.current?.focus()
+    setTimeout(() => inputRef?.current?.focus(), 20)
   }, [])
 
   return (
