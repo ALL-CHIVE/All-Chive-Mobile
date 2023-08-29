@@ -19,7 +19,6 @@ import Indicator from '@/components/indicator/Indicator'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
-import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
@@ -70,7 +69,6 @@ export const Upload = ({ route }: UploadProps) => {
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
 
   const [lastFocused, setLastFocused] = useState(-1)
   const [currentFocused, setCurrentFocused] = useState(-1)
@@ -81,38 +79,57 @@ export const Upload = ({ route }: UploadProps) => {
   const currentCategory = useRecoilValue(CategoryState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
-  const { isUploading, upload } = useUploadImage()
 
-  const { mutate: postContentsMutate } = useMutation(
-    () =>
-      postContents(
-        route.params.type,
-        selectArchiving.id,
-        contentName,
-        link,
-        imageUrl,
-        selectTag.map((tag) => tag.tagId),
-        memo
-      ),
-    {
-      /**
-       * postContentsMutate 성공 시 recoil state를 초기화하고,
-       * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
-       */
-      onSuccess: () => {
-        setSelectArchiving({ id: -1, title: '' })
-        setSelectTag([])
-        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
-        navigation.navigate('BottomTab', { screen: 'Home' })
-      },
-      /**
-       *
-       */
-      onError: () => {
-        // TODO: 에러 처리
-      },
+  /**
+   *
+   */
+  const createContents = async () => {
+    let contentImageUrl = ''
+
+    switch (route.params.type) {
+      case ContentType.Link: {
+        contentImageUrl = await getLinkImage(link)
+        break
+      }
+      case ContentType.Image: {
+        const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+        if (imageUrl) {
+          contentImageUrl = await uploadContentImage(imageUrl)
+        }
+        break
+      }
     }
-  )
+
+    await postContents(
+      route.params.type,
+      selectArchiving.id,
+      contentName,
+      link,
+      contentImageUrl,
+      selectTag.map((tag) => tag.tagId),
+      memo
+    )
+  }
+
+  const { mutate: createContentsMutate, isLoading: isUploading } = useMutation(createContents, {
+    /**
+     * createContentsMutate 성공 시 recoil state를 초기화하고,
+     * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
+     */
+    onSuccess: () => {
+      setSelectArchiving({ id: -1, title: '' })
+      setSelectTag([])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    },
+    /**
+     *
+     */
+    onError: () => {
+      // TODO: 에러 처리
+    },
+  })
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -146,27 +163,6 @@ export const Upload = ({ route }: UploadProps) => {
     setSelectArchiving({ id: -1, title: '' })
     setSelectTag([])
     navigation.navigate('BottomTab', { screen: 'Home' })
-  }
-
-  /**
-   * 완료 액션
-   */
-  const handleSubmit = async () => {
-    switch (route.params.type) {
-      case ContentType.Link: {
-        const url = await getLinkImage(link)
-        setImageUrl(url)
-        break
-      }
-      case ContentType.Image: {
-        const imageUrl = (image as ImageURISource)?.uri ?? ''
-        const contentImageUrl = await upload(imageUrl, uploadContentImage)
-        contentImageUrl && setImageUrl(contentImageUrl)
-        break
-      }
-    }
-
-    postContentsMutate()
   }
 
   /**
@@ -321,7 +317,7 @@ export const Upload = ({ route }: UploadProps) => {
       {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={handleSubmit}
+        onPress={createContentsMutate}
         isDisabled={
           !archivingName ||
           !contentName ||

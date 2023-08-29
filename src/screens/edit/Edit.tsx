@@ -19,7 +19,6 @@ import Indicator from '@/components/indicator/Indicator'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
-import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
@@ -71,7 +70,6 @@ export const Edit = ({ route }: EditProps) => {
   const [image, setImage] = useState<ImageSourcePropType>()
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
 
   const [lastFocused, setLastFocused] = useState(-1)
   const [currentFocused, setCurrentFocused] = useState(-1)
@@ -81,7 +79,6 @@ export const Edit = ({ route }: EditProps) => {
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
 
   const actionSheetRef = useRef<ActionSheet>(null)
-  const { isUploading, upload } = useUploadImage()
 
   const { data: content } = useQuery<GetContentsInfoResponse>(
     [`contentsInfo${route.params.id}`, route.params.id],
@@ -96,7 +93,6 @@ export const Edit = ({ route }: EditProps) => {
         setLink(content.link)
         setIsValidUrl(isUrl(content.link))
         setMemo(content.contentMemo)
-        setImageUrl(content.imgUrl)
         setSelectArchiving({ id: content.archivingId, title: content.archivingTitle })
         content.imgUrl && setImage({ uri: content.imgUrl })
 
@@ -109,38 +105,57 @@ export const Edit = ({ route }: EditProps) => {
     }
   )
 
-  const { mutate: patchContentsMutate } = useMutation(
-    () =>
-      patchContents(
-        route.params.id,
-        route.params.type,
-        selectArchiving.id,
-        contentName,
-        link,
-        imageUrl,
-        selectTag.map((tag) => tag.tagId),
-        memo
-      ),
-    {
-      /**
-       * patchContentsMutate 성공 시 recoil state를 초기화하고,
-       * C
-       */
-      onSuccess: () => {
-        setSelectArchiving({ id: -1, title: '' })
-        setSelectTag([])
-        queryClient.invalidateQueries([queryKeys.contents, route.params.id])
-        queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
-        navigation.goBack()
-      },
-      /**
-       *
-       */
-      onError: () => {
-        // TODO: 에러 처리
-      },
+  /**
+   *
+   */
+  const updateContents = async () => {
+    let contentImageUrl = ''
+
+    switch (route.params.type) {
+      case ContentType.Link: {
+        contentImageUrl = await getLinkImage(link)
+        break
+      }
+      case ContentType.Image: {
+        const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+        if (imageUrl) {
+          contentImageUrl = await uploadContentImage(imageUrl)
+        }
+        break
+      }
     }
-  )
+
+    await patchContents(
+      route.params.id,
+      route.params.type,
+      selectArchiving.id,
+      contentName,
+      link,
+      contentImageUrl,
+      selectTag.map((tag) => tag.tagId),
+      memo
+    )
+  }
+
+  const { mutate: updateContentsMutate, isLoading: isUploading } = useMutation(updateContents, {
+    /**
+     * updateContentsMutate 성공 시 recoil state를 초기화하고, 리패치합니다.
+     */
+    onSuccess: () => {
+      setSelectArchiving({ id: -1, title: '' })
+      setSelectTag([])
+      queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+      queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
+      navigation.goBack()
+    },
+    /**
+     *
+     */
+    onError: () => {
+      // TODO: 에러 처리
+    },
+  })
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -174,27 +189,6 @@ export const Edit = ({ route }: EditProps) => {
     setSelectArchiving({ id: -1, title: '' })
     setSelectTag([])
     navigation.goBack()
-  }
-
-  /**
-   * 완료 액션
-   */
-  const handleSubmit = async () => {
-    switch (route.params.type) {
-      case ContentType.Link: {
-        const url = await getLinkImage(link)
-        setImageUrl(url)
-        break
-      }
-      case ContentType.Image: {
-        const imageUrl = (image as ImageURISource)?.uri ?? ''
-        const contentImageUrl = await upload(imageUrl, uploadContentImage)
-        contentImageUrl && setImageUrl(contentImageUrl)
-        break
-      }
-    }
-
-    patchContentsMutate()
   }
 
   /**
@@ -350,7 +344,7 @@ export const Edit = ({ route }: EditProps) => {
       {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={handleSubmit}
+        onPress={updateContentsMutate}
         isDisabled={
           !archivingName ||
           !contentName ||

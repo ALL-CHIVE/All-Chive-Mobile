@@ -18,7 +18,6 @@ import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButt
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
-import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { SignInType } from '@/models/enums/SignInType'
@@ -52,13 +51,11 @@ export const MyAccount = () => {
   const queryClient = useQueryClient()
 
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
-  const [profileImageKey, setProfileImageKey] = useState<string>('')
   const [editMode, setEditMode] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
-  const { isUploading, upload } = useUploadImage()
 
   const { data: userInfoData, isLoading: isProfileLoading } = useQuery(
     ['getUserInfo'],
@@ -69,7 +66,6 @@ export const MyAccount = () => {
        */
       onSuccess: (userInfoData) => {
         userInfoData.imgUrl && setProfileImage({ uri: userInfoData.imgUrl })
-        setProfileImageKey(userInfoData.imgUrl)
         setNickname(userInfoData.nickname)
       },
       /**
@@ -81,23 +77,33 @@ export const MyAccount = () => {
     }
   )
 
-  const { mutate: postUserInfoMutation } = useMutation(
-    () =>
-      postUserInfo(
-        profileImage ? profileImageKey : '',
-        userInfoData?.email ?? '',
-        userInfoData?.name ?? '',
-        nickname
-      ),
-    {
-      /**
-       *
-       */
-      onSuccess: () => {
-        queryClient.invalidateQueries(['getUser'])
-      },
+  /**
+   *
+   */
+  const updateUserInfo = async () => {
+    const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
+    let profileImageUrl = ''
+
+    if (imageUrl) {
+      profileImageUrl = await uploadProfileImage(imageUrl)
     }
-  )
+
+    await postUserInfo(
+      profileImage ? profileImageUrl : '',
+      userInfoData?.email ?? '',
+      userInfoData?.name ?? '',
+      nickname
+    )
+  }
+
+  const { mutate: updateUserInfoMutation, isLoading: isUploading } = useMutation(updateUserInfo, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getUser'])
+    },
+  })
 
   const { mutate: withdrawMutation } = useMutation(deleteWithdrawal, {
     /**
@@ -155,11 +161,7 @@ export const MyAccount = () => {
    */
   const handleRightButton = async () => {
     if (editMode) {
-      const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
-      const contentImageUrl = await upload(imageUrl, uploadProfileImage)
-      contentImageUrl && setProfileImageKey(contentImageUrl)
-
-      postUserInfoMutation()
+      updateUserInfoMutation()
     }
 
     setEditMode((prev) => !prev)

@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import {
-  Dimensions,
-  ImageSourcePropType,
-  ImageURISource,
-  Keyboard,
-  KeyboardEvent,
-  Platform,
-  View,
-} from 'react-native'
+import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -23,11 +15,12 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
-import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
+import { keyboardListener } from '@/services/KeyboardService'
+import { modalMaxHeight } from '@/services/SizeService'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -56,6 +49,8 @@ interface EditArchivingModalProps {
   isVisible: boolean
 }
 
+const defaultModalHeight = 624
+
 /**
  *
  */
@@ -71,41 +66,27 @@ export const EditArchivingModal = ({
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
-  const [modalHight, setModalHeight] = useState(624)
-  const [imageKey, setImageKey] = useState('')
+  const [modalHight, setModalHeight] = useState(defaultModalHeight)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
-  const { isUploading, upload } = useUploadImage()
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
-
-    return () => {
-      keyboardDidShowListener.remove()
-      keyboardDidHideListener.remove()
-    }
-  }, [isVisible])
+  useEffect(() => keyboardListener(keyboardDidShow, keyboardDidHide), [isVisible])
 
   /**
-   *
+   * keyboardDidShow
    */
-  const keyboardDidShow = (event: KeyboardEvent) => {
-    const height = Platform.select({
-      ios: Dimensions.get('screen').height - 80,
-      android: Dimensions.get('screen').height - 150,
-    })
-
+  const keyboardDidShow = () => {
+    const height = modalMaxHeight
     height && setModalHeight(height)
   }
 
   /**
-   *
+   * keyboardDidHide
    */
   const keyboardDidHide = () => {
-    setModalHeight(624)
+    setModalHeight(defaultModalHeight)
   }
 
   const { data: archivingData, isLoading } = useQuery(
@@ -118,7 +99,6 @@ export const EditArchivingModal = ({
        */
       onSuccess: (data) => {
         setName(data.title)
-        setImageKey(data.imageUrl)
         data.imageUrl && setImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.publicStatus)
@@ -135,24 +115,41 @@ export const EditArchivingModal = ({
   /**
    *
    */
-  const { mutate: patchArchivingMutate } = useMutation(
-    () => patchArchiving(archivingId, name, image ? imageKey : '', selectedCategory, publicStatus),
-    {
-      /**
-       * patchArchivingMutate 성공 시 홈 화면과 해당 아카이빙 화면을 리패치합니다.
-       * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
-       */
-      onSuccess: () => {
-        queryClient.invalidateQueries([`contentByArchiving`, archivingId])
-        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
-        queryClient.invalidateQueries(['archivingList'])
-        queryClient.invalidateQueries(['getCommunityArchivingList'])
-        queryClient.invalidateQueries(['getScrapArchivingList'])
-        queryClient.invalidateQueries(['getPopularArchivings'])
-        onClose()
-      },
+  const updateArchiving = async () => {
+    const imageUrl = (image as ImageURISource)?.uri ?? ''
+    let archivingImageUrl = ''
+
+    if (imageUrl) {
+      archivingImageUrl = await uploadArchivingImage(imageUrl)
     }
-  )
+
+    await patchArchiving(
+      archivingId,
+      name,
+      image ? archivingImageUrl : '',
+      selectedCategory,
+      publicStatus
+    )
+  }
+
+  /**
+   *
+   */
+  const { mutate: updateArchivingMutate, isLoading: isUploading } = useMutation(updateArchiving, {
+    /**
+     * updateArchivingMutate 성공 시 홈 화면과 해당 아카이빙 화면을 리패치합니다.
+     * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries([`contentByArchiving`, archivingId])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      queryClient.invalidateQueries(['archivingList'])
+      queryClient.invalidateQueries(['getCommunityArchivingList'])
+      queryClient.invalidateQueries(['getScrapArchivingList'])
+      queryClient.invalidateQueries(['getPopularArchivings'])
+      onClose()
+    },
+  })
 
   /**
    *
@@ -199,20 +196,6 @@ export const EditArchivingModal = ({
    */
   const toggleSwitch = () => {
     setPublicStatus((prev) => !prev)
-  }
-
-  /**
-   *
-   */
-  const handleSubmit = async () => {
-    const imageUrl = (image as ImageURISource)?.uri ?? ''
-
-    if (imageUrl) {
-      const archivingImageUrl = await upload(imageUrl, uploadArchivingImage)
-      archivingImageUrl && setImageKey(archivingImageUrl)
-    }
-
-    patchArchivingMutate()
   }
 
   return (
@@ -291,7 +274,7 @@ export const EditArchivingModal = ({
           </ScrollContainer>
           <BoxButton
             textKey={i18n.t('confirm')}
-            onPress={handleSubmit}
+            onPress={updateArchivingMutate}
             isDisabled={!name || !selectedCategory}
           />
         </Container>

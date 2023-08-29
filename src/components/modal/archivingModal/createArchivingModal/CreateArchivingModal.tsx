@@ -1,15 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import {
-  Dimensions,
-  ImageSourcePropType,
-  ImageURISource,
-  Keyboard,
-  KeyboardEvent,
-  Platform,
-  View,
-} from 'react-native'
+import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -21,11 +13,12 @@ import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
-import useUploadImage from '@/hooks/useUploadImage'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
+import { keyboardListener } from '@/services/KeyboardService'
+import { modalMaxHeight } from '@/services/SizeService'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -53,6 +46,8 @@ interface CreateArchivingModalProps {
   isVisible: boolean
 }
 
+const defaultModalHeight = 624
+
 /**
  *
  */
@@ -63,34 +58,20 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const [name, setName] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
-  const [imageKey, setImageKey] = useState('')
   const [publicStatus, setPublicStatus] = useState(false)
-  const [modalHight, setModalHeight] = useState(624)
+  const [modalHight, setModalHeight] = useState(defaultModalHeight)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
   const communityCurrentCategory = useRecoilValue(CommunityCategoryState)
-  const { isUploading, upload } = useUploadImage()
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
-
-    return () => {
-      keyboardDidShowListener.remove()
-      keyboardDidHideListener.remove()
-    }
-  }, [])
+  useEffect(() => keyboardListener(keyboardDidShow, keyboardDidHide), [])
 
   /**
    *
    */
-  const keyboardDidShow = (event: KeyboardEvent) => {
-    const height = Platform.select({
-      ios: Dimensions.get('screen').height - 80,
-      android: Dimensions.get('screen').height - 150,
-    })
-
+  const keyboardDidShow = () => {
+    const height = modalMaxHeight
     height && setModalHeight(height)
   }
 
@@ -98,39 +79,51 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    *
    */
   const keyboardDidHide = () => {
-    setModalHeight(624)
+    setModalHeight(defaultModalHeight)
   }
+
   /**
    *
    */
-  const { mutate: postArchivingMutate } = useMutation(
-    () => postArchiving(name, imageKey, selectedCategory, publicStatus),
-    {
-      /**
-       * postArchivingMutate 성공 시 해당 Modal의 data를 초기화하고,
-       * SelectArchivingModal의 getArchivingList를 리패치합니다.
-       * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
-       */
-      onSuccess: () => {
-        setName('')
-        setImage(undefined)
-        setSelectedCategory('')
-        setPublicStatus(false)
-        queryClient.invalidateQueries(['getArchivingList'])
-        queryClient.invalidateQueries(['archivingList'])
-        queryClient.invalidateQueries(['getUser'])
-        queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+  const createArchiving = async () => {
+    const imageUrl = (image as ImageURISource)?.uri ?? ''
+    let archivingImageUrl = ''
 
-        if (publicStatus) {
-          queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
-          queryClient.invalidateQueries(['getScrapArchivingList'])
-          queryClient.invalidateQueries(['getPopularArchivings'])
-        }
-
-        onClose()
-      },
+    if (imageUrl) {
+      archivingImageUrl = await uploadArchivingImage(imageUrl)
     }
-  )
+
+    await postArchiving(name, archivingImageUrl, selectedCategory, publicStatus)
+  }
+
+  /**
+   *
+   */
+  const { mutate: createArchivingMutate, isLoading: isUploading } = useMutation(createArchiving, {
+    /**
+     * createArchivingMutate 성공 시 해당 Modal의 data를 초기화하고,
+     * SelectArchivingModal의 getArchivingList를 리패치합니다.
+     * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
+     */
+    onSuccess: () => {
+      setName('')
+      setImage(undefined)
+      setSelectedCategory('')
+      setPublicStatus(false)
+      queryClient.invalidateQueries(['getArchivingList'])
+      queryClient.invalidateQueries(['archivingList'])
+      queryClient.invalidateQueries(['getUser'])
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+
+      if (publicStatus) {
+        queryClient.invalidateQueries(['getCommunityArchivingList', communityCurrentCategory])
+        queryClient.invalidateQueries(['getScrapArchivingList'])
+        queryClient.invalidateQueries(['getPopularArchivings'])
+      }
+
+      onClose()
+    },
+  })
 
   /**
    *
@@ -147,7 +140,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   }
 
   /**
-   *
+   * 이미지를 업로드합니다.
    */
   const handleUploadImage = () => {
     actionSheetRef.current?.show()
@@ -177,20 +170,6 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    */
   const toggleSwitch = () => {
     setPublicStatus((prev) => !prev)
-  }
-
-  /**
-   *
-   */
-  const handleSubmit = async () => {
-    const imageUrl = (image as ImageURISource)?.uri ?? ''
-
-    if (imageUrl) {
-      const archivingImageUrl = await upload(imageUrl, uploadArchivingImage)
-      archivingImageUrl && setImageKey(archivingImageUrl)
-    }
-
-    postArchivingMutate()
   }
 
   return (
@@ -259,7 +238,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
           </ScrollContainer>
           <BoxButton
             textKey={i18n.t('add')}
-            onPress={handleSubmit}
+            onPress={createArchivingMutate}
             isDisabled={!name || !selectedCategory}
           />
         </Container>
