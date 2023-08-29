@@ -96,11 +96,14 @@ export const Upload = ({ route }: UploadProps) => {
        * postContentsMutate 성공 시 recoil state를 초기화하고,
        * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
        */
-      onSuccess: () => {
+      onSuccess: (data) => {
         setSelectArchiving({ id: -1, title: '' })
         setSelectTag([])
         queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
-        navigation.navigate('BottomTab', { screen: 'Home' })
+        navigation.navigate('ContentDetail', {
+          archivingId: selectArchiving.id,
+          contentId: data.contentId,
+        })
       },
       /**
        *
