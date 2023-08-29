@@ -103,13 +103,8 @@ export const Upload = ({ route }: UploadProps) => {
         navigation.navigate('ContentDetail', {
           archivingId: selectArchiving.id,
           contentId: data.contentId,
+          previousScreen: 'Upload',
         })
-      },
-      /**
-       *
-       */
-      onError: () => {
-        // TODO: 에러 처리
       },
     }
   )

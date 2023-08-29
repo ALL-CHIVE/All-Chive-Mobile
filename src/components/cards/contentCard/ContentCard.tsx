@@ -66,6 +66,7 @@ const ContentCard = ({
           navigation.navigate('ContentDetail', {
             archivingId: archivingId,
             contentId: contentId,
+            previousScreen: 'ContentList',
           })
       }}
     >
