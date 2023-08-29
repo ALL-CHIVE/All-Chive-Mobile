@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, Platform } from 'react-native'
 
 const windowWidth = Dimensions.get('window').width
 
@@ -8,3 +8,11 @@ const windowWidth = Dimensions.get('window').width
 export const isWindowWidthSmallerThen = (width: number) => {
   return windowWidth < width
 }
+
+/**
+ *  모달 최대 높이입니다.
+ */
+export const modalMaxHeight = Platform.select({
+  ios: Dimensions.get('screen').height - 80,
+  android: Dimensions.get('screen').height - 150,
+})
