@@ -198,17 +198,25 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
             {content && (
               <ContentDetailView>
                 <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-                <SubTitle>{i18n.t('tag')}</SubTitle>
-                <TagList>
-                  {content.tagList.map((tag) => (
-                    <BigWhiteTag
-                      key={tag.tagId}
-                      tag={tag.name}
-                    />
-                  ))}
-                </TagList>
-                <SubTitle>{i18n.t('memo')}</SubTitle>
-                <Memo text={content.contentMemo} />
+                {content.tagList?.length > 0 && (
+                  <>
+                    <SubTitle>{i18n.t('tag')}</SubTitle>
+                    <TagList>
+                      {content.tagList.map((tag) => (
+                        <BigWhiteTag
+                          key={tag.tagId}
+                          tag={tag.name}
+                        />
+                      ))}
+                    </TagList>
+                  </>
+                )}
+                {content.contentMemo && (
+                  <>
+                    <SubTitle>{i18n.t('memo')}</SubTitle>
+                    <Memo text={content.contentMemo} />
+                  </>
+                )}
               </ContentDetailView>
             )}
           </Container>
