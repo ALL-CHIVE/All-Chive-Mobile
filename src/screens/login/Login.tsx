@@ -15,7 +15,6 @@ import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { signInWith } from '@/services/SignInService'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
-import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
 
 import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.style'
@@ -28,7 +27,6 @@ export const Login = () => {
 
   const setIdTokenState = useSetRecoilState(IdTokenState)
   const setThirdpartyAccessTokenState = useSetRecoilState(ThirdpartyAccessTokenState)
-  const IsSignInState = useSetRecoilState(SignInState)
 
   const [type, setType] = useState<SignInType>(SignInType.Kakao)
   const [enabled, setEnabled] = useState(false)
@@ -45,7 +43,6 @@ export const Login = () => {
         return
       }
       if (data.canLogin) {
-        IsSignInState(true)
         setIsInstalled(true)
         navigation.navigate('BottomTab', { screen: 'Home' })
       } else if (!data.canLogin && data.idToken) {

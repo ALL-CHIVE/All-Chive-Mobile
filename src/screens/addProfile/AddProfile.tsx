@@ -16,7 +16,6 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { signUp } from '@/services/SignInService'
 import { checkNickname } from '@/services/StringChecker'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
-import { SignInState } from '@/state/signIn/SignInState'
 import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
 import { colors } from '@/styles/colors'
 
@@ -38,7 +37,6 @@ interface AddProfileProps {
  * AddProfile
  */
 const AddProfile = ({ route }: AddProfileProps) => {
-  const setIsSignIn = useSetRecoilState(SignInState)
   const [nickname, setNickname] = useState('')
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
@@ -62,7 +60,6 @@ const AddProfile = ({ route }: AddProfileProps) => {
 
     if (isSucess) {
       setIsInstalled(true)
-      setIsSignIn(true)
       navigation.navigate('BottomTab', { screen: 'Home' })
     }
   }

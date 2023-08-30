@@ -34,7 +34,6 @@ import SelectCategory from '@/screens/selectCategory/SelectCategory'
 import { TagManagement } from '@/screens/tagManagement/TagManagement'
 import { Upload } from '@/screens/upload/Upload'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
-import { SignInState } from '@/state/signIn/SignInState'
 import { colors } from '@/styles/colors'
 
 export type RootStackParamList = {
@@ -69,7 +68,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
  * RootStack
  */
 export const RootStack = () => {
-  const [isSignIn, setIsSignIn] = useRecoilState(SignInState)
+  const [isSignIn, setIsSignIn] = useState(false)
   const [isInstalled, setIsInstalled] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
