@@ -185,10 +185,7 @@ export const Mypage = () => {
             />
           </NavigationListContainer>
           <Footer>
-            <FooterText>{`${i18n.t('appVersion')} ${version}${Platform.select({
-              ios: `.${getBuildNumber()}`,
-              android: '',
-            })}`}</FooterText>
+            <FooterText>{`${i18n.t('appVersion')} ${version}`}</FooterText>
             <FooterText>{`   |   `}</FooterText>
             <TouchableOpacity onPress={handleLogout}>
               <FooterText>{i18n.t('logout')}</FooterText>
