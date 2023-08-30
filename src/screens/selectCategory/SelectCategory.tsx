@@ -46,7 +46,6 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
    */
   const handleSubmitCategory = () => {
     navigation.navigate('AddProfile', {
-      type: route.params.type,
       categories: selectedCategory,
       marketingAgreement: route.params.marketingAgreement,
     })

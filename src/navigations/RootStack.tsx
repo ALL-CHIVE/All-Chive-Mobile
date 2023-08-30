@@ -6,12 +6,10 @@ import {
 } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
-import { useRecoilState } from 'recoil'
 
 import { canAuthSignIn } from '@/apis/auth/Auth'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
-import { SignInType } from '@/models/enums/SignInType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import { Agreement } from '@/screens/agreement/Agreement'
@@ -39,9 +37,9 @@ import { colors } from '@/styles/colors'
 export type RootStackParamList = {
   OnBoarding1: undefined
   OnBoarding2: undefined
-  Agreement: { type: SignInType }
-  SelectCategory: { type: SignInType; marketingAgreement: boolean }
-  AddProfile: { type: SignInType; categories: string[]; marketingAgreement: boolean }
+  Agreement: undefined
+  SelectCategory: { marketingAgreement: boolean }
+  AddProfile: { categories: string[]; marketingAgreement: boolean }
   BottomTab: BottomTabNavigationParams
   Login: undefined
   ContentList: { id: number; title: string }
@@ -116,21 +114,18 @@ export const RootStack = () => {
         <Stack.Screen
           name="Agreement"
           component={Agreement}
-          initialParams={{ type: SignInType.Kakao }}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="SelectCategory"
           component={SelectCategory}
-          initialParams={{ type: SignInType.Kakao }}
           options={{ gestureEnabled: false }}
         />
         <Stack.Screen
           name="AddProfile"
           component={AddProfile}
           initialParams={{
-            type: SignInType.Kakao,
-            categories: ['FOOD'],
+            categories: [],
           }}
           options={{ gestureEnabled: false }}
         />

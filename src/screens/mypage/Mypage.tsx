@@ -16,6 +16,7 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { community, customerService, openSourceLicense, privacy, terms } from '@/const/Const'
+import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
@@ -45,6 +46,7 @@ export const Mypage = () => {
 
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const { clearUserInfo } = useUserInfo()
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery(['getUser'], () => getUser())
 
@@ -54,7 +56,8 @@ export const Mypage = () => {
      */
     onSuccess: () => {
       queryClient.clear()
-      navigation.navigate('Login')
+      clearUserInfo()
+      navigation.reset({ routes: [{ name: 'Login' }] })
     },
     /**
      *

@@ -2,21 +2,22 @@ import React, { useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { useMutation } from 'react-query'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { checkNicknameValid } from '@/apis/user/User'
 import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
+import Indicator from '@/components/indicator/Indicator'
 import Verifier from '@/components/verifier/Verifier'
+import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
+import { SignInType } from '@/models/enums/SignInType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
 import { signUp } from '@/services/SignInService'
 import { checkNickname } from '@/services/StringChecker'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
-import { IdTokenState, ThirdpartyAccessTokenState } from '@/state/signIn/UserState'
 import { colors } from '@/styles/colors'
 
 import {
@@ -41,27 +42,41 @@ const AddProfile = ({ route }: AddProfileProps) => {
   const [isNicknameValid, setIsNicknameValid] = useState(false)
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
-  const idToken = useRecoilValue(IdTokenState)
-  const ThirdpartyAccessToken = useRecoilValue(ThirdpartyAccessTokenState)
+  const { idToken, thirdpartyAccessToken, signInType, name, email } = useUserInfo()
+
+  const { mutate: signUpMutate, isLoading } = useMutation(
+    (signInType: SignInType) =>
+      signUp(
+        signInType,
+        idToken,
+        thirdpartyAccessToken,
+        '',
+        nickname,
+        route.params.categories,
+        route.params.marketingAgreement,
+        name,
+        email
+      ),
+    {
+      /**
+       *
+       */
+      onSuccess: () => {
+        setIsInstalled(true)
+        navigation.navigate('BottomTab', { screen: 'Home' })
+      },
+    }
+  )
 
   /**
    * 선택 완료 버튼 클릭 액션을 처리합니다.
    */
   const handleComplete = async () => {
-    const isSucess = await signUp(
-      route.params.type,
-      idToken,
-      ThirdpartyAccessToken,
-      '',
-      nickname,
-      route.params.categories,
-      route.params.marketingAgreement
-    )
-
-    if (isSucess) {
-      setIsInstalled(true)
-      navigation.navigate('BottomTab', { screen: 'Home' })
+    if (!signInType) {
+      return
     }
+
+    signUpMutate(signInType)
   }
 
   const { mutate: nicknameDuplicationCheckMutate } = useMutation(checkNicknameValid, {
@@ -103,6 +118,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
 
   return (
     <DefaultContainer>
+      {isLoading && <Indicator />}
       <DefaultScrollContainer>
         <Container>
           <Heading>{i18n.t('pleaseSetProfile')}</Heading>

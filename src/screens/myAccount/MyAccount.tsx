@@ -18,6 +18,7 @@ import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButt
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
+import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { SignInType } from '@/models/enums/SignInType'
@@ -56,6 +57,7 @@ export const MyAccount = () => {
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const { clearUserInfo } = useUserInfo()
 
   const { data: userInfoData, isLoading: isProfileLoading } = useQuery(
     ['getUserInfo'],
@@ -110,7 +112,9 @@ export const MyAccount = () => {
      * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
      */
     onSuccess: () => {
-      navigation.navigate('Login')
+      queryClient.clear()
+      clearUserInfo()
+      navigation.reset({ routes: [{ name: 'Login' }] })
     },
   })
 
