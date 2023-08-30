@@ -15,9 +15,9 @@ export const postContents = async (
   imgUrl: string,
   tagIds: number[],
   memo: string
-) => {
+): Promise<GetContentsResponse> => {
   const accessToken = await getAccessToken()
-  const response = await client.post(
+  const { data } = await client.post(
     '/contents',
     {
       contentType,
@@ -35,7 +35,7 @@ export const postContents = async (
     }
   )
 
-  return response
+  return data.data
 }
 
 /**

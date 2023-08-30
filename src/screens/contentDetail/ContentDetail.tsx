@@ -74,14 +74,26 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
   }, [])
 
+  /**
+   * 화면 이동을 handle합니다.
+   */
+  const handleNavigation = () => {
+    if (route.params.isFromUpload) {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    } else {
+      navigation.goBack()
+    }
+  }
+
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
      *
      */
     onSuccess: () => {
       queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
-      navigation.goBack()
       queryClient.invalidateQueries([`contentByArchiving`])
+      queryClient.invalidateQueries([`getHomeArchivingList`])
+      handleNavigation()
     },
   })
 
@@ -178,6 +190,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           title={content.contentTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={HandleReport}
+          navigate={handleNavigation}
         />
         <DefaultScrollContainer>
           <Container>
