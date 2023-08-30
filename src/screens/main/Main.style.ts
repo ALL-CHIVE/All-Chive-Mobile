@@ -47,10 +47,10 @@ export const Title = styled.Text`
 
 export const BackgroundImage = styled.Image`
   position: absolute;
-  width: 235px;
-  height: 197.344px;
-  right: -17px;
-  top: 25px;
+  width: 238.334px;
+  height: 231.344px;
+  right: -10.33px;
+  top: 5px;
 `
 
 export const ArchivingCardList = styled(FlatList<ArchivingInfo>)`
