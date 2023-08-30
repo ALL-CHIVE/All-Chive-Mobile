@@ -74,6 +74,17 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
   }, [])
 
+  /**
+   * 화면 이동을 handle합니다.
+   */
+  const handleNavigation = () => {
+    if (route.params.isFromUpload) {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    } else {
+      navigation.goBack()
+    }
+  }
+
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
      *
@@ -82,9 +93,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
       queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
       queryClient.invalidateQueries([`contentByArchiving`])
       queryClient.invalidateQueries([`getHomeArchivingList`])
-      if (route.params.previousScreen === 'Upload')
-        navigation.navigate('BottomTab', { screen: 'Home' })
-      else navigation.goBack()
+      handleNavigation()
     },
   })
 
@@ -181,7 +190,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           title={content.contentTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={HandleReport}
-          wantGoHome={route.params.previousScreen === 'Upload'}
+          navigate={handleNavigation}
         />
         <DefaultScrollContainer>
           <Container>

@@ -14,21 +14,21 @@ interface DefaultHeaderProps {
   title: string | undefined
   PopupMenuList: PopupMenu[] | undefined
   onRightClick?: () => void
-  wantGoHome?: boolean
+  navigate?: () => void
 }
 
 /**
- * DefaultHeader
+ * DefaultHeader (navigate 값이 존재한다면 해당 값으로, 없다면 뒤로가기)
  */
-const DefaultHeader = ({ title, PopupMenuList, onRightClick, wantGoHome }: DefaultHeaderProps) => {
+const DefaultHeader = ({ title, PopupMenuList, onRightClick, navigate }: DefaultHeaderProps) => {
   const navigation = useNavigation<MainNavigationProp>()
 
   /**
    * 어디로 이동할지 핸들링합니다. (ContentDetail에 다른 Flow가 있어서 분기처리)
    */
   const handleNavigation = () => {
-    if (wantGoHome) {
-      navigation.navigate('BottomTab', { screen: 'Home' })
+    if (navigate) {
+      navigate()
     } else {
       navigation.goBack()
     }

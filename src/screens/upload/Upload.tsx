@@ -101,7 +101,7 @@ export const Upload = ({ route }: UploadProps) => {
       }
     }
 
-    await postContents(
+    return await postContents(
       route.params.type,
       selectArchiving.id,
       contentName,
@@ -117,17 +117,15 @@ export const Upload = ({ route }: UploadProps) => {
      * createContentsMutate 성공 시 recoil state를 초기화하고,
      * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
      */
-    onSuccess: () => {
+    onSuccess: (data) => {
       setSelectArchiving({ id: -1, title: '' })
       setSelectTag([])
       queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
-      navigation.navigate('BottomTab', { screen: 'Home' })
-    },
-    /**
-     *
-     */
-    onError: () => {
-      // TODO: 에러 처리
+      navigation.navigate('ContentDetail', {
+        archivingId: selectArchiving.id,
+        contentId: data.contentId,
+        isFromUpload: true,
+      })
     },
   })
 

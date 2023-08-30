@@ -51,7 +51,7 @@ export type RootStackParamList = {
   ContentDetail: {
     archivingId: number
     contentId: number
-    previousScreen: 'Upload' | 'ContentList'
+    isFromUpload: boolean
   }
   Report: { id: number; type: ReportType }
   Search: undefined
