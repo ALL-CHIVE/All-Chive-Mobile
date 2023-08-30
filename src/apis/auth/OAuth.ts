@@ -12,7 +12,9 @@ export const signUpUser = (
   profileImgUrl: string,
   nickname: string,
   categories: string[],
-  marketingAgreement: boolean
+  marketingAgreement: boolean,
+  name: string,
+  email: string
 ) => {
   return client.post(
     `/auth/oauth/register/${provider}`,
@@ -21,6 +23,8 @@ export const signUpUser = (
       nickname,
       categories,
       marketingAgreement,
+      name,
+      email,
     },
     {
       params: {
