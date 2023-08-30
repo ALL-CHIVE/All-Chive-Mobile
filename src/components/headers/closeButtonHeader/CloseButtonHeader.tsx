@@ -1,6 +1,6 @@
 import React from 'react'
 
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Title } from './CloseButtonHeader.style'

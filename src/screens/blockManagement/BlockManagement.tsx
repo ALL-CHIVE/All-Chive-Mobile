@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useQuery, useQueryClient } from 'react-query'
 
-import { getBlockList } from '@/apis/block'
+import { getBlockList } from '@/apis/block/Block'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import EmptyItem from '@/components/emptyItem/EmptyItem'

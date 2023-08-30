@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { deleteBlock } from '@/apis/block'
+import { deleteBlock } from '@/apis/block/Block'
 import { defaultImages } from '@/assets'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'

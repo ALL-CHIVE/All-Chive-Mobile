@@ -3,7 +3,7 @@ import React from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 
-import CheckIcon from '@/assets/icons/check_yellow.svg'
+import CheckIcon from '@/assets/icons/check-yellow.svg'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import i18n from '@/locales'
 import { RecycleBinTabProps } from '@/models/Recycle'

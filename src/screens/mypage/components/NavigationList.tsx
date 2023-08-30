@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 
-import RightArrowIcon from '@/assets/icons/right_arrow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { openInappBrowser } from '@/services/InappBrowser'
 import { colors } from '@/styles/colors'

@@ -10,8 +10,8 @@ import {
   getCommunityArchivingList,
   getPopularArchivings,
   getScrapArchivingList,
-} from '@/apis/archiving'
-import { getUser } from '@/apis/user'
+} from '@/apis/archiving/ArchivingList'
+import { getUser } from '@/apis/user/User'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
@@ -21,8 +21,9 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
+import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
-import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
+import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isCloseToBottom } from '@/services/InfiniteService'
@@ -72,6 +73,7 @@ export const Community = () => {
 
   const allCategoryList = useRecoilValue(AllCategoryListState)
   const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
+  const { isSticky, handleScroll } = useSticky(515)
 
   const { data: profileData, isLoading: isProfileLoading } = useQuery(
     ['getUser'],
@@ -263,6 +265,8 @@ export const Community = () => {
         <ScrollContainer
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[2]}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
           onScrollEndDrag={({ nativeEvent }) => {
             if (isCloseToBottom(nativeEvent)) {
               onEndReached()
@@ -318,6 +322,7 @@ export const Community = () => {
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             options={allCategoryList}
+            isSticky={isSticky}
           />
           {(currentCommunityMenu === CommunityMenuType.Community &&
             !archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
@@ -363,6 +368,6 @@ export const Community = () => {
 /**
  * renderItem
  */
-const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
+const renderItem: ListRenderItem<ArchivingInfo> = ({ item }) => {
   return <ArchivingCard item={item} />
 }

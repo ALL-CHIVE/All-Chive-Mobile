@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getTag, postTag } from '@/apis/tag'
+import { getTag, postTag } from '@/apis/tag/Tag'
 import PlusIcon from '@/assets/icons/plus.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'

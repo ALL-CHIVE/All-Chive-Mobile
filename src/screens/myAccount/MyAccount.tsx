@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { ImageSourcePropType, ImageURISource, TouchableOpacity, View } from 'react-native'
+import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { deleteWithdrawal } from '@/apis/auth'
-import { getUserInfo, postUserInfo } from '@/apis/user'
+import { deleteWithdrawal } from '@/apis/auth/Auth'
+import { getUserInfo, postUserInfo } from '@/apis/user/User'
 import { defaultImages } from '@/assets'
 import PencilIcon from '@/assets/icons/pencil.svg'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -15,8 +15,10 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
+import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
+import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { SignInType } from '@/models/enums/SignInType'
@@ -36,9 +38,9 @@ import {
   ButtonText,
   PencilButton,
   RowView,
-  Footer,
-  FooterText,
   Container,
+  WithdrawButton,
+  WithdrawButtonText,
 } from './MyAccount.style'
 
 /**
@@ -50,13 +52,12 @@ export const MyAccount = () => {
   const queryClient = useQueryClient()
 
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
-  const [profileImageKey, setProfileImageKey] = useState<string>('')
   const [editMode, setEditMode] = useState(false)
-  const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const { clearUserInfo } = useUserInfo()
 
   const { data: userInfoData, isLoading: isProfileLoading } = useQuery(
     ['getUserInfo'],
@@ -67,7 +68,6 @@ export const MyAccount = () => {
        */
       onSuccess: (userInfoData) => {
         userInfoData.imgUrl && setProfileImage({ uri: userInfoData.imgUrl })
-        setProfileImageKey(userInfoData.imgUrl)
         setNickname(userInfoData.nickname)
       },
       /**
@@ -79,30 +79,42 @@ export const MyAccount = () => {
     }
   )
 
-  const { mutate: postUserInfoMutation } = useMutation(
-    () =>
-      postUserInfo(
-        profileImage ? profileImageKey : '',
-        userInfoData?.email ?? '',
-        userInfoData?.name ?? '',
-        nickname
-      ),
-    {
-      /**
-       *
-       */
-      onSuccess: () => {
-        queryClient.invalidateQueries(['getUser'])
-      },
+  /**
+   *
+   */
+  const updateUserInfo = async () => {
+    const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
+    let profileImageUrl = ''
+
+    if (imageUrl) {
+      profileImageUrl = await uploadProfileImage(imageUrl)
     }
-  )
+
+    await postUserInfo(
+      profileImage ? profileImageUrl : '',
+      userInfoData?.email ?? '',
+      userInfoData?.name ?? '',
+      nickname
+    )
+  }
+
+  const { mutate: updateUserInfoMutation, isLoading: isUploading } = useMutation(updateUserInfo, {
+    /**
+     *
+     */
+    onSuccess: () => {
+      queryClient.invalidateQueries(['getUser'])
+    },
+  })
 
   const { mutate: withdrawMutation } = useMutation(deleteWithdrawal, {
     /**
      * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
      */
     onSuccess: () => {
-      navigation.navigate('Login')
+      clearUserInfo()
+      navigation.reset({ routes: [{ name: 'Login' }] })
+      queryClient.clear()
     },
   })
 
@@ -129,6 +141,7 @@ export const MyAccount = () => {
         break
       default:
         setProfileImage({ uri: selectedImage })
+        break
     }
   }
 
@@ -152,11 +165,7 @@ export const MyAccount = () => {
    */
   const handleRightButton = async () => {
     if (editMode) {
-      const imageUrl = (profileImage as ImageURISource)?.uri ?? ''
-      const contentImageUrl = await uploadProfileImage(imageUrl)
-      contentImageUrl && setProfileImageKey(contentImageUrl)
-
-      postUserInfoMutation()
+      updateUserInfoMutation()
     }
 
     setEditMode((prev) => !prev)
@@ -180,6 +189,7 @@ export const MyAccount = () => {
   return (
     <>
       {isProfileLoading && <Loading />}
+      {isUploading && <Indicator />}
       <InformationErrorDialog
         isVisible={errorDialogVisible}
         onRetry={() => {
@@ -202,8 +212,7 @@ export const MyAccount = () => {
           <Container>
             <ProfileContainer>
               <ProfileImage
-                source={isProfileImageError || !profileImage ? defaultImages.profile : profileImage}
-                onError={() => setIsProfileImageError(true)}
+                source={profileImage ?? defaultImages.profile}
                 defaultSource={defaultImages.profile as ImageURISource}
               />
               {editMode && (
@@ -257,11 +266,9 @@ export const MyAccount = () => {
           theme="ios"
         />
         {editMode && (
-          <Footer>
-            <TouchableOpacity onPress={() => setIsWithdrawDialogVisible(true)}>
-              <FooterText>{i18n.t('deleteAccount')}</FooterText>
-            </TouchableOpacity>
-          </Footer>
+          <WithdrawButton onPress={() => setIsWithdrawDialogVisible(true)}>
+            <WithdrawButtonText>{i18n.t('deleteAccount')}</WithdrawButtonText>
+          </WithdrawButton>
         )}
         <NicknameEditModal
           isVisible={isNicknameEditModalVisible}

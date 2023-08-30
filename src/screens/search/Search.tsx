@@ -5,10 +5,15 @@ import { TouchableOpacity } from 'react-native'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getSearchLatest, getSearch, getSearchRelation, deleteSearchLatest } from '@/apis/search'
-import LeftArrowIcon from '@/assets/icons/left_arrow.svg'
+import {
+  getSearchLatest,
+  getSearch,
+  getSearchRelation,
+  deleteSearchLatest,
+} from '@/apis/search/Search'
+import LeftArrowIcon from '@/assets/icons/left-arrow.svg'
 import SearchIcon from '@/assets/icons/search.svg'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
 import { SearchBar } from '@/components/searchBar/SearchBar'
@@ -43,17 +48,11 @@ const Search = () => {
 
   const [isFocus, setIsFocus] = useState(false)
   const [debounceText, setDebounceText] = useState('')
+  const [showLoading, setShowLoading] = useState(false)
 
   const [isSearchErrorVisible, setIsSearchErrorVisible] = useState(false)
   const [isRelationErrorVisible, setIsRelationErrorVisible] = useState(false)
   const [isLatestErrorVisible, setIsLatestErrorVisible] = useState(false)
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDebounceText(searchText)
-    }, 500)
-    return () => clearTimeout(timeoutId)
-  }, [searchText, 500])
 
   const { data: searchData, isLoading: isSearchLoading } = useQuery(
     ['getSearch', searchText],
@@ -106,6 +105,23 @@ const Search = () => {
     },
   })
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebounceText(searchText)
+    }, 500)
+    return () => clearTimeout(timeoutId)
+  }, [searchText, 500])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isSearchLoading || isRelationLoading || isLatestLoading) {
+        setShowLoading(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [isSearchLoading || isRelationLoading || isLatestLoading])
+
   /**
    * handleSearch
    */
@@ -144,7 +160,11 @@ const Search = () => {
 
   return (
     <>
-      {isSearchLoading || isRelationLoading || isLatestLoading ? <Loading /> : <></>}
+      {showLoading && (isSearchLoading || isRelationLoading || isLatestLoading) ? (
+        <Loading />
+      ) : (
+        <></>
+      )}
       <InformationErrorDialog
         isVisible={isSearchErrorVisible}
         onRetry={() => {

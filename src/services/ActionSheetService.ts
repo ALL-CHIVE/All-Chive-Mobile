@@ -5,7 +5,7 @@ import { Permissions } from '@/models/enums/Permissions'
 
 import { createCancelConfirmAlert } from './Alert'
 import { checkAndRequestPermission } from './PermissionService'
-import { handleCameraOpen, handleFileOpen, handleImageSelect } from './imagePicker'
+import { handleCameraOpen, handleImageSelect } from './imagePicker'
 
 /**
  * 기본 이미지 메뉴를 핸들링합니다.

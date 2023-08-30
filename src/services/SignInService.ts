@@ -1,7 +1,7 @@
 import { appleAuth } from '@invertase/react-native-apple-authentication'
 import { login } from '@react-native-seoul/kakao-login'
 
-import { postIdTokenLogin, signUpUser } from '@/apis/oauth'
+import { postIdTokenLogin, signUpUser } from '@/apis/auth/OAuth'
 import { SignInResult } from '@/models/SignInResult'
 import { SignInType } from '@/models/enums/SignInType'
 
@@ -22,22 +22,24 @@ export const signInWith = (type: SignInType) => {
 /**
  * signInWithApple
  */
-const signInWithApple = async (): Promise<SignInResult | undefined> => {
-  try {
-    const { user, identityToken } = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    })
+const signInWithApple = async (): Promise<SignInResult> => {
+  const { user, identityToken, fullName, email } = await appleAuth.performRequest({
+    requestedOperation: appleAuth.Operation.LOGIN,
+    requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+  })
 
-    const credentialState = await appleAuth.getCredentialStateForUser(user)
+  const credentialState = await appleAuth.getCredentialStateForUser(user)
 
-    if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
-      return getIsUser(SignInType.Apple, identityToken, '')
-    }
-
-    return
-  } catch (err) {
-    return
+  if (credentialState === appleAuth.State.AUTHORIZED && identityToken) {
+    return getIsUser(
+      SignInType.Apple,
+      identityToken,
+      '',
+      `${fullName?.familyName ?? ''}${fullName?.givenName ?? ''}`,
+      email ?? ''
+    )
+  } else {
+    throw new Error('애플로그인 권한 또는 토큰이 없습니다.')
   }
 }
 
@@ -60,49 +62,38 @@ export const getAppleAuthCode = async () => {
 /**
  * signInWithKakao
  */
-const signInWithKakao = async (): Promise<SignInResult | undefined> => {
-  try {
-    const data = await login()
-
-    if (data) {
-      return getIsUser(SignInType.Kakao, data['idToken'], data['accessToken'])
-    }
-
-    return
-  } catch (err) {
-    //ignore
-    return
-  }
+const signInWithKakao = async (): Promise<SignInResult> => {
+  const data = await login()
+  return getIsUser(SignInType.Kakao, data['idToken'], data['accessToken'])
 }
 
 /**
  * 유저인지 확인합니다.
  */
 const getIsUser = async (
-  type: string,
+  type: SignInType,
   idToken: string,
-  accessToken: string
-): Promise<SignInResult | undefined> => {
-  try {
-    const response = await postIdTokenLogin(type, idToken)
+  accessToken: string,
+  name?: string,
+  email?: string
+): Promise<SignInResult> => {
+  const response = await postIdTokenLogin(type, idToken)
 
-    if (!response?.data?.data) {
-      return
-    } else if (!response.data.data['canLogin']) {
-      return {
-        canLogin: false,
-        idToken,
-        accessToken,
-      }
-    } else {
-      saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
-      return {
-        canLogin: true,
-      }
+  if (!response.data.data['canLogin']) {
+    return {
+      canLogin: false,
+      signInType: type,
+      idToken,
+      accessToken,
+      name,
+      email,
     }
-  } catch (err) {
-    //ignore
-    return
+  } else {
+    saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
+    return {
+      canLogin: true,
+      signInType: type,
+    }
   }
 }
 
@@ -116,35 +107,29 @@ export const signUp = async (
   profileImgUrl: string,
   nickname: string,
   categories: string[],
-  marketingAgreement: boolean
+  marketingAgreement: boolean,
+  name: string,
+  email: string
 ) => {
-  try {
-    const response = await signUpUser(
-      provider,
-      idToken,
-      accessToken,
-      profileImgUrl,
-      nickname,
-      categories,
-      marketingAgreement
-    )
+  const response = await signUpUser(
+    provider,
+    idToken,
+    accessToken,
+    profileImgUrl,
+    nickname,
+    categories,
+    marketingAgreement,
+    name,
+    email
+  )
 
-    if (!response?.data?.data) {
-      return false
-    } else {
-      saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
-      return true
-    }
-  } catch (err) {
-    //ignore
-    return false
-  }
+  saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
 }
 
 /**
  * saveTokens
  */
-export const saveTokens = (refreshToken: string, accessToken: string) => {
+const saveTokens = (refreshToken: string, accessToken: string) => {
   setRefreshToken(refreshToken)
   setAccessToken(accessToken)
 }

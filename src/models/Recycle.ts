@@ -1,9 +1,9 @@
-import { ArchivingListContent } from '@/models/Archiving'
-import { SimpleContent } from '@/models/SimpleContent'
+import { ArchivingInfo } from '@/models/Archiving'
+import { ContentCardInfo } from '@/models/ContentCard'
 
 export interface RecyclesResponse {
-  contents: SimpleContent[]
-  archivings: ArchivingListContent[]
+  contents: ContentCardInfo[]
+  archivings: ArchivingInfo[]
 }
 
 export interface DeleteRecyclesRequest {

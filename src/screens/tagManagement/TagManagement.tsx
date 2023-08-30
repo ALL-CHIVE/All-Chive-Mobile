@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { getTag, postTag } from '@/apis/tag'
+import { getTag, postTag } from '@/apis/tag/Tag'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
