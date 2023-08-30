@@ -55,9 +55,9 @@ export const Mypage = () => {
      *
      */
     onSuccess: () => {
-      queryClient.clear()
       clearUserInfo()
       navigation.reset({ routes: [{ name: 'Login' }] })
+      queryClient.clear()
     },
     /**
      *

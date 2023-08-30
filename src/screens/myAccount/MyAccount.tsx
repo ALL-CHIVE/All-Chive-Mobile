@@ -112,9 +112,9 @@ export const MyAccount = () => {
      * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
      */
     onSuccess: () => {
-      queryClient.clear()
       clearUserInfo()
       navigation.reset({ routes: [{ name: 'Login' }] })
+      queryClient.clear()
     },
   })
 
