@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { useNavigation } from '@react-navigation/native'
+import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -14,6 +16,7 @@ import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButt
 import { Loading } from '@/components/loading/Loading'
 import i18n from '@/locales'
 import { RecyclesResponse } from '@/models/Recycle'
+import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
 import { colors } from '@/styles/colors'
 
@@ -30,6 +33,7 @@ import { RecycleBinTab } from './tabs/RecycleBinTab'
  * 마이페이지 '휴지통'
  */
 export const RecycleBin = () => {
+  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
@@ -149,20 +153,31 @@ export const RecycleBin = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={handleEditMode}
         />
-        <Container>
-          {recycleData && (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
-            <RecycleBinTab
-              contents={recycleData.contents}
-              archivings={recycleData.archivings}
-              editMode={editMode}
-            />
-          ) : (
-            <EmptyItem
-              textKey="emptyRecycleBin"
-              marginTop={120}
-            />
-          )}
-        </Container>
+        <FlingGestureHandler
+          direction={Directions.RIGHT}
+          onHandlerStateChange={(e) => {
+            if (e.nativeEvent.state === State.ACTIVE) {
+              navigation.goBack()
+            }
+          }}
+        >
+          <Container>
+            {recycleData &&
+            (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
+              <RecycleBinTab
+                contents={recycleData.contents}
+                archivings={recycleData.archivings}
+                editMode={editMode}
+              />
+            ) : (
+              <EmptyItem
+                textKey="emptyRecycleBin"
+                marginTop={120}
+              />
+            )}
+          </Container>
+        </FlingGestureHandler>
+
         {editMode && (
           <BottomButtonContainer>
             <LinearGradient
@@ -198,6 +213,7 @@ export const RecycleBin = () => {
             </LinearGradient>
           </BottomButtonContainer>
         )}
+
         <TwoButtonDialog
           isVisible={isDeleteDialogVisible}
           title="persistentDeleteWarning"

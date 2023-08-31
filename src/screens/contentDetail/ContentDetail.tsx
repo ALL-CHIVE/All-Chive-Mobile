@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { postBlock } from '@/apis/block/Block'
@@ -193,35 +194,45 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           navigate={handleNavigation}
         />
         <DefaultScrollContainer>
-          <Container>
-            <Day>{content.contentCreatedAt}</Day>
-            {content && (
-              <ContentDetailView>
-                <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-                {content.tagList?.length > 0 && (
-                  <>
-                    <SubTitle>{i18n.t('tag')}</SubTitle>
-                    <TagList>
-                      {content.tagList.map((tag) => (
-                        <BigWhiteTag
-                          key={tag.tagId}
-                          tag={tag.name}
-                        />
-                      ))}
-                    </TagList>
-                  </>
-                )}
-                {content.contentMemo && (
-                  <>
-                    <SubTitle>{i18n.t('memo')}</SubTitle>
-                    <Memo text={content.contentMemo} />
-                  </>
-                )}
-              </ContentDetailView>
-            )}
-          </Container>
+          <FlingGestureHandler
+            direction={Directions.RIGHT}
+            onHandlerStateChange={(e) => {
+              if (e.nativeEvent.state === State.ACTIVE) {
+                handleNavigation()
+              }
+            }}
+          >
+            <Container>
+              <Day>{content.contentCreatedAt}</Day>
+              {content && (
+                <ContentDetailView>
+                  <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
+                  {content.tagList?.length > 0 && (
+                    <>
+                      <SubTitle>{i18n.t('tag')}</SubTitle>
+                      <TagList>
+                        {content.tagList.map((tag) => (
+                          <BigWhiteTag
+                            key={tag.tagId}
+                            tag={tag.name}
+                          />
+                        ))}
+                      </TagList>
+                    </>
+                  )}
+                  {content.contentMemo && (
+                    <>
+                      <SubTitle>{i18n.t('memo')}</SubTitle>
+                      <Memo text={content.contentMemo} />
+                    </>
+                  )}
+                </ContentDetailView>
+              )}
+            </Container>
+          </FlingGestureHandler>
         </DefaultScrollContainer>
       </DefaultContainer>
+
       <ActionSheet
         ref={actionSheetRef}
         options={ReportMenus()}

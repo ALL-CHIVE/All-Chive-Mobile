@@ -4,6 +4,12 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
+import {
+  Directions,
+  FlingGestureHandler,
+  PanGestureHandler,
+  State,
+} from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -245,6 +251,13 @@ const ContentList = ({ route }: ContentListProps) => {
     )
   }
 
+  /**
+   * 왼쪽으로 스와이프 시 뒤로가기
+   */
+  const handleSwipeLeft = () => {
+    navigation.goBack()
+  }
+
   return (
     <>
       {isLoading && <Loading />}
@@ -309,35 +322,44 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-        {contentList?.pages[0].totalContentsCount === 0 ? (
-          <Container>
-            <EmptyItem
-              textKey="emptyArchiving"
-              marginTop={55}
-            />
-          </Container>
-        ) : (
-          <ScrollContainer
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            onScrollEndDrag={({ nativeEvent }) => {
-              if (isCloseToBottom(nativeEvent)) {
-                onEndReached()
-              }
-            }}
-          >
-            {contentList && (
-              <ContentListContainer
-                scrollEnabled={false}
-                data={contentList.pages
-                  .map((page: ContentByArchivingResponse) => page.contents.content)
-                  .flat()}
-                numColumns={2}
-                renderItem={renderItem}
+        <FlingGestureHandler
+          direction={Directions.RIGHT}
+          onHandlerStateChange={(e) => {
+            if (e.nativeEvent.state === State.ACTIVE) {
+              navigation.goBack()
+            }
+          }}
+        >
+          {contentList?.pages[0].totalContentsCount === 0 ? (
+            <Container>
+              <EmptyItem
+                textKey="emptyArchiving"
+                marginTop={55}
               />
-            )}
-          </ScrollContainer>
-        )}
+            </Container>
+          ) : (
+            <ScrollContainer
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+              onScrollEndDrag={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent)) {
+                  onEndReached()
+                }
+              }}
+            >
+              {contentList && (
+                <ContentListContainer
+                  scrollEnabled={false}
+                  data={contentList.pages
+                    .map((page: ContentByArchivingResponse) => page.contents.content)
+                    .flat()}
+                  numColumns={2}
+                  renderItem={renderItem}
+                />
+              )}
+            </ScrollContainer>
+          )}
+        </FlingGestureHandler>
       </DefaultContainer>
 
       <EditArchivingModal

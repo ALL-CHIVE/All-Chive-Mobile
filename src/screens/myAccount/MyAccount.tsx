@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
+import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth/Auth'
@@ -209,40 +210,50 @@ export const MyAccount = () => {
           />
         </View>
         <DefaultScrollContainer>
-          <Container>
-            <ProfileContainer>
-              <ProfileImage
-                source={profileImage ?? defaultImages.profile}
-                defaultSource={defaultImages.profile as ImageURISource}
-              />
-              {editMode && (
-                <Button onPress={handleImageEdit}>
-                  <ButtonText>{i18n.t('edit')}</ButtonText>
-                </Button>
-              )}
-            </ProfileContainer>
-            <InfoContainer>
-              <RowView>
-                <InfoTitle>{i18n.t('name')}</InfoTitle>
-                <InfoText>{userInfoData?.name}</InfoText>
-              </RowView>
-              <Divider />
-              <RowView>
-                <InfoTitle>{i18n.t('email')}</InfoTitle>
-                <InfoText>{userInfoData?.email}</InfoText>
-              </RowView>
-              <Divider />
-              <RowView>
-                <InfoTitle>{i18n.t('nickName')}</InfoTitle>
-                <InfoText>{nickname}</InfoText>
-                <PencilButton onPress={handleEditNickname}>
-                  {editMode && <PencilIcon />}
-                </PencilButton>
-              </RowView>
-              <Divider />
-            </InfoContainer>
-          </Container>
+          <FlingGestureHandler
+            direction={Directions.RIGHT}
+            onHandlerStateChange={(e) => {
+              if (e.nativeEvent.state === State.ACTIVE) {
+                navigation.goBack()
+              }
+            }}
+          >
+            <Container>
+              <ProfileContainer>
+                <ProfileImage
+                  source={profileImage ?? defaultImages.profile}
+                  defaultSource={defaultImages.profile as ImageURISource}
+                />
+                {editMode && (
+                  <Button onPress={handleImageEdit}>
+                    <ButtonText>{i18n.t('edit')}</ButtonText>
+                  </Button>
+                )}
+              </ProfileContainer>
+              <InfoContainer>
+                <RowView>
+                  <InfoTitle>{i18n.t('name')}</InfoTitle>
+                  <InfoText>{userInfoData?.name}</InfoText>
+                </RowView>
+                <Divider />
+                <RowView>
+                  <InfoTitle>{i18n.t('email')}</InfoTitle>
+                  <InfoText>{userInfoData?.email}</InfoText>
+                </RowView>
+                <Divider />
+                <RowView>
+                  <InfoTitle>{i18n.t('nickName')}</InfoTitle>
+                  <InfoText>{nickname}</InfoText>
+                  <PencilButton onPress={handleEditNickname}>
+                    {editMode && <PencilIcon />}
+                  </PencilButton>
+                </RowView>
+                <Divider />
+              </InfoContainer>
+            </Container>
+          </FlingGestureHandler>
         </DefaultScrollContainer>
+
         <TwoButtonDialog
           isVisible={isWithdrawDialogVisible}
           title="doYouWantWithdrawal"
