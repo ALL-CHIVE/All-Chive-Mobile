@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 
 import { defaultImages } from '@/assets'
 import FirstIndicator from '@/assets/icons/first-indicator.svg'
@@ -21,14 +22,23 @@ const OnBoarding1 = () => {
   return (
     <DefaultContainer>
       <DefaultScrollContainer>
-        <Container>
-          <OnBoardingImage
-            source={defaultImages.onBoarding1}
-            style={{ width: 222.3, height: 252 }}
-          />
-          <Title>{i18n.t('easilyManageContent')}</Title>
-          <FirstIndicator />
-        </Container>
+        <FlingGestureHandler
+          direction={Directions.LEFT}
+          onHandlerStateChange={(e) => {
+            if (e.nativeEvent.state === State.ACTIVE) {
+              navigation.navigate('OnBoarding2')
+            }
+          }}
+        >
+          <Container>
+            <OnBoardingImage
+              source={defaultImages.onBoarding1}
+              style={{ width: 222.3, height: 252 }}
+            />
+            <Title>{i18n.t('easilyManageContent')}</Title>
+            <FirstIndicator />
+          </Container>
+        </FlingGestureHandler>
       </DefaultScrollContainer>
       <BoxButton
         textKey="next"
