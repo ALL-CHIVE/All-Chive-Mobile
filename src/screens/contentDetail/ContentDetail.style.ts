@@ -23,6 +23,7 @@ export const TagList = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 10px;
+  gap: 8px;
 `
 
 export const SubTitle = styled.Text`
