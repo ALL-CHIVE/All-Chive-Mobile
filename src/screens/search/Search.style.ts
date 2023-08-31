@@ -47,6 +47,7 @@ export const AllRemoveText = styled.Text`
 export const ItemText = styled.Text`
   ${fonts.body1}
   color: ${colors.gray400};
+  bottom: 7px;
 `
 
 export const TabContainer = styled.View`
