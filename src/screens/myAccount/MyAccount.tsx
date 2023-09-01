@@ -270,12 +270,12 @@ export const MyAccount = () => {
             <WithdrawButtonText>{i18n.t('deleteAccount')}</WithdrawButtonText>
           </WithdrawButton>
         )}
-        <NicknameEditModal
-          isVisible={isNicknameEditModalVisible}
-          onCancle={() => setIsNicknameEditModalVisible(false)}
-          onSuccess={handleNicknameChange}
-        />
       </DefaultContainer>
+      <NicknameEditModal
+        isVisible={isNicknameEditModalVisible}
+        onCancle={() => setIsNicknameEditModalVisible(false)}
+        onSuccess={handleNicknameChange}
+      />
     </>
   )
 }

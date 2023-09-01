@@ -71,4 +71,9 @@ export const Styles = {
   buttonEnable: css`
     color: ${colors.gray50};
   `,
+
+  modal: css`
+    align-items: center;
+    margin: 0;
+  `,
 }
