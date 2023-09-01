@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag/Tag'
@@ -80,7 +81,7 @@ export const TagManagement = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={() => setEditMode((prev) => !prev)}
         />
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}

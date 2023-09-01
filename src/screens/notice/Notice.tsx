@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { ScrollView } from 'react-native'
+import { Directions } from 'react-native-gesture-handler'
 
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import EmptyItem from '@/components/emptyItem/EmptyItem'
@@ -15,7 +16,7 @@ export const Notice = () => {
   return (
     <DefaultContainer>
       <LeftButtonHeader title={i18n.t('notice')} />
-      <SwipeScreen direction={1}>
+      <SwipeScreen direction={Directions.RIGHT}>
         <ScrollView bounces={false}>
           <EmptyItem
             textKey="emptyNotice"

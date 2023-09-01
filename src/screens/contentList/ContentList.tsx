@@ -4,6 +4,7 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
+import { Directions } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -310,7 +311,7 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           {contentList?.pages[0].totalContentsCount === 0 ? (
             <Container>
               <EmptyItem

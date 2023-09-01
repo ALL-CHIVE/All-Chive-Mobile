@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving/ArchivingList'
@@ -58,7 +59,7 @@ export const ArchivingManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('archivingManagement')} />
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}

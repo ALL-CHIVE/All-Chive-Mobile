@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth/Auth'
@@ -210,7 +211,7 @@ export const MyAccount = () => {
           />
         </View>
         <DefaultScrollContainer>
-          <SwipeScreen direction={1}>
+          <SwipeScreen direction={Directions.RIGHT}>
             <Container>
               <ProfileContainer>
                 <ProfileImage

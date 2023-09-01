@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource, TouchableOpacity, View } from 'react-native'
 import { getVersion } from 'react-native-device-info'
+import { Directions } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -92,7 +93,7 @@ export const Mypage = () => {
       />
       <View style={{ backgroundColor: colors.yellow200, height: top }} />
       <DefaultContainer>
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}

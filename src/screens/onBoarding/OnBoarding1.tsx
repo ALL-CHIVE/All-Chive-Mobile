@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import { Directions } from 'react-native-gesture-handler'
 
 import { defaultImages } from '@/assets'
 import FirstIndicator from '@/assets/icons/first-indicator.svg'
@@ -23,7 +24,7 @@ const OnBoarding1 = () => {
     <DefaultContainer>
       <DefaultScrollContainer>
         <SwipeScreen
-          direction={2}
+          direction={Directions.LEFT}
           wentToGo={() => {
             navigation.navigate('OnBoarding2')
           }}

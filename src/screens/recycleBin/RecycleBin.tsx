@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -150,7 +151,7 @@ export const RecycleBin = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={handleEditMode}
         />
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           <Container>
             {recycleData &&
             (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block/Block'
@@ -47,7 +48,7 @@ export const BlockManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('blockManagement')} />
-        <SwipeScreen direction={1}>
+        <SwipeScreen direction={Directions.RIGHT}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}

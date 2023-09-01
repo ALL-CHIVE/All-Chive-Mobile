@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { postBlock } from '@/apis/block/Block'
@@ -195,7 +196,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         />
         <DefaultScrollContainer>
           <SwipeScreen
-            direction={1}
+            direction={Directions.RIGHT}
             wentToGo={handleNavigation}
           >
             <Container>
