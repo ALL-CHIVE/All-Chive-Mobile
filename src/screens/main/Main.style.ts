@@ -1,7 +1,7 @@
 import styled, { css } from '@emotion/native'
 import { FlatList } from 'react-native'
 
-import { ArchivingListContent } from '@/models/Archiving'
+import { ArchivingInfo } from '@/models/Archiving'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
@@ -31,7 +31,7 @@ export const Container = styled.View`
 `
 
 export const Greeding = styled.View`
-  margin-bottom: 137px;
+  margin-bottom: 127px;
   margin-left: 25px;
 `
 
@@ -47,13 +47,15 @@ export const Title = styled.Text`
 
 export const BackgroundImage = styled.Image`
   position: absolute;
-  width: 235px;
-  height: 197.344px;
-  right: -17px;
-  top: 25px;
+  width: 238.334px;
+  height: 231.344px;
+  right: -10.33px;
+  top: 5px;
 `
 
-export const ArchivingCardList = styled(FlatList<ArchivingListContent>)``
+export const ArchivingCardList = styled(FlatList<ArchivingInfo>)`
+  margin-top: -10px;
+`
 
 export const List = styled.View`
   align-items: center;

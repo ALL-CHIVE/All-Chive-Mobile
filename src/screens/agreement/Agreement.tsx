@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 
-import { RouteProp, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 
-import CheckIcon from '@/assets/icons/check_yellow.svg'
-import RightArrowIcon from '@/assets/icons/right_arrow.svg'
+import CheckIcon from '@/assets/icons/check-yellow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { marketing, privacy, terms } from '@/const/Const'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
 import { openInappBrowser } from '@/services/InappBrowser'
 import { colors } from '@/styles/colors'
 
@@ -26,14 +25,10 @@ import {
   Title,
 } from './Agreement.style'
 
-interface AgreementProps {
-  route: RouteProp<RootStackParamList, 'Agreement'>
-}
-
 /**
  * 약관 동의 화면
  */
-export const Agreement = ({ route }: AgreementProps) => {
+export const Agreement = () => {
   const navigation = useNavigation<MainNavigationProp>()
 
   const [allCheck, setAllCheck] = useState(false)
@@ -96,7 +91,6 @@ export const Agreement = ({ route }: AgreementProps) => {
    */
   const handleComplete = () => {
     navigation.navigate('SelectCategory', {
-      type: route.params.type,
       marketingAgreement: agreements.marketing,
     })
   }

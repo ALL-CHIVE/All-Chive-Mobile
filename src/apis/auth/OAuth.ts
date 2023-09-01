@@ -1,9 +1,9 @@
 import { SignInType } from '@/models/enums/SignInType'
 
-import { client } from './client'
+import { client } from '../Client'
 
 /**
- * signUpUser
+ * 회원가입을 진행합니다.
  */
 export const signUpUser = (
   provider: SignInType,
@@ -12,22 +12,36 @@ export const signUpUser = (
   profileImgUrl: string,
   nickname: string,
   categories: string[],
-  marketingAgreement: boolean
+  marketingAgreement: boolean,
+  name: string,
+  email: string
 ) => {
   return client.post(
-    `/auth/oauth/register/${provider}?idToken=${idToken}&oauthAccessToken=${oauthAccessToken}`,
+    `/auth/oauth/register/${provider}`,
     {
       profileImgUrl,
       nickname,
       categories,
       marketingAgreement,
+      name,
+      email,
+    },
+    {
+      params: {
+        idToken,
+        oauthAccessToken,
+      },
     }
   )
 }
 
 /**
- * postIdTokenLogin
+ * IdToken 으로 로그인 합니다.
  */
 export const postIdTokenLogin = (type: string, idToken: string) => {
-  return client.post(`/auth/oauth/login/${type}/idtoken?idToken=${idToken}`)
+  return client.post(`/auth/oauth/login/${type}/idtoken`, null, {
+    params: {
+      idToken,
+    },
+  })
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useMutation, useQueryClient } from 'react-query'
 
-import { deleteTag } from '@/apis/tag'
+import { deleteTag } from '@/apis/tag/Tag'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
 import i18n from '@/locales'
 

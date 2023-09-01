@@ -1,4 +1,4 @@
-export interface SimpleContent {
+export interface ContentCardInfo {
   contentId: number
   contentTitle: string
   contentType: string

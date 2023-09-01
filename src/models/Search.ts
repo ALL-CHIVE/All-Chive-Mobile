@@ -1,8 +1,8 @@
-import { ArchivingListContent } from './Archiving'
+import { ArchivingInfo } from './Archiving'
 export interface SearchResponse {
   data: {
     archivings: {
-      content: ArchivingListContent[]
+      content: ArchivingInfo[]
       page: number
       size: number
       totalElements: number
@@ -10,7 +10,7 @@ export interface SearchResponse {
       hasNextPage: boolean
     }
     community: {
-      content: ArchivingListContent[]
+      content: ArchivingInfo[]
       page: number
       size: number
       totalElements: number

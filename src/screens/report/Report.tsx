@@ -5,7 +5,7 @@ import { AxiosError } from 'axios'
 import { View } from 'react-native'
 import { useMutation } from 'react-query'
 
-import { postReport } from '@/apis/report'
+import { postReport } from '@/apis/report/Report'
 import { defaultImages } from '@/assets'
 import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'

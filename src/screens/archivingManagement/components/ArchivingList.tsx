@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
-import { AxiosError } from 'axios'
 import { TouchableOpacity } from 'react-native'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { deleteArchiving } from '@/apis/archiving'
+import { deleteArchiving } from '@/apis/archiving/Archiving'
 import { defaultImages } from '@/assets'
 import PopupIcon from '@/assets/icons/popup.svg'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'

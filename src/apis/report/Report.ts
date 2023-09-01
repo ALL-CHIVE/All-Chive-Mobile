@@ -1,7 +1,7 @@
 import { ReportType } from '@/models/enums/ReportType'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
+import { client } from '../Client'
 
 /**
  *
@@ -14,13 +14,16 @@ export const postReport = async (
 ) => {
   const accessToken = await getAccessToken()
   const response = await client.post(
-    `/reports?type=${type}`,
+    `/reports`,
     {
       reason,
       reportedType,
       id,
     },
     {
+      params: {
+        type,
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

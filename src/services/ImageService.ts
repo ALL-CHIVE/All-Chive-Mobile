@@ -1,72 +1,64 @@
-import axios from 'axios'
-import { decode } from 'base64-arraybuffer'
-import fs from 'react-native-fs'
-import uuid from 'react-native-uuid'
+import RNBlobUtil from 'react-native-blob-util'
+import Config from 'react-native-config'
 
-import { getAwsImageUrl } from '@/apis/image'
+import { getArchivingImageUrl, getContentsImageUrl, getUserImageUrl } from '@/apis/image/Image'
 
 /**
  * 프로필 이미지 URL을 생성합니다.
  */
-export const uploadProfileImage = async (uri: string, key = '') => {
-  key = key ? key : `user/${uuid.v4()}/profile.jpg`
-  return uploadImage(uri, key)
+export const uploadProfileImage = async (imageUri: string) => {
+  if (isUploadedImage(imageUri)) {
+    return imageUri
+  }
+
+  const { url } = await getUserImageUrl()
+  await uploadImageToS3(url, imageUri)
+  return url
 }
 
 /**
  * 컨텐츠 이미지 URL을 생성합니다.
  */
-export const uploadContentImage = async (uri: string, key = '') => {
-  key = key ? key : `contents/${uuid.v4()}/image.jpg`
-  return uploadImage(uri, key)
+export const uploadContentImage = async (imageUri: string) => {
+  if (isUploadedImage(imageUri)) {
+    return imageUri
+  }
+
+  const { url } = await getContentsImageUrl()
+  await uploadImageToS3(url, imageUri)
+  return url
 }
 
 /**
  * 아카이빙 이미지 URL을 생성합니다.
  */
-export const uploadArchivingImage = async (uri: string, key = '') => {
-  key = key ? key : `archivings/${uuid.v4()}/image.jpg`
-  return uploadImage(uri, key)
-}
-
-/**
- * uploadImage
- */
-const uploadImage = async (uri: string, key: string) => {
-  const imageUrl = await getAwsImageUrl(key)
-
-  if (imageUrl) {
-    try {
-      await uploadImageCore(imageUrl, uri)
-      return key
-    } catch (error) {
-      // err
-    }
+export const uploadArchivingImage = async (imageUri: string) => {
+  if (isUploadedImage(imageUri)) {
+    return imageUri
   }
 
-  return ''
+  const { url } = await getArchivingImageUrl()
+  await uploadImageToS3(url, imageUri)
+  return url
 }
 
 /**
- * uploadImageCore
+ * 이미 업로드 된 이미지인지 확인합니다.
  */
-const uploadImageCore = async (uploadUrl: string, fileUrl: string) => {
-  const imageBody = await getBinary(fileUrl)
+const isUploadedImage = (imageUri: string) => {
+  return Config.ALLCHIVE_ASSET_SERVER && imageUri.startsWith(Config.ALLCHIVE_ASSET_SERVER)
+}
 
-  const response = await axios.put(uploadUrl, imageBody, {
-    headers: {
-      'Content-Type': `image/jpeg`,
-      ACL: 'public-read',
+/**
+ * 생성된 presigned url로 이미지를 전송합니다.
+ */
+const uploadImageToS3 = async (url: string, imageUri: string) => {
+  await RNBlobUtil.fetch(
+    'PUT',
+    url,
+    {
+      'Content-Type': 'image/jpeg',
     },
-  })
-
-  return response
-}
-
-/**
- * getBinary
- */
-const getBinary = async (fileUri: string) => {
-  const imageBody = await fs.readFile(fileUri, 'base64')
-  return decode(imageBody)
+    RNBlobUtil.wrap(imageUri)
+  )
 }

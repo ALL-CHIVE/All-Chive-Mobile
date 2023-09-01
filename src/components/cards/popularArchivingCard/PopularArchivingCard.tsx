@@ -2,17 +2,16 @@ import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource } from 'react-native'
-import Config from 'react-native-config'
 import { useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
-import { patchScrapArchiving } from '@/apis/archiving'
+import { patchScrapArchiving } from '@/apis/archiving/Archiving'
 import { defaultIcons, defaultImages } from '@/assets'
 import PhotoIcon from '@/assets/icons/photo.svg'
+import ScrapFillIcon from '@/assets/icons/scrap-fill.svg'
+import ScrapSmallIcon from '@/assets/icons/scrap-small.svg'
 import ScrapIcon from '@/assets/icons/scrap.svg'
-import ScrapFillIcon from '@/assets/icons/scrap_fill.svg'
-import ScrapSmallIcon from '@/assets/icons/scrap_small.svg'
-import { ArchivingListContent } from '@/models/Archiving'
+import { ArchivingInfo } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { CommunityCategoryState } from '@/state/CategoryState'
 import { colors } from '@/styles/colors'
@@ -29,7 +28,7 @@ import {
 } from './PopularArchivingCard.style'
 
 interface PopularArchivingCardProps {
-  item: ArchivingListContent
+  item: ArchivingInfo
 }
 
 /**
@@ -69,11 +68,7 @@ export const PopularArchivingCard = ({ item }: PopularArchivingCardProps) => {
     >
       <Card>
         <ArchivingImage
-          source={
-            isImageError || !imageUrl
-              ? defaultImages.thumbnail
-              : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${imageUrl}` }
-          }
+          source={isImageError || !imageUrl ? defaultImages.thumbnail : { uri: imageUrl }}
           onError={() => setIsImageError(true)}
           defaultSource={defaultImages.thumbnail as ImageURISource}
         />

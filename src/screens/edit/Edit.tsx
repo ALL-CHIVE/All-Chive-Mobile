@@ -4,18 +4,18 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
-import Config from 'react-native-config'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { getContentsInfo, patchContents } from '@/apis/content'
+import { getContentsInfo, patchContents } from '@/apis/content/Content'
 import PlusIcon from '@/assets/icons/plus.svg'
-import RightArrowIcon from '@/assets/icons/right_arrow.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
+import Indicator from '@/components/indicator/Indicator'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
@@ -70,7 +70,6 @@ export const Edit = ({ route }: EditProps) => {
   const [image, setImage] = useState<ImageSourcePropType>()
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
-  const [imageUrl, setImageUrl] = useState('')
 
   const [lastFocused, setLastFocused] = useState(-1)
   const [currentFocused, setCurrentFocused] = useState(-1)
@@ -94,15 +93,8 @@ export const Edit = ({ route }: EditProps) => {
         setLink(content.link)
         setIsValidUrl(isUrl(content.link))
         setMemo(content.contentMemo)
-        setImageUrl(content.imgUrl)
         setSelectArchiving({ id: content.archivingId, title: content.archivingTitle })
-        content.imgUrl &&
-          setImage({
-            uri:
-              content.contentType === ContentType.Image
-                ? `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}`
-                : content.imgUrl,
-          })
+        content.imgUrl && setImage({ uri: content.imgUrl })
 
         setSelectTag(
           content.tagList.map((tag) => {
@@ -113,38 +105,57 @@ export const Edit = ({ route }: EditProps) => {
     }
   )
 
-  const { mutate: patchContentsMutate } = useMutation(
-    () =>
-      patchContents({
-        contentId: route.params.id,
-        contentType: route.params.type,
-        archivingId: selectArchiving.id,
-        title: contentName,
-        link: link,
-        imgUrl: imageUrl,
-        tagIds: selectTag.map((tag) => tag.tagId),
-        memo: memo,
-      }),
-    {
-      /**
-       * patchContentsMutate 성공 시 recoil state를 초기화하고,
-       * C
-       */
-      onSuccess: () => {
-        setSelectArchiving({ id: -1, title: '' })
-        setSelectTag([])
-        queryClient.invalidateQueries([queryKeys.contents, route.params.id])
-        queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
-        navigation.goBack()
-      },
-      /**
-       *
-       */
-      onError: () => {
-        // TODO: 에러 처리
-      },
+  /**
+   *
+   */
+  const updateContents = async () => {
+    let contentImageUrl = ''
+
+    switch (route.params.type) {
+      case ContentType.Link: {
+        contentImageUrl = await getLinkImage(link)
+        break
+      }
+      case ContentType.Image: {
+        const imageUrl = (image as ImageURISource)?.uri ?? ''
+
+        if (imageUrl) {
+          contentImageUrl = await uploadContentImage(imageUrl)
+        }
+        break
+      }
     }
-  )
+
+    await patchContents(
+      route.params.id,
+      route.params.type,
+      selectArchiving.id,
+      contentName,
+      link,
+      contentImageUrl,
+      selectTag.map((tag) => tag.tagId),
+      memo
+    )
+  }
+
+  const { mutate: updateContentsMutate, isLoading: isUploading } = useMutation(updateContents, {
+    /**
+     * updateContentsMutate 성공 시 recoil state를 초기화하고, 리패치합니다.
+     */
+    onSuccess: () => {
+      setSelectArchiving({ id: -1, title: '' })
+      setSelectTag([])
+      queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+      queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
+      navigation.goBack()
+    },
+    /**
+     *
+     */
+    onError: () => {
+      // TODO: 에러 처리
+    },
+  })
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -178,27 +189,6 @@ export const Edit = ({ route }: EditProps) => {
     setSelectArchiving({ id: -1, title: '' })
     setSelectTag([])
     navigation.goBack()
-  }
-
-  /**
-   * 완료 액션
-   */
-  const handleSubmit = async () => {
-    switch (route.params.type) {
-      case ContentType.Link: {
-        const url = await getLinkImage(link)
-        setImageUrl(url)
-        break
-      }
-      case ContentType.Image: {
-        const imageUrl = (image as ImageURISource)?.uri ?? ''
-        const contentImageUrl = await uploadContentImage(imageUrl)
-        contentImageUrl && setImageUrl(contentImageUrl)
-        break
-      }
-    }
-
-    patchContentsMutate()
   }
 
   /**
@@ -351,9 +341,10 @@ export const Edit = ({ route }: EditProps) => {
           </Container>
         </KeyboardAwareScrollView>
       </DefaultScrollContainer>
+      {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={handleSubmit}
+        onPress={updateContentsMutate}
         isDisabled={
           !archivingName ||
           !contentName ||

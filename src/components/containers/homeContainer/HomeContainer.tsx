@@ -18,6 +18,7 @@ const HomeContainer = ({ children }: HomeContainerProps) => {
     <LinearGradient
       style={{ height: Dimensions.get('window').height }}
       colors={[colors.yellow200, colors.white]}
+      locations={[0.1, 0.45]}
     >
       <SafeAreaView>{children}</SafeAreaView>
     </LinearGradient>

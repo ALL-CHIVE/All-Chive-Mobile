@@ -1,40 +1,10 @@
-import { Credentials } from 'aws-sdk'
-import S3 from 'aws-sdk/clients/s3'
-import Config from 'react-native-config'
-
 import { ImageUrl } from '@/models/ImageUrl'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
 
-import { client } from './client'
-
-const access = new Credentials({
-  accessKeyId: Config.AWS_ASSET_SERVER_ID ?? '',
-  secretAccessKey: Config.AWS_ASSET_SERVER_KEY ?? '',
-})
-
-const s3 = new S3({
-  credentials: access,
-  region: Config.AWS_REGION ?? '',
-  signatureVersion: 'v4',
-})
+import { client } from '../Client'
 
 /**
- * aws 이미지 업로드 url 요청할 수 있는 api
- */
-export const getAwsImageUrl = async (key: string): Promise<string> => {
-  const url = await s3.getSignedUrlPromise('putObject', {
-    Bucket: Config.AWS_ASSET_BUCKET,
-    Key: key,
-    ContentType: 'image/jpeg',
-    Expires: 60 * 15,
-    ACL: 'public-read',
-  })
-
-  return url
-}
-
-/**
- * 프로필 업로드 url 요청할 수 있는 api
+ * 프로필 이미지 업로드 url 요청할 수 있는 api
  */
 export const getUserImageUrl = async (): Promise<ImageUrl> => {
   const accessToken = await getAccessToken()

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+
+import { TextInput } from 'react-native'
 
 import SearchIcon from '@/assets/icons/search.svg'
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { colors } from '@/styles/colors'
 
-import { Container, RemoveImageContainer, Style, TextInput } from './SearchBar.style'
+import { Container, RemoveImageContainer, Style, SearchInput } from './SearchBar.style'
 
 interface SearchBarProps {
   placeholder: string
@@ -26,9 +28,16 @@ export const SearchBar = ({
   onFocus,
   maxLength,
 }: SearchBarProps) => {
+  const inputRef = useRef<TextInput>(null)
+
+  useEffect(() => {
+    setTimeout(() => inputRef?.current?.focus(), 20)
+  }, [])
+
   return (
     <Container>
-      <TextInput
+      <SearchInput
+        ref={inputRef}
         placeholder={placeholder}
         placeholderTextColor={colors.gray200}
         value={value}

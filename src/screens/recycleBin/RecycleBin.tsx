@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle'
+import { deleteRecycles, getRecycles, patchRecycles } from '@/apis/recycle/Recycle'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { TemporaryErrorDialog } from '@/components/dialogs/errorDialog/TemporaryErrorDialog/TemporaryErrorDialog'

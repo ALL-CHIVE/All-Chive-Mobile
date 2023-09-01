@@ -28,11 +28,7 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
     <Container>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <ImagePreview
-          source={
-            isImageError
-              ? defaultImages.content
-              : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}` }
-          }
+          source={isImageError ? defaultImages.content : { uri: content.imgUrl }}
           onError={() => setIsImageError(true)}
           defaultSource={defaultImages.content as ImageURISource}
         />
@@ -40,9 +36,7 @@ const ImageDetail = ({ content }: ImageDetailProps) => {
 
       <ImageView
         images={[
-          isImageError
-            ? (defaultImages.content as ImageURISource)
-            : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${content.imgUrl}` },
+          isImageError ? (defaultImages.content as ImageURISource) : { uri: content.imgUrl },
         ]}
         FooterComponent={() => <Text></Text>}
         HeaderComponent={() => (

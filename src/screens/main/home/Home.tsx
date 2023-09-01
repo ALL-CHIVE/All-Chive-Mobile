@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
-import Config from 'react-native-config'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { getHomeArchivingList } from '@/apis/archiving'
-import { getUser } from '@/apis/user'
+import { getHomeArchivingList } from '@/apis/archiving/ArchivingList'
+import { getUser } from '@/apis/user/User'
 import { defaultImages } from '@/assets'
 import SearchButton from '@/components/buttons/searchButton/SearchButton'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
@@ -17,8 +16,9 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
+import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
-import { ArchivingListContent, MainArchivingListResponse } from '@/models/Archiving'
+import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isCloseToBottom } from '@/services/InfiniteService'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
@@ -53,10 +53,10 @@ export const Home = () => {
   const [isProfileImageError, setIsProfileImageError] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
   const [profileErrorVisible, setProfileErrorVisible] = useState(false)
-
+  const [showLoading, setShowLoading] = useState(false)
   const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
   const allCategoryList = useRecoilValue(AllCategoryListState)
-
+  const { isSticky, handleScroll } = useSticky(265)
   const { data: profileData, isLoading: isProfileLoading } = useQuery(
     ['getUser'],
     () => getUser(),
@@ -98,6 +98,16 @@ export const Home = () => {
     }
   }, [currentCategory, archivingList, isLoading])
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading || isProfileLoading) {
+        setShowLoading(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [isLoading || isProfileLoading])
+
   /**
    * 무한스크롤 요청입니다.
    */
@@ -109,7 +119,7 @@ export const Home = () => {
 
   return (
     <>
-      {isProfileLoading || isLoading ? <Loading /> : <></>}
+      {showLoading && (isProfileLoading || isLoading) ? <Loading /> : <></>}
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {
@@ -141,7 +151,7 @@ export const Home = () => {
               source={
                 isProfileImageError || !profileData?.imgUrl
                   ? defaultImages.profile
-                  : { uri: `${Config.ALLCHIVE_ASSET_SERVER}/${profileData.imgUrl}` }
+                  : { uri: profileData.imgUrl }
               }
               onError={() => setIsProfileImageError(true)}
               defaultSource={defaultImages.profile as ImageURISource}
@@ -152,6 +162,8 @@ export const Home = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           stickyHeaderIndices={[1]}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
           onScrollEndDrag={({ nativeEvent }) => {
             if (isCloseToBottom(nativeEvent)) {
               onEndReached()
@@ -173,6 +185,7 @@ export const Home = () => {
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}
             options={allCategoryList}
+            isSticky={isSticky}
           />
           {!archivingList?.pages.map((page: MainArchivingListResponse) => page.content).flat()
             .length ? (
@@ -205,7 +218,7 @@ export const Home = () => {
 /**
  * renderItem
  */
-const renderItem: ListRenderItem<ArchivingListContent> = ({ item }) => {
+const renderItem: ListRenderItem<ArchivingInfo> = ({ item }) => {
   return (
     <ArchivingCard
       item={item}

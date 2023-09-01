@@ -5,8 +5,8 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { postBlock } from '@/apis/block'
-import { deleteContents, getContents } from '@/apis/content'
+import { postBlock } from '@/apis/block/Block'
+import { deleteContents, getContents } from '@/apis/content/Content'
 import { defaultImages } from '@/assets'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
@@ -74,14 +74,26 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
     queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
   }, [])
 
+  /**
+   * 화면 이동을 handle합니다.
+   */
+  const handleNavigation = () => {
+    if (route.params.isFromUpload) {
+      navigation.navigate('BottomTab', { screen: 'Home' })
+    } else {
+      navigation.goBack()
+    }
+  }
+
   const { mutate: deleteContentMutate } = useMutation(deleteContents, {
     /**
      *
      */
     onSuccess: () => {
       queryClient.invalidateQueries([`contentByArchiving`, route.params.archivingId])
-      navigation.goBack()
       queryClient.invalidateQueries([`contentByArchiving`])
+      queryClient.invalidateQueries([`getHomeArchivingList`])
+      handleNavigation()
     },
   })
 
@@ -178,26 +190,33 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           title={content.contentTitle}
           PopupMenuList={PopupMenuList}
           onRightClick={HandleReport}
+          navigate={handleNavigation}
         />
         <DefaultScrollContainer>
           <Container>
             <Day>{content.contentCreatedAt}</Day>
-            {/* {isLoading && <Text>loading</Text>}
-          {error && <Text>error</Text>} */}
             {content && (
               <ContentDetailView>
                 <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-                <SubTitle>{i18n.t('tag')}</SubTitle>
-                <TagList>
-                  {content.tagList.map((tag) => (
-                    <BigWhiteTag
-                      key={tag.tagId}
-                      tag={tag.name}
-                    />
-                  ))}
-                </TagList>
-                <SubTitle>{i18n.t('memo')}</SubTitle>
-                <Memo text={content.contentMemo} />
+                {content.tagList?.length > 0 && (
+                  <>
+                    <SubTitle>{i18n.t('tag')}</SubTitle>
+                    <TagList>
+                      {content.tagList.map((tag) => (
+                        <BigWhiteTag
+                          key={tag.tagId}
+                          tag={tag.name}
+                        />
+                      ))}
+                    </TagList>
+                  </>
+                )}
+                {content.contentMemo && (
+                  <>
+                    <SubTitle>{i18n.t('memo')}</SubTitle>
+                    <Memo text={content.contentMemo} />
+                  </>
+                )}
               </ContentDetailView>
             )}
           </Container>

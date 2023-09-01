@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Dimensions, Keyboard, KeyboardEvent, Platform } from 'react-native'
-
-import XMark from '@/assets/icons/x_mark.svg'
+import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import InputBox from '@/components/inputBox/InputBox'
 import i18n from '@/locales'
+import { keyboardListener } from '@/services/KeyboardService'
+import { modalMaxHeight } from '@/services/SizeService'
 import { colors } from '@/styles/colors'
 
 import { CloseButton, Container, Header, ScrollContainer, Title } from './ReportBottomSheet.style'
@@ -16,32 +16,22 @@ interface ReportBottomSheetProps {
   onClose: () => void
 }
 
+const defaultModalHeight = 380
+
 /**
  * ReportBottomSheet
  */
 const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) => {
   const [text, setText] = useState('')
-  const [modalHight, setModalHeight] = useState(380)
+  const [modalHight, setModalHeight] = useState(defaultModalHeight)
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
-
-    return () => {
-      keyboardDidShowListener.remove()
-      keyboardDidHideListener.remove()
-    }
-  }, [])
+  useEffect(() => keyboardListener(keyboardDidShow, keyboardDidHide), [])
 
   /**
    *
    */
-  const keyboardDidShow = (event: KeyboardEvent) => {
-    const height = Platform.select({
-      ios: Dimensions.get('screen').height - 80,
-      android: Dimensions.get('screen').height - 150,
-    })
-
+  const keyboardDidShow = () => {
+    const height = modalMaxHeight
     height && setModalHeight(height)
   }
 
@@ -49,7 +39,7 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
    *
    */
   const keyboardDidHide = () => {
-    setModalHeight(380)
+    setModalHeight(defaultModalHeight)
   }
 
   return (
