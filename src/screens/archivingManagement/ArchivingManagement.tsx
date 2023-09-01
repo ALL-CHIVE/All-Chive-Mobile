@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving/ArchivingList'
@@ -10,8 +8,8 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Bottom, PlusButton, PlusButtonText, ScrollContainer } from './ArchivingManagement.style'
 import { ArchivingList } from './components/ArchivingList'
@@ -20,7 +18,6 @@ import { ArchivingList } from './components/ArchivingList'
  * 아카이빙 관리
  */
 export const ArchivingManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
@@ -61,14 +58,7 @@ export const ArchivingManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('archivingManagement')} />
-        <FlingGestureHandler
-          direction={Directions.RIGHT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.goBack()
-            }
-          }}
-        >
+        <SwipeScreen direction={1}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -90,7 +80,7 @@ export const ArchivingManagement = () => {
             </PlusButton>
             <Bottom />
           </ScrollContainer>
-        </FlingGestureHandler>
+        </SwipeScreen>
 
         <CreateArchivingModal
           onClose={handleCloseCreateModal}

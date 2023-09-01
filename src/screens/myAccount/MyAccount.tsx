@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth/Auth'
@@ -19,6 +18,7 @@ import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButt
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
@@ -210,14 +210,7 @@ export const MyAccount = () => {
           />
         </View>
         <DefaultScrollContainer>
-          <FlingGestureHandler
-            direction={Directions.RIGHT}
-            onHandlerStateChange={(e) => {
-              if (e.nativeEvent.state === State.ACTIVE) {
-                navigation.goBack()
-              }
-            }}
-          >
+          <SwipeScreen direction={1}>
             <Container>
               <ProfileContainer>
                 <ProfileImage
@@ -251,7 +244,7 @@ export const MyAccount = () => {
                 <Divider />
               </InfoContainer>
             </Container>
-          </FlingGestureHandler>
+          </SwipeScreen>
         </DefaultScrollContainer>
 
         <TwoButtonDialog

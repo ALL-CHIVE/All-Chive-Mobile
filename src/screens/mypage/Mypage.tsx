@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { ImageURISource, TouchableOpacity, View } from 'react-native'
 import { getVersion } from 'react-native-device-info'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Shadow } from 'react-native-shadow-2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -16,6 +15,7 @@ import CountCard from '@/components/cards/countCard/CountCard'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import { community, customerService, openSourceLicense, privacy, terms } from '@/const/Const'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
@@ -92,14 +92,7 @@ export const Mypage = () => {
       />
       <View style={{ backgroundColor: colors.yellow200, height: top }} />
       <DefaultContainer>
-        <FlingGestureHandler
-          direction={Directions.RIGHT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.goBack()
-            }
-          }}
-        >
+        <SwipeScreen direction={1}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -202,7 +195,7 @@ export const Mypage = () => {
               </TouchableOpacity>
             </Footer>
           </ScrollContainer>
-        </FlingGestureHandler>
+        </SwipeScreen>
       </DefaultContainer>
     </>
   )

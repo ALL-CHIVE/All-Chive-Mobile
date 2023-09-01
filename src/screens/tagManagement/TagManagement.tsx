@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag/Tag'
@@ -10,8 +8,8 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { checkTag } from '@/services/StringChecker'
 
 import { ButtonText, PlusButton, ScrollContainer } from './TagManagement.style'
@@ -21,7 +19,6 @@ import { TagList } from './components/TagList'
  * 마이페이지 '태그 관리'
  */
 export const TagManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
@@ -83,14 +80,7 @@ export const TagManagement = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={() => setEditMode((prev) => !prev)}
         />
-        <FlingGestureHandler
-          direction={Directions.RIGHT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.goBack()
-            }
-          }}
-        >
+        <SwipeScreen direction={1}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -109,7 +99,7 @@ export const TagManagement = () => {
               <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
             </PlusButton>
           </ScrollContainer>
-        </FlingGestureHandler>
+        </SwipeScreen>
 
         <InputDialog
           isVisible={isCreateDialogVisible}

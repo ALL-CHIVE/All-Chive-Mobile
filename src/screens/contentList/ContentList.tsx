@@ -4,7 +4,6 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -24,6 +23,7 @@ import EmptyItem from '@/components/emptyItem/EmptyItem'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
 import { ContentCardInfo } from '@/models/ContentCard'
@@ -310,14 +310,7 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-        <FlingGestureHandler
-          direction={Directions.RIGHT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.goBack()
-            }
-          }}
-        >
+        <SwipeScreen direction={1}>
           {contentList?.pages[0].totalContentsCount === 0 ? (
             <Container>
               <EmptyItem
@@ -347,7 +340,7 @@ const ContentList = ({ route }: ContentListProps) => {
               )}
             </ScrollContainer>
           )}
-        </FlingGestureHandler>
+        </SwipeScreen>
       </DefaultContainer>
 
       <EditArchivingModal

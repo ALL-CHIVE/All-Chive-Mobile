@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { postBlock } from '@/apis/block/Block'
@@ -17,6 +16,7 @@ import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialo
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import Memo from '@/components/memo/Memo'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import { BigWhiteTag } from '@/components/tag/whiteTag/bigWhiteTag/BigWhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
@@ -194,13 +194,9 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           navigate={handleNavigation}
         />
         <DefaultScrollContainer>
-          <FlingGestureHandler
-            direction={Directions.RIGHT}
-            onHandlerStateChange={(e) => {
-              if (e.nativeEvent.state === State.ACTIVE) {
-                handleNavigation()
-              }
-            }}
+          <SwipeScreen
+            direction={1}
+            wentToGo={handleNavigation}
           >
             <Container>
               <Day>{content.contentCreatedAt}</Day>
@@ -229,7 +225,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                 </ContentDetailView>
               )}
             </Container>
-          </FlingGestureHandler>
+          </SwipeScreen>
         </DefaultScrollContainer>
       </DefaultContainer>
 

@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 
 import { defaultImages } from '@/assets'
 import FirstIndicator from '@/assets/icons/first-indicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
@@ -22,12 +22,10 @@ const OnBoarding1 = () => {
   return (
     <DefaultContainer>
       <DefaultScrollContainer>
-        <FlingGestureHandler
-          direction={Directions.LEFT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.navigate('OnBoarding2')
-            }
+        <SwipeScreen
+          direction={2}
+          wentToGo={() => {
+            navigation.navigate('OnBoarding2')
           }}
         >
           <Container>
@@ -38,7 +36,7 @@ const OnBoarding1 = () => {
             <Title>{i18n.t('easilyManageContent')}</Title>
             <FirstIndicator />
           </Container>
-        </FlingGestureHandler>
+        </SwipeScreen>
       </DefaultScrollContainer>
       <BoxButton
         textKey="next"

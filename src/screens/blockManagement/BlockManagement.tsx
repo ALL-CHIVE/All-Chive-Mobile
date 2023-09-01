@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { useNavigation } from '@react-navigation/native'
-import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block/Block'
@@ -10,8 +8,8 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
-import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { ScrollContainer } from './BlockManagement.style'
 import { BlockList } from './components/BlockList'
@@ -21,7 +19,6 @@ import { BlockList } from './components/BlockList'
  * 마이페이지 '차단 관리'
  */
 export const BlockManagement = () => {
-  const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
@@ -50,14 +47,7 @@ export const BlockManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('blockManagement')} />
-        <FlingGestureHandler
-          direction={Directions.RIGHT}
-          onHandlerStateChange={(e) => {
-            if (e.nativeEvent.state === State.ACTIVE) {
-              navigation.goBack()
-            }
-          }}
-        >
+        <SwipeScreen direction={1}>
           <ScrollContainer
             bounces={false}
             showsVerticalScrollIndicator={false}
@@ -78,7 +68,7 @@ export const BlockManagement = () => {
               />
             )}
           </ScrollContainer>
-        </FlingGestureHandler>
+        </SwipeScreen>
       </DefaultContainer>
     </>
   )
