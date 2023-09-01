@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 
-import CheckIcon from '@/assets/icons/check-yellow.svg'
+import CheckIcon from '@/assets/icons/check-default.svg'
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
