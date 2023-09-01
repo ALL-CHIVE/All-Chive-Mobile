@@ -4,12 +4,7 @@ import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { ImageURISource, ListRenderItem } from 'react-native'
-import {
-  Directions,
-  FlingGestureHandler,
-  PanGestureHandler,
-  State,
-} from 'react-native-gesture-handler'
+import { Directions, FlingGestureHandler, State } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -249,13 +244,6 @@ const ContentList = ({ route }: ContentListProps) => {
         tagCount={item.tagCount}
       />
     )
-  }
-
-  /**
-   * 왼쪽으로 스와이프 시 뒤로가기
-   */
-  const handleSwipeLeft = () => {
-    navigation.goBack()
   }
 
   return (
