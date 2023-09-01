@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
+import { throttle } from 'lodash'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation, useQueryClient } from 'react-query'
@@ -128,6 +129,8 @@ export const Upload = ({ route }: UploadProps) => {
       })
     },
   })
+
+  const throttledCreateContentsMutate = throttle(createContentsMutate, 5000)
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -315,7 +318,7 @@ export const Upload = ({ route }: UploadProps) => {
       {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={createContentsMutate}
+        onPress={() => throttledCreateContentsMutate()}
         isDisabled={
           !archivingName ||
           !contentName ||
