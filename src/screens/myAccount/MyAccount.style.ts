@@ -5,6 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   padding: 0px 25px;
+  height: 100%;
 `
 
 export const ProfileContainer = styled.View`
