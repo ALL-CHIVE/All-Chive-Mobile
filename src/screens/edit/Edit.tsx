@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
+import { throttle } from 'lodash'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -149,13 +150,9 @@ export const Edit = ({ route }: EditProps) => {
       queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
       navigation.goBack()
     },
-    /**
-     *
-     */
-    onError: () => {
-      // TODO: 에러 처리
-    },
   })
+
+  const throttledUpdateContentsMutate = throttle(updateContentsMutate, 5000)
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -344,7 +341,7 @@ export const Edit = ({ route }: EditProps) => {
       {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={updateContentsMutate}
+        onPress={() => throttledUpdateContentsMutate()}
         isDisabled={
           !archivingName ||
           !contentName ||
