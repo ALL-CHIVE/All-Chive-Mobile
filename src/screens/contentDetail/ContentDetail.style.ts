@@ -5,6 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   padding: 1px 25px 0px 25px;
+  height: 100%;
 `
 
 export const Day = styled.Text`
@@ -23,6 +24,7 @@ export const TagList = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   margin-top: 10px;
+  gap: 8px;
 `
 
 export const SubTitle = styled.Text`

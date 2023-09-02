@@ -53,7 +53,6 @@ const getItemOrNull = async <T>(key: LocalStorageKey): Promise<T | null> => {
     return data ? (JSON.parse(data) as T) : null
   } catch (error) {
     // TODO: log 파일에 저장
-    console.error('AsyncStorage error:', error)
     return null
   }
 }
@@ -66,6 +65,5 @@ const setItem = async <T>(key: LocalStorageKey, items: T) => {
     await AsyncStorage.setItem(key, JSON.stringify(items))
   } catch (error) {
     // TODO: log 파일에 저장
-    console.error('AsyncStorage error:', error)
   }
 }

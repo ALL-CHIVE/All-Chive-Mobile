@@ -10,7 +10,7 @@ export const Container = styled.View`
 `
 
 export const Header = styled.View`
-  height: 80px;
+  height: 70px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -70,5 +70,10 @@ export const Text = styled.Text`
 export const Styles = {
   buttonEnable: css`
     color: ${colors.gray50};
+  `,
+
+  modal: css`
+    align-items: center;
+    margin: 0;
   `,
 }

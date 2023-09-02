@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { deleteWithdrawal } from '@/apis/auth/Auth'
@@ -18,6 +19,7 @@ import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButt
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import NicknameEditModal from '@/components/modal/nicknameEditModal/NicknameEditModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
@@ -209,40 +211,43 @@ export const MyAccount = () => {
           />
         </View>
         <DefaultScrollContainer>
-          <Container>
-            <ProfileContainer>
-              <ProfileImage
-                source={profileImage ?? defaultImages.profile}
-                defaultSource={defaultImages.profile as ImageURISource}
-              />
-              {editMode && (
-                <Button onPress={handleImageEdit}>
-                  <ButtonText>{i18n.t('edit')}</ButtonText>
-                </Button>
-              )}
-            </ProfileContainer>
-            <InfoContainer>
-              <RowView>
-                <InfoTitle>{i18n.t('name')}</InfoTitle>
-                <InfoText>{userInfoData?.name}</InfoText>
-              </RowView>
-              <Divider />
-              <RowView>
-                <InfoTitle>{i18n.t('email')}</InfoTitle>
-                <InfoText>{userInfoData?.email}</InfoText>
-              </RowView>
-              <Divider />
-              <RowView>
-                <InfoTitle>{i18n.t('nickName')}</InfoTitle>
-                <InfoText>{nickname}</InfoText>
-                <PencilButton onPress={handleEditNickname}>
-                  {editMode && <PencilIcon />}
-                </PencilButton>
-              </RowView>
-              <Divider />
-            </InfoContainer>
-          </Container>
+          <SwipeScreen direction={Directions.RIGHT}>
+            <Container>
+              <ProfileContainer>
+                <ProfileImage
+                  source={profileImage ?? defaultImages.profile}
+                  defaultSource={defaultImages.profile as ImageURISource}
+                />
+                {editMode && (
+                  <Button onPress={handleImageEdit}>
+                    <ButtonText>{i18n.t('edit')}</ButtonText>
+                  </Button>
+                )}
+              </ProfileContainer>
+              <InfoContainer>
+                <RowView>
+                  <InfoTitle>{i18n.t('name')}</InfoTitle>
+                  <InfoText>{userInfoData?.name}</InfoText>
+                </RowView>
+                <Divider />
+                <RowView>
+                  <InfoTitle>{i18n.t('email')}</InfoTitle>
+                  <InfoText>{userInfoData?.email}</InfoText>
+                </RowView>
+                <Divider />
+                <RowView>
+                  <InfoTitle>{i18n.t('nickName')}</InfoTitle>
+                  <InfoText>{nickname}</InfoText>
+                  <PencilButton onPress={handleEditNickname}>
+                    {editMode && <PencilIcon />}
+                  </PencilButton>
+                </RowView>
+                <Divider />
+              </InfoContainer>
+            </Container>
+          </SwipeScreen>
         </DefaultScrollContainer>
+
         <TwoButtonDialog
           isVisible={isWithdrawDialogVisible}
           title="doYouWantWithdrawal"
@@ -270,12 +275,12 @@ export const MyAccount = () => {
             <WithdrawButtonText>{i18n.t('deleteAccount')}</WithdrawButtonText>
           </WithdrawButton>
         )}
-        <NicknameEditModal
-          isVisible={isNicknameEditModalVisible}
-          onCancle={() => setIsNicknameEditModalVisible(false)}
-          onSuccess={handleNicknameChange}
-        />
       </DefaultContainer>
+      <NicknameEditModal
+        isVisible={isNicknameEditModalVisible}
+        onCancle={() => setIsNicknameEditModalVisible(false)}
+        onSuccess={handleNicknameChange}
+      />
     </>
   )
 }

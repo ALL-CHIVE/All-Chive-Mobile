@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { throttle } from 'lodash'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -151,6 +152,8 @@ export const EditArchivingModal = ({
     },
   })
 
+  const throttledUpdateArchivingMutate = throttle(updateArchivingMutate, 5000)
+
   /**
    *
    */
@@ -274,7 +277,7 @@ export const EditArchivingModal = ({
           </ScrollContainer>
           <BoxButton
             textKey={i18n.t('complete')}
-            onPress={updateArchivingMutate}
+            onPress={() => throttledUpdateArchivingMutate()}
             isDisabled={!name || !selectedCategory}
           />
         </Container>

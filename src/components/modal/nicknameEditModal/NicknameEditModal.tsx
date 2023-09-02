@@ -81,9 +81,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
     <Modal
       isVisible={isVisible}
       backdropOpacity={0.8}
-      style={{
-        alignItems: 'center',
-      }}
+      style={Styles.modal}
     >
       <SafeAreaView>
         <Container>

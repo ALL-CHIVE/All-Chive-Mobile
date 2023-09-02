@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { getTag, postTag } from '@/apis/tag/Tag'
@@ -8,6 +9,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 import { checkTag } from '@/services/StringChecker'
 
@@ -79,24 +81,27 @@ export const TagManagement = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={() => setEditMode((prev) => !prev)}
         />
-        <ScrollContainer
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {tagData &&
-            tagData.map((tag) => (
-              <TagList
-                key={tag.tagId}
-                id={tag.tagId}
-                tag={tag.name}
-                editMode={editMode}
-              />
-            ))}
-          <PlusButton onPress={() => setIsCreateDialogVisible(true)}>
-            <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
-          </PlusButton>
-        </ScrollContainer>
+        <SwipeScreen direction={Directions.RIGHT}>
+          <ScrollContainer
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {tagData &&
+              tagData.map((tag) => (
+                <TagList
+                  key={tag.tagId}
+                  id={tag.tagId}
+                  tag={tag.name}
+                  editMode={editMode}
+                />
+              ))}
+            <PlusButton onPress={() => setIsCreateDialogVisible(true)}>
+              <ButtonText>{`+ ${i18n.t('addTag')}`}</ButtonText>
+            </PlusButton>
+          </ScrollContainer>
+        </SwipeScreen>
+
         <InputDialog
           isVisible={isCreateDialogVisible}
           title="createNewTag"

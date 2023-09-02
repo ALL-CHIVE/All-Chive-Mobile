@@ -11,10 +11,8 @@ interface BigWhiteTagProps {
  */
 export const BigWhiteTag = ({ tag }: BigWhiteTagProps) => {
   return (
-    <>
-      <Container>
-        <Text>{tag}</Text>
-      </Container>
-    </>
+    <Container>
+      <Text>{tag}</Text>
+    </Container>
   )
 }
