@@ -48,12 +48,11 @@ import {
   PlusImageButton,
   RowView,
   SelectArchivingText,
-  Styles,
   TagTitle,
   TagTitleContainer,
-  TextInputContainer,
   Title,
-} from './Edit.style'
+  TextInputContainer,
+} from '../upload/Upload.style'
 
 interface EditProps {
   route: RouteProp<RootStackParamList, 'Edit'>
