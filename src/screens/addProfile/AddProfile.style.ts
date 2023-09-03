@@ -21,8 +21,6 @@ export const NicknameContainer = styled.View`
 export const NicknameInputBox = styled.View`
   border-bottom-color: ${colors.gray600};
   border-bottom-width: 1px;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
 `

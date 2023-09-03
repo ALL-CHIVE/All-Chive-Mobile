@@ -2,6 +2,11 @@ import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 
+export const Container = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
 export const InputBox = styled.TextInput`
   color: ${colors.gray600};
   padding: 0;

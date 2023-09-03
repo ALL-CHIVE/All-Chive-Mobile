@@ -1,21 +1,26 @@
 import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
+import { fonts } from '@/styles/fonts'
 
-export const Container = styled.TouchableOpacity``
-
-export const CategoryContainer = styled.View`
+export const Container = styled.View`
   width: 100%;
+`
+
+export const DropDownButton = styled.TouchableOpacity`
   height: 38px;
   border: 1px solid ${colors.gray100};
   background-color: ${colors.white};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
-  justify-content: center;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
 `
 
-export const CategoryTitle = styled.Text`
-  color: ${colors.gray200};
+export const Title = styled.Text`
+  color: ${colors.gray100};
+  ${fonts.body1}
 `
 
 export const DropDownModal = styled.View`
@@ -27,9 +32,17 @@ export const DropDownModal = styled.View`
   border-radius: 6px;
 `
 
+export const DropDownText = styled.Text`
+  ${fonts.body1}
+  margin-right: 7px;
+  color: ${colors.mainBlack};
+`
+
 export const TouchableItem = styled.TouchableOpacity`
   width: 100%;
-  margin: 5px 0px;
+  margin: 2.5px 0px;
+  flex-direction: row;
+  align-items: center;
 `
 
 export const Styles = {

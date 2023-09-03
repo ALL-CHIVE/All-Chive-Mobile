@@ -60,7 +60,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
        */
       onSuccess: () => {
         setIsInstalled(true)
-        navigation.navigate('BottomTab', { screen: 'Home' })
+        navigation.reset({ routes: [{ name: 'BottomTab', params: { screen: 'Home' } }] })
       },
     }
   )

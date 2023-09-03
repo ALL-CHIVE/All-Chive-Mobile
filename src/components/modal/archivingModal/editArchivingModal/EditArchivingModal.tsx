@@ -16,12 +16,15 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
+import TextInput from '@/components/textInput/TextInput'
+import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
 import { keyboardListener } from '@/services/KeyboardService'
 import { modalMaxHeight } from '@/services/SizeService'
+import { checkArchivingTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -30,7 +33,6 @@ import { colors } from '@/styles/colors'
 import {
   Bottom,
   CloseButton,
-  Condition,
   Container,
   Header,
   ImageButton,
@@ -39,7 +41,7 @@ import {
   ScrollContainer,
   Styles,
   Switch,
-  TextInput,
+  TextInputContainer,
   Thumbnail,
   Title,
 } from './EditArchivingModal.style'
@@ -63,12 +65,13 @@ export const EditArchivingModal = ({
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [name, setName] = useState('')
+  const [title, setTitle] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const [isTitleValid, setIsTitleValid] = useState(false)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -81,6 +84,7 @@ export const EditArchivingModal = ({
   const keyboardDidShow = () => {
     const height = modalMaxHeight
     height && setModalHeight(height)
+    setNameFocus(true)
   }
 
   /**
@@ -88,6 +92,7 @@ export const EditArchivingModal = ({
    */
   const keyboardDidHide = () => {
     setModalHeight(defaultModalHeight)
+    setNameFocus(false)
   }
 
   const { data: archivingData, isLoading } = useQuery(
@@ -99,7 +104,7 @@ export const EditArchivingModal = ({
        * onSuccess 시 데이터를 세팅합니다.
        */
       onSuccess: (data) => {
-        setName(data.title)
+        handleChangeTitle(data.title)
         data.imageUrl && setImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.publicStatus)
@@ -126,7 +131,7 @@ export const EditArchivingModal = ({
 
     await patchArchiving(
       archivingId,
-      name,
+      title,
       image ? archivingImageUrl : '',
       selectedCategory,
       publicStatus
@@ -153,20 +158,6 @@ export const EditArchivingModal = ({
   })
 
   const throttledUpdateArchivingMutate = throttle(updateArchivingMutate, 5000)
-
-  /**
-   *
-   */
-  const handleNameFocus = () => {
-    setNameFocus(true)
-  }
-
-  /**
-   *
-   */
-  const handleNameBlur = () => {
-    setNameFocus(false)
-  }
 
   /**
    *
@@ -199,6 +190,22 @@ export const EditArchivingModal = ({
    */
   const toggleSwitch = () => {
     setPublicStatus((prev) => !prev)
+  }
+
+  /**
+   *
+   */
+  const handleChangeTitle = (title: string) => {
+    setTitle(title)
+    setIsTitleValid(checkArchivingTitle(title))
+  }
+
+  /**
+   * handleClearTitle
+   */
+  const handleClearTitle = () => {
+    setTitle('')
+    setIsTitleValid(false)
   }
 
   return (
@@ -236,22 +243,24 @@ export const EditArchivingModal = ({
           >
             <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
-            <TextInput
-              placeholder={i18n.t('contentVerify')}
-              placeholderTextColor={colors.gray200}
-              value={name}
-              onChangeText={setName}
-              onFocus={handleNameFocus}
-              onBlur={handleNameBlur}
-              maxLength={15}
+            <TextInputContainer
               style={
                 (nameFocus && Styles.inputFocus) ||
-                (!nameFocus && name.length > 0 && Styles.inputWithValue)
+                (!nameFocus && title.length > 0 && Styles.inputWithValue)
               }
+            >
+              <TextInput
+                value={title}
+                placeholder={i18n.t('contentVerify')}
+                maxLength={15}
+                onChangeText={handleChangeTitle}
+                handleClear={handleClearTitle}
+              />
+            </TextInputContainer>
+            <Verifier
+              isValid={isTitleValid}
+              text="archivingVerify"
             />
-            <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
-              {i18n.t('contentVerify')}
-            </Condition>
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
@@ -278,7 +287,7 @@ export const EditArchivingModal = ({
           <BoxButton
             textKey={i18n.t('complete')}
             onPress={() => throttledUpdateArchivingMutate()}
-            isDisabled={!name || !selectedCategory}
+            isDisabled={!title || !selectedCategory}
           />
         </Container>
       </Modal>

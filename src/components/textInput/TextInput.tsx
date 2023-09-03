@@ -3,7 +3,7 @@ import React from 'react'
 import XMark from '@/assets/icons/x-mark.svg'
 import { colors } from '@/styles/colors'
 
-import { ClearButton, InputBox } from './TextInput.style'
+import { ClearButton, Container, InputBox } from './TextInput.style'
 
 interface TextInputProps {
   value: string
@@ -24,7 +24,7 @@ const TextInput = ({
   handleClear,
 }: TextInputProps) => {
   return (
-    <>
+    <Container>
       <InputBox
         placeholder={placeholder}
         placeholderTextColor={colors.gray200}
@@ -32,13 +32,12 @@ const TextInput = ({
         maxLength={maxLength}
         value={value}
       />
-      <ClearButton
-        onPress={handleClear}
-        disabled={!value}
-      >
-        <XMark color={colors.gray600} />
-      </ClearButton>
-    </>
+      {value && (
+        <ClearButton onPress={handleClear}>
+          <XMark color={colors.gray600} />
+        </ClearButton>
+      )}
+    </Container>
   )
 }
 

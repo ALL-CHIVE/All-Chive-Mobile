@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 
-import { ScrollView, Text } from 'react-native'
+import { ScrollView } from 'react-native'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
+import CheckCircle from '@/assets/icons/check-circle.svg'
+import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import i18n from '@/locales'
 import { CategoryListWithEtcState } from '@/state/CategoryListState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
+import { colors } from '@/styles/colors'
 
 import {
   Container,
   DropDownModal,
-  CategoryContainer,
+  DropDownButton,
   TouchableItem,
-  CategoryTitle,
+  Title,
   Styles,
+  DropDownText,
 } from './DropDown.style'
 
 /**
@@ -42,7 +46,7 @@ export const DropDown = () => {
   }
 
   return (
-    <Container onPress={handleClick}>
+    <Container>
       {isVisible ? (
         <DropDownModal>
           <ScrollView
@@ -53,19 +57,24 @@ export const DropDown = () => {
             {categoryList.map((category) => (
               <TouchableItem
                 key={category}
-                onPress={() => onSelectCategory(`${category}`)}
+                onPress={() => onSelectCategory(category)}
               >
-                <Text>{i18n.t(`${category}`)}</Text>
+                <DropDownText>{i18n.t(`${category}`)}</DropDownText>
+                {category === selectedCategory && <CheckCircle />}
               </TouchableItem>
             ))}
           </ScrollView>
         </DropDownModal>
       ) : (
-        <CategoryContainer style={isSelected && Styles.selectedContainer}>
-          <CategoryTitle style={isSelected && Styles.selectedText}>
+        <DropDownButton
+          onPress={handleClick}
+          style={isSelected && Styles.selectedContainer}
+        >
+          <Title style={isSelected && Styles.selectedText}>
             {i18n.t(selectedCategory ? selectedCategory : `noSelectCategory`)}
-          </CategoryTitle>
-        </CategoryContainer>
+          </Title>
+          <RightArrowIcon color={isSelected ? colors.gray600 : colors.gray100} />
+        </DropDownButton>
       )}
     </Container>
   )

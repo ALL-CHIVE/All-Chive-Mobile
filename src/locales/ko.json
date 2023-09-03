@@ -170,5 +170,6 @@
   "retry": "다시 시도하기",
   "tagVerify": "한/영 20자 이내 입력",
   "errorDialogRetry": "재시도",
-  "publicArchiving": "공개 아카이빙"
+  "publicArchiving": "공개 아카이빙",
+  "archivingVerify": "한/영 15자 이내 입력"
 }
