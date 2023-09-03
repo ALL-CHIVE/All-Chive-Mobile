@@ -14,12 +14,15 @@ import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
+import TextInput from '@/components/textInput/TextInput'
+import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
 import { keyboardListener } from '@/services/KeyboardService'
 import { modalMaxHeight } from '@/services/SizeService'
+import { checkArchivingTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -28,7 +31,6 @@ import { colors } from '@/styles/colors'
 import {
   Bottom,
   CloseButton,
-  Condition,
   Container,
   Header,
   ImageButton,
@@ -37,7 +39,7 @@ import {
   ScrollContainer,
   Styles,
   Switch,
-  TextInput,
+  TextInputContainer,
   Thumbnail,
   Title,
 } from './CreateArchivingModal.style'
@@ -56,11 +58,12 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [name, setName] = useState('')
+  const [title, setTitle] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
+  const [isTitleValid, setIsTitleValid] = useState(false)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -74,6 +77,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const keyboardDidShow = () => {
     const height = modalMaxHeight
     height && setModalHeight(height)
+    setNameFocus(true)
   }
 
   /**
@@ -81,6 +85,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    */
   const keyboardDidHide = () => {
     setModalHeight(defaultModalHeight)
+    setNameFocus(false)
   }
 
   /**
@@ -94,7 +99,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
       archivingImageUrl = await uploadArchivingImage(imageUrl)
     }
 
-    await postArchiving(name, archivingImageUrl, selectedCategory, publicStatus)
+    await postArchiving(title, archivingImageUrl, selectedCategory, publicStatus)
   }
 
   /**
@@ -107,7 +112,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
      * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
      */
     onSuccess: () => {
-      setName('')
+      setTitle('')
       setImage(undefined)
       setSelectedCategory('')
       setPublicStatus(false)
@@ -127,20 +132,6 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   })
 
   const throttledCreateArchivingMutate = throttle(createArchivingMutate, 5000)
-
-  /**
-   *
-   */
-  const handleNameFocus = () => {
-    setNameFocus(true)
-  }
-
-  /**
-   *
-   */
-  const handleNameBlur = () => {
-    setNameFocus(false)
-  }
 
   /**
    * 이미지를 업로드합니다.
@@ -175,6 +166,22 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     setPublicStatus((prev) => !prev)
   }
 
+  /**
+   *
+   */
+  const handleChangeTitle = (title: string) => {
+    setTitle(title)
+    setIsTitleValid(checkArchivingTitle(title))
+  }
+
+  /**
+   * handleClearTitle
+   */
+  const handleClearTitle = () => {
+    setTitle('')
+    setIsTitleValid(false)
+  }
+
   return (
     <>
       <Modal
@@ -199,23 +206,24 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
           >
             <ModalTitle>{i18n.t('addArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
-            <TextInput
-              placeholder={i18n.t('contentVerify')}
-              placeholderTextColor={colors.gray200}
-              value={name}
-              onChangeText={setName}
-              onFocus={handleNameFocus}
-              onBlur={handleNameBlur}
-              maxLength={15}
+            <TextInputContainer
               style={
                 (nameFocus && Styles.inputFocus) ||
-                (!nameFocus && name.length > 0 && Styles.inputWithValue)
+                (!nameFocus && title.length > 0 && Styles.inputWithValue)
               }
+            >
+              <TextInput
+                value={title}
+                placeholder={i18n.t('contentVerify')}
+                maxLength={15}
+                onChangeText={handleChangeTitle}
+                handleClear={handleClearTitle}
+              />
+            </TextInputContainer>
+            <Verifier
+              isValid={isTitleValid}
+              text="archivingVerify"
             />
-            {/* TODO: Condition Icon 추가 */}
-            <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
-              {i18n.t('contentVerify')}
-            </Condition>
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
@@ -242,7 +250,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
           <BoxButton
             textKey={i18n.t('add')}
             onPress={() => throttledCreateArchivingMutate()}
-            isDisabled={!name || !selectedCategory}
+            isDisabled={!title || !selectedCategory}
           />
         </Container>
       </Modal>

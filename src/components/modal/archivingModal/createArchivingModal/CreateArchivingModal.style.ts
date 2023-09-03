@@ -46,14 +46,15 @@ export const ImageButton = styled.TouchableOpacity`
   width: 84px;
 `
 
-export const TextInput = styled.TextInput`
-  width: 100%;
-  height: 38px;
+export const TextInputContainer = styled.View`
   border: 1px solid ${colors.gray100};
   background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
+  padding: 0px 10px 0px 13px;
   border-radius: 6px;
+  margin-bottom: 4px;
+  height: 38px;
+  justify-content: center;
+  width: 100%;
 `
 
 export const Styles = {
@@ -72,12 +73,6 @@ export const Styles = {
     bottom: -6px;
   `,
 }
-
-export const Condition = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray100};
-  margin-top: 4px;
-`
 
 export const Thumbnail = styled.Image`
   width: 78px;

@@ -80,11 +80,6 @@ export const Styles = {
   `,
 }
 
-export const Condition = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray100};
-`
-
 export const Thumbnail = styled.Image`
   width: 78px;
   height: 78px;
