@@ -24,13 +24,15 @@ export const ArchivingSelect = styled.TouchableOpacity`
   border-radius: 6px;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `
 
 export const SelectArchivingText = styled.Text`
   color: ${colors.gray200};
+  ${fonts.body1}
 `
 
-export const TextInput = styled.TextInput`
+export const TextInputContainer = styled.View`
   width: 100%;
   height: 38px;
   border: 1px solid ${colors.gray100};
@@ -60,15 +62,6 @@ export const Styles = {
     right: 10px;
   `,
 }
-
-export const Condition = styled.View`
-  flex-direction: row;
-`
-
-export const ConditionText = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray100};
-`
 
 export const PlusImageButton = styled.TouchableOpacity`
   width: 78px;

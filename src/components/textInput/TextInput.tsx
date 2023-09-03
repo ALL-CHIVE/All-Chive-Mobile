@@ -8,7 +8,7 @@ import { ClearButton, Container, InputBox } from './TextInput.style'
 interface TextInputProps {
   value: string
   placeholder: string
-  maxLength: number
+  maxLength: number | undefined
   onChangeText: (text: string) => void
   handleClear: () => void
 }

@@ -20,6 +20,7 @@ import Indicator from '@/components/indicator/Indicator'
 import InputBox from '@/components/inputBox/InputBox'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
+import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
@@ -29,6 +30,7 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
+import { checkTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState } from '@/state/CategoryState'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
@@ -39,8 +41,6 @@ import {
   AddTagButton,
   AddTagText,
   ArchivingSelect,
-  Condition,
-  ConditionText,
   Container,
   ContentImage,
   PlusImageButton,
@@ -49,7 +49,7 @@ import {
   Styles,
   TagTitle,
   TagTitleContainer,
-  TextInput,
+  TextInputContainer,
   Title,
 } from './Upload.style'
 
@@ -65,14 +65,13 @@ export const Upload = ({ route }: UploadProps) => {
   const queryClient = useQueryClient()
 
   const [archivingName, setArchivingName] = useState('')
-  const [contentName, setContentName] = useState('')
+  const [title, setTitle] = useState('')
+  const [isTitleValid, setIsTitleValid] = useState(false)
   const [link, setLink] = useState('')
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
 
-  const [lastFocused, setLastFocused] = useState(-1)
-  const [currentFocused, setCurrentFocused] = useState(-1)
   const [isValidUrl, setIsValidUrl] = useState(false)
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
@@ -105,7 +104,7 @@ export const Upload = ({ route }: UploadProps) => {
     return await postContents(
       route.params.type,
       selectArchiving.id,
-      contentName,
+      title,
       link,
       contentImageUrl,
       selectTag.map((tag) => tag.tagId),
@@ -148,16 +147,6 @@ export const Upload = ({ route }: UploadProps) => {
   }
 
   /**
-   * 포커스를 제어합니다.
-   */
-  const handleFocused = (index: number) => {
-    setCurrentFocused(index)
-    if (lastFocused < index) {
-      setLastFocused(index)
-    }
-  }
-
-  /**
    * 업로드를 종료합니다.
    */
   const handleClose = () => {
@@ -185,6 +174,30 @@ export const Upload = ({ route }: UploadProps) => {
     setIsValidUrl(!!link && isUrl(link))
   }
 
+  /**
+   * handleChangeTitle
+   */
+  const handleChangeTitle = (title: string) => {
+    setTitle(title)
+    setIsTitleValid(checkTitle(title))
+  }
+
+  /**
+   * handleClearLink
+   */
+  const handleClearLink = () => {
+    setLink('')
+    setIsValidUrl(false)
+  }
+
+  /**
+   * handleClearTitle
+   */
+  const handleClearTitle = () => {
+    setTitle('')
+    setIsTitleValid(false)
+  }
+
   return (
     <DefaultContainer>
       <CloseButtonHeader
@@ -196,59 +209,42 @@ export const Upload = ({ route }: UploadProps) => {
           <Container>
             <Title style={{ marginTop: 0 }}>{i18n.t('archivingName')}</Title>
             <ArchivingSelect
-              style={
-                (currentFocused === 0 && Styles.focused) ||
-                (lastFocused >= 0 && !!archivingName && Styles.clicked)
-              }
               onPress={() => {
                 setOpenArchivingModal(true)
-                handleFocused(0)
               }}
             >
-              <SelectArchivingText
-                style={lastFocused >= 0 && !!archivingName && Styles.clickedText}
-              >
+              <SelectArchivingText>
                 {archivingName ? archivingName : i18n.t('choiceArchiving')}
               </SelectArchivingText>
-              <RightArrowIcon
-                color={lastFocused >= 0 && !!archivingName ? colors.gray600 : colors.gray200}
-                style={Styles.rightArrow}
-              />
+              <RightArrowIcon color={colors.gray100} />
             </ArchivingSelect>
             <Title>{i18n.t('contentName')}</Title>
-            <TextInput
-              placeholder={i18n.t('contentVerify')}
-              placeholderTextColor={colors.gray200}
-              value={contentName}
-              onChangeText={setContentName}
-              onFocus={() => handleFocused(1)}
-              maxLength={15}
-              style={
-                (currentFocused === 1 && Styles.focused) ||
-                (lastFocused >= 1 && contentName.length > 0 && Styles.clicked)
-              }
+            <TextInputContainer>
+              <TextInput
+                value={title}
+                placeholder={i18n.t('contentVerify')}
+                maxLength={15}
+                onChangeText={handleChangeTitle}
+                handleClear={handleClearTitle}
+              />
+            </TextInputContainer>
+            <Verifier
+              isValid={isTitleValid}
+              text={'contentVerify'}
             />
-            <Condition>
-              {/* TODO: Condition Icon 추가 */}
-              <ConditionText style={contentName.length > 0 && Styles.conditionComplete}>
-                {i18n.t('contentVerify')}
-              </ConditionText>
-            </Condition>
             {route.params.type === ContentType.Link && (
               <>
                 {/* Link */}
                 <Title>{i18n.t('link')}</Title>
-                <TextInput
-                  placeholder={i18n.t('placeHolderLink')}
-                  placeholderTextColor={colors.gray200}
-                  value={link}
-                  onChangeText={handleChangeLink}
-                  onFocus={() => handleFocused(2)}
-                  style={
-                    (currentFocused === 2 && Styles.focused) ||
-                    (lastFocused >= 2 && contentName.length > 0 && Styles.clicked)
-                  }
-                />
+                <TextInputContainer>
+                  <TextInput
+                    value={link}
+                    placeholder={i18n.t('placeHolderLink')}
+                    maxLength={undefined}
+                    onChangeText={handleChangeLink}
+                    handleClear={handleClearLink}
+                  />
+                </TextInputContainer>
                 <Verifier
                   isValid={isValidUrl}
                   text="checkUrl"
@@ -315,7 +311,7 @@ export const Upload = ({ route }: UploadProps) => {
         onPress={() => throttledCreateContentsMutate()}
         isDisabled={
           !archivingName ||
-          !contentName ||
+          !title ||
           (route.params.type === ContentType.Image && !image) ||
           (route.params.type === ContentType.Link && (!link || !isValidUrl))
         }

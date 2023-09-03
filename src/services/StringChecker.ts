@@ -15,9 +15,9 @@ export const checkTag = (tag: string) => {
 }
 
 /**
- * checkArchivingTitle
+ * checkTitle
  */
-export const checkArchivingTitle = (title: string) => {
+export const checkTitle = (title: string) => {
   const regex = /^[가-힣a-zA-Z]{1,15}$/
   return regex.test(title)
 }

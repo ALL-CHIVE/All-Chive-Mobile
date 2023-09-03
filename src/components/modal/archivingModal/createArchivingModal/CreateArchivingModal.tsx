@@ -22,7 +22,7 @@ import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
 import { keyboardListener } from '@/services/KeyboardService'
 import { modalMaxHeight } from '@/services/SizeService'
-import { checkArchivingTitle } from '@/services/StringChecker'
+import { checkTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState, CommunityCategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -171,7 +171,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
    */
   const handleChangeTitle = (title: string) => {
     setTitle(title)
-    setIsTitleValid(checkArchivingTitle(title))
+    setIsTitleValid(checkTitle(title))
   }
 
   /**
