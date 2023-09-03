@@ -45,7 +45,7 @@ import {
   TextInputContainer,
   Thumbnail,
   Title,
-} from '../createArchivingModal/CreateArchivingModal.style'
+} from '../ArchivingModal.style'
 
 interface EditArchivingModalProps {
   archivingId: number

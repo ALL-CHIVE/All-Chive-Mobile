@@ -43,7 +43,7 @@ import {
   TextInputContainer,
   Thumbnail,
   Title,
-} from './CreateArchivingModal.style'
+} from '../ArchivingModal.style'
 
 interface CreateArchivingModalProps {
   onClose: () => void
