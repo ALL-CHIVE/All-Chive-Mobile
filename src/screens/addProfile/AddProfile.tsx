@@ -10,6 +10,7 @@ import DefaultScrollContainer from '@/components/containers/defaultScrollContain
 import Indicator from '@/components/indicator/Indicator'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
@@ -35,8 +36,12 @@ interface AddProfileProps {
  * AddProfile
  */
 const AddProfile = ({ route }: AddProfileProps) => {
-  const [nickname, setNickname] = useState('')
-  const [isNicknameValid, setIsNicknameValid] = useState(false)
+  const {
+    text: nickname,
+    isValid: isNicknameValid,
+    updateText: updateNickname,
+    clearText: clearNickname,
+  } = useText(checkNickname)
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
   const { idToken, thirdpartyAccessToken, signInType, name, email } = useUserInfo()
@@ -95,8 +100,8 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
-    setNickname(nickname)
-    setIsNicknameValid(checkNickname(nickname))
+    updateNickname(nickname)
+
     if (nickname) {
       nicknameDuplicationCheckMutate(nickname)
     } else {
@@ -108,8 +113,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * handleClearNickname
    */
   const handleClearNickname = () => {
-    setNickname('')
-    setIsNicknameValid(false)
+    clearNickname()
     setIsNicknameDuplicate(false)
   }
 

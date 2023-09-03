@@ -18,6 +18,7 @@ import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
@@ -65,13 +66,17 @@ export const EditArchivingModal = ({
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [title, setTitle] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
-  const [isTitleValid, setIsTitleValid] = useState(false)
+  const {
+    text: title,
+    isValid: isTitleValid,
+    updateText: updateTitle,
+    clearText: clearTitle,
+  } = useText(checkTitle)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -104,7 +109,7 @@ export const EditArchivingModal = ({
        * onSuccess 시 데이터를 세팅합니다.
        */
       onSuccess: (data) => {
-        handleChangeTitle(data.title)
+        updateTitle(data.title)
         data.imageUrl && setImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.publicStatus)
@@ -192,22 +197,6 @@ export const EditArchivingModal = ({
     setPublicStatus((prev) => !prev)
   }
 
-  /**
-   *
-   */
-  const handleChangeTitle = (title: string) => {
-    setTitle(title)
-    setIsTitleValid(checkTitle(title))
-  }
-
-  /**
-   * handleClearTitle
-   */
-  const handleClearTitle = () => {
-    setTitle('')
-    setIsTitleValid(false)
-  }
-
   return (
     <>
       {isLoading && <Loading />}
@@ -253,8 +242,8 @@ export const EditArchivingModal = ({
                 value={title}
                 placeholder={i18n.t('contentVerify')}
                 maxLength={15}
-                onChangeText={handleChangeTitle}
-                handleClear={handleClearTitle}
+                onChangeText={updateTitle}
+                handleClear={clearTitle}
               />
             </TextInputContainer>
             <Verifier

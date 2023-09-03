@@ -16,6 +16,7 @@ import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
@@ -58,12 +59,16 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [title, setTitle] = useState('')
   const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
-  const [isTitleValid, setIsTitleValid] = useState(false)
+  const {
+    text: title,
+    isValid: isTitleValid,
+    updateText: updateTitle,
+    clearText: clearTitle,
+  } = useText(checkTitle)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -112,7 +117,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
      * 해당 Modal을 아카이빙 관리 페이지에서도 사용하므로 archivingList도 리패치합니다.
      */
     onSuccess: () => {
-      setTitle('')
+      clearTitle()
       setImage(undefined)
       setSelectedCategory('')
       setPublicStatus(false)
@@ -166,22 +171,6 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
     setPublicStatus((prev) => !prev)
   }
 
-  /**
-   *
-   */
-  const handleChangeTitle = (title: string) => {
-    setTitle(title)
-    setIsTitleValid(checkTitle(title))
-  }
-
-  /**
-   * handleClearTitle
-   */
-  const handleClearTitle = () => {
-    setTitle('')
-    setIsTitleValid(false)
-  }
-
   return (
     <>
       <Modal
@@ -216,8 +205,8 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
                 value={title}
                 placeholder={i18n.t('contentVerify')}
                 maxLength={15}
-                onChangeText={handleChangeTitle}
-                handleClear={handleClearTitle}
+                onChangeText={updateTitle}
+                handleClear={clearTitle}
               />
             </TextInputContainer>
             <Verifier

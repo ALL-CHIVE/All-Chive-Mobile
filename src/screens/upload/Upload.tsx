@@ -22,6 +22,7 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
@@ -65,14 +66,23 @@ export const Upload = ({ route }: UploadProps) => {
   const queryClient = useQueryClient()
 
   const [archivingName, setArchivingName] = useState('')
-  const [title, setTitle] = useState('')
-  const [isTitleValid, setIsTitleValid] = useState(false)
-  const [link, setLink] = useState('')
+  const {
+    text: title,
+    isValid: isTitleValid,
+    updateText: updateTitle,
+    clearText: clearTitle,
+  } = useText(checkTitle)
+
+  const {
+    text: link,
+    isValid: isLinkValid,
+    updateText: updateLink,
+    clearText: clearLink,
+  } = useText((link) => !!link && isUrl(link))
+
   const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
-
-  const [isValidUrl, setIsValidUrl] = useState(false)
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
@@ -166,38 +176,6 @@ export const Upload = ({ route }: UploadProps) => {
     }
   }
 
-  /**
-   * handleChangeLink
-   */
-  const handleChangeLink = (link: string) => {
-    setLink(link)
-    setIsValidUrl(!!link && isUrl(link))
-  }
-
-  /**
-   * handleChangeTitle
-   */
-  const handleChangeTitle = (title: string) => {
-    setTitle(title)
-    setIsTitleValid(checkTitle(title))
-  }
-
-  /**
-   * handleClearLink
-   */
-  const handleClearLink = () => {
-    setLink('')
-    setIsValidUrl(false)
-  }
-
-  /**
-   * handleClearTitle
-   */
-  const handleClearTitle = () => {
-    setTitle('')
-    setIsTitleValid(false)
-  }
-
   return (
     <DefaultContainer>
       <CloseButtonHeader
@@ -224,8 +202,8 @@ export const Upload = ({ route }: UploadProps) => {
                 value={title}
                 placeholder={i18n.t('contentVerify')}
                 maxLength={15}
-                onChangeText={handleChangeTitle}
-                handleClear={handleClearTitle}
+                onChangeText={updateTitle}
+                handleClear={clearTitle}
               />
             </TextInputContainer>
             <Verifier
@@ -241,12 +219,12 @@ export const Upload = ({ route }: UploadProps) => {
                     value={link}
                     placeholder={i18n.t('placeHolderLink')}
                     maxLength={undefined}
-                    onChangeText={handleChangeLink}
-                    handleClear={handleClearLink}
+                    onChangeText={updateLink}
+                    handleClear={clearLink}
                   />
                 </TextInputContainer>
                 <Verifier
-                  isValid={isValidUrl}
+                  isValid={isLinkValid}
                   text="checkUrl"
                 />
               </>
@@ -313,7 +291,7 @@ export const Upload = ({ route }: UploadProps) => {
           !archivingName ||
           !title ||
           (route.params.type === ContentType.Image && !image) ||
-          (route.params.type === ContentType.Link && (!link || !isValidUrl))
+          (route.params.type === ContentType.Link && (!link || !isLinkValid))
         }
       />
       <SelectArchivingModal

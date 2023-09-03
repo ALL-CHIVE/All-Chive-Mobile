@@ -23,6 +23,7 @@ export const NicknameInputBox = styled.View`
   border-bottom-width: 1px;
   justify-content: space-between;
   margin-bottom: 14px;
+  flex: 1;
 `
 
 export const BodyText = styled.Text`
