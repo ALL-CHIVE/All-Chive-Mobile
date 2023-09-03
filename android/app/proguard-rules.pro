@@ -19,3 +19,13 @@
   **[] $VALUES;
   public *;
 }
+
+# inappbrowser error issue
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+  @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# kakao login error issue
+-keep class com.allchivemobile.BuildConfig { *; }
