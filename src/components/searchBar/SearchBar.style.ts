@@ -7,7 +7,7 @@ export const SearchInput = styled.TextInput`
   height: 40px;
   border-radius: 20px;
   background-color: ${colors.gray50};
-  color: ${colors.gray300};
+  color: ${colors.gray600};
   padding: 0 40px 0 35px;
   margin-top: 26px;
   margin-bottom: 20px;
