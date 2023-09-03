@@ -22,6 +22,7 @@ import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/Se
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useFocus from '@/hooks/useFocus'
 import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { GetContentsInfoResponse } from '@/models/Contents'
@@ -85,6 +86,9 @@ export const Edit = ({ route }: EditProps) => {
 
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
+  const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
+  const { color: titleBorderColor, onFocus: onTitleFocus, onBlur: onTitleBlur } = useFocus()
+  const { color: linkBorderColor, onFocus: onLinkFocus, onBlur: onLinkBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -108,6 +112,11 @@ export const Edit = ({ route }: EditProps) => {
             return { tagId: tag.tagId, name: tag.name }
           })
         )
+
+        //blur 처리 합니다.
+        onArchivingBlur(content.archivingTitle)
+        onTitleBlur(content.contentTitle)
+        onLinkBlur(content.link)
       },
     }
   )
@@ -161,11 +170,20 @@ export const Edit = ({ route }: EditProps) => {
   const throttledUpdateContentsMutate = throttle(updateContentsMutate, 5000)
 
   /**
+   * 아카이빙 추가 모달을 엽니다.
+   */
+  const handleOpenModal = () => {
+    setOpenArchivingModal(true)
+    onArchivingFocus()
+  }
+
+  /**
    * 아카이빙 추가 모달 종료 액션입니다.
    */
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
     setArchivingName(selectArchiving.title)
+    onArchivingBlur(selectArchiving.title)
   }
 
   /**
@@ -206,23 +224,30 @@ export const Edit = ({ route }: EditProps) => {
           <Container>
             <Title style={{ marginTop: 0 }}>{i18n.t('archivingName')}</Title>
             <ArchivingSelect
-              onPress={() => {
-                setOpenArchivingModal(true)
-              }}
+              onPress={handleOpenModal}
+              style={{ borderColor: archivingColor }}
             >
-              <SelectArchivingText>
+              <SelectArchivingText
+                style={{
+                  color: archivingColor === colors.yellow500 ? colors.gray200 : archivingColor,
+                }}
+              >
                 {archivingName ? archivingName : i18n.t('choiceArchiving')}
               </SelectArchivingText>
-              <RightArrowIcon color={colors.gray100} />
+              <RightArrowIcon
+                color={archivingColor === colors.yellow500 ? colors.gray200 : archivingColor}
+              />
             </ArchivingSelect>
             <Title>{i18n.t('contentName')}</Title>
-            <TextInputContainer>
+            <TextInputContainer style={{ borderColor: title ? titleBorderColor : colors.gray200 }}>
               <TextInput
                 value={title}
                 placeholder={i18n.t('contentVerify')}
                 maxLength={15}
                 onChangeText={updateTitle}
                 handleClear={clearTitle}
+                onFocus={onTitleFocus}
+                onBlur={onTitleBlur}
               />
             </TextInputContainer>
             <Verifier
@@ -233,13 +258,17 @@ export const Edit = ({ route }: EditProps) => {
               <>
                 {/* Link */}
                 <Title>{i18n.t('link')}</Title>
-                <TextInputContainer>
+                <TextInputContainer
+                  style={{ borderColor: link ? linkBorderColor : colors.gray200 }}
+                >
                   <TextInput
                     value={link}
                     placeholder={i18n.t('placeHolderLink')}
                     maxLength={undefined}
                     onChangeText={updateLink}
                     handleClear={clearLink}
+                    onFocus={onLinkFocus}
+                    onBlur={onLinkBlur}
                   />
                 </TextInputContainer>
                 <Verifier

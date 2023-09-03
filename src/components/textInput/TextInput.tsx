@@ -11,6 +11,8 @@ interface TextInputProps {
   maxLength: number | undefined
   onChangeText: (text: string) => void
   handleClear: () => void
+  onFocus?: () => void
+  onBlur?: (text: string) => void
 }
 
 /**
@@ -22,6 +24,8 @@ const TextInput = ({
   maxLength,
   onChangeText,
   handleClear,
+  onFocus,
+  onBlur,
 }: TextInputProps) => {
   return (
     <Container>
@@ -31,6 +35,8 @@ const TextInput = ({
         onChangeText={onChangeText}
         maxLength={maxLength}
         value={value}
+        onFocus={onFocus}
+        onBlur={() => onBlur && onBlur(value)}
       />
       {value && (
         <ClearButton onPress={handleClear}>

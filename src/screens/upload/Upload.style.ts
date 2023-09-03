@@ -18,7 +18,7 @@ export const Title = styled.Text`
 export const ArchivingSelect = styled.TouchableOpacity`
   width: 100%;
   height: 38px;
-  border: 1px solid ${colors.gray100};
+  border-width: 1px;
   background-color: ${colors.white};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
@@ -35,33 +35,13 @@ export const SelectArchivingText = styled.Text`
 export const TextInputContainer = styled.View`
   width: 100%;
   height: 38px;
-  border: 1px solid ${colors.gray100};
+  border: 1px solid ${colors.gray200};
   background-color: ${colors.white};
   color: ${colors.gray600};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
   margin-bottom: 6px;
 `
-
-export const Styles = {
-  focused: css`
-    border: 1px solid ${colors.yellow500};
-  `,
-  clickedText: css`
-    color: ${colors.gray600};
-  `,
-  clicked: css`
-    border: 1px solid ${colors.gray500};
-    color: ${colors.gray600};
-  `,
-  conditionComplete: css`
-    color: ${colors.gray600};
-  `,
-  rightArrow: css`
-    position: absolute;
-    right: 10px;
-  `,
-}
 
 export const PlusImageButton = styled.TouchableOpacity`
   width: 78px;

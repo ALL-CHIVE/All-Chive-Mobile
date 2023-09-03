@@ -10,6 +10,8 @@ export const TextBox = styled.TextInput`
   padding: 10px;
   padding-bottom: 24px;
   color: ${colors.gray600};
+  font-family: 'Pretendard-Regular';
+  font-size: 16px;
 `
 
 export const TextCounter = styled.Text`
