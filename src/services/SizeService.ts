@@ -1,4 +1,5 @@
 import { Dimensions, Platform } from 'react-native'
+import AndroidDimensions from 'react-native-extra-dimensions-android'
 
 const windowWidth = Dimensions.get('window').width
 
@@ -15,4 +16,9 @@ export const isWindowWidthSmallerThen = (width: number) => {
 export const modalMaxHeight = Platform.select({
   ios: Dimensions.get('screen').height - 80,
   android: Dimensions.get('screen').height - 150,
+})
+
+export const deviceHeight = Platform.select({
+  ios: Dimensions.get('window').height,
+  android: AndroidDimensions.get('REAL_WINDOW_HEIGHT'),
 })

@@ -8,6 +8,8 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# kakao login error issue
 -keep class com.kakao.sdk.**.model.* { <fields>; }
 -keep class * extends com.google.gson.TypeAdapter
 
@@ -19,3 +21,13 @@
   **[] $VALUES;
   public *;
 }
+
+# inappbrowser error issue
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+  @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# can not read env issue
+-keep class com.allchivemobile.BuildConfig { *; }

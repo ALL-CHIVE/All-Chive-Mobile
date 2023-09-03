@@ -47,3 +47,7 @@ export const UploadButton = styled.View`
   justify-content: center;
   align-items: center;
 `
+
+export const Title = styled.Text`
+  color: ${colors.gray600};
+`
