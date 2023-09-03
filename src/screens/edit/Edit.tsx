@@ -17,6 +17,7 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import Indicator from '@/components/indicator/Indicator'
+import InputBox from '@/components/inputBox/InputBox'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
@@ -43,7 +44,6 @@ import {
   ConditionText,
   Container,
   ContentImage,
-  MemoTextInput,
   PlusImageButton,
   RowView,
   SelectArchivingText,
@@ -322,18 +322,12 @@ export const Edit = ({ route }: EditProps) => {
               <TagTitle>{i18n.t('memo')}</TagTitle>
               <AddTagText>{i18n.t('choice')}</AddTagText>
             </TagTitleContainer>
-            <MemoTextInput
+            <InputBox
               placeholder={i18n.t('placeHolderMemo')}
-              placeholderTextColor={colors.gray200}
-              value={memo}
-              onChangeText={setMemo}
-              onFocus={() => handleFocused(3)}
               maxLength={150}
-              multiline
-              style={
-                (currentFocused === 3 && Styles.focused) ||
-                (lastFocused >= 3 && memo.length > 0 && Styles.clicked)
-              }
+              text={memo}
+              setText={setMemo}
+              minHeight={38}
             />
           </Container>
         </KeyboardAwareScrollView>

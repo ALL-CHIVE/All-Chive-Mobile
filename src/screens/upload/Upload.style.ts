@@ -41,16 +41,6 @@ export const TextInput = styled.TextInput`
   margin-bottom: 6px;
 `
 
-export const MemoTextInput = styled.TextInput`
-  width: 100%;
-  min-height: 38px;
-  border: 1px solid ${colors.gray100};
-  background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
-  border-radius: 6px;
-`
-
 export const Styles = {
   focused: css`
     border: 1px solid ${colors.yellow500};

@@ -220,7 +220,10 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
                   {content.contentMemo && (
                     <>
                       <SubTitle>{i18n.t('memo')}</SubTitle>
-                      <Memo text={content.contentMemo} />
+                      <Memo
+                        text={content.contentMemo}
+                        maxLength={150}
+                      />
                     </>
                   )}
                 </ContentDetailView>
