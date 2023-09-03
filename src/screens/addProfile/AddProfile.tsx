@@ -4,11 +4,11 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { useMutation } from 'react-query'
 
 import { checkNicknameValid } from '@/apis/user/User'
-import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import Indicator from '@/components/indicator/Indicator'
+import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
@@ -18,14 +18,11 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { signUp } from '@/services/SignInService'
 import { checkNickname } from '@/services/StringChecker'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
-import { colors } from '@/styles/colors'
 
 import {
   BodyText,
-  ClearButton,
   Container,
   Heading,
-  InputBox,
   NicknameContainer,
   NicknameInputBox,
 } from './AddProfile.style'
@@ -125,19 +122,13 @@ const AddProfile = ({ route }: AddProfileProps) => {
           <NicknameContainer>
             <BodyText>{i18n.t('nickName')}</BodyText>
             <NicknameInputBox>
-              <InputBox
-                placeholder={i18n.t('nicknamePlaceholder')}
-                placeholderTextColor={colors.gray200}
-                onChangeText={handleChangeNickname}
-                maxLength={10}
+              <TextInput
                 value={nickname}
+                placeholder={i18n.t('nicknamePlaceholder')}
+                maxLength={10}
+                onChangeText={handleChangeNickname}
+                handleClear={handleClearNickname}
               />
-              <ClearButton
-                onPress={handleClearNickname}
-                disabled={!nickname}
-              >
-                <XMark color={colors.gray600} />
-              </ClearButton>
             </NicknameInputBox>
             <Verifier
               isValid={isNicknameDuplicate}

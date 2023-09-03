@@ -30,14 +30,4 @@ export const NicknameInputBox = styled.View`
 export const BodyText = styled.Text`
   ${fonts.body1}
   color: ${colors.gray600};
-  margin-bottom: 5px;
-`
-
-export const InputBox = styled.TextInput`
-  color: ${colors.gray600};
-`
-
-export const ClearButton = styled.TouchableOpacity`
-  width: 24px;
-  height: 24px;
 `
