@@ -30,7 +30,7 @@ export const SelectArchivingText = styled.Text`
   color: ${colors.gray100};
 `
 
-export const TextInput = styled.TextInput`
+export const TextInputContainer = styled.TextInput`
   width: 100%;
   height: 38px;
   border: 1px solid ${colors.gray100};
