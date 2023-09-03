@@ -54,7 +54,7 @@
   "uploadImage": "이미지 업로드",
   "link": "링크",
   "placeHolderLink": "링크를 입력하세요",
-  "placeHolderTag": "ex) UX/UI",
+  "placeHolderTag": "ex) 브랜딩레퍼런스",
   "youHaveSavedArchives": "현재까지 총 {{number, number}}개의\n아카이빙을\n저장하고 계세요!",
   "tag": "태그",
   "addTag": "태그 추가",

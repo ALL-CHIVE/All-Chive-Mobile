@@ -5,6 +5,7 @@ import { colors } from '@/styles/colors'
 export const Container = styled.View`
   flex-direction: row;
   align-items: center;
+  height: 100%;
 `
 
 export const InputBox = styled.TextInput`

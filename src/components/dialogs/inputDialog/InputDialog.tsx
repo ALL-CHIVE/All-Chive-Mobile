@@ -2,10 +2,9 @@ import React from 'react'
 
 import Modal from 'react-native-modal'
 
-import XMark from '@/assets/icons/x-mark.svg'
+import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
-import { colors } from '@/styles/colors'
 
 import {
   Css,
@@ -16,8 +15,6 @@ import {
   CancelButtonText,
   CompleteButton,
   CompleteButtonText,
-  TextInput,
-  DeleteButton,
   TextInputContainer,
   DisabledStyles,
   TagVerifier,
@@ -69,16 +66,11 @@ export const InputDialog = ({
         <TextInputContainer>
           <TextInput
             value={text}
-            onChangeText={setText}
+            placeholder={placeholder ?? ''}
             maxLength={20}
-            placeholder={placeholder}
-            placeholderTextColor={colors.gray200}
+            onChangeText={setText}
+            handleClear={() => setText('')}
           />
-          {text.length > 0 && (
-            <DeleteButton onPress={() => setText('')}>
-              <XMark color={colors.gray600} />
-            </DeleteButton>
-          )}
         </TextInputContainer>
         <TagVerifier>
           <Verifier
