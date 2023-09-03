@@ -40,7 +40,7 @@ export const TextInput = styled.TextInput`
   height: 37px;
   border: 1px solid ${colors.gray500};
   background-color: ${colors.white};
-  color: ${colors.mainBlack};
+  color: ${colors.gray500};
   padding: 7px 15px;
   border-radius: 6px;
 `

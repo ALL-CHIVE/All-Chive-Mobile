@@ -33,7 +33,9 @@ export const BodyText = styled.Text`
   margin-bottom: 5px;
 `
 
-export const InputBox = styled.TextInput``
+export const InputBox = styled.TextInput`
+  color: ${colors.gray600};
+`
 
 export const ClearButton = styled.TouchableOpacity`
   width: 24px;

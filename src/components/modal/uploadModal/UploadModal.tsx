@@ -11,7 +11,15 @@ import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { colors } from '@/styles/colors'
 
-import { Container, Icon, LeftButton, RightButton, Styles, UploadButton } from './UploadModal.style'
+import {
+  Container,
+  Icon,
+  LeftButton,
+  RightButton,
+  Styles,
+  Title,
+  UploadButton,
+} from './UploadModal.style'
 
 interface UploadModalProps {
   onClose: () => void
@@ -44,7 +52,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
           }}
         >
           <Icon source={defaultIcons.photo} />
-          <Text>{i18n.t('image')}</Text>
+          <Title>{i18n.t('image')}</Title>
         </LeftButton>
         <RightButton
           onPress={() => {
@@ -53,7 +61,7 @@ const UploadModal = ({ onClose }: UploadModalProps) => {
           }}
         >
           <Icon source={defaultIcons.linkUpload} />
-          <Text>{i18n.t('link')}</Text>
+          <Title>{i18n.t('link')}</Title>
         </RightButton>
       </LinearGradient>
     </Container>
