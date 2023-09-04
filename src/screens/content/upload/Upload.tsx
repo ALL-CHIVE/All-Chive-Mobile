@@ -52,7 +52,7 @@ import {
   TagTitleContainer,
   TextInputContainer,
   Title,
-} from './Upload.style'
+} from '../Content.style'
 
 interface UploadProps {
   route: RouteProp<RootStackParamList, 'Upload'>

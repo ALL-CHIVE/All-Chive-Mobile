@@ -53,7 +53,7 @@ import {
   TagTitleContainer,
   Title,
   TextInputContainer,
-} from '../upload/Upload.style'
+} from '../Content.style'
 
 interface EditProps {
   route: RouteProp<RootStackParamList, 'Edit'>
