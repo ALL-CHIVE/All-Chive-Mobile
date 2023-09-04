@@ -46,17 +46,6 @@ export const ImageButton = styled.TouchableOpacity`
   width: 84px;
 `
 
-export const TextInputContainer = styled.View`
-  border: 1px solid ${colors.gray100};
-  background-color: ${colors.white};
-  padding: 0px 10px 0px 13px;
-  border-radius: 6px;
-  margin-bottom: 4px;
-  height: 38px;
-  justify-content: center;
-  width: 100%;
-`
-
 export const Styles = {
   inputFocus: css`
     border: 1px solid ${colors.yellow500};

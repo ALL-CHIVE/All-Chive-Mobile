@@ -42,7 +42,6 @@ import {
   ScrollContainer,
   Styles,
   Switch,
-  TextInputContainer,
   Thumbnail,
   Title,
 } from '../ArchivingModal.style'
@@ -66,7 +65,6 @@ export const EditArchivingModal = ({
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
@@ -89,7 +87,6 @@ export const EditArchivingModal = ({
   const keyboardDidShow = () => {
     const height = modalMaxHeight
     height && setModalHeight(height)
-    setNameFocus(true)
   }
 
   /**
@@ -97,7 +94,6 @@ export const EditArchivingModal = ({
    */
   const keyboardDidHide = () => {
     setModalHeight(defaultModalHeight)
-    setNameFocus(false)
   }
 
   const { data: archivingData, isLoading } = useQuery(
@@ -232,20 +228,14 @@ export const EditArchivingModal = ({
           >
             <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
-            <TextInputContainer
-              style={
-                (nameFocus && Styles.inputFocus) ||
-                (!nameFocus && title.length > 0 && Styles.inputWithValue)
-              }
-            >
-              <TextInput
-                value={title}
-                placeholder={i18n.t('contentVerify')}
-                maxLength={15}
-                onChangeText={updateTitle}
-                handleClear={clearTitle}
-              />
-            </TextInputContainer>
+            <TextInput
+              value={title}
+              placeholder={i18n.t('contentVerify')}
+              maxLength={15}
+              onChangeText={updateTitle}
+              handleClear={clearTitle}
+              hasBorder
+            />
             <Verifier
               isValid={isTitleValid}
               text="archivingVerify"

@@ -32,17 +32,6 @@ export const SelectArchivingText = styled.Text`
   ${fonts.body1}
 `
 
-export const TextInputContainer = styled.View`
-  width: 100%;
-  height: 38px;
-  border: 1px solid ${colors.gray200};
-  background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-`
-
 export const PlusImageButton = styled.TouchableOpacity`
   width: 78px;
   height: 78px;

@@ -50,7 +50,6 @@ import {
   SelectArchivingText,
   TagTitle,
   TagTitleContainer,
-  TextInputContainer,
   Title,
 } from '../Content.style'
 
@@ -88,8 +87,6 @@ export const Upload = ({ route }: UploadProps) => {
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
   const currentCategory = useRecoilValue(CategoryState)
   const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
-  const { color: titleBorderColor, onFocus: onTitleFocus, onBlur: onTitleBlur } = useFocus()
-  const { color: linkBorderColor, onFocus: onLinkFocus, onBlur: onLinkBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -214,17 +211,14 @@ export const Upload = ({ route }: UploadProps) => {
               />
             </ArchivingSelect>
             <Title>{i18n.t('contentName')}</Title>
-            <TextInputContainer style={{ borderColor: title ? titleBorderColor : colors.gray200 }}>
-              <TextInput
-                value={title}
-                placeholder={i18n.t('contentVerify')}
-                maxLength={15}
-                onChangeText={updateTitle}
-                handleClear={clearTitle}
-                onFocus={onTitleFocus}
-                onBlur={onTitleBlur}
-              />
-            </TextInputContainer>
+            <TextInput
+              value={title}
+              placeholder={i18n.t('contentVerify')}
+              maxLength={15}
+              onChangeText={updateTitle}
+              handleClear={clearTitle}
+              hasBorder
+            />
             <Verifier
               isValid={isTitleValid}
               text={'contentVerify'}
@@ -233,19 +227,14 @@ export const Upload = ({ route }: UploadProps) => {
               <>
                 {/* Link */}
                 <Title>{i18n.t('link')}</Title>
-                <TextInputContainer
-                  style={{ borderColor: link ? linkBorderColor : colors.gray200 }}
-                >
-                  <TextInput
-                    value={link}
-                    placeholder={i18n.t('placeHolderLink')}
-                    maxLength={undefined}
-                    onChangeText={updateLink}
-                    handleClear={clearLink}
-                    onFocus={onLinkFocus}
-                    onBlur={onLinkBlur}
-                  />
-                </TextInputContainer>
+                <TextInput
+                  value={link}
+                  placeholder={i18n.t('placeHolderLink')}
+                  maxLength={undefined}
+                  onChangeText={updateLink}
+                  handleClear={clearLink}
+                  hasBorder
+                />
                 <Verifier
                   isValid={isLinkValid}
                   text="checkUrl"
