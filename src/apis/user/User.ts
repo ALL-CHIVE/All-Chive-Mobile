@@ -1,13 +1,12 @@
+import { api } from '@/apis'
 import { UserInfoResponse, UserResponse } from '@/models/User'
 import { getAccessToken } from '@/services/localStorage/LocalStorage'
-
-import { client } from '../Client'
 
 /**
  * 닉네임 중복체크합니다.
  */
 export const checkNicknameValid = (nickname: string) => {
-  return client.post(`/user/nickname`, { nickname })
+  return api.post(`/user/nickname`, { nickname })
 }
 
 /**
@@ -15,7 +14,7 @@ export const checkNicknameValid = (nickname: string) => {
  */
 export const getUserInfo = async (): Promise<UserInfoResponse> => {
   const accessToken = await getAccessToken()
-  const { data } = await client.get(`/user/info`, {
+  const { data } = await api.get(`/user/info`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -34,7 +33,7 @@ export const postUserInfo = async (
   nickname: string
 ) => {
   const accessToken = await getAccessToken()
-  const response = await client.post(
+  const response = await api.post(
     `/user/info`,
     {
       imgUrl,
@@ -58,7 +57,7 @@ export const postUserInfo = async (
 export const getUser = async (): Promise<UserResponse> => {
   const accessToken = await getAccessToken()
 
-  const { data } = await client.get(`/user`, {
+  const { data } = await api.get(`/user`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

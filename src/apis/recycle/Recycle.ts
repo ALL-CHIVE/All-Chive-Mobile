@@ -1,19 +1,11 @@
+import { api } from '@/apis'
 import { DeleteRecyclesRequest, RecyclesResponse } from '@/models/Recycle'
-import { getAccessToken } from '@/services/localStorage/LocalStorage'
-
-import { client } from '../Client'
 
 /**
  * 삭제된 아카이빙, 컨텐츠를 가져옵니다.
  */
 export const getRecycles = async (): Promise<RecyclesResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/recycles`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-
+  const { data } = await api.get(`/recycles`)
   return data.data
 }
 
@@ -21,14 +13,10 @@ export const getRecycles = async (): Promise<RecyclesResponse> => {
  * 삭제된 아카이빙, 컨텐츠를 영구적으로 삭제합니다.
  */
 export const deleteRecycles = async ({ archivingIds, contentIds }: DeleteRecyclesRequest) => {
-  const accessToken = await getAccessToken()
-  const response = await client.delete(`/recycles`, {
+  const response = await api.delete(`/recycles`, {
     data: {
       archivingIds,
       contentIds,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -39,19 +27,10 @@ export const deleteRecycles = async ({ archivingIds, contentIds }: DeleteRecycle
  * 삭제된 아카이빙, 컨텐츠를 복구합니다.
  */
 export const patchRecycles = async ({ archivingIds, contentIds }: DeleteRecyclesRequest) => {
-  const accessToken = await getAccessToken()
-  const response = await client.patch(
-    `/recycles`,
-    {
-      archivingIds,
-      contentIds,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  )
+  const response = await api.patch(`/recycles`, {
+    archivingIds,
+    contentIds,
+  })
 
   return response
 }

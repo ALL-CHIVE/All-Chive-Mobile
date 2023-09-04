@@ -1,6 +1,5 @@
+import { api } from '@/apis'
 import { SignInType } from '@/models/enums/SignInType'
-
-import { client } from '../Client'
 
 /**
  * 회원가입을 진행합니다.
@@ -16,7 +15,7 @@ export const signUpUser = (
   name: string,
   email: string
 ) => {
-  return client.post(
+  return api.post(
     `/auth/oauth/register/${provider}`,
     {
       profileImgUrl,
@@ -39,7 +38,7 @@ export const signUpUser = (
  * IdToken 으로 로그인 합니다.
  */
 export const postIdTokenLogin = (type: string, idToken: string) => {
-  return client.post(`/auth/oauth/login/${type}/idtoken`, null, {
+  return api.post(`/auth/oauth/login/${type}/idtoken`, null, {
     params: {
       idToken,
     },
