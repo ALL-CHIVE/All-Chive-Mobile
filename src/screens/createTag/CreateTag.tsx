@@ -13,6 +13,7 @@ import { SimpleDialog } from '@/components/dialogs/simpleDialog/SimpleDialog'
 import { Divider } from '@/components/divider/Divider'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import { SearchBar } from '@/components/searchBar/SearchBar'
+import { ClickableTag } from '@/components/tag/clickableTag/ClickableTag'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
@@ -20,8 +21,6 @@ import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { checkTag } from '@/services/StringChecker'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
-
-import { ClickableTag } from '../upload/components/ClickableTag'
 
 import {
   Container,

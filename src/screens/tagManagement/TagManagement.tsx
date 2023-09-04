@@ -10,6 +10,7 @@ import { InputDialog } from '@/components/dialogs/inputDialog/InputDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import { SwipeScreen } from '@/components/swipe/SwipeScreen'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { checkTag } from '@/services/StringChecker'
 
@@ -24,9 +25,13 @@ export const TagManagement = () => {
 
   const [editMode, setEditMode] = useState(false)
   const [isCreateDialogVisible, setIsCreateDialogVisible] = useState(false)
-  const [text, setText] = useState('')
-  const [isTagValid, setIsTagValid] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const {
+    text: tag,
+    isValid: isTagValid,
+    updateText: updateTag,
+    clearText: clearTag,
+  } = useText(checkTag)
 
   const { data: tagData, isLoading } = useQuery(['getTagData'], () => getTag(false), {
     /**
@@ -42,7 +47,7 @@ export const TagManagement = () => {
      * postTag 성공 시 input 내 text를 초기화하고, getTagData를 리패치합니다.
      */
     onSuccess: () => {
-      setText('')
+      clearTag()
       queryClient.invalidateQueries('getTagData')
     },
   })
@@ -51,15 +56,7 @@ export const TagManagement = () => {
    * 새로운 태그를 생성합니다.
    */
   const handleCreate = () => {
-    postTagMutate(text)
-  }
-
-  /**
-   * handleChangeText
-   */
-  const handleChangeText = (tag: string) => {
-    setText(tag)
-    setIsTagValid(checkTag(tag))
+    postTagMutate(tag)
   }
 
   return (
@@ -105,8 +102,8 @@ export const TagManagement = () => {
         <InputDialog
           isVisible={isCreateDialogVisible}
           title="createNewTag"
-          text={text}
-          setText={handleChangeText}
+          text={tag}
+          setText={updateTag}
           completeText="register"
           onCancel={() => {
             setIsCreateDialogVisible(false)
@@ -115,7 +112,7 @@ export const TagManagement = () => {
             setIsCreateDialogVisible(false)
             handleCreate()
           }}
-          isDisabled={text.length === 0 || !isTagValid}
+          isDisabled={tag.length === 0 || !isTagValid}
           placeholder={i18n.t('placeHolderTag')}
           isValid={isTagValid}
         />

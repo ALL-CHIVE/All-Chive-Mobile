@@ -15,4 +15,13 @@ export const MemoContainer = styled.View`
 export const MemoText = styled.Text`
   ${fonts.body3}
   color: ${colors.gray500};
+  margin-bottom: 20px;
+`
+
+export const TextCounter = styled.Text`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  ${fonts.body3}
+  color: ${colors.gray300}
 `

@@ -18,7 +18,14 @@ export const modalMaxHeight = Platform.select({
   android: Dimensions.get('screen').height - 150,
 })
 
-export const deviceHeight = Platform.select({
-  ios: Dimensions.get('window').height,
-  android: AndroidDimensions.get('REAL_WINDOW_HEIGHT'),
-})
+/**
+ *
+ */
+export const getDeviceHeight = () => {
+  switch (Platform.OS) {
+    case 'android':
+      return AndroidDimensions?.get('REAL_WINDOW_HEIGHT')
+    default:
+      return Dimensions.get('window').height
+  }
+}

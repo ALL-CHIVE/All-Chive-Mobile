@@ -21,23 +21,12 @@ export const NicknameContainer = styled.View`
 export const NicknameInputBox = styled.View`
   border-bottom-color: ${colors.gray600};
   border-bottom-width: 1px;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
+  flex: 1;
 `
 
 export const BodyText = styled.Text`
   ${fonts.body1}
   color: ${colors.gray600};
-  margin-bottom: 5px;
-`
-
-export const InputBox = styled.TextInput`
-  color: ${colors.gray600};
-`
-
-export const ClearButton = styled.TouchableOpacity`
-  width: 24px;
-  height: 24px;
 `

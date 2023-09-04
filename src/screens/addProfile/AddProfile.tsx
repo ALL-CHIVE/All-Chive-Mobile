@@ -4,12 +4,13 @@ import { RouteProp, useNavigation } from '@react-navigation/native'
 import { useMutation } from 'react-query'
 
 import { checkNicknameValid } from '@/apis/user/User'
-import XMark from '@/assets/icons/x-mark.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import Indicator from '@/components/indicator/Indicator'
+import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { SignInType } from '@/models/enums/SignInType'
@@ -18,14 +19,11 @@ import { RootStackParamList } from '@/navigations/RootStack'
 import { signUp } from '@/services/SignInService'
 import { checkNickname } from '@/services/StringChecker'
 import { setIsInstalled } from '@/services/localStorage/LocalStorage'
-import { colors } from '@/styles/colors'
 
 import {
   BodyText,
-  ClearButton,
   Container,
   Heading,
-  InputBox,
   NicknameContainer,
   NicknameInputBox,
 } from './AddProfile.style'
@@ -38,8 +36,12 @@ interface AddProfileProps {
  * AddProfile
  */
 const AddProfile = ({ route }: AddProfileProps) => {
-  const [nickname, setNickname] = useState('')
-  const [isNicknameValid, setIsNicknameValid] = useState(false)
+  const {
+    text: nickname,
+    isValid: isNicknameValid,
+    updateText: updateNickname,
+    clearText: clearNickname,
+  } = useText(checkNickname)
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
   const navigation = useNavigation<MainNavigationProp>()
   const { idToken, thirdpartyAccessToken, signInType, name, email } = useUserInfo()
@@ -63,7 +65,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
        */
       onSuccess: () => {
         setIsInstalled(true)
-        navigation.navigate('BottomTab', { screen: 'Home' })
+        navigation.reset({ routes: [{ name: 'BottomTab', params: { screen: 'Home' } }] })
       },
     }
   )
@@ -98,8 +100,8 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
-    setNickname(nickname)
-    setIsNicknameValid(checkNickname(nickname))
+    updateNickname(nickname)
+
     if (nickname) {
       nicknameDuplicationCheckMutate(nickname)
     } else {
@@ -111,8 +113,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
    * handleClearNickname
    */
   const handleClearNickname = () => {
-    setNickname('')
-    setIsNicknameValid(false)
+    clearNickname()
     setIsNicknameDuplicate(false)
   }
 
@@ -125,19 +126,13 @@ const AddProfile = ({ route }: AddProfileProps) => {
           <NicknameContainer>
             <BodyText>{i18n.t('nickName')}</BodyText>
             <NicknameInputBox>
-              <InputBox
-                placeholder={i18n.t('nicknamePlaceholder')}
-                placeholderTextColor={colors.gray200}
-                onChangeText={handleChangeNickname}
-                maxLength={10}
+              <TextInput
                 value={nickname}
+                placeholder={i18n.t('nicknamePlaceholder')}
+                maxLength={10}
+                onChangeText={handleChangeNickname}
+                handleClear={handleClearNickname}
               />
-              <ClearButton
-                onPress={handleClearNickname}
-                disabled={!nickname}
-              >
-                <XMark color={colors.gray600} />
-              </ClearButton>
             </NicknameInputBox>
             <Verifier
               isValid={isNicknameDuplicate}
