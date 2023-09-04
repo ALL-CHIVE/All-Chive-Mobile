@@ -317,7 +317,7 @@ export const Edit = ({ route }: EditProps) => {
               maxLength={150}
               text={memo}
               setText={setMemo}
-              minHeight={38}
+              minHeight={123}
             />
           </Container>
         </KeyboardAwareScrollView>
