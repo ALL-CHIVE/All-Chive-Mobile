@@ -2,8 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { AxiosError } from 'axios'
-import { ImageSourcePropType, ImageURISource, View } from 'react-native'
+import { ImageSourcePropType, ImageURISource, Platform, View } from 'react-native'
 import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
@@ -116,7 +115,10 @@ export const MyAccount = () => {
      */
     onSuccess: () => {
       clearUserInfo()
-      navigation.reset({ routes: [{ name: 'Login' }] })
+      setTimeout(
+        () => navigation.reset({ routes: [{ name: 'Login' }] }),
+        Platform.OS === 'ios' ? 500 : 0
+      )
       queryClient.clear()
     },
   })
