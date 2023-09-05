@@ -1,4 +1,4 @@
-import { api } from '@/apis'
+import { apiWithoutToken } from '@/apis'
 import { SignInType } from '@/models/enums/SignInType'
 
 /**
@@ -15,7 +15,7 @@ export const signUpUser = (
   name: string,
   email: string
 ) => {
-  return api.post(
+  return apiWithoutToken.post(
     `/auth/oauth/register/${provider}`,
     {
       profileImgUrl,
@@ -38,7 +38,7 @@ export const signUpUser = (
  * IdToken 으로 로그인 합니다.
  */
 export const postIdTokenLogin = (type: string, idToken: string) => {
-  return api.post(`/auth/oauth/login/${type}/idtoken`, null, {
+  return apiWithoutToken.post(`/auth/oauth/login/${type}/idtoken`, null, {
     params: {
       idToken,
     },
