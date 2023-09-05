@@ -75,7 +75,7 @@ export const RootStack = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       SplashScreen.hide()
     }, 3000)
 
@@ -91,6 +91,8 @@ export const RootStack = () => {
         setIsLoading(false)
       }
     })
+
+    return () => clearTimeout(timer)
   }, [])
 
   if (isLoading) {
