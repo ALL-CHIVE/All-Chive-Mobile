@@ -21,6 +21,7 @@ import { community, customerService, openSourceLicense, privacy, terms } from '@
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { clearTokens } from '@/services/localStorage/LocalStorage'
 import { colors } from '@/styles/colors'
 
 import {
@@ -58,6 +59,7 @@ export const Mypage = () => {
      */
     onSuccess: () => {
       clearUserInfo()
+      clearTokens()
       navigation.reset({ routes: [{ name: 'Login' }] })
       queryClient.clear()
     },

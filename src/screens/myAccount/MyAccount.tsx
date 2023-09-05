@@ -29,6 +29,7 @@ import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadProfileImage } from '@/services/ImageService'
 import { getAppleAuthCode } from '@/services/SignInService'
 import { getActionSheetTintColor } from '@/services/StyleService'
+import { clearTokens } from '@/services/localStorage/LocalStorage'
 
 import {
   InfoContainer,
@@ -115,11 +116,14 @@ export const MyAccount = () => {
      */
     onSuccess: () => {
       clearUserInfo()
+      clearTokens()
       setTimeout(
-        () => navigation.reset({ routes: [{ name: 'Login' }] }),
+        () => {
+          navigation.reset({ routes: [{ name: 'Login' }] })
+          queryClient.clear()
+        },
         Platform.OS === 'ios' ? 500 : 0
       )
-      queryClient.clear()
     },
   })
 

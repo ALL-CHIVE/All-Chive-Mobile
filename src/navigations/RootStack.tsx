@@ -7,7 +7,7 @@ import {
 import { SafeAreaView } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 
-import { canAuthSignIn } from '@/apis/auth/Auth'
+import { updateTokens } from '@/apis'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
@@ -83,7 +83,7 @@ export const RootStack = () => {
       setIsInstalled(res)
 
       if (res) {
-        canAuthSignIn().then((res) => {
+        updateTokens().then((res) => {
           setIsSignIn(res)
           setIsLoading(false)
         })
