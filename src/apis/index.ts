@@ -38,6 +38,7 @@ api.interceptors.request.use(async (config) => {
  */
 const onFulfilled = (res: AxiosResponse) => res
 
+let lock = false
 /**
  * onRejected
  */
@@ -45,15 +46,18 @@ const onRejected = async (error: AxiosError) => {
   const originalConfig = error.config
   const data = error.response?.data as ErrorData
 
-  if (originalConfig && error.response?.status === 401 && data?.code == 'AUTH_401_3') {
+  if (originalConfig && error.response?.status === 401 && data?.code == 'AUTH_401_3' && !lock) {
+    lock = true
     try {
       await updateTokens()
-      return apiWithoutToken.request({
-        ...originalConfig,
-        headers: {
-          Authorization: `Bearer ${await getAccessToken()}`,
-        },
-      })
+      return apiWithoutToken
+        .request({
+          ...originalConfig,
+          headers: {
+            Authorization: `Bearer ${await getAccessToken()}`,
+          },
+        })
+        .finally(() => (lock = false))
     } catch (error) {
       //ignore
     }
