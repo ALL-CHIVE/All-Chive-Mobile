@@ -51,3 +51,7 @@ export const PlusTagText = styled.Text`
 export const RowView = styled.View`
   flex-direction: row;
 `
+
+export const DividerContainer = styled.View`
+  margin: 10px 0px;
+`

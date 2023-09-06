@@ -40,7 +40,7 @@ export const InfoContainer = styled.View`
 
 export const RowView = styled.View`
   flex-direction: row;
-  margin: 5px 0px;
+  margin: 15px 0px;
 `
 
 export const PencilButton = styled.TouchableOpacity`

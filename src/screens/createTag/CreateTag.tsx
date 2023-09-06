@@ -25,6 +25,7 @@ import { colors } from '@/styles/colors'
 import {
   Container,
   CreateTagContainer,
+  DividerContainer,
   LatestTitle,
   PlusTagButton,
   PlusTagText,
@@ -176,7 +177,9 @@ export const CreateTag = ({ navigation }: TagProps) => {
 
           {latestTagData && latestTagData.length > 0 && !searchText && (
             <>
-              <Divider />
+              <DividerContainer>
+                <Divider />
+              </DividerContainer>
               <LatestTitle>{i18n.t('recentlyTag')}</LatestTitle>
               <ScrollView
                 horizontal={true}
