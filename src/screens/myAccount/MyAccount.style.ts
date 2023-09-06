@@ -44,11 +44,11 @@ export const RowView = styled.View`
 `
 
 export const PencilButton = styled.TouchableOpacity`
-  width: 14px;
-  height: 15px;
   position: absolute;
-  margin-top: 5px;
+  top: -1px;
   right: 0px;
+  padding: 5px;
+  padding-left: 40px;
 `
 
 export const InfoText = styled.Text`
