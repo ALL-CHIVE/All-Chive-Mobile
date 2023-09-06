@@ -30,7 +30,6 @@ import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionShee
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
@@ -160,7 +159,7 @@ export const Edit = ({ route }: EditProps) => {
     onSuccess: () => {
       setSelectArchiving({ id: -1, title: '' })
       setSelectTag([])
-      queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+      queryClient.invalidateQueries(['contents', route.params.id])
       queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
       navigation.goBack()
     },
