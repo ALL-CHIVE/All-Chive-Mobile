@@ -85,12 +85,12 @@ export const Edit = ({ route }: EditProps) => {
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
   const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
-  const { color: titleBorderColor, onFocus: onTitleFocus, onBlur: onTitleBlur } = useFocus()
-  const { color: linkBorderColor, onFocus: onLinkFocus, onBlur: onLinkBlur } = useFocus()
+  const { onBlur: onTitleBlur } = useFocus()
+  const { onBlur: onLinkBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { data: content } = useQuery<GetContentsInfoResponse>(
+  useQuery<GetContentsInfoResponse>(
     [`contentsInfo${route.params.id}`, route.params.id],
     () => getContentsInfo(route.params.id),
     {
