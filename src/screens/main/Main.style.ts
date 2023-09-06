@@ -49,7 +49,7 @@ export const BackgroundImage = styled.Image`
   position: absolute;
   width: 205.14px;
   height: 224px;
-  right: -10.33px;
+  right: -50px;
   top: 5px;
 `
 
