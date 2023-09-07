@@ -14,10 +14,12 @@ export const Heading = styled.Text`
   margin-bottom: 75px;
 `
 
-export const RowView = styled.View`
+export const AllAgreement = styled.TouchableOpacity``
+
+export const RowView = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 18px;
+  padding-bottom: 18px;
 `
 
 export const Title = styled.Text`
@@ -33,7 +35,7 @@ export const Description = styled.Text`
   top: -14px;
 `
 
-export const CheckBox = styled.TouchableOpacity`
+export const CheckBox = styled.View`
   width: 14px;
   height: 14px;
   border: 1px solid ${colors.gray500};

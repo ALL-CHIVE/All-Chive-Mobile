@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { ImageURISource, TouchableOpacity, View } from 'react-native'
+import { ImageURISource, Platform, TouchableOpacity, View } from 'react-native'
 import { getVersion } from 'react-native-device-info'
 import { Directions } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -18,9 +18,13 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { Loading } from '@/components/loading/Loading'
 import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import { community, customerService, openSourceLicense, privacy, terms } from '@/const/Const'
+import { AppStoreUrl } from '@/const/Const'
+import { GooglePlayUrl } from '@/const/Const'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { clearTokens } from '@/services/localStorage/LocalStorage'
+import { openInappBrowser } from '@/services/InappBrowser'
 import { colors } from '@/styles/colors'
 
 import {
@@ -58,6 +62,7 @@ export const Mypage = () => {
      */
     onSuccess: () => {
       clearUserInfo()
+      clearTokens()
       navigation.reset({ routes: [{ name: 'Login' }] })
       queryClient.clear()
     },
@@ -68,6 +73,20 @@ export const Mypage = () => {
       setErrorDialogVisible(true)
     },
   })
+
+  /**
+   * Platform에 따른 앱스토어, 구글플레이스토어 열기
+   */
+  const handleOpenStore = () => {
+    switch (Platform.OS) {
+      case 'ios':
+        openInappBrowser(AppStoreUrl)
+        break
+      case 'android':
+        openInappBrowser(GooglePlayUrl)
+        break
+    }
+  }
 
   /**
    *
@@ -189,7 +208,9 @@ export const Mypage = () => {
               />
             </NavigationListContainer>
             <Footer>
-              <FooterText>{`${i18n.t('appVersion')} ${version}`}</FooterText>
+              <TouchableOpacity onPress={handleOpenStore}>
+                <FooterText>{`${i18n.t('appVersion')} ${version}`}</FooterText>
+              </TouchableOpacity>
               <FooterText>{`   |   `}</FooterText>
               <TouchableOpacity onPress={handleLogout}>
                 <FooterText>{i18n.t('logout')}</FooterText>

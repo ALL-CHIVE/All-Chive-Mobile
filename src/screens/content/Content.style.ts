@@ -1,4 +1,4 @@
-import styled, { css } from '@emotion/native'
+import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
@@ -18,65 +18,18 @@ export const Title = styled.Text`
 export const ArchivingSelect = styled.TouchableOpacity`
   width: 100%;
   height: 38px;
-  border: 1px solid ${colors.gray100};
+  border-width: 1px;
   background-color: ${colors.white};
   padding: 7px 10px 7px 13px;
   border-radius: 6px;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 `
 
 export const SelectArchivingText = styled.Text`
-  color: ${colors.gray100};
-`
-
-export const TextInput = styled.TextInput`
-  width: 100%;
-  height: 38px;
-  border: 1px solid ${colors.gray100};
-  background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
-  border-radius: 6px;
-`
-
-export const MemoTextInput = styled.TextInput`
-  width: 100%;
-  min-height: 38px;
-  border: 1px solid ${colors.gray100};
-  background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
-  border-radius: 6px;
-`
-
-export const Styles = {
-  focused: css`
-    border: 1px solid ${colors.yellow500};
-  `,
-  clickedText: css`
-    color: ${colors.gray600};
-  `,
-  clicked: css`
-    border: 1px solid ${colors.gray500};
-    color: ${colors.gray600};
-  `,
-  conditionComplete: css`
-    color: ${colors.gray600};
-  `,
-  rightArrow: css`
-    position: absolute;
-    right: 10px;
-  `,
-}
-
-export const Condition = styled.View`
-  flex-direction: row;
-`
-
-export const ConditionText = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray100};
+  color: ${colors.gray200};
+  ${fonts.body1}
 `
 
 export const PlusImageButton = styled.TouchableOpacity`

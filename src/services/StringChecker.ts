@@ -13,3 +13,11 @@ export const checkTag = (tag: string) => {
   const regex = /^[가-힣a-zA-Z]{1,20}$/
   return regex.test(tag)
 }
+
+/**
+ * checkTitle
+ */
+export const checkTitle = (title: string) => {
+  const regex = /^[가-힣a-zA-Z]{1,15}$/
+  return regex.test(title)
+}

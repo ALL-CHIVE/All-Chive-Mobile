@@ -17,7 +17,6 @@ export const Button = styled.TouchableOpacity`
   padding: 4px 15px;
   background-color: ${colors.yellow200};
   margin-right: 11px;
-  border: 0.5px solid ${colors.yellow500};
 `
 
 export const ClickStyles = {

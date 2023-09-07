@@ -20,3 +20,10 @@ export const openSourceLicense =
 
 // 고객센터
 export const customerService = 'https://allchive.channel.io/'
+
+// 애플 앱 스토어
+export const AppStoreUrl =
+  'https://apps.apple.com/app/%EC%98%AC%EC%B9%B4%EC%9D%B4%EB%B8%8C-all-chive/id6462470996'
+
+// 구글 플레이 스토어
+export const GooglePlayUrl = 'https://play.google.com/store/apps/details?id=com.allchivemobile'

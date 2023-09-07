@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem } from 'react-native'
 import { Directions } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
@@ -193,12 +194,14 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }, [contentList, isLoading])
 
+  const throttledNextPage = throttle(fetchNextPage, 1000)
+
   /**
    * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {
-      fetchNextPage()
+      throttledNextPage()
     }
   }
 

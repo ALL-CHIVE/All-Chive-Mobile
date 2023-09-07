@@ -56,9 +56,11 @@ const ReportBottomSheet = ({ title, onClick, onClose }: ReportBottomSheetProps) 
       >
         <Title>{i18n.t(title)}</Title>
         <InputBox
+          placeholder={i18n.t('placeholder')}
           maxLength={300}
           text={text}
           setText={setText}
+          minHeight={117}
         />
       </ScrollContainer>
       <BoxButton

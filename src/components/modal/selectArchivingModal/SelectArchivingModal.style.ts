@@ -26,7 +26,7 @@ export const CloseButton = styled.TouchableOpacity`
 
 export const ArchivingHeader = styled.View`
   width: 375px;
-  padding: 0px 25px 25px 25px;
+  padding: 0px 25px 15px 25px;
   flex-direction: row;
   justify-content: space-between;
 `
@@ -57,12 +57,14 @@ export const CategoryTitle = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.mainBlack};
   left: 25px;
+  margin: 10px 0px;
 `
 
 export const ArchivingButton = styled.TouchableOpacity`
   flex-direction: row;
   left: 32px;
   align-items: center;
+  padding: 10px 0;
 `
 
 export const ArchivingTitle = styled.Text`

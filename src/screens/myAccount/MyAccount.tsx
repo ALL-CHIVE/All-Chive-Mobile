@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { useNavigation } from '@react-navigation/native'
-import { ImageSourcePropType, ImageURISource, View } from 'react-native'
+import { ImageSourcePropType, ImageURISource, Platform, View } from 'react-native'
 import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
@@ -29,6 +29,7 @@ import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadProfileImage } from '@/services/ImageService'
 import { getAppleAuthCode } from '@/services/SignInService'
 import { getActionSheetTintColor } from '@/services/StyleService'
+import { clearTokens } from '@/services/localStorage/LocalStorage'
 
 import {
   InfoContainer,
@@ -115,8 +116,14 @@ export const MyAccount = () => {
      */
     onSuccess: () => {
       clearUserInfo()
-      navigation.reset({ routes: [{ name: 'Login' }] })
-      queryClient.clear()
+      clearTokens()
+      setTimeout(
+        () => {
+          navigation.reset({ routes: [{ name: 'Login' }] })
+          queryClient.clear()
+        },
+        Platform.OS === 'ios' ? 500 : 0
+      )
     },
   })
 
@@ -225,7 +232,7 @@ export const MyAccount = () => {
                 )}
               </ProfileContainer>
               <InfoContainer>
-                <RowView>
+                <RowView style={{ marginTop: 5 }}>
                   <InfoTitle>{i18n.t('name')}</InfoTitle>
                   <InfoText>{userInfoData?.name}</InfoText>
                 </RowView>

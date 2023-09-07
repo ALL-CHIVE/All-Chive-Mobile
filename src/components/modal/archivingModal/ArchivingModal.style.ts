@@ -17,6 +17,11 @@ export const ScrollContainer = styled.ScrollView`
   padding: 0px 25px;
 `
 
+export const ModalTitle = styled.Text`
+  ${fonts.title2}
+  color: ${colors.mainBlack};
+`
+
 export const Header = styled.View`
   margin-top: 28px;
   width: 100%;
@@ -29,11 +34,6 @@ export const CloseButton = styled.TouchableOpacity`
   right: 26px;
 `
 
-export const ModalTitle = styled.Text`
-  ${fonts.title2}
-  color: ${colors.mainBlack};
-`
-
 export const Title = styled.Text`
   ${fonts.subtitle2}
   color: ${colors.gray600};
@@ -44,22 +44,6 @@ export const Title = styled.Text`
 export const ImageButton = styled.TouchableOpacity`
   flex-direction: row;
   width: 84px;
-`
-
-export const CameraIcon = styled.Image`
-  position: absolute;
-  right: 0;
-  bottom: -6px;
-`
-
-export const TextInput = styled.TextInput`
-  width: 100%;
-  height: 38px;
-  border: 1px solid ${colors.gray100};
-  background-color: ${colors.white};
-  color: ${colors.gray600};
-  padding: 7px 10px 7px 13px;
-  border-radius: 6px;
 `
 
 export const Styles = {
@@ -78,12 +62,6 @@ export const Styles = {
     bottom: -6px;
   `,
 }
-
-export const Condition = styled.Text`
-  ${fonts.body4}
-  color: ${colors.gray100};
-  margin-top: 4px;
-`
 
 export const Thumbnail = styled.Image`
   width: 78px;

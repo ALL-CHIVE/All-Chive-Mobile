@@ -14,7 +14,7 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import DefaultDialog from '@/components/dialogs/defaultDialog/DefaultDialog'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
-import reportMenuConfig from '@/configs/reportMenuConfig.json'
+import reportMenuConfig from '@/const/configs/reportMenuConfig.json'
 import i18n from '@/locales'
 import { ReportMenu } from '@/models/ReportMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
