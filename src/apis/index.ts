@@ -23,15 +23,21 @@ export const api = axios.create({
   },
 })
 
-api.interceptors.request.use(async (config) => {
-  const accessToken = await getAccessToken()
+api.interceptors.request.use(
+  async (config) => {
+    const accessToken = await getAccessToken()
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
+    }
+
+    return config
+  },
+  (error) => {
+    //TODO: 공통 Error 처리
+    return Promise.reject(error)
   }
-
-  return config
-})
+)
 
 /**
  * onFulfilled
