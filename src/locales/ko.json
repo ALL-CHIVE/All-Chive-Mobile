@@ -81,7 +81,7 @@
   "backToMypage": "마이페이지로 돌아가기",
   "placeholder": "내용을 입력해주세요.",
   "nicknameVerify": "한/영문/숫자 1~10자리 이내",
-  "contentVerify": "한/영/특수문자 15자 이내로 입력하세요",
+  "titleVerify": "한/영/특수문자 15자 이내로 입력하세요",
   "isNotDuplicate": "중복되지 않는 닉네임",
   "update": "수정하기",
   "remove": "삭제하기",
@@ -170,6 +170,5 @@
   "retry": "다시 시도하기",
   "tagVerify": "한/영 20자 이내 입력",
   "errorDialogRetry": "재시도",
-  "publicArchiving": "공개 아카이빙",
-  "archivingVerify": "한/영 15자 이내 입력"
+  "publicArchiving": "공개 아카이빙"
 }

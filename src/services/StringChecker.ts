@@ -18,6 +18,6 @@ export const checkTag = (tag: string) => {
  * checkTitle
  */
 export const checkTitle = (title: string) => {
-  const regex = /^[가-힣a-zA-Z]{1,15}$/
+  const regex = /^[\p{L}\p{M}\p{Z}\p{S}]{1,15}$/u
   return regex.test(title)
 }

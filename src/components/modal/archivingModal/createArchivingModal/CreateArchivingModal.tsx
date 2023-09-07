@@ -193,7 +193,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
               value={title}
-              placeholder={i18n.t('contentVerify')}
+              placeholder={i18n.t('titleVerify')}
               maxLength={15}
               onChangeText={updateTitle}
               handleClear={clearTitle}
@@ -201,7 +201,7 @@ export const CreateArchivingModal = ({ onClose, isVisible }: CreateArchivingModa
             />
             <Verifier
               isValid={isTitleValid}
-              text="archivingVerify"
+              text="titleVerify"
             />
             <Title>{i18n.t('category')}</Title>
             <DropDown />
