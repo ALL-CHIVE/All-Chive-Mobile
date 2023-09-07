@@ -106,7 +106,6 @@ export const Community = () => {
     fetchNextPage,
     hasNextPage,
     isLoading,
-    isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getCommunityArchivingList', currentCategory],
     ({ pageParam = 0 }) => getCommunityArchivingList(currentCategory, pageParam, PAGE_LIMIT),
@@ -129,7 +128,6 @@ export const Community = () => {
     fetchNextPage: fetchScrapNextPage,
     hasNextPage: hasScrapNextPage,
     isLoading: isScrapLoading,
-    isError: isScrapError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getScrapArchivingList', currentCategory],
     ({ pageParam = 0 }) => getScrapArchivingList(currentCategory, pageParam, PAGE_LIMIT),
@@ -190,13 +188,6 @@ export const Community = () => {
     }
   }
 
-  if (
-    (currentCommunityMenu === CommunityMenuType.Community && isError) ||
-    (currentCommunityMenu === CommunityMenuType.Scrap && isScrapError)
-  ) {
-    return <>Error!</>
-  }
-
   return (
     <>
       {showLoading && (isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading) ? (
@@ -244,7 +235,6 @@ export const Community = () => {
           setPopularErrorVisible(false)
         }}
       />
-
       <HomeContainer>
         <Header>
           <SearchContainer style={{ flex: 1 }}>
