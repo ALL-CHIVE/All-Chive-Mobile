@@ -28,15 +28,9 @@ export const RelationContainer = styled.View`
   margin-bottom: 16px;
 `
 
-export const SmallImage = styled.Image`
-  width: 9px;
-  height: 9px;
-`
-
 export const LatestSearch = styled.Text`
   ${fonts.body2}
   color: ${colors.gray600};
-  margin-bottom: 5px;
 `
 
 export const AllRemoveText = styled.Text`

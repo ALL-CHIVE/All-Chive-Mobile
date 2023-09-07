@@ -27,28 +27,19 @@ export const Title = styled.Text`
 `
 
 export const TextInputContainer = styled.View`
-  display: flex;
+  width: 229px;
+  height: 38px;
+  border: 1px solid ${colors.gray500};
+  background-color: ${colors.white};
+  color: ${colors.gray500};
+  padding: 0px 10px;
+  border-radius: 6px;
+  align-items: center;
 `
 
 export const TagVerifier = styled.View`
   margin-top: 4px;
   width: 220px;
-`
-
-export const TextInput = styled.TextInput`
-  width: 229px;
-  height: 37px;
-  border: 1px solid ${colors.gray500};
-  background-color: ${colors.white};
-  color: ${colors.mainBlack};
-  padding: 7px 15px;
-  border-radius: 6px;
-`
-
-export const DeleteButton = styled.TouchableOpacity`
-  position: absolute;
-  top: 12px;
-  right: 12px;
 `
 
 export const Buttons = styled.View`

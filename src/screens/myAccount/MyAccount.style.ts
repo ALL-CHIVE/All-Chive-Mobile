@@ -5,6 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   padding: 0px 25px;
+  height: 100%;
 `
 
 export const ProfileContainer = styled.View`
@@ -39,15 +40,15 @@ export const InfoContainer = styled.View`
 
 export const RowView = styled.View`
   flex-direction: row;
-  margin: 5px 0px;
+  margin: 15px 0px;
 `
 
 export const PencilButton = styled.TouchableOpacity`
-  width: 14px;
-  height: 15px;
   position: absolute;
-  margin-top: 5px;
+  top: -1px;
   right: 0px;
+  padding: 5px;
+  padding-left: 40px;
 `
 
 export const InfoText = styled.Text`

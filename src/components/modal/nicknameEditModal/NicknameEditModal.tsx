@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 
 import { checkNicknameValid } from '@/apis/user/User'
 import XMark from '@/assets/icons/x-mark.svg'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { checkNickname } from '@/services/StringChecker'
 import { colors } from '@/styles/colors'
@@ -35,9 +36,13 @@ interface NicknameEditModalProps {
  *
  */
 const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModalProps) => {
-  const [nickname, setNickname] = useState('')
-  const [isNicknameValid, setIsNicknameValid] = useState(false)
   const [isNicknameDuplicate, setIsNicknameDuplicate] = useState(false)
+  const {
+    text: nickname,
+    isValid: isNicknameValid,
+    updateText: updateNickname,
+    clearText: clearNickname,
+  } = useText(checkNickname)
 
   const { mutate: nicknameDuplicationCheckMutate } = useMutation(checkNicknameValid, {
     /**
@@ -59,8 +64,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
    * handleChangeNickname
    */
   const handleChangeNickname = (nickname: string) => {
-    setNickname(nickname)
-    setIsNicknameValid(checkNickname(nickname))
+    updateNickname(nickname)
     if (nickname) {
       nicknameDuplicationCheckMutate(nickname)
     } else {
@@ -72,8 +76,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
    * handleClearNickname
    */
   const handleClearNickname = () => {
-    setNickname('')
-    setIsNicknameValid(false)
+    clearNickname()
     setIsNicknameDuplicate(false)
   }
 
@@ -81,9 +84,7 @@ const NicknameEditModal = ({ isVisible, onCancle, onSuccess }: NicknameEditModal
     <Modal
       isVisible={isVisible}
       backdropOpacity={0.8}
-      style={{
-        alignItems: 'center',
-      }}
+      style={Styles.modal}
     >
       <SafeAreaView>
         <Container>

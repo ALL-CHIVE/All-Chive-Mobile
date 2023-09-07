@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { Directions } from 'react-native-gesture-handler'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 import { postBlock } from '@/apis/block/Block'
@@ -16,6 +17,7 @@ import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialo
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import Memo from '@/components/memo/Memo'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import { BigWhiteTag } from '@/components/tag/whiteTag/bigWhiteTag/BigWhiteTag'
 import i18n from '@/locales'
 import { GetContentsResponse } from '@/models/Contents'
@@ -25,7 +27,6 @@ import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
@@ -58,7 +59,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const { data: content, isLoading } = useQuery<GetContentsResponse, AxiosError>(
-    [queryKeys.contents, route.params.contentId],
+    ['contents', route.params.contentId],
     () => getContents(route.params.contentId),
     {
       /**
@@ -71,7 +72,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   )
 
   useEffect(() => {
-    queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
+    queryClient.setQueryData(['contents', route.params.contentId], content)
   }, [])
 
   /**
@@ -179,7 +180,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         isVisible={errorDialogVisible}
         onRetry={() => {
           setErrorDialogVisible(false)
-          queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
+          queryClient.invalidateQueries(['contents', route.params.contentId])
         }}
         onClick={() => {
           setErrorDialogVisible(false)
@@ -193,35 +194,44 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
           navigate={handleNavigation}
         />
         <DefaultScrollContainer>
-          <Container>
-            <Day>{content.contentCreatedAt}</Day>
-            {content && (
-              <ContentDetailView>
-                <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
-                {content.tagList?.length > 0 && (
-                  <>
-                    <SubTitle>{i18n.t('tag')}</SubTitle>
-                    <TagList>
-                      {content.tagList.map((tag) => (
-                        <BigWhiteTag
-                          key={tag.tagId}
-                          tag={tag.name}
-                        />
-                      ))}
-                    </TagList>
-                  </>
-                )}
-                {content.contentMemo && (
-                  <>
-                    <SubTitle>{i18n.t('memo')}</SubTitle>
-                    <Memo text={content.contentMemo} />
-                  </>
-                )}
-              </ContentDetailView>
-            )}
-          </Container>
+          <SwipeScreen
+            direction={Directions.RIGHT}
+            wentToGo={handleNavigation}
+          >
+            <Container>
+              <Day>{content.contentCreatedAt}</Day>
+              {content && (
+                <ContentDetailView>
+                  <PreviewContainer>{getContentDetail(content)}</PreviewContainer>
+                  {content.tagList?.length > 0 && (
+                    <>
+                      <SubTitle>{i18n.t('tag')}</SubTitle>
+                      <TagList>
+                        {content.tagList.map((tag) => (
+                          <BigWhiteTag
+                            key={tag.tagId}
+                            tag={tag.name}
+                          />
+                        ))}
+                      </TagList>
+                    </>
+                  )}
+                  {content.contentMemo && (
+                    <>
+                      <SubTitle>{i18n.t('memo')}</SubTitle>
+                      <Memo
+                        text={content.contentMemo}
+                        maxLength={150}
+                      />
+                    </>
+                  )}
+                </ContentDetailView>
+              )}
+            </Container>
+          </SwipeScreen>
         </DefaultScrollContainer>
       </DefaultContainer>
+
       <ActionSheet
         ref={actionSheetRef}
         options={ReportMenus()}

@@ -7,7 +7,6 @@ export const Container = styled.View`
   background-color: ${colors.white};
   border-radius: 20px;
   padding: 1px 16px;
-  margin-right: 8px;
   border: 0.5px solid ${colors.gray400};
 `
 

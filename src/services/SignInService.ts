@@ -5,7 +5,7 @@ import { postIdTokenLogin, signUpUser } from '@/apis/auth/OAuth'
 import { SignInResult } from '@/models/SignInResult'
 import { SignInType } from '@/models/enums/SignInType'
 
-import { setAccessToken, setRefreshToken } from './localStorage/LocalStorage'
+import { saveTokens } from './localStorage/LocalStorage'
 
 /**
  * 로그인을 진행합니다.
@@ -89,7 +89,7 @@ const getIsUser = async (
       email,
     }
   } else {
-    saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
+    await saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
     return {
       canLogin: true,
       signInType: type,
@@ -123,13 +123,5 @@ export const signUp = async (
     email
   )
 
-  saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
-}
-
-/**
- * saveTokens
- */
-const saveTokens = (refreshToken: string, accessToken: string) => {
-  setRefreshToken(refreshToken)
-  setAccessToken(accessToken)
+  await saveTokens(response.data.data['refreshToken'], response.data.data['accessToken'])
 }

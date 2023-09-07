@@ -17,6 +17,7 @@ export const MyPageContainer = styled.View`
 export const HeaderContainer = styled.View`
   flex-direction: row;
   padding: 25px;
+  align-items: center;
 `
 
 export const ProfileContainer = styled.View`

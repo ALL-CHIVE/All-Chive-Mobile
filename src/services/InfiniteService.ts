@@ -8,6 +8,6 @@ export const isCloseToBottom = ({
   contentOffset,
   contentSize,
 }: NativeScrollEvent) => {
-  const paddingToBottom = 600
+  const paddingToBottom = 1000
   return layoutMeasurement.height + contentOffset.y >= contentSize.height - paddingToBottom
 }

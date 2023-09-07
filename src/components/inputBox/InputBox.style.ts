@@ -5,11 +5,13 @@ import { fonts } from '@/styles/fonts'
 
 export const TextBox = styled.TextInput`
   width: 325px;
-  min-height: 117px;
-  border-radius: 10px;
+  border-radius: 6px;
   border-width: 1px;
   padding: 10px;
   padding-bottom: 24px;
+  color: ${colors.gray600};
+  font-family: 'Pretendard-Regular';
+  font-size: 16px;
 `
 
 export const TextCounter = styled.Text`

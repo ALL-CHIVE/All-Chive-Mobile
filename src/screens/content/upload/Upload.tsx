@@ -3,12 +3,13 @@ import React, { useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import isUrl from 'is-url'
+import { throttle } from 'lodash'
 import { ImageSourcePropType, ImageURISource, ScrollView, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useRecoilState } from 'recoil'
+import { useMutation, useQueryClient } from 'react-query'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { getContentsInfo, patchContents } from '@/apis/content/Content'
+import { postContents } from '@/apis/content/Content'
 import PlusIcon from '@/assets/icons/plus.svg'
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
@@ -16,20 +17,24 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { CloseButtonHeader } from '@/components/headers/closeButtonHeader/CloseButtonHeader'
 import Indicator from '@/components/indicator/Indicator'
+import InputBox from '@/components/inputBox/InputBox'
 import { SelectArchivingModal } from '@/components/modal/selectArchivingModal/SelectArchivingModal'
 import { GrayTag } from '@/components/tag/grayTag/GrayTag'
+import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
+import useFocus from '@/hooks/useFocus'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
-import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
+import { checkTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
+import { CategoryState } from '@/state/CategoryState'
 import { SelectArchivingState } from '@/state/upload/SelectArchivingState'
 import { SelectTagState } from '@/state/upload/SelectTagState'
 import { colors } from '@/styles/colors'
@@ -38,77 +43,57 @@ import {
   AddTagButton,
   AddTagText,
   ArchivingSelect,
-  Condition,
-  ConditionText,
   Container,
   ContentImage,
-  MemoTextInput,
   PlusImageButton,
   RowView,
   SelectArchivingText,
-  Styles,
   TagTitle,
   TagTitleContainer,
-  TextInput,
   Title,
-} from './Edit.style'
+} from '../Content.style'
 
-interface EditProps {
-  route: RouteProp<RootStackParamList, 'Edit'>
+interface UploadProps {
+  route: RouteProp<RootStackParamList, 'Upload'>
 }
 
 /**
- * 컨텐츠 수정 페이지
+ *
  */
-export const Edit = ({ route }: EditProps) => {
+export const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
   const [archivingName, setArchivingName] = useState('')
-  const [contentName, setContentName] = useState('')
-  const [link, setLink] = useState('')
-  const [image, setImage] = useState<ImageSourcePropType>()
+  const {
+    text: title,
+    isValid: isTitleValid,
+    updateText: updateTitle,
+    clearText: clearTitle,
+  } = useText(checkTitle)
+
+  const {
+    text: link,
+    isValid: isLinkValid,
+    updateText: updateLink,
+    clearText: clearLink,
+  } = useText((link) => !!link && isUrl(link))
+
+  const [image, setImage] = useState<ImageSourcePropType | ''>('')
   const [memo, setMemo] = useState('')
   const [openArchivingModal, setOpenArchivingModal] = useState(false)
 
-  const [lastFocused, setLastFocused] = useState(-1)
-  const [currentFocused, setCurrentFocused] = useState(-1)
-  const [isValidUrl, setIsValidUrl] = useState(false)
-
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
+  const currentCategory = useRecoilValue(CategoryState)
+  const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
-
-  const { data: content } = useQuery<GetContentsInfoResponse>(
-    [`contentsInfo${route.params.id}`, route.params.id],
-    () => getContentsInfo(route.params.id),
-    {
-      /**
-       *
-       */
-      onSuccess: (content) => {
-        setArchivingName(content.archivingTitle)
-        setContentName(content.contentTitle)
-        setLink(content.link)
-        setIsValidUrl(isUrl(content.link))
-        setMemo(content.contentMemo)
-        setSelectArchiving({ id: content.archivingId, title: content.archivingTitle })
-        content.imgUrl && setImage({ uri: content.imgUrl })
-
-        setSelectTag(
-          content.tagList.map((tag) => {
-            return { tagId: tag.tagId, name: tag.name }
-          })
-        )
-      },
-    }
-  )
 
   /**
    *
    */
-  const updateContents = async () => {
+  const createContents = async () => {
     let contentImageUrl = ''
 
     switch (route.params.type) {
@@ -126,11 +111,10 @@ export const Edit = ({ route }: EditProps) => {
       }
     }
 
-    await patchContents(
-      route.params.id,
+    return await postContents(
       route.params.type,
       selectArchiving.id,
-      contentName,
+      title,
       link,
       contentImageUrl,
       selectTag.map((tag) => tag.tagId),
@@ -138,24 +122,32 @@ export const Edit = ({ route }: EditProps) => {
     )
   }
 
-  const { mutate: updateContentsMutate, isLoading: isUploading } = useMutation(updateContents, {
+  const { mutate: createContentsMutate, isLoading: isUploading } = useMutation(createContents, {
     /**
-     * updateContentsMutate 성공 시 recoil state를 초기화하고, 리패치합니다.
+     * createContentsMutate 성공 시 recoil state를 초기화하고,
+     * 홈 화면을 리패치한 후 홈 화면으로 이동합니다.
      */
-    onSuccess: () => {
+    onSuccess: (data) => {
       setSelectArchiving({ id: -1, title: '' })
       setSelectTag([])
-      queryClient.invalidateQueries([queryKeys.contents, route.params.id])
-      queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
-      navigation.goBack()
-    },
-    /**
-     *
-     */
-    onError: () => {
-      // TODO: 에러 처리
+      queryClient.invalidateQueries(['getHomeArchivingList', currentCategory])
+      navigation.navigate('ContentDetail', {
+        archivingId: selectArchiving.id,
+        contentId: data.contentId,
+        isFromUpload: true,
+      })
     },
   })
+
+  const throttledCreateContentsMutate = throttle(createContentsMutate, 5000)
+
+  /**
+   * 아카이빙 추가 모달을 엽니다.
+   */
+  const handleOpenModal = () => {
+    setOpenArchivingModal(true)
+    onArchivingFocus()
+  }
 
   /**
    * 아카이빙 추가 모달 종료 액션입니다.
@@ -163,6 +155,7 @@ export const Edit = ({ route }: EditProps) => {
   const handleCloseModal = () => {
     setOpenArchivingModal(false)
     setArchivingName(selectArchiving.title)
+    onArchivingBlur(selectArchiving.title)
   }
 
   /**
@@ -173,22 +166,12 @@ export const Edit = ({ route }: EditProps) => {
   }
 
   /**
-   * 포커스를 제어합니다.
-   */
-  const handleFocused = (index: number) => {
-    setCurrentFocused(index)
-    if (lastFocused < index) {
-      setLastFocused(index)
-    }
-  }
-
-  /**
-   * 편집을 종료합니다.
+   * 업로드를 종료합니다.
    */
   const handleClose = () => {
     setSelectArchiving({ id: -1, title: '' })
     setSelectTag([])
-    navigation.goBack()
+    navigation.navigate('BottomTab', { screen: 'Home' })
   }
 
   /**
@@ -202,18 +185,10 @@ export const Edit = ({ route }: EditProps) => {
     }
   }
 
-  /**
-   * handleChangeLink
-   */
-  const handleChangeLink = (link: string) => {
-    setLink(link)
-    setIsValidUrl(!!link && isUrl(link))
-  }
-
   return (
     <DefaultContainer>
       <CloseButtonHeader
-        title={i18n.t('update')}
+        title={i18n.t('upload')}
         onClose={handleClose}
       />
       <DefaultScrollContainer>
@@ -221,62 +196,47 @@ export const Edit = ({ route }: EditProps) => {
           <Container>
             <Title style={{ marginTop: 0 }}>{i18n.t('archivingName')}</Title>
             <ArchivingSelect
-              style={
-                (currentFocused === 0 && Styles.focused) ||
-                (lastFocused >= 0 && !!archivingName && Styles.clicked)
-              }
-              onPress={() => {
-                setOpenArchivingModal(true)
-                handleFocused(0)
-              }}
+              onPress={handleOpenModal}
+              style={{ borderColor: archivingColor }}
             >
               <SelectArchivingText
-                style={lastFocused >= 0 && !!archivingName && Styles.clickedText}
+                style={{
+                  color: archivingColor === colors.yellow500 ? colors.gray200 : archivingColor,
+                }}
               >
                 {archivingName ? archivingName : i18n.t('choiceArchiving')}
               </SelectArchivingText>
               <RightArrowIcon
-                color={lastFocused >= 0 && !!archivingName ? colors.gray600 : colors.gray200}
-                style={Styles.rightArrow}
+                color={archivingColor === colors.yellow500 ? colors.gray200 : archivingColor}
               />
             </ArchivingSelect>
             <Title>{i18n.t('contentName')}</Title>
             <TextInput
+              value={title}
               placeholder={i18n.t('contentVerify')}
-              placeholderTextColor={colors.gray200}
-              value={contentName}
-              onChangeText={setContentName}
-              onFocus={() => handleFocused(1)}
               maxLength={15}
-              style={
-                (currentFocused === 1 && Styles.focused) ||
-                (lastFocused >= 1 && contentName.length > 0 && Styles.clicked)
-              }
+              onChangeText={updateTitle}
+              handleClear={clearTitle}
+              hasBorder
             />
-            {/* TODO: Condition Icon 추가 */}
-            <Condition>
-              {/* TODO: Condition Icon 추가 */}
-              <ConditionText style={contentName.length > 0 && Styles.conditionComplete}>
-                {i18n.t('contentVerify')}
-              </ConditionText>
-            </Condition>
+            <Verifier
+              isValid={isTitleValid}
+              text={'contentVerify'}
+            />
             {route.params.type === ContentType.Link && (
               <>
                 {/* Link */}
                 <Title>{i18n.t('link')}</Title>
                 <TextInput
-                  placeholder={i18n.t('placeHolderLink')}
-                  placeholderTextColor={colors.gray200}
                   value={link}
-                  onChangeText={handleChangeLink}
-                  onFocus={() => handleFocused(2)}
-                  style={
-                    (currentFocused === 2 && Styles.focused) ||
-                    (lastFocused >= 2 && contentName.length > 0 && Styles.clicked)
-                  }
+                  placeholder={i18n.t('placeHolderLink')}
+                  maxLength={undefined}
+                  onChangeText={updateLink}
+                  handleClear={clearLink}
+                  hasBorder
                 />
                 <Verifier
-                  isValid={isValidUrl}
+                  isValid={isLinkValid}
                   text="checkUrl"
                 />
               </>
@@ -325,18 +285,12 @@ export const Edit = ({ route }: EditProps) => {
               <TagTitle>{i18n.t('memo')}</TagTitle>
               <AddTagText>{i18n.t('choice')}</AddTagText>
             </TagTitleContainer>
-            <MemoTextInput
+            <InputBox
               placeholder={i18n.t('placeHolderMemo')}
-              placeholderTextColor={colors.gray200}
-              value={memo}
-              onChangeText={setMemo}
-              onFocus={() => handleFocused(3)}
               maxLength={150}
-              multiline
-              style={
-                (currentFocused === 3 && Styles.focused) ||
-                (lastFocused >= 3 && memo.length > 0 && Styles.clicked)
-              }
+              text={memo}
+              setText={setMemo}
+              minHeight={123}
             />
           </Container>
         </KeyboardAwareScrollView>
@@ -344,12 +298,12 @@ export const Edit = ({ route }: EditProps) => {
       {isUploading && <Indicator />}
       <BoxButton
         textKey={i18n.t('complete')}
-        onPress={updateContentsMutate}
+        onPress={() => throttledCreateContentsMutate()}
         isDisabled={
           !archivingName ||
-          !contentName ||
+          !title ||
           (route.params.type === ContentType.Image && !image) ||
-          (route.params.type === ContentType.Link && (!link || !isValidUrl))
+          (route.params.type === ContentType.Link && (!link || !isLinkValid))
         }
       />
       <SelectArchivingModal

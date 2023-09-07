@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getBlockList } from '@/apis/block/Block'
@@ -8,6 +9,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 
 import { ScrollContainer } from './BlockManagement.style'
@@ -19,6 +21,7 @@ import { BlockList } from './components/BlockList'
  */
 export const BlockManagement = () => {
   const queryClient = useQueryClient()
+
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const { data: blockUserData, isLoading } = useQuery(['getBlockList'], () => getBlockList(), {
@@ -45,26 +48,28 @@ export const BlockManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('blockManagement')} />
-        <ScrollContainer
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {blockUserData?.users && blockUserData.users.length > 0 ? (
-            blockUserData.users.map((user) => (
-              <BlockList
-                key={user.id}
-                nickname={user.nickname}
-                id={user.id}
+        <SwipeScreen direction={Directions.RIGHT}>
+          <ScrollContainer
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {blockUserData?.users && blockUserData.users.length > 0 ? (
+              blockUserData.users.map((user) => (
+                <BlockList
+                  key={user.id}
+                  nickname={user.nickname}
+                  id={user.id}
+                />
+              ))
+            ) : (
+              <EmptyItem
+                textKey="noAuthorBlocked"
+                marginTop={120}
               />
-            ))
-          ) : (
-            <EmptyItem
-              textKey="noAuthorBlocked"
-              marginTop={120}
-            />
-          )}
-        </ScrollContainer>
+            )}
+          </ScrollContainer>
+        </SwipeScreen>
       </DefaultContainer>
     </>
   )

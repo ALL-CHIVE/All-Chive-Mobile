@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem } from 'react-native'
+import { Directions } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
@@ -23,6 +25,7 @@ import EmptyItem from '@/components/emptyItem/EmptyItem'
 import DefaultHeader from '@/components/headers/defaultHeader/DefaultHeader'
 import { Loading } from '@/components/loading/Loading'
 import { EditArchivingModal } from '@/components/modal/archivingModal/editArchivingModal/EditArchivingModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 import { ContentByArchivingResponse } from '@/models/Archiving'
 import { ContentCardInfo } from '@/models/ContentCard'
@@ -191,12 +194,14 @@ const ContentList = ({ route }: ContentListProps) => {
     }
   }, [contentList, isLoading])
 
+  const throttledNextPage = throttle(fetchNextPage, 1000)
+
   /**
    * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {
-      fetchNextPage()
+      throttledNextPage()
     }
   }
 
@@ -309,35 +314,37 @@ const ContentList = ({ route }: ContentListProps) => {
             </ProfileContainer>
           </WidthContainer>
         )}
-        {contentList?.pages[0].totalContentsCount === 0 ? (
-          <Container>
-            <EmptyItem
-              textKey="emptyArchiving"
-              marginTop={55}
-            />
-          </Container>
-        ) : (
-          <ScrollContainer
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            onScrollEndDrag={({ nativeEvent }) => {
-              if (isCloseToBottom(nativeEvent)) {
-                onEndReached()
-              }
-            }}
-          >
-            {contentList && (
-              <ContentListContainer
-                scrollEnabled={false}
-                data={contentList.pages
-                  .map((page: ContentByArchivingResponse) => page.contents.content)
-                  .flat()}
-                numColumns={2}
-                renderItem={renderItem}
+        <SwipeScreen direction={Directions.RIGHT}>
+          {contentList?.pages[0].totalContentsCount === 0 ? (
+            <Container>
+              <EmptyItem
+                textKey="emptyArchiving"
+                marginTop={55}
               />
-            )}
-          </ScrollContainer>
-        )}
+            </Container>
+          ) : (
+            <ScrollContainer
+              bounces={false}
+              showsVerticalScrollIndicator={false}
+              onScrollEndDrag={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent)) {
+                  onEndReached()
+                }
+              }}
+            >
+              {contentList && (
+                <ContentListContainer
+                  scrollEnabled={false}
+                  data={contentList.pages
+                    .map((page: ContentByArchivingResponse) => page.contents.content)
+                    .flat()}
+                  numColumns={2}
+                  renderItem={renderItem}
+                />
+              )}
+            </ScrollContainer>
+          )}
+        </SwipeScreen>
       </DefaultContainer>
 
       <EditArchivingModal

@@ -2,6 +2,8 @@ import React from 'react'
 
 import Modal from 'react-native-modal'
 
+import { getDeviceHeight } from '@/services/SizeService'
+
 import { Styles } from './BottomSheet.style'
 
 interface BottomSheetProps {
@@ -23,6 +25,7 @@ const BottomSheet = ({ isVisible, onClose, onModalHide, children }: BottomSheetP
       onModalHide={onModalHide}
       statusBarTranslucent={true}
       backdropOpacity={0.5}
+      deviceHeight={getDeviceHeight()}
     >
       {children}
     </Modal>

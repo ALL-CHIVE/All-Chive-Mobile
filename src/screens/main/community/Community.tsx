@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -106,7 +107,6 @@ export const Community = () => {
     fetchNextPage,
     hasNextPage,
     isLoading,
-    isError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getCommunityArchivingList', currentCategory],
     ({ pageParam = 0 }) => getCommunityArchivingList(currentCategory, pageParam, PAGE_LIMIT),
@@ -129,7 +129,6 @@ export const Community = () => {
     fetchNextPage: fetchScrapNextPage,
     hasNextPage: hasScrapNextPage,
     isLoading: isScrapLoading,
-    isError: isScrapError,
   } = useInfiniteQuery<MainArchivingListResponse, AxiosError>(
     ['getScrapArchivingList', currentCategory],
     ({ pageParam = 0 }) => getScrapArchivingList(currentCategory, pageParam, PAGE_LIMIT),
@@ -160,7 +159,14 @@ export const Community = () => {
         }
         break
     }
-  }, [currentCommunityMenu, currentCategory, archivingList, isLoading])
+  }, [
+    currentCommunityMenu,
+    currentCategory,
+    archivingList,
+    scrapArchivingList,
+    isLoading,
+    isScrapLoading,
+  ])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -172,6 +178,9 @@ export const Community = () => {
     return () => clearTimeout(timeout)
   }, [isLoading || isProfileLoading || isScrapLoading || isPopuplarLoading])
 
+  const throttledNextPage = throttle(fetchNextPage, 1000)
+  const throttledScrapNextPage = throttle(fetchScrapNextPage, 1000)
+
   /**
    * 무한스크롤 요청입니다.
    */
@@ -179,22 +188,15 @@ export const Community = () => {
     switch (currentCommunityMenu) {
       case CommunityMenuType.Community:
         if (hasNextPage) {
-          fetchNextPage()
+          throttledNextPage()
         }
         break
       case CommunityMenuType.Scrap:
         if (hasScrapNextPage) {
-          fetchScrapNextPage()
+          throttledScrapNextPage()
         }
         break
     }
-  }
-
-  if (
-    (currentCommunityMenu === CommunityMenuType.Community && isError) ||
-    (currentCommunityMenu === CommunityMenuType.Scrap && isScrapError)
-  ) {
-    return <>Error!</>
   }
 
   return (
@@ -244,7 +246,6 @@ export const Community = () => {
           setPopularErrorVisible(false)
         }}
       />
-
       <HomeContainer>
         <Header>
           <SearchContainer style={{ flex: 1 }}>

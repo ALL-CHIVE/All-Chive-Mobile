@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { throttle } from 'lodash'
 import { useInfiniteQuery, useQueryClient } from 'react-query'
 import { useRecoilValue } from 'recoil'
 
@@ -64,12 +65,14 @@ export const ArchivingTab = ({ data }: SearchResponse) => {
     }
   )
 
+  const throttledNextPage = throttle(fetchNextPage, 1000)
+
   /**
    * 무한스크롤을 요청합니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {
-      fetchNextPage()
+      throttledNextPage()
     }
   }
 

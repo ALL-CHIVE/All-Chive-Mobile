@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
+import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -108,12 +109,14 @@ export const Home = () => {
     return () => clearTimeout(timeout)
   }, [isLoading || isProfileLoading])
 
+  const throttledNextPage = throttle(fetchNextPage, 1000)
+
   /**
    * 무한스크롤 요청입니다.
    */
   const onEndReached = () => {
     if (hasNextPage) {
-      fetchNextPage()
+      throttledNextPage()
     }
   }
 

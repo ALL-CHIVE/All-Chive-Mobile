@@ -3,7 +3,7 @@ import React from 'react'
 import { ListRenderItem, ScrollView, TouchableOpacity } from 'react-native'
 import { useRecoilState } from 'recoil'
 
-import CheckIcon from '@/assets/icons/check-yellow.svg'
+import CheckIcon from '@/assets/icons/check-default.svg'
 import { ArchivingCard } from '@/components/cards/archivingCard/ArchivingCard'
 import ContentCard from '@/components/cards/contentCard/ContentCard'
 import i18n from '@/locales'

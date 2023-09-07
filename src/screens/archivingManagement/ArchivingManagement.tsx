@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { getArchivingList } from '@/apis/archiving/ArchivingList'
@@ -8,6 +9,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
 import { CreateArchivingModal } from '@/components/modal/archivingModal/createArchivingModal/CreateArchivingModal'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 
 import { Bottom, PlusButton, PlusButtonText, ScrollContainer } from './ArchivingManagement.style'
@@ -57,27 +59,30 @@ export const ArchivingManagement = () => {
       />
       <DefaultContainer>
         <LeftButtonHeader title={i18n.t('archivingManagement')} />
-        <ScrollContainer
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          {archivingListData &&
-            Object.keys(archivingListData).map(
-              (category) =>
-                archivingListData[category].length > 0 && (
-                  <ArchivingList
-                    key={category}
-                    category={category}
-                    archivingListData={archivingListData[category]}
-                  />
-                )
-            )}
-          <PlusButton onPress={() => setIsCreateModalVisible(true)}>
-            <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
-          </PlusButton>
-          <Bottom />
-        </ScrollContainer>
+        <SwipeScreen direction={Directions.RIGHT}>
+          <ScrollContainer
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {archivingListData &&
+              Object.keys(archivingListData).map(
+                (category) =>
+                  archivingListData[category].length > 0 && (
+                    <ArchivingList
+                      key={category}
+                      category={category}
+                      archivingListData={archivingListData[category]}
+                    />
+                  )
+              )}
+            <PlusButton onPress={() => setIsCreateModalVisible(true)}>
+              <PlusButtonText>{`+ ${i18n.t('addArchiving')}`}</PlusButtonText>
+            </PlusButton>
+            <Bottom />
+          </ScrollContainer>
+        </SwipeScreen>
+
         <CreateArchivingModal
           onClose={handleCloseCreateModal}
           isVisible={isCreateModalVisible}

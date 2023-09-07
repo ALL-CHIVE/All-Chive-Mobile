@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
+import { throttle } from 'lodash'
 import { ImageSourcePropType, ImageURISource, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -15,12 +16,16 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import { DropDown } from '@/components/dropDown/DropDown'
 import Indicator from '@/components/indicator/Indicator'
 import { Loading } from '@/components/loading/Loading'
+import TextInput from '@/components/textInput/TextInput'
+import Verifier from '@/components/verifier/Verifier'
+import useText from '@/hooks/useText'
 import i18n from '@/locales'
 import { DefalutMenus, DefaultMenuType } from '@/models/enums/ActionSheetType'
 import { handleDefaultImageMenu } from '@/services/ActionSheetService'
 import { uploadArchivingImage } from '@/services/ImageService'
 import { keyboardListener } from '@/services/KeyboardService'
 import { modalMaxHeight } from '@/services/SizeService'
+import { checkTitle } from '@/services/StringChecker'
 import { getActionSheetTintColor } from '@/services/StyleService'
 import { CategoryState } from '@/state/CategoryState'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
@@ -29,7 +34,6 @@ import { colors } from '@/styles/colors'
 import {
   Bottom,
   CloseButton,
-  Condition,
   Container,
   Header,
   ImageButton,
@@ -38,10 +42,9 @@ import {
   ScrollContainer,
   Styles,
   Switch,
-  TextInput,
   Thumbnail,
   Title,
-} from './EditArchivingModal.style'
+} from '../ArchivingModal.style'
 
 interface EditArchivingModalProps {
   archivingId: number
@@ -62,12 +65,16 @@ export const EditArchivingModal = ({
   const queryClient = useQueryClient()
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const [name, setName] = useState('')
-  const [nameFocus, setNameFocus] = useState(false)
   const [image, setImage] = useState<ImageSourcePropType>()
   const [publicStatus, setPublicStatus] = useState(false)
   const [modalHight, setModalHeight] = useState(defaultModalHeight)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
+  const {
+    text: title,
+    isValid: isTitleValid,
+    updateText: updateTitle,
+    clearText: clearTitle,
+  } = useText(checkTitle)
 
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
   const currentCategory = useRecoilValue(CategoryState)
@@ -98,7 +105,7 @@ export const EditArchivingModal = ({
        * onSuccess 시 데이터를 세팅합니다.
        */
       onSuccess: (data) => {
-        setName(data.title)
+        updateTitle(data.title)
         data.imageUrl && setImage({ uri: data.imageUrl })
         setSelectedCategory(data.category)
         setPublicStatus(data.publicStatus)
@@ -125,7 +132,7 @@ export const EditArchivingModal = ({
 
     await patchArchiving(
       archivingId,
-      name,
+      title,
       image ? archivingImageUrl : '',
       selectedCategory,
       publicStatus
@@ -151,19 +158,7 @@ export const EditArchivingModal = ({
     },
   })
 
-  /**
-   *
-   */
-  const handleNameFocus = () => {
-    setNameFocus(true)
-  }
-
-  /**
-   *
-   */
-  const handleNameBlur = () => {
-    setNameFocus(false)
-  }
+  const throttledUpdateArchivingMutate = throttle(updateArchivingMutate, 5000)
 
   /**
    *
@@ -234,21 +229,17 @@ export const EditArchivingModal = ({
             <ModalTitle>{i18n.t('editArchiving')}</ModalTitle>
             <Title>{i18n.t('archivingName')}</Title>
             <TextInput
+              value={title}
               placeholder={i18n.t('contentVerify')}
-              placeholderTextColor={colors.gray200}
-              value={name}
-              onChangeText={setName}
-              onFocus={handleNameFocus}
-              onBlur={handleNameBlur}
               maxLength={15}
-              style={
-                (nameFocus && Styles.inputFocus) ||
-                (!nameFocus && name.length > 0 && Styles.inputWithValue)
-              }
+              onChangeText={updateTitle}
+              handleClear={clearTitle}
+              hasBorder
             />
-            <Condition style={[name.length > 0 ? Styles.conditionComplete : null]}>
-              {i18n.t('contentVerify')}
-            </Condition>
+            <Verifier
+              isValid={isTitleValid}
+              text="archivingVerify"
+            />
             <Title>{i18n.t('category')}</Title>
             <DropDown />
             <Title>{i18n.t('thumbnail')}</Title>
@@ -274,8 +265,8 @@ export const EditArchivingModal = ({
           </ScrollContainer>
           <BoxButton
             textKey={i18n.t('complete')}
-            onPress={updateArchivingMutate}
-            isDisabled={!name || !selectedCategory}
+            onPress={() => throttledUpdateArchivingMutate()}
+            isDisabled={!title || !selectedCategory}
           />
         </Container>
       </Modal>

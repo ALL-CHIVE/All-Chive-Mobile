@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { Directions } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useRecoilState } from 'recoil'
@@ -12,6 +13,7 @@ import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialo
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import { Loading } from '@/components/loading/Loading'
+import { SwipeScreen } from '@/components/swipe/SwipeScreen'
 import i18n from '@/locales'
 import { RecyclesResponse } from '@/models/Recycle'
 import { CheckArchivingState, CheckContentState } from '@/state/CheckState'
@@ -149,20 +151,24 @@ export const RecycleBin = () => {
           rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
           rightButtonClick={handleEditMode}
         />
-        <Container>
-          {recycleData && (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
-            <RecycleBinTab
-              contents={recycleData.contents}
-              archivings={recycleData.archivings}
-              editMode={editMode}
-            />
-          ) : (
-            <EmptyItem
-              textKey="emptyRecycleBin"
-              marginTop={120}
-            />
-          )}
-        </Container>
+        <SwipeScreen direction={Directions.RIGHT}>
+          <Container>
+            {recycleData &&
+            (recycleData.archivings.length > 0 || recycleData.contents.length > 0) ? (
+              <RecycleBinTab
+                contents={recycleData.contents}
+                archivings={recycleData.archivings}
+                editMode={editMode}
+              />
+            ) : (
+              <EmptyItem
+                textKey="emptyRecycleBin"
+                marginTop={120}
+              />
+            )}
+          </Container>
+        </SwipeScreen>
+
         {editMode && (
           <BottomButtonContainer>
             <LinearGradient
@@ -198,6 +204,7 @@ export const RecycleBin = () => {
             </LinearGradient>
           </BottomButtonContainer>
         )}
+
         <TwoButtonDialog
           isVisible={isDeleteDialogVisible}
           title="persistentDeleteWarning"
