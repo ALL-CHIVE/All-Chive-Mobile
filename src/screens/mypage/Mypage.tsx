@@ -23,6 +23,7 @@ import { GooglePlayUrl } from '@/const/Const'
 import useUserInfo from '@/hooks/useUserInfo'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
+import { clearTokens } from '@/services/localStorage/LocalStorage'
 import { openInappBrowser } from '@/services/InappBrowser'
 import { colors } from '@/styles/colors'
 
@@ -61,6 +62,7 @@ export const Mypage = () => {
      */
     onSuccess: () => {
       clearUserInfo()
+      clearTokens()
       navigation.reset({ routes: [{ name: 'Login' }] })
       queryClient.clear()
     },

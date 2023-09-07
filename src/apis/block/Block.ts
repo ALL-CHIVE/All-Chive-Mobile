@@ -1,19 +1,11 @@
+import { api } from '@/apis'
 import { BlockListResponse, BlockResponse } from '@/models/Block'
-import { getAccessToken } from '@/services/localStorage/LocalStorage'
-
-import { client } from '../Client'
 
 /**
  * 차단한 유저 정보를 가져옵니다.
  */
 export const getBlockList = async (): Promise<BlockListResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/blocks`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-
+  const { data } = await api.get(`/blocks`)
   return data.data
 }
 
@@ -21,18 +13,9 @@ export const getBlockList = async (): Promise<BlockListResponse> => {
  * 유저를 차단합니다.
  */
 export const postBlock = async (userId: number): Promise<BlockResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.post(
-    `/blocks`,
-    {
-      userId,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  )
+  const { data } = await api.post(`/blocks`, {
+    userId,
+  })
 
   return data.data
 }
@@ -41,13 +24,9 @@ export const postBlock = async (userId: number): Promise<BlockResponse> => {
  * 유저 차단을 해제합니다.
  */
 export const deleteBlock = async (userId: number): Promise<BlockResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.delete(`/blocks`, {
+  const { data } = await api.delete(`/blocks`, {
     data: {
       userId,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 

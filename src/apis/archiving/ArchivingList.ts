@@ -1,12 +1,10 @@
+import { api } from '@/apis'
 import {
   ArchivingListResponse,
   ContentByArchivingResponse,
   MainArchivingListResponse,
   PopularArchivingsResponse,
 } from '@/models/Archiving'
-import { getAccessToken } from '@/services/localStorage/LocalStorage'
-
-import { client } from '../Client'
 
 /**
  * 내 아카이빙 카테고리별 아카이빙 리스트를 가져옵니다.
@@ -17,16 +15,12 @@ export const getHomeArchivingList = async (
   size?: number,
   sort?: Array<string>
 ): Promise<MainArchivingListResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/archivings/me/archiving`, {
+  const { data } = await api.get(`/archivings/me/archiving`, {
     params: {
       category,
       page,
       size,
       sort,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -42,16 +36,12 @@ export const getCommunityArchivingList = async (
   size?: number,
   sort?: Array<string>
 ): Promise<MainArchivingListResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/archivings`, {
+  const { data } = await api.get(`/archivings`, {
     params: {
       category,
       page,
       size,
       sort,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -62,13 +52,7 @@ export const getCommunityArchivingList = async (
  * 가장 인기있는 아카이빙 5개를 가져옵니다
  */
 export const getPopularArchivings = async (): Promise<PopularArchivingsResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/archivings/popular`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-
+  const { data } = await api.get(`/archivings/popular`)
   return data.data
 }
 
@@ -81,15 +65,11 @@ export const getContentByArchiving = async (
   size?: number,
   sort?: Array<string>
 ): Promise<ContentByArchivingResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/archivings/${archivingId}/contents`, {
+  const { data } = await api.get(`/archivings/${archivingId}/contents`, {
     params: {
       page,
       size,
       sort,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -104,15 +84,11 @@ export const getScrapArchivingList = async (
   page?: number,
   size?: number
 ): Promise<MainArchivingListResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get(`/archivings/me/scrap`, {
+  const { data } = await api.get(`/archivings/me/scrap`, {
     params: {
       category,
       page,
       size,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   })
 
@@ -123,12 +99,6 @@ export const getScrapArchivingList = async (
  * 사용 중인 주제 & 아카이빙 리스트를 가져옵니다. (컨텐츠 추가 시 사용)
  */
 export const getArchivingList = async (): Promise<ArchivingListResponse> => {
-  const accessToken = await getAccessToken()
-  const { data } = await client.get('/archivings/lists', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-
+  const { data } = await api.get('/archivings/lists')
   return data.data
 }

@@ -7,7 +7,7 @@ import {
 import { SafeAreaView } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 
-import { canAuthSignIn } from '@/apis/auth/Auth'
+import { updateTokens } from '@/apis'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
@@ -75,7 +75,7 @@ export const RootStack = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       SplashScreen.hide()
     }, 3000)
 
@@ -83,7 +83,7 @@ export const RootStack = () => {
       setIsInstalled(res)
 
       if (res) {
-        canAuthSignIn().then((res) => {
+        updateTokens().then((res) => {
           setIsSignIn(res)
           setIsLoading(false)
         })
@@ -91,6 +91,8 @@ export const RootStack = () => {
         setIsLoading(false)
       }
     })
+
+    return () => clearTimeout(timer)
   }, [])
 
   if (isLoading) {

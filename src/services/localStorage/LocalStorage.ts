@@ -3,6 +3,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LocalStorageKey } from './LocalStorageKey'
 
 /**
+ * 토큰을 초기화 합니다.
+ */
+export const clearTokens = () => {
+  setRefreshToken('')
+  setAccessToken('')
+}
+
+/**
+ * saveTokens
+ */
+export const saveTokens = async (refreshToken: string, accessToken: string) => {
+  await setRefreshToken(refreshToken)
+  await setAccessToken(accessToken)
+}
+
+/**
  * refresh Token을 가져옵니다.
  */
 export const getRefreshToken = async () => {
@@ -12,7 +28,7 @@ export const getRefreshToken = async () => {
 /**
  * refresh Token을 갱신합니다.
  */
-export const setRefreshToken = async (value: string) => {
+const setRefreshToken = async (value: string) => {
   await setItem(LocalStorageKey.RefreshToken, value)
 }
 
@@ -26,7 +42,7 @@ export const getAccessToken = async () => {
 /**
  * access Token을 갱신합니다.
  */
-export const setAccessToken = async (value: string) => {
+const setAccessToken = async (value: string) => {
   await setItem(LocalStorageKey.AccessToken, value)
 }
 
