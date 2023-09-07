@@ -64,7 +64,7 @@ prod release
 	│  ├─ apis/
 	│  ├─ assets/		// Images assets.
 	│  ├─ components/	// UI components.
-	│  ├─ const/	// Constants.
+	│  ├─ const/	        // Constants.
 	│  ├─ extensions/
 	│  ├─ hooks/		// Custom hooks.
 	│  ├─ locales/
