@@ -235,7 +235,7 @@ export const Edit = ({ route }: EditProps) => {
             <Title>{i18n.t('contentName')}</Title>
             <TextInput
               value={title}
-              placeholder={i18n.t('contentVerify')}
+              placeholder={i18n.t('titleVerify')}
               maxLength={15}
               onChangeText={updateTitle}
               handleClear={clearTitle}
@@ -243,7 +243,7 @@ export const Edit = ({ route }: EditProps) => {
             />
             <Verifier
               isValid={isTitleValid}
-              text={'contentVerify'}
+              text={'titleVerify'}
             />
             {route.params.type === ContentType.Link && (
               <>
