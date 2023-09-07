@@ -30,7 +30,6 @@ import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionShee
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
@@ -86,12 +85,10 @@ export const Edit = ({ route }: EditProps) => {
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
   const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
-  const { color: titleBorderColor, onFocus: onTitleFocus, onBlur: onTitleBlur } = useFocus()
-  const { color: linkBorderColor, onFocus: onLinkFocus, onBlur: onLinkBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
-  const { data: content } = useQuery<GetContentsInfoResponse>(
+  useQuery<GetContentsInfoResponse>(
     [`contentsInfo${route.params.id}`, route.params.id],
     () => getContentsInfo(route.params.id),
     {
@@ -114,8 +111,6 @@ export const Edit = ({ route }: EditProps) => {
 
         //blur 처리 합니다.
         onArchivingBlur(content.archivingTitle)
-        onTitleBlur(content.contentTitle)
-        onLinkBlur(content.link)
       },
     }
   )
@@ -160,7 +155,7 @@ export const Edit = ({ route }: EditProps) => {
     onSuccess: () => {
       setSelectArchiving({ id: -1, title: '' })
       setSelectTag([])
-      queryClient.invalidateQueries([queryKeys.contents, route.params.id])
+      queryClient.invalidateQueries(['contents', route.params.id])
       queryClient.invalidateQueries([`contentByArchiving`, selectArchiving.id])
       navigation.goBack()
     },

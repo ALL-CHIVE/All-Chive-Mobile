@@ -27,7 +27,6 @@ import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStack'
-import { queryKeys } from '@/queries/queryKeys'
 import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {
@@ -60,7 +59,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
 
   const { data: content, isLoading } = useQuery<GetContentsResponse, AxiosError>(
-    [queryKeys.contents, route.params.contentId],
+    ['contents', route.params.contentId],
     () => getContents(route.params.contentId),
     {
       /**
@@ -73,7 +72,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
   )
 
   useEffect(() => {
-    queryClient.setQueryData([queryKeys.contents, route.params.contentId], content)
+    queryClient.setQueryData(['contents', route.params.contentId], content)
   }, [])
 
   /**
@@ -181,7 +180,7 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         isVisible={errorDialogVisible}
         onRetry={() => {
           setErrorDialogVisible(false)
-          queryClient.invalidateQueries([queryKeys.contents, route.params.contentId])
+          queryClient.invalidateQueries(['contents', route.params.contentId])
         }}
         onClick={() => {
           setErrorDialogVisible(false)

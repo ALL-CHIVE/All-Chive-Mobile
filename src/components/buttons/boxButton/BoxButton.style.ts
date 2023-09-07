@@ -5,7 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
   position: absolute;
-  bottom: 4%;
+  bottom: 40px;
 `
 
 export const Button = styled.TouchableHighlight`
