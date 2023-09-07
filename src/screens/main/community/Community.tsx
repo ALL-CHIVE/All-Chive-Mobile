@@ -159,7 +159,14 @@ export const Community = () => {
         }
         break
     }
-  }, [currentCommunityMenu, currentCategory, archivingList, isLoading])
+  }, [
+    currentCommunityMenu,
+    currentCategory,
+    archivingList,
+    scrapArchivingList,
+    isLoading,
+    isScrapLoading,
+  ])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
