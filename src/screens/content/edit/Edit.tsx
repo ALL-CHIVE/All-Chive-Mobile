@@ -85,8 +85,6 @@ export const Edit = ({ route }: EditProps) => {
   const [selectArchiving, setSelectArchiving] = useRecoilState(SelectArchivingState)
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
   const { color: archivingColor, onFocus: onArchivingFocus, onBlur: onArchivingBlur } = useFocus()
-  const { onBlur: onTitleBlur } = useFocus()
-  const { onBlur: onLinkBlur } = useFocus()
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
@@ -113,8 +111,6 @@ export const Edit = ({ route }: EditProps) => {
 
         //blur 처리 합니다.
         onArchivingBlur(content.archivingTitle)
-        onTitleBlur(content.contentTitle)
-        onLinkBlur(content.link)
       },
     }
   )
