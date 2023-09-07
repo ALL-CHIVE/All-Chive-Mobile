@@ -233,6 +233,7 @@ const Search = () => {
                     width={16}
                     height={14}
                     color={colors.gray600}
+                    style={{ marginTop: 7 }}
                   />
                 </TouchableOpacity>
               </LatestContainer>
