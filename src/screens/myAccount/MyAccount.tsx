@@ -232,7 +232,7 @@ export const MyAccount = () => {
                 )}
               </ProfileContainer>
               <InfoContainer>
-                <RowView>
+                <RowView style={{ marginTop: 5 }}>
                   <InfoTitle>{i18n.t('name')}</InfoTitle>
                   <InfoText>{userInfoData?.name}</InfoText>
                 </RowView>
