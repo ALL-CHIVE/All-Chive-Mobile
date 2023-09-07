@@ -7,7 +7,6 @@ import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
-import useAgreement from '@/hooks/useAgreement'
 import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { openAgreementBrowser } from '@/services/OpenBrowserService'
@@ -25,6 +24,7 @@ import {
   Styles,
   Title,
 } from './Agreement.style'
+import useAgreement from './hooks/useAgreement'
 
 /**
  * 약관 동의 화면
