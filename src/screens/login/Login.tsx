@@ -21,7 +21,7 @@ import { Button, Container, LoginButtons, Logo, SubLogo, Title } from './Login.s
 /**
  * Login
  */
-export const Login = () => {
+const Login = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const { updateUserInfo } = useUserInfo()
 
@@ -81,3 +81,5 @@ export const Login = () => {
     </>
   )
 }
+
+export default Login

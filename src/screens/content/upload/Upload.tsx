@@ -58,9 +58,9 @@ interface UploadProps {
 }
 
 /**
- *
+ * Upload 페이지
  */
-export const Upload = ({ route }: UploadProps) => {
+const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
@@ -322,3 +322,5 @@ export const Upload = ({ route }: UploadProps) => {
     </DefaultContainer>
   )
 }
+
+export default Upload

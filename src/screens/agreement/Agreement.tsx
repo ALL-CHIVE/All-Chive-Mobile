@@ -29,7 +29,7 @@ import useAgreement from './hooks/useAgreement'
 /**
  * 약관 동의 화면
  */
-export const Agreement = () => {
+const Agreement = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const { allCheck, agreements, toggleCheckBox, toggleAllCheckBox } = useAgreement()
 
@@ -77,3 +77,5 @@ export const Agreement = () => {
     </DefaultContainer>
   )
 }
+
+export default Agreement

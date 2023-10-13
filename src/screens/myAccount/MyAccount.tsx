@@ -49,7 +49,7 @@ import {
 /**
  * 마이페이지 '내 계정' 화면
  */
-export const MyAccount = () => {
+const MyAccount = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const actionSheetRef = useRef<ActionSheet>(null)
   const queryClient = useQueryClient()
@@ -291,3 +291,5 @@ export const MyAccount = () => {
     </>
   )
 }
+
+export default MyAccount

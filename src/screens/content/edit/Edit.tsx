@@ -60,7 +60,7 @@ interface EditProps {
 /**
  * 컨텐츠 수정 페이지
  */
-export const Edit = ({ route }: EditProps) => {
+const Edit = ({ route }: EditProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
@@ -344,3 +344,5 @@ export const Edit = ({ route }: EditProps) => {
     </DefaultContainer>
   )
 }
+
+export default Edit

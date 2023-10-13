@@ -19,7 +19,7 @@ import { BlockList } from './components/BlockList'
  *
  * 마이페이지 '차단 관리'
  */
-export const BlockManagement = () => {
+const BlockManagement = () => {
   const queryClient = useQueryClient()
 
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
@@ -74,3 +74,5 @@ export const BlockManagement = () => {
     </>
   )
 }
+
+export default BlockManagement

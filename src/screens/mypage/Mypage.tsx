@@ -45,7 +45,7 @@ import { NavigationList } from './components/NavigationList'
 /**
  * 마이 페이지
  */
-export const Mypage = () => {
+const Mypage = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
   const version = getVersion()
@@ -222,3 +222,5 @@ export const Mypage = () => {
     </>
   )
 }
+
+export default Mypage

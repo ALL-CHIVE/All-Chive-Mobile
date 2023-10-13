@@ -31,7 +31,7 @@ import { RecycleBinTab } from './tabs/RecycleBinTab'
 /**
  * 마이페이지 '휴지통'
  */
-export const RecycleBin = () => {
+const RecycleBin = () => {
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
@@ -217,3 +217,5 @@ export const RecycleBin = () => {
     </>
   )
 }
+
+export default RecycleBin
