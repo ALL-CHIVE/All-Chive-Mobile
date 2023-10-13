@@ -18,7 +18,7 @@ import reportMenuConfig from '@/const/configs/reportMenuConfig.json'
 import i18n from '@/locales'
 import { ReportMenu } from '@/models/ReportMenu'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 
 import { Container, Menu, Title } from './Report.style'
 import ReportBottomSheet from './components/reportBottomSheet/ReportBottomSheet'

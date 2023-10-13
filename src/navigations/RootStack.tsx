@@ -9,8 +9,7 @@ import SplashScreen from 'react-native-splash-screen'
 
 import { updateTokens } from '@/apis'
 import { ContentType } from '@/models/enums/ContentType'
-import { ReportType } from '@/models/enums/ReportType'
-import { BottomTab, BottomTabNavigationParams } from '@/navigations/bottomTab/BottomTab'
+import { BottomTab } from '@/navigations/bottomTab/BottomTab'
 import AddProfile from '@/screens/addProfile/AddProfile'
 import { Agreement } from '@/screens/agreement/Agreement'
 import { ArchivingManagement } from '@/screens/archivingManagement/ArchivingManagement'
@@ -34,36 +33,9 @@ import { TagManagement } from '@/screens/tagManagement/TagManagement'
 import { checkIsInstalled } from '@/services/localStorage/LocalStorage'
 import { colors } from '@/styles/colors'
 
-export type RootStackParamList = {
-  OnBoarding1: undefined
-  OnBoarding2: undefined
-  Agreement: undefined
-  SelectCategory: { marketingAgreement: boolean }
-  AddProfile: { categories: string[]; marketingAgreement: boolean }
-  BottomTab: BottomTabNavigationParams
-  Login: undefined
-  ContentList: { id: number; title: string }
-  Upload: { type: ContentType }
-  CreateTag: undefined
-  ContentDetail: {
-    archivingId: number
-    contentId: number
-    isFromUpload: boolean
-  }
-  Report: { id: number; type: ReportType }
-  Search: undefined
-  Edit: { id: number; type: ContentType }
-  Mypage: undefined
-  MyAccount: undefined
-  ArchivingManagement: undefined
-  TagManagement: undefined
-  BlockManagement: undefined
-  Notice: undefined
-  RecycleBin: undefined
-}
+import { RootStackParamList } from './RootStackParamList'
 
 export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>
-
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 /**

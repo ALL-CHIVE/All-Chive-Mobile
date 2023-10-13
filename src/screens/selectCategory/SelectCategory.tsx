@@ -11,7 +11,7 @@ import DefaultScrollContainer from '@/components/containers/defaultScrollContain
 import i18n from '@/locales'
 import { Category } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 import { CategoryListState } from '@/state/CategoryListState'
 
 import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
