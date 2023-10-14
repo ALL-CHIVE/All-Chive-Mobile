@@ -12,6 +12,6 @@ export const CheckBox = styled.View`
 export const Styles = {
   checked: css`
     background-color: ${colors.yellow500};
-    border-color: ${colors.gray500};
+    border: 1px solid ${colors.gray500};
   `,
 }
