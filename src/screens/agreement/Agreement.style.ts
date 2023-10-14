@@ -37,7 +37,7 @@ export const Title = styled.Text`
 export const Description = styled.Text`
   ${fonts.body4};
   color: ${colors.gray400};
-  left: 30px;
+  left: 35px;
   top: -14px;
 `
 
