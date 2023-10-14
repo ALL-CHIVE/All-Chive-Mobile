@@ -1,18 +1,16 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
 import { ListRenderItem, View } from 'react-native'
-import { useRecoilValue } from 'recoil'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
-import { Category } from '@/models/enums/Category'
+import { Category, GetCategory } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { RootStackParamList } from '@/navigations/RootStackParamList'
-import { CategoryListState } from '@/state/CategoryListState'
 
 import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
 
@@ -25,7 +23,7 @@ interface SelectCategoryProps {
  */
 const SelectCategory = ({ route }: SelectCategoryProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const categoryList = useRecoilValue(CategoryListState)
+  const categoryList = useMemo(() => GetCategory(), [])
   const [selectedCategory, setSelectedCategory] = useState<Category[]>([])
 
   /**
