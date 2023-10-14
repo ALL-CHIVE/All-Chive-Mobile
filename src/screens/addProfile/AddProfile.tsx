@@ -60,7 +60,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
       ),
     {
       /**
-       *
+       * onSuccess
        */
       onSuccess: () => {
         setIsInstalled(true)

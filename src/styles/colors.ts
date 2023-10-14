@@ -20,4 +20,5 @@ export const colors = {
   sticky: '#FDFADB',
   yellow500Opacity60: '#FFEC5499',
   mainYellowOpacity60: '#FFD23199',
+  red: '#EB4343',
 }

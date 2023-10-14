@@ -5,7 +5,7 @@ import XMark from '@/assets/icons/x-mark.svg'
 import i18n from '@/locales'
 import { colors } from '@/styles/colors'
 
-import { Container, Text } from './Verifier.style'
+import { Container, Styles, Text } from './Verifier.style'
 
 interface VerifierProps {
   isValid: boolean
@@ -27,10 +27,10 @@ const Verifier = ({ isValid, text }: VerifierProps) => {
         <XMark
           width={18}
           height={18}
-          color={colors.gray600}
+          color={colors.red}
         />
       )}
-      <Text>{i18n.t(text)}</Text>
+      <Text style={!isValid && Styles.inValidText}>{i18n.t(text)}</Text>
     </Container>
   )
 }
