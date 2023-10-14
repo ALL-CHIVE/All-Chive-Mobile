@@ -2,9 +2,9 @@ import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 
-import CheckIcon from '@/assets/icons/check-default.svg'
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
+import Checkbox from '@/components/checkbox/Checkbox'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
@@ -14,14 +14,13 @@ import { colors } from '@/styles/colors'
 
 import {
   AllAgreement,
-  CheckBox,
+  AllAgreementTitle,
   Container,
   Description,
   Divider,
   Heading,
   RightButton,
   RowView,
-  Styles,
   Title,
 } from './Agreement.style'
 import useAgreement from './hooks/useAgreement'
@@ -48,10 +47,10 @@ const Agreement = () => {
         <Container>
           <Heading>{i18n.t('agreementHeading')}</Heading>
           <AllAgreement onPress={toggleAllCheckBox}>
-            <RowView disabled>
-              <CheckBox>{allCheck && <CheckIcon style={Styles.checkIcon} />}</CheckBox>
+            <AllAgreementTitle>
+              <Checkbox isChecked={allCheck} />
               <Title>{i18n.t('allAgreement')}</Title>
-            </RowView>
+            </AllAgreementTitle>
             <Description>{i18n.t('allAgreementDescription')}</Description>
           </AllAgreement>
           <Divider />
@@ -60,7 +59,7 @@ const Agreement = () => {
               key={key}
               onPress={() => toggleCheckBox(key as keyof typeof agreements)}
             >
-              <CheckBox>{value ? <CheckIcon style={Styles.checkIcon} /> : null}</CheckBox>
+              <Checkbox isChecked={value} />
               <Title>{i18n.t(`${key}Agreement`)}</Title>
               <RightButton onPress={() => openAgreementBrowser(key)}>
                 <RightArrowIcon color={colors.gray500} />
