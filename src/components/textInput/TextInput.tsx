@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import XMark from '@/assets/icons/x-mark.svg'
 import useFocus from '@/hooks/useFocus'
+import useTextFocus from '@/hooks/useTextFocus'
 import { colors } from '@/styles/colors'
 
 import { ClearButton, Container, InputBox, Styles } from './TextInput.style'
@@ -13,6 +14,7 @@ interface TextInputProps {
   onChangeText: (text: string) => void
   handleClear: () => void
   hasBorder?: boolean
+  isFocus?: boolean
 }
 
 /**
@@ -25,8 +27,10 @@ const TextInput = ({
   onChangeText,
   handleClear,
   hasBorder,
+  isFocus,
 }: TextInputProps) => {
   const { color, onFocus, onBlur } = useFocus()
+  const { inputRef } = useTextFocus()
 
   useEffect(() => {
     if (color === colors.gray200) {
@@ -45,6 +49,7 @@ const TextInput = ({
   return (
     <Container style={hasBorder && { ...Styles.border, borderColor: color }}>
       <InputBox
+        ref={isFocus ? inputRef : undefined}
         placeholder={placeholder}
         placeholderTextColor={colors.gray200}
         onChangeText={onChangeText}

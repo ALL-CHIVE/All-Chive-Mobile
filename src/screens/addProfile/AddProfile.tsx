@@ -96,6 +96,7 @@ const AddProfile = ({ route }: AddProfileProps) => {
                   maxLength={10}
                   onChangeText={handleChangeNickname}
                   handleClear={handleClearNickname}
+                  isFocus={true}
                 />
               </NicknameInputBox>
               <Verifier
