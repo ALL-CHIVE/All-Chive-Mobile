@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  width: 375px;
+  width: 100%;
   padding: 0 25px;
 `
 

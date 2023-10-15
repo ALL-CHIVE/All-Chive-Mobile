@@ -112,9 +112,7 @@ const Report = ({ route }: ReportProps) => {
 
   return (
     <DefaultContainer>
-      <View style={{ width: 375 }}>
-        <LeftButtonHeader title={i18n.t('report')} />
-      </View>
+      <LeftButtonHeader title={i18n.t('report')} />
       <DefaultScrollContainer>
         <Container>
           <Title>{i18n.t('selectReportReason')}</Title>

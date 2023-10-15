@@ -25,7 +25,7 @@ export const CloseButton = styled.TouchableOpacity`
 `
 
 export const ArchivingHeader = styled.View`
-  width: 375px;
+  width: 100%;
   padding: 0px 25px 15px 25px;
   flex-direction: row;
   justify-content: space-between;

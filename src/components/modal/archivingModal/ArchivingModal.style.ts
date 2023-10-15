@@ -13,7 +13,7 @@ export const Container = styled.View`
 `
 
 export const ScrollContainer = styled.ScrollView`
-  width: 375px;
+  width: 100%;
   padding: 0px 25px;
 `
 

@@ -4,7 +4,7 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const TextBox = styled.TextInput`
-  width: 325px;
+  width: 100%;
   border-radius: 6px;
   border-width: 1px;
   padding: 10px;
