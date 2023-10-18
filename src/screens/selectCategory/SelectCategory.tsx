@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { RouteProp, useNavigation } from '@react-navigation/native'
-import { ListRenderItem, View } from 'react-native'
-import { useRecoilValue } from 'recoil'
+import { FlatList, ListRenderItem } from 'react-native'
 
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import ImageButton from '@/components/buttons/imageButton/ImageButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import i18n from '@/locales'
-import { Category } from '@/models/enums/Category'
+import { Category, GetCategory } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
-import { CategoryListState } from '@/state/CategoryListState'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 
-import { Description, Heading, CategoryList, Container } from './SelectCategory.style'
+import { Description, Heading, CategoryList, Header } from './SelectCategory.style'
 
 interface SelectCategoryProps {
   route: RouteProp<RootStackParamList, 'SelectCategory'>
@@ -25,7 +23,7 @@ interface SelectCategoryProps {
  */
 const SelectCategory = ({ route }: SelectCategoryProps) => {
   const navigation = useNavigation<MainNavigationProp>()
-  const categoryList = useRecoilValue(CategoryListState)
+  const categoryList = useMemo(() => GetCategory(), [])
   const [selectedCategory, setSelectedCategory] = useState<Category[]>([])
 
   /**
@@ -67,19 +65,19 @@ const SelectCategory = ({ route }: SelectCategoryProps) => {
   return (
     <DefaultContainer>
       <DefaultScrollContainer>
-        <Container>
-          <View>
-            <Heading>{i18n.t('selectCategoryHeading')}</Heading>
-            <Description>{i18n.t('chooseMaximum3')}</Description>
-          </View>
-          <CategoryList
+        <Header>
+          <Heading>{i18n.t('selectCategoryHeading')}</Heading>
+          <Description>{i18n.t('chooseMaximum3')}</Description>
+        </Header>
+        <CategoryList>
+          <FlatList
             scrollEnabled={false}
             data={categoryList}
             numColumns={3}
             renderItem={renderItem}
             keyExtractor={(category) => category}
           />
-        </Container>
+        </CategoryList>
       </DefaultScrollContainer>
       <BoxButton
         textKey={i18n.t('next')}

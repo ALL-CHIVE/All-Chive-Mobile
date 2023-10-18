@@ -29,7 +29,7 @@ import { GetContentsInfoResponse } from '@/models/Contents'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
@@ -60,7 +60,7 @@ interface EditProps {
 /**
  * 컨텐츠 수정 페이지
  */
-export const Edit = ({ route }: EditProps) => {
+const Edit = ({ route }: EditProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
@@ -344,3 +344,5 @@ export const Edit = ({ route }: EditProps) => {
     </DefaultContainer>
   )
 }
+
+export default Edit

@@ -49,7 +49,7 @@ import {
 /**
  * 마이페이지 '내 계정' 화면
  */
-export const MyAccount = () => {
+const MyAccount = () => {
   const navigation = useNavigation<MainNavigationProp>()
   const actionSheetRef = useRef<ActionSheet>(null)
   const queryClient = useQueryClient()
@@ -210,13 +210,11 @@ export const MyAccount = () => {
         }}
       />
       <DefaultContainer>
-        <View style={{ maxWidth: 375 }}>
-          <LeftButtonHeader
-            title={i18n.t('myAccount')}
-            rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
-            rightButtonClick={handleRightButton}
-          />
-        </View>
+        <LeftButtonHeader
+          title={i18n.t('myAccount')}
+          rightButtonText={editMode ? i18n.t('complete') : i18n.t('edit')}
+          rightButtonClick={handleRightButton}
+        />
         <DefaultScrollContainer>
           <SwipeScreen direction={Directions.RIGHT}>
             <Container>
@@ -291,3 +289,5 @@ export const MyAccount = () => {
     </>
   )
 }
+
+export default MyAccount

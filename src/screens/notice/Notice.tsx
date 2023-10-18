@@ -12,7 +12,7 @@ import i18n from '@/locales'
 /**
  * 마이페이지 공지사항 (현재는 공지사항이 없어 빈 화면으로 둡니다.)
  */
-export const Notice = () => {
+const Notice = () => {
   return (
     <DefaultContainer>
       <LeftButtonHeader title={i18n.t('notice')} />
@@ -27,3 +27,5 @@ export const Notice = () => {
     </DefaultContainer>
   )
 }
+
+export default Notice

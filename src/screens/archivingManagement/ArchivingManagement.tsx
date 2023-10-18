@@ -18,7 +18,7 @@ import { ArchivingList } from './components/ArchivingList'
 /**
  * 아카이빙 관리
  */
-export const ArchivingManagement = () => {
+const ArchivingManagement = () => {
   const queryClient = useQueryClient()
 
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false)
@@ -91,3 +91,5 @@ export const ArchivingManagement = () => {
     </>
   )
 }
+
+export default ArchivingManagement

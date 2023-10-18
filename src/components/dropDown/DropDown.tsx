@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { ScrollView } from 'react-native'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import CheckCircle from '@/assets/icons/check-circle.svg'
 import RightArrowIcon from '@/assets/icons/right-arrow.svg'
 import i18n from '@/locales'
-import { CategoryListWithEtcState } from '@/state/CategoryListState'
+import { GetCategoryWithEtc } from '@/models/enums/Category'
 import { SelectCategoryState } from '@/state/upload/SelectCategoryState'
 import { colors } from '@/styles/colors'
 
@@ -26,7 +26,7 @@ import {
 export const DropDown = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useRecoilState(SelectCategoryState)
-  const categoryList = useRecoilValue(CategoryListWithEtcState)
+  const categoryList = useMemo(() => GetCategoryWithEtc(), [])
   const [isSelected, setIsSelected] = useState(false)
 
   /**

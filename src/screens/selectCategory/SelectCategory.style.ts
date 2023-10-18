@@ -5,8 +5,8 @@ import { Category } from '@/models/enums/Category'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Container = styled.View`
-  align-items: center;
+export const Header = styled.View`
+  padding: 0 25px;
 `
 
 export const Heading = styled.Text`
@@ -21,4 +21,6 @@ export const Description = styled.Text`
   margin-top: 15px;
   margin-bottom: 33px;
 `
-export const CategoryList = styled(FlatList<Category>)``
+export const CategoryList = styled.View`
+  align-items: center;
+`

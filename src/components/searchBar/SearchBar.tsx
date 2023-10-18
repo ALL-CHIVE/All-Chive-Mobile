@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react'
-
-import { TextInput } from 'react-native'
+import React from 'react'
 
 import SearchIcon from '@/assets/icons/search.svg'
 import XMark from '@/assets/icons/x-mark.svg'
+import useTextFocus from '@/hooks/useTextFocus'
 import { colors } from '@/styles/colors'
 
 import { Container, RemoveImageContainer, Style, SearchInput } from './SearchBar.style'
@@ -28,11 +27,7 @@ export const SearchBar = ({
   onFocus,
   maxLength,
 }: SearchBarProps) => {
-  const inputRef = useRef<TextInput>(null)
-
-  useEffect(() => {
-    setTimeout(() => inputRef?.current?.focus(), 20)
-  }, [])
+  const { inputRef } = useTextFocus()
 
   return (
     <Container>

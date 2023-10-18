@@ -5,13 +5,11 @@ import { ContentCardInfo } from '@/models/ContentCard'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const ContentListContainer = styled(FlatList<ContentCardInfo>)``
-
-export const ScrollContainer = styled.ScrollView`
-  padding: 0px 20px;
-  width: 375px;
-  flex: 1;
+export const ContentListContainer = styled(FlatList<ContentCardInfo>)`
+  width: 332px;
 `
+
+export const ScrollContainer = styled.ScrollView``
 
 export const RowContainer = styled.View`
   flex-direction: row;
@@ -34,7 +32,7 @@ export const Text = styled.Text`
 `
 
 export const WidthContainer = styled.View`
-  width: 375px;
+  width: 100%;
   padding: 0px 25px;
   margin-top: 0px;
 `

@@ -28,7 +28,7 @@ import i18n from '@/locales'
 import { ImageUploadMenuType, ImageUploadMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 import { handleImageUploadMenu } from '@/services/ActionSheetService'
 import { uploadContentImage } from '@/services/ImageService'
 import { getLinkImage } from '@/services/LinkService'
@@ -58,9 +58,9 @@ interface UploadProps {
 }
 
 /**
- *
+ * Upload 페이지
  */
-export const Upload = ({ route }: UploadProps) => {
+const Upload = ({ route }: UploadProps) => {
   const navigation = useNavigation<MainNavigationProp>()
   const queryClient = useQueryClient()
 
@@ -322,3 +322,5 @@ export const Upload = ({ route }: UploadProps) => {
     </DefaultContainer>
   )
 }
+
+export default Upload

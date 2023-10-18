@@ -20,7 +20,7 @@ import { TagList } from './components/TagList'
 /**
  * 마이페이지 '태그 관리'
  */
-export const TagManagement = () => {
+const TagManagement = () => {
   const queryClient = useQueryClient()
 
   const [editMode, setEditMode] = useState(false)
@@ -120,3 +120,5 @@ export const TagManagement = () => {
     </>
   )
 }
+
+export default TagManagement

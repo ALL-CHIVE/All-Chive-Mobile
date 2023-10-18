@@ -1,4 +1,4 @@
-import styled from '@emotion/native'
+import styled, { css } from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
@@ -13,4 +13,8 @@ export const Text = styled.Text`
   color: ${colors.gray600};
 `
 
-export const Blank = styled.View``
+export const Styles = {
+  inValidText: css`
+    color: ${colors.red};
+  `,
+}

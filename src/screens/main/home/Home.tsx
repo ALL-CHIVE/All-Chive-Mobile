@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import { getHomeArchivingList } from '@/apis/archiving/ArchivingList'
 import { getUser } from '@/apis/user/User'
@@ -20,10 +20,10 @@ import { Loading } from '@/components/loading/Loading'
 import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
 import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
+import { GetAllCategory } from '@/models/enums/Category'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isCloseToBottom } from '@/services/InfiniteService'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
-import { AllCategoryListState } from '@/state/CategoryListState'
 import { CategoryState } from '@/state/CategoryState'
 
 import {
@@ -56,7 +56,7 @@ export const Home = () => {
   const [profileErrorVisible, setProfileErrorVisible] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
   const [currentCategory, setCurrentCategory] = useRecoilState(CategoryState)
-  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const allCategoryList = useMemo(() => GetAllCategory(), [])
   const { isSticky, handleScroll } = useSticky(265)
   const { data: profileData, isLoading: isProfileLoading } = useQuery(
     ['getUser'],

@@ -26,7 +26,7 @@ import { ReportMenuType, ReportMenus } from '@/models/enums/ActionSheetType'
 import { ContentType } from '@/models/enums/ContentType'
 import { ReportType } from '@/models/enums/ReportType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
-import { RootStackParamList } from '@/navigations/RootStack'
+import { RootStackParamList } from '@/navigations/RootStackParamList'
 import { getActionSheetTintColor } from '@/services/StyleService'
 
 import {

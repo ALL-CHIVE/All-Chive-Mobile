@@ -1,10 +1,10 @@
-import styled, { css } from '@emotion/native'
+import styled from '@emotion/native'
 
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  padding: 0 24px;
+  padding: 0 25px;
 `
 
 export const Heading = styled.Text`
@@ -16,10 +16,16 @@ export const Heading = styled.Text`
 
 export const AllAgreement = styled.TouchableOpacity``
 
+export const AllAgreementTitle = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 18px;
+`
+
 export const RowView = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding-bottom: 18px;
+  padding: 9px 0px;
 `
 
 export const Title = styled.Text`
@@ -31,29 +37,15 @@ export const Title = styled.Text`
 export const Description = styled.Text`
   ${fonts.body4};
   color: ${colors.gray400};
-  left: 30px;
+  left: 35px;
   top: -14px;
 `
-
-export const CheckBox = styled.View`
-  width: 14px;
-  height: 14px;
-  border: 1px solid ${colors.gray500};
-  background-color: ${colors.white};
-`
-
-export const Styles = {
-  checkIcon: css`
-    top: -8px;
-    left: -3px;
-  `,
-}
 
 export const Divider = styled.View`
   width: 100%;
   height: 1px;
   background-color: ${colors.gray100};
-  margin-bottom: 20px;
+  margin-bottom: 11px;
 `
 
 export const RightButton = styled.TouchableOpacity`

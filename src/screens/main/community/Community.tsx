@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { AxiosError } from 'axios'
 import { throttle } from 'lodash'
 import { ImageURISource, ListRenderItem, TouchableOpacity } from 'react-native'
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 
 import {
   getCommunityArchivingList,
@@ -25,11 +25,11 @@ import { Loading } from '@/components/loading/Loading'
 import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
 import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
+import { GetAllCategory } from '@/models/enums/Category'
 import { CommunityMenuType } from '@/models/enums/CommunityMenuType'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 import { isCloseToBottom } from '@/services/InfiniteService'
 import { isWindowWidthSmallerThen } from '@/services/SizeService'
-import { AllCategoryListState } from '@/state/CategoryListState'
 import { CommunityCategoryState } from '@/state/CategoryState'
 
 import {
@@ -72,7 +72,7 @@ export const Community = () => {
   const [scrapErrorVisible, setScrapErrorVisible] = useState(false)
   const [showLoading, setShowLoading] = useState(false)
 
-  const allCategoryList = useRecoilValue(AllCategoryListState)
+  const allCategoryList = useMemo(() => GetAllCategory(), [])
   const [currentCategory, setCurrentCategory] = useRecoilState(CommunityCategoryState)
   const { isSticky, handleScroll } = useSticky(515)
 

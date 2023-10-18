@@ -40,7 +40,7 @@ interface TagProps {
 /**
  * 태그 화면
  */
-export const CreateTag = ({ navigation }: TagProps) => {
+const CreateTag = ({ navigation }: TagProps) => {
   const queryClient = useQueryClient()
 
   const [selectTag, setSelectTag] = useRecoilState(SelectTagState)
@@ -222,3 +222,5 @@ export const CreateTag = ({ navigation }: TagProps) => {
     </DefaultContainer>
   )
 }
+
+export default CreateTag
