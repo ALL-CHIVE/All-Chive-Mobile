@@ -5,7 +5,7 @@ import { fonts } from '@/styles/fonts'
 
 export const BackgroundImage = styled.Image`
   position: absolute;
-  right: 0px;
+  left: 210px;
   top: -5px;
   width: 147.17px;
   height: 162.52px;
