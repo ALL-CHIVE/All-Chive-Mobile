@@ -77,6 +77,8 @@ export const BlockList = ({ nickname, id }: UserData) => {
         isVisible={isUnblockCompleteDialogVisible}
         title={i18n.t('unblockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.unblockComplete}
+        imageWidth={127}
+        imageHeight={125}
         buttonText="backToMypage"
         onClick={() => {
           setIsUnblockCompleteDialogVisible(false)

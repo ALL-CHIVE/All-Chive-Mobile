@@ -5,12 +5,22 @@ import Modal from 'react-native-modal'
 
 import i18n from '@/locales'
 
-import { Css, Container, Title, Description, Button, ButtonText } from './DefaultDialog.style'
+import {
+  Css,
+  Container,
+  Title,
+  Description,
+  Button,
+  ButtonText,
+  DialogImage,
+} from './DefaultDialog.style'
 
 interface DialogProps {
   isVisible: boolean
   title: string
   imageUrl: ImageSourcePropType
+  imageWidth: number
+  imageHeight: number
   description?: string
   buttonText: string
   onClose?: () => void
@@ -24,6 +34,8 @@ const DefaultDialog = ({
   isVisible,
   title,
   imageUrl,
+  imageWidth,
+  imageHeight,
   description,
   buttonText,
   onClose,
@@ -38,7 +50,10 @@ const DefaultDialog = ({
     >
       <Container>
         <Title>{i18n.t(title)}</Title>
-        <Image source={imageUrl} />
+        <DialogImage
+          source={imageUrl}
+          style={{ width: imageWidth, height: imageHeight }}
+        />
         {description && <Description>{i18n.t(description)}</Description>}
         <Button onPress={onClick}>
           <ButtonText>{i18n.t(buttonText)}</ButtonText>

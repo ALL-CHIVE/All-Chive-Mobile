@@ -22,7 +22,9 @@ export const CloseButton = styled.TouchableOpacity`
   right: 26px;
 `
 
-export const ScrollContainer = styled.ScrollView``
+export const ScrollContainer = styled.ScrollView`
+  width: 325px;
+`
 
 export const Title = styled.Text`
   ${fonts.subtitle2}
