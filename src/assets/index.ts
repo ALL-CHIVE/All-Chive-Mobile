@@ -20,6 +20,7 @@ export const defaultImages: Assets = {
   temporaryError: require('@/assets/images/temporary-error.png'),
   thumbnail: require('@/assets/images/thumbnail.png'),
   unblockComplete: require('@/assets/images/unblock-complete.png'),
+  communityGuide: require('@/assets/images/community-guide.png'),
 }
 
 export const defaultIcons: Assets = {

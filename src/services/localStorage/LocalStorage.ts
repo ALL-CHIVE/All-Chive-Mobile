@@ -61,6 +61,20 @@ export const setIsInstalled = async (value: boolean) => {
 }
 
 /**
+ * 커뮤니티 가이드 노출 여부를 확인합니다.
+ */
+export const getIsCommunityGuideVisible = async () => {
+  return (await getItemOrNull<boolean>(LocalStorageKey.IsCommunityGuideVisible)) ?? true
+}
+
+/**
+ * 커뮤니티 가이드 노출 여부를 갱신합니다.
+ */
+export const setIsCommunityGuideVisible = async (value: boolean) => {
+  await setItem(LocalStorageKey.IsCommunityGuideVisible, value)
+}
+
+/**
  * 스토리지에서 아이템을 가져옵니다.
  */
 const getItemOrNull = async <T>(key: LocalStorageKey): Promise<T | null> => {

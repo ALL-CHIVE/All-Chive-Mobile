@@ -22,6 +22,7 @@ import { InformationErrorDialog } from '@/components/dialogs/errorDialog/Informa
 import EmptyItem from '@/components/emptyItem/EmptyItem'
 import { CategoryList } from '@/components/lists/categoryList/CategoryList'
 import { Loading } from '@/components/loading/Loading'
+import CommunityGuideModal from '@/components/modal/communityGuideModal/CommunityGuideModal'
 import useSticky from '@/hooks/useSticky'
 import i18n from '@/locales'
 import { ArchivingInfo, MainArchivingListResponse } from '@/models/Archiving'
@@ -201,11 +202,10 @@ export const Community = () => {
 
   return (
     <>
-      {showLoading && (isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading) ? (
+      {showLoading && (isProfileLoading || isLoading || isScrapLoading || isPopuplarLoading) && (
         <Loading />
-      ) : (
-        <></>
       )}
+      <CommunityGuideModal />
       <InformationErrorDialog
         isVisible={profileErrorVisible}
         onRetry={() => {
