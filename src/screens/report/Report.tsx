@@ -149,6 +149,8 @@ const Report = ({ route }: ReportProps) => {
         isVisible={isSuccessDialogVisible}
         title="reportComplete"
         imageUrl={defaultImages.reportComplete}
+        imageWidth={133}
+        imageHeight={134}
         description="reviewReasonForReport"
         buttonText="backToCommunity"
         onClick={() => {
@@ -160,6 +162,8 @@ const Report = ({ route }: ReportProps) => {
         isVisible={isFailDialogVisible}
         title="alreadyReported"
         imageUrl={defaultImages.reportComplete}
+        imageWidth={133}
+        imageHeight={134}
         description="pleaseWaitReporting"
         buttonText="confirm"
         onClick={() => {

@@ -272,6 +272,8 @@ const ContentDetail = ({ route }: ContentDetailProps) => {
         isVisible={isBlockCompleteDialogVisible}
         title={i18n.t('blockComplete', { nickname: ownerNickname })}
         imageUrl={defaultImages.blockComplete}
+        imageWidth={149}
+        imageHeight={132}
         description={i18n.t('youCannotSeeBlockUserContents', { nickname: ownerNickname })}
         buttonText="backToCommunity"
         onClick={() => {

@@ -48,3 +48,5 @@ export const ButtonText = styled.Text`
   ${fonts.btn1}
   color: ${colors.white}
 `
+
+export const DialogImage = styled.Image``
