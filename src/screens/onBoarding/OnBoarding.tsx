@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useNavigation } from '@react-navigation/native'
 import { Directions } from 'react-native-gesture-handler'
 
-import { defaultImages } from '@/assets'
 import FirstIndicator from '@/assets/icons/first-indicator.svg'
 import { BoxButton } from '@/components/buttons/boxButton/BoxButton'
 import DefaultContainer from '@/components/containers/defaultContainer/DefaultContainer'
@@ -13,40 +12,54 @@ import i18n from '@/locales'
 import { MainNavigationProp } from '@/navigations/MainNavigator'
 
 import { Container, OnBoardingImage, Title } from './OnBoarding.style'
+import { Pages } from './OnBoardingPages'
 
 /**
- *
+ * OnBoarding
  */
-const OnBoarding1 = () => {
+const OnBoarding = () => {
   const navigation = useNavigation<MainNavigationProp>()
+  const [contentIndex, setContentIndex] = useState(0)
+
+  /**
+   * onClick
+   */
+  const onClick = () => {
+    switch (contentIndex) {
+      case 0:
+        setContentIndex(1)
+        break
+      case 1:
+        navigation.navigate('Login')
+    }
+  }
 
   return (
     <DefaultContainer>
       <DefaultScrollContainer>
         <SwipeScreen
           direction={Directions.LEFT}
-          wentToGo={() => {
-            navigation.navigate('OnBoarding2')
-          }}
+          wentToGo={onClick}
         >
           <Container>
             <OnBoardingImage
-              source={defaultImages.onBoarding1}
-              style={{ width: 222.3, height: 252 }}
+              source={Pages[contentIndex].image}
+              style={{
+                width: 222.3,
+                height: 252,
+              }}
             />
-            <Title>{i18n.t('easilyManageContent')}</Title>
+            <Title>{i18n.t(Pages[contentIndex].title)}</Title>
             <FirstIndicator />
           </Container>
         </SwipeScreen>
       </DefaultScrollContainer>
       <BoxButton
-        textKey="next"
-        onPress={() => {
-          navigation.navigate('OnBoarding2')
-        }}
+        textKey={Pages[contentIndex].buttonText}
+        onPress={onClick}
       />
     </DefaultContainer>
   )
 }
 
-export default OnBoarding1
+export default OnBoarding

@@ -4,8 +4,7 @@ import { ReportType } from '@/models/enums/ReportType'
 import { BottomTabNavigationParams } from './bottomTab/BottomTab'
 
 export type RootStackParamList = {
-  OnBoarding1: undefined
-  OnBoarding2: undefined
+  OnBoarding: undefined
   Agreement: undefined
   SelectCategory: SelectCategoryParams
   AddProfile: AddProfileParams

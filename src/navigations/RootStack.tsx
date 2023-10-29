@@ -23,8 +23,7 @@ import Login from '@/screens/login/Login'
 import MyAccount from '@/screens/myAccount/MyAccount'
 import Mypage from '@/screens/mypage/Mypage'
 import Notice from '@/screens/notice/Notice'
-import OnBoarding1 from '@/screens/onBoarding/OnBoarding1'
-import OnBoarding2 from '@/screens/onBoarding/OnBoarding2'
+import OnBoarding from '@/screens/onBoarding/OnBoarding'
 import RecycleBin from '@/screens/recycleBin/RecycleBin'
 import Report from '@/screens/report/Report'
 import Search from '@/screens/search/Search'
@@ -79,15 +78,11 @@ export const RootStack = () => {
           contentStyle: { backgroundColor: colors.white },
           gestureEnabled: false,
         }}
-        initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding1'}
+        initialRouteName={isSignIn ? 'BottomTab' : isInstalled ? 'Login' : 'OnBoarding'}
       >
         <Stack.Screen
-          name="OnBoarding1"
-          component={OnBoarding1}
-        />
-        <Stack.Screen
-          name="OnBoarding2"
-          component={OnBoarding2}
+          name="OnBoarding"
+          component={OnBoarding}
         />
         <Stack.Screen
           name="Agreement"
