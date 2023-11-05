@@ -7,6 +7,7 @@ export const CheckBox = styled.View`
   height: 18px;
   border: 1px solid ${colors.gray100};
   background-color: ${colors.white};
+  border-radius: 1px;
 `
 
 export const Styles = {

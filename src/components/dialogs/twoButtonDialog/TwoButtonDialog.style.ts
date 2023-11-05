@@ -3,7 +3,7 @@ import styled, { css } from '@emotion/native'
 import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
-export const Css = {
+export const Styles = {
   modal: css`
     justify-content: center;
     align-items: center;

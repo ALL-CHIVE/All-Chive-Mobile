@@ -175,5 +175,14 @@
   "introduceAllchive": "올카이브의 커뮤니티를 소개합니다",
   "saveYourFavoriteArchives": "마음에 드는 아카이빙을 저장해보세요!",
   "reportBadArchives": "정책을 위반한 아카이빙은 신고하세요!",
-  "start": "시작하기"
+  "start": "시작하기",
+  "tellUsWithdrawalReason": "탈퇴 이유를 알려주세요!",
+  "useServiceImpromentMaterial": "서비스 개선에 중요한 자료로 활용하겠습니다.",
+  "infrequentlyUsed": "자주 사용하지 않아서",
+  "lotsOfBugs": "이용이 불편하고 장애가 많아서",
+  "useOtherServices": "다른 대체 서비스를 이용해서",
+  "feeIsExpensive": "서비스 이용료가 비싸서",
+  "createNewAccount": "새 계정을 만들고 싶어서",
+  "withdrawal": "탈퇴하기",
+  "etc": "기타"
 }

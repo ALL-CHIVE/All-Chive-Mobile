@@ -6,7 +6,7 @@ import Modal from 'react-native-modal'
 import i18n from '@/locales'
 
 import {
-  Css,
+  Styles,
   Container,
   Title,
   Description,
@@ -53,7 +53,7 @@ const TwoButtonDialog = ({
 
   return (
     <Modal
-      style={Css.modal}
+      style={Styles.modal}
       statusBarTranslucent={true}
       isVisible={isVisible}
       onModalHide={() => onClose && onClose(isComplete)}

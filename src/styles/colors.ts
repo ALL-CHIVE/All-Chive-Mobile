@@ -21,4 +21,5 @@ export const colors = {
   yellow500Opacity60: '#FFEC5499',
   mainYellowOpacity60: '#FFD23199',
   red: '#EB4343',
+  whiteOpacity90: '#FFFFFFE6',
 }
