@@ -2,17 +2,17 @@ import React from 'react'
 
 import Modal from 'react-native-modal'
 
+import DialogButton from '@/components/buttons/dialogButton/DialogButton'
 import TextInput from '@/components/textInput/TextInput'
 import Verifier from '@/components/verifier/Verifier'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import {
   Css,
   Container,
   Title,
   Buttons,
-  CancelButton,
-  CancelButtonText,
   CompleteButton,
   CompleteButtonText,
   TextInputContainer,
@@ -79,9 +79,12 @@ export const InputDialog = ({
           />
         </TagVerifier>
         <Buttons>
-          <CancelButton onPress={onCancel}>
-            <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>
-          </CancelButton>
+          <DialogButton
+            title="cancel"
+            onPress={onCancel}
+            color={colors.white}
+            backgroundColor={colors.gray500}
+          />
           <CompleteButton
             onPress={handleComplete}
             style={isDisabled && DisabledStyles.button}

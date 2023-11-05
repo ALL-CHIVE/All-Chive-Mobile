@@ -3,19 +3,11 @@ import React, { useState } from 'react'
 import { Image, ImageSourcePropType } from 'react-native'
 import Modal from 'react-native-modal'
 
+import DialogButton from '@/components/buttons/dialogButton/DialogButton'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
-import {
-  Styles,
-  Container,
-  Title,
-  Description,
-  Buttons,
-  CancelButton,
-  CancelButtonText,
-  CompleteButton,
-  CompleteButtonText,
-} from './TwoButtonDialog.style'
+import { Styles, Container, Title, Description, Buttons } from './TwoButtonDialog.style'
 
 interface TwoButtonDialogProps {
   isVisible: boolean
@@ -44,7 +36,7 @@ const TwoButtonDialog = ({
   const [isComplete, setIsComplete] = useState(false)
 
   /**
-   *
+   * handleComplete
    */
   const handleComplete = () => {
     setIsComplete(true)
@@ -68,12 +60,18 @@ const TwoButtonDialog = ({
         )}
         {description && <Description>{i18n.t(description)}</Description>}
         <Buttons>
-          <CancelButton onPress={onCancel}>
-            <CancelButtonText>{i18n.t('cancel')}</CancelButtonText>
-          </CancelButton>
-          <CompleteButton onPress={handleComplete}>
-            <CompleteButtonText>{i18n.t(completeText)}</CompleteButtonText>
-          </CompleteButton>
+          <DialogButton
+            title="cancel"
+            onPress={onCancel}
+            color={colors.white}
+            backgroundColor={colors.gray500}
+          />
+          <DialogButton
+            title={completeText}
+            onPress={handleComplete}
+            color={colors.gray500}
+            backgroundColor={colors.mainYellow}
+          />
         </Buttons>
       </Container>
     </Modal>

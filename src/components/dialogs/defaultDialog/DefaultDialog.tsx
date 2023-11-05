@@ -1,18 +1,19 @@
 import React from 'react'
 
-import { Image, ImageSourcePropType } from 'react-native'
+import { ImageSourcePropType } from 'react-native'
 import Modal from 'react-native-modal'
 
+import DialogButton from '@/components/buttons/dialogButton/DialogButton'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
 import {
   Css,
   Container,
   Title,
   Description,
-  Button,
-  ButtonText,
   DialogImage,
+  ButtonBorder,
 } from './DefaultDialog.style'
 
 interface DialogProps {
@@ -55,9 +56,14 @@ const DefaultDialog = ({
           style={{ width: imageWidth, height: imageHeight }}
         />
         {description && <Description>{i18n.t(description)}</Description>}
-        <Button onPress={onClick}>
-          <ButtonText>{i18n.t(buttonText)}</ButtonText>
-        </Button>
+        <ButtonBorder>
+          <DialogButton
+            title={buttonText}
+            onPress={onClick}
+            color={colors.white}
+            backgroundColor={colors.gray500}
+          />
+        </ButtonBorder>
       </Container>
     </Modal>
   )

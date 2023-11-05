@@ -33,20 +33,8 @@ export const Description = styled.Text`
   margin-top: 20px;
 `
 
-export const Button = styled.TouchableOpacity`
-  min-width: 197px;
-  height: 36px;
-  background-color: ${colors.gray500};
-  border-radius: 8px;
-  padding: 5px 0px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-`
-
-export const ButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.white}
+export const ButtonBorder = styled.View`
+  margin-top: 21px;
 `
 
 export const DialogImage = styled.Image``

@@ -45,17 +45,8 @@ export const TagVerifier = styled.View`
 export const Buttons = styled.View`
   flex-direction: row;
   margin-top: 20px;
-`
-
-export const CancelButton = styled.TouchableOpacity`
-  width: 102px;
-  height: 36px;
-  background-color: ${colors.gray500};
-  border-radius: 8px;
-  padding: 5px 0px;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
+  width: 216.5px;
+  justify-content: space-between;
 `
 
 export const CompleteButton = styled.TouchableOpacity`
@@ -66,12 +57,6 @@ export const CompleteButton = styled.TouchableOpacity`
   padding: 5px 0px;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
-`
-
-export const CancelButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.white};
 `
 
 export const CompleteButtonText = styled.Text`

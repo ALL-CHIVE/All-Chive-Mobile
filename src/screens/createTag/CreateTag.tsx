@@ -205,7 +205,6 @@ const CreateTag = ({ navigation }: TagProps) => {
               </ScrollView>
             </>
           )}
-
           <SimpleDialog
             isVisible={openDialog}
             title={i18n.t('noMoreTag')}

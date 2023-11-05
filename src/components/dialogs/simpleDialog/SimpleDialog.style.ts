@@ -13,32 +13,16 @@ export const Styles = {
 export const Container = styled.View`
   background-color: ${colors.white};
   opacity: 0.9;
-  width: 291px;
-  height: 201px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 31px 27px 31px 31px;
 `
 
 export const Title = styled.Text`
   ${fonts.subtitle2};
   color: ${colors.black};
   text-align: center;
-`
-
-export const Button = styled.TouchableOpacity`
-  width: 102px;
-  height: 36px;
-  background-color: ${colors.gray500};
-  border-radius: 8px;
-  padding: 5px 0px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 24px;
-`
-
-export const ButtonText = styled.Text`
-  ${fonts.btn1}
-  color: ${colors.white}
+  margin-bottom: 24px;
 `

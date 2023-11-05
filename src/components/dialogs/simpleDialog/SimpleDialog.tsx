@@ -2,9 +2,11 @@ import React from 'react'
 
 import Modal from 'react-native-modal'
 
+import DialogButton from '@/components/buttons/dialogButton/DialogButton'
 import i18n from '@/locales'
+import { colors } from '@/styles/colors'
 
-import { Button, ButtonText, Container, Styles, Title } from './SimpleDialog.style'
+import { Container, Styles, Title } from './SimpleDialog.style'
 
 interface SimpleDialogProps {
   isVisible: boolean
@@ -26,9 +28,12 @@ export const SimpleDialog = ({ isVisible, title, completeText, onClose }: Simple
     >
       <Container>
         <Title>{i18n.t(title)}</Title>
-        <Button onPress={onClose}>
-          <ButtonText>{i18n.t(completeText)}</ButtonText>
-        </Button>
+        <DialogButton
+          title={completeText}
+          onPress={onClose}
+          color={colors.white}
+          backgroundColor={colors.gray500}
+        />
       </Container>
     </Modal>
   )
