@@ -14,6 +14,7 @@ import DefaultContainer from '@/components/containers/defaultContainer/DefaultCo
 import DefaultScrollContainer from '@/components/containers/defaultScrollContainer/DefaultScrollContainer'
 import { InformationErrorDialog } from '@/components/dialogs/errorDialog/InformationErrorDialog/InformationErrorDialog'
 import TwoButtonDialog from '@/components/dialogs/twoButtonDialog/TwoButtonDialog'
+import WithdrawalOptionDialog from '@/components/dialogs/withdrawalOptionDialog/WithdrawalOptionDialog'
 import { Divider } from '@/components/divider/Divider'
 import { LeftButtonHeader } from '@/components/headers/leftButtonHeader/LeftButtonHeader'
 import Indicator from '@/components/indicator/Indicator'
@@ -57,6 +58,7 @@ const MyAccount = () => {
   const [profileImage, setProfileImage] = useState<ImageSourcePropType>()
   const [editMode, setEditMode] = useState(false)
   const [isWithdrawDialogVisible, setIsWithdrawDialogVisible] = useState(false)
+  const [isWithdrawOptionVisible, setIsWithdrawOptionVisible] = useState(false)
   const [nickname, setNickname] = useState('')
   const [isNicknameEditModalVisible, setIsNicknameEditModalVisible] = useState(false)
   const [errorDialogVisible, setErrorDialogVisible] = useState(false)
@@ -252,7 +254,6 @@ const MyAccount = () => {
             </Container>
           </SwipeScreen>
         </DefaultScrollContainer>
-
         <TwoButtonDialog
           isVisible={isWithdrawDialogVisible}
           title="doYouWantWithdrawal"
@@ -261,8 +262,18 @@ const MyAccount = () => {
           onCancel={() => {
             setIsWithdrawDialogVisible(false)
           }}
+          onClose={(isComplete: boolean) => {
+            isComplete && setIsWithdrawOptionVisible(true)
+          }}
           onComplete={() => {
             setIsWithdrawDialogVisible(false)
+          }}
+        />
+        <WithdrawalOptionDialog
+          isVisible={isWithdrawOptionVisible}
+          onComplete={() => {
+            setIsWithdrawOptionVisible(false)
+            // TODO: 탈퇴 이유 연동
             handleWithdraw()
           }}
         />
