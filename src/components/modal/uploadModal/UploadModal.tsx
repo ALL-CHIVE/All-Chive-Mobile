@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
-import { Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { defaultIcons } from '@/assets'
