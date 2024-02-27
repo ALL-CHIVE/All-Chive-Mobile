@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigatorScreenParams } from '@react-navigation/native'
@@ -13,6 +13,7 @@ import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import UploadModal from '@/components/modal/uploadModal/UploadModal'
 import TabBarBackground from '@/components/tabBar/tabBarBackground/TabBarBackground'
 import TabIcon from '@/components/tabBar/tabIcon/TabIcon'
+import useGetShare from '@/hooks/useGetShare'
 import { Community } from '@/screens/main/community/Community'
 import { Home } from '@/screens/main/home/Home'
 import { colors } from '@/styles/colors'
@@ -34,6 +35,7 @@ const BottomTabNavigator = createBottomTabNavigator<BottomTabParamList>()
  */
 export const BottomTab = () => {
   const [showUpload, setShowUpload] = useState(false)
+  useGetShare()
 
   return (
     <>

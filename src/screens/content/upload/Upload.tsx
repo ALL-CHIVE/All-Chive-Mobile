@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ActionSheet from '@alessiocancian/react-native-actionsheet'
 import { RouteProp, useNavigation } from '@react-navigation/native'
@@ -90,8 +90,20 @@ const Upload = ({ route }: UploadProps) => {
 
   const actionSheetRef = useRef<ActionSheet>(null)
 
+  useEffect(() => {
+    if (route.params.data) {
+      switch (route.params.type) {
+        case ContentType.Link:
+          updateLink(route.params.data)
+          break
+        case ContentType.Image:
+          setImage({ uri: route.params.data })
+      }
+    }
+  }, [route.params.data])
+
   /**
-   *
+   * createContents
    */
   const createContents = async () => {
     let contentImageUrl = ''

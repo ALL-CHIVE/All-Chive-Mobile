@@ -41,6 +41,7 @@ interface ContentListParams extends DefaultParams {
 
 interface UploadParams {
   type: ContentType
+  data?: string
 }
 
 interface ContentDetailParams {

@@ -2,6 +2,7 @@
 #import "RNCConfig.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
 #import <RNKakaoLogins.h>
 #import "RNSplashScreen.h"
 
@@ -38,14 +39,14 @@
   return true;
 }
 
-- (BOOL)application:(UIApplication *)app
+- (BOOL)application:(UIApplication *)application
     openURL:(NSURL *)url
     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
       if([RNKakaoLogins isKakaoTalkLoginUrl:url]) {
       return [RNKakaoLogins handleOpenUrl: url];
     }
-
-  return NO;
+  
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 // env전체
