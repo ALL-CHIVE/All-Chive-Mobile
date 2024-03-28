@@ -112,22 +112,30 @@ const MyAccount = () => {
     },
   })
 
-  const { mutate: withdrawMutation } = useMutation(deleteWithdrawal, {
-    /**
-     * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
-     */
-    onSuccess: () => {
-      clearUserInfo()
-      clearTokens()
-      setTimeout(
-        () => {
-          navigation.reset({ routes: [{ name: 'Login' }] })
-          queryClient.clear()
-        },
-        Platform.OS === 'ios' ? 500 : 0
-      )
-    },
-  })
+  interface withdrawalOption {
+    authCode: string
+    reason: string
+  }
+
+  const { mutate: withdrawMutation } = useMutation(
+    ({ authCode, reason }: withdrawalOption) => deleteWithdrawal(authCode, reason),
+    {
+      /**
+       * 회원탈퇴 성공 시 로그인 화면으로 넘어갑니다.
+       */
+      onSuccess: () => {
+        clearUserInfo()
+        clearTokens()
+        setTimeout(
+          () => {
+            navigation.reset({ routes: [{ name: 'Login' }] })
+            queryClient.clear()
+          },
+          Platform.OS === 'ios' ? 500 : 0
+        )
+      },
+    }
+  )
 
   /**
    * handleImageEdit
@@ -159,14 +167,14 @@ const MyAccount = () => {
   /**
    * 회원탈퇴를 합니다.
    */
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (reason: string) => {
     switch (userInfoData?.oauthProvider) {
       case SignInType.Kakao:
-        withdrawMutation('')
+        withdrawMutation({ authCode: '', reason })
         break
       case SignInType.Apple: {
         const authCode = await getAppleAuthCode()
-        withdrawMutation(authCode)
+        withdrawMutation({ authCode, reason })
       }
     }
   }
@@ -271,10 +279,9 @@ const MyAccount = () => {
         />
         <WithdrawalOptionDialog
           isVisible={isWithdrawOptionVisible}
-          onComplete={() => {
+          onComplete={(reason) => {
             setIsWithdrawOptionVisible(false)
-            // TODO: 탈퇴 이유 연동
-            handleWithdraw()
+            handleWithdraw(reason)
           }}
         />
         <ActionSheet

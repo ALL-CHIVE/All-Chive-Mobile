@@ -21,20 +21,20 @@ import {
 
 interface WithdrawalOptionDialogProps {
   isVisible: boolean
-  onComplete: () => void
+  onComplete: (reason: string) => void
 }
 
 /**
  * WithdrawalOptionDialog
  */
 const WithdrawalOptionDialog = ({ isVisible, onComplete }: WithdrawalOptionDialogProps) => {
-  const { checkBox, toggleCheckBox } = useCheckBox({
-    infrequentlyUsed: false,
-    lotsOfBugs: false,
-    useOtherServices: false,
-    feeIsExpensive: false,
-    createNewAccount: false,
-    etc: false,
+  const { checkBox, selectOne } = useCheckBox({
+    NOT_USED: false,
+    UNCONFORTABLE: false,
+    USE_OTHER_SERVICE: false,
+    EXPENSIVE: false,
+    NEW_ACCOUNT: false,
+    ETC: false,
   } as WithdrawalOptions)
 
   return (
@@ -50,7 +50,7 @@ const WithdrawalOptionDialog = ({ isVisible, onComplete }: WithdrawalOptionDialo
           {Object.entries(checkBox).map(([key, value]) => (
             <RowView
               key={key}
-              onPress={() => toggleCheckBox(key as keyof typeof checkBox)}
+              onPress={() => selectOne(key as keyof typeof checkBox)}
             >
               <Checkbox isChecked={value} />
               <Option>{i18n.t(key)}</Option>
@@ -59,7 +59,7 @@ const WithdrawalOptionDialog = ({ isVisible, onComplete }: WithdrawalOptionDialo
         </Options>
         <DialogButton
           title="withdrawal"
-          onPress={onComplete}
+          onPress={() => onComplete(Object.keys(checkBox).find((key) => checkBox[key]) ?? 'ETC')}
           color={colors.white}
           backgroundColor={colors.gray500}
         />

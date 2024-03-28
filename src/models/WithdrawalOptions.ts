@@ -1,8 +1,8 @@
 export interface WithdrawalOptions extends Record<string, boolean> {
-  infrequentlyUsed: boolean
-  lotsOfBugs: boolean
-  useOtherServices: boolean
-  feeIsExpensive: boolean
-  createNewAccount: boolean
-  etc: boolean
+  NOT_USED: boolean
+  UNCONFORTABLE: boolean
+  USE_OTHER_SERVICE: boolean
+  EXPENSIVE: boolean
+  NEW_ACCOUNT: boolean
+  ETC: boolean
 }
